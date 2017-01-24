@@ -181,6 +181,16 @@ import './demo.scss';
             [gradient]="gradient"
             (select)="select($event)">
           </ngx-charts-pie-chart>
+          <ngx-charts-simple-pie-chart
+            *ngIf="chartType === 'simple-pie-chart'"
+            class="chart-container"
+            [view]="view"
+            [scheme]="colorScheme"
+            (legendLabelClick)="onLegendLabelClick($event)"
+            [results]="single"
+            [totalValue]="78"
+            (select)="select($event)">
+          </ngx-charts-simple-pie-chart>
           <ngx-charts-advanced-pie-chart
             *ngIf="chartType === 'advanced-pie-chart'"
             class="chart-container"

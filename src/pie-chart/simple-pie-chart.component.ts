@@ -11,53 +11,53 @@ import { ColorHelper } from '../common/color.helper';
 import { BaseChartComponent } from '../common/base-chart.component';
 
 @Component({
-  selector: 'ngx-charts-advanced-pie-chart',
+  selector: 'ngx-charts-simple-pie-chart',
   template: `
-    <div
-      [style.width.px]="width"
-      [style.height.px]="height">
-      <div class="advanced-pie chart"
-        [style.width.px]="dims.width"
-        [style.height.px]="dims.height">
-        <ngx-charts-chart
-          [view]="[width, height]"
-          [showLegend]="false">
-          <svg:g
-            [attr.transform]="transform"
-            class="pie chart">
-            <svg:g ngx-charts-pie-series
-              [colors]="colors"
-              [showLabels]="labels"
-              [series]="results"
-              [innerRadius]="innerRadius"
-              [activeEntries]="activeEntries"
-              [outerRadius]="outerRadius"
-              [gradient]="gradient"
-              (select)="onClick($event)">
-            </svg:g>
-          </svg:g>
-        </ngx-charts-chart>
-      </div>
-      <div
-        class="advanced-pie-legend-wrapper"
-        [style.width.px]="width - dims.width">
-        <ngx-charts-advanced-legend
-          [data]="results"
+    <ngx-charts-chart
+      [view]="[width, height]"
+      [showLegend]="false">
+      <svg:g
+        [attr.transform]="transform"
+        class="pie chart">
+        <svg:g ngx-charts-pie-series
           [colors]="colors"
-          [width]="width - dims.width - margin[1]"
-          (select)="onClick($event)"
-          (activate)="onActivate($event)"
-          (deactivate)="onDeactivate($event)">
-        </ngx-charts-advanced-legend>
-      </div>
-    </div>
+          [showLabels]="labels"
+          [series]="results"
+          [innerRadius]="innerRadius"
+          [activeEntries]="activeEntries"
+          [outerRadius]="outerRadius"
+          [gradient]="gradient"
+          (select)="onClick($event)">
+        </svg:g>
+        <svg:text
+          class="label"
+          dy="-0.5em"
+          x="0"
+          y="5"
+          text-anchor="middle">
+          Total:
+        </svg:text>
+        <svg:text
+          class="label percent-label"
+          dy="0.5em"
+          x="0"
+          y="5"
+          ngx-charts-count-up
+          [countTo]="totalValue"
+          [countSuffix]="unit"
+          text-anchor="middle">
+        </svg:text>
+      </svg:g>
+    </ngx-charts-chart>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdvancedPieChartComponent extends BaseChartComponent {
+export class SimplePieChartComponent extends BaseChartComponent {
 
   @Input() gradient: boolean;
   @Input() activeEntries: any[] = [];
+  @Input() totalValue: number;
+  @Input() unit: string = '';
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
@@ -122,5 +122,4 @@ export class AdvancedPieChartComponent extends BaseChartComponent {
 
     this.deactivate.emit({ value: event, entries: this.activeEntries });
   }
-
 }
