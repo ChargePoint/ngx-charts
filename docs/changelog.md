@@ -1,8 +1,22 @@
 # Changelog
 
-## Master
+## 4.1.1
+- Bug: Fix items not always deactivating on bubble chart
+- Bug: Fix bubbles not showing for when y value is 0
+- Bug: Fix realtime data generator on demo page for line and area charts
+
+## 4.1.0
+- Feature: Added scatter/bubble chart (#197)
+- Bug: Made line-area-tooltip anchor visible on light theme
+- Bug: Fixed precision on pie grid percentage values (#202)
+
+## 4.0.3
+- Bug: Update zone.js version
+
+## 4.0.2
 - Bug: Fixed css scope
 - Bug: Fixed vertical alignment issue of advanced pie legend
+- Bug: Fixed AOT issue where scss files were missing in the release folder
 - Chore: Made tooltip injector use Renderer
 - Chore: Updated Angular to 2.4.5
 
