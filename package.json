@@ -89,6 +89,7 @@
     "@angular/platform-server": "~2.4.5",
     "@types/core-js": "^0.9.35",
     "@types/d3-array": "0.0.3",
+    "@types/d3-axis": "^1.0.6",
     "@types/d3-brush": "0.0.3",
     "@types/d3-color": "0.0.3",
     "@types/d3-format": "0.0.3",

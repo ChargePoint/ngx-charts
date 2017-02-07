@@ -1,6 +1,7 @@
 /// <reference path="../node_modules/awesome-typescript-loader/lib/runtime.d.ts" />
 
 const array = require('d3-array');
+const axis = require('d3-axis');
 const brush = require('d3-brush');
 const color = require('d3-color');
 const force = require('d3-force');
@@ -16,6 +17,8 @@ const tFormat = require('d3-time-format');
 export default {
   arc: shape.arc,
   area: shape.area,
+  axisBottom: axis.axisBottom,
+  axisLeft: axis.axisLeft,
   brush: brush.brush,
   brushX: brush.brushX,
   brushY: brush.brushY,
