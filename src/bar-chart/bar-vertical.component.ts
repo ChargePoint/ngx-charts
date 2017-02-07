@@ -54,6 +54,14 @@ import d3 from '../d3';
           (deactivate)="onDeactivate($event)"
           (select)="onClick($event)">
         </svg:g>
+        <svg:g
+          *ngIf="showBaseLine"
+          [attr.transform]="baseLineTransform()">
+          <svg:line
+            class="gridline-path gridline-path-horizontal"
+            x1="0"
+            [attr.x2]="dims.width" />
+        </svg:g>
       </svg:g>
     </ngx-charts-chart>
   `,
@@ -72,6 +80,7 @@ export class BarVerticalComponent extends BaseChartComponent {
   @Input() yAxisLabel;
   @Input() gradient: boolean;
   @Input() showGridLines: boolean = true;
+  @Input() showBaseLine: boolean = true;
   @Input() activeEntries: any[] = [];
   @Input() schemeType: string;
   @Input() xAxisTickFormatting: any;
@@ -214,4 +223,7 @@ export class BarVerticalComponent extends BaseChartComponent {
     this.deactivate.emit({ value: item, entries: this.activeEntries });
   }
 
+  baseLineTransform(): string {
+    return `translate(0,${this.dims.height})`;
+  }
 }
