@@ -9,7 +9,7 @@ const chartGroups = [
         options: [
           'colorScheme', 'schemeType', 'showXAxis', 'showYAxis', 'gradient', 'barPadding',
           'showLegend', 'showXAxisLabel', 'xAxisLabel', 'showYAxisLabel', 'yAxisLabel',
-          'showGridLines', 'showBaseLine', 'roundDomains'
+          'showGridLines', 'showBaseLines', 'roundDomains'
         ]
       },
       {
