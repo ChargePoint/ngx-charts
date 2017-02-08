@@ -19,6 +19,7 @@
         [showGridLines]="showGridLines"
         [showBaseLines]="showBaseLines"
         [barPadding]="barPadding"
+        [paddingProportion]="paddingProportion"
         [roundDomains]="roundDomains"
         (select)="select($event)"
         (legendLabelClick)="onLegendLabelClick($event)">
@@ -40,6 +41,7 @@
         [yAxisLabel]="yAxisLabel"
         [showGridLines]="showGridLines"
         [barPadding]="barPadding"
+        [paddingProportion]="paddingProportion"
         [roundDomains]="roundDomains"
         (legendLabelClick)="onLegendLabelClick($event)"
         (select)="select($event)">
@@ -62,7 +64,9 @@
         (legendLabelClick)="onLegendLabelClick($event)"
         [showGridLines]="showGridLines"
         [barPadding]="barPadding"
+        [paddingProportion]="paddingProportion"
         [groupPadding]="groupPadding"
+        [groupProportion]="groupProportion"
         [roundDomains]="roundDomains"
         (select)="select($event)">
       </ngx-charts-bar-vertical-2d>
@@ -84,7 +88,9 @@
         [yAxisLabel]="yAxisLabel"
         [showGridLines]="showGridLines"
         [barPadding]="barPadding"
+        [paddingProportion]="paddingProportion"
         [groupPadding]="groupPadding"
+        [groupProportion]="groupProportion"
         [roundDomains]="roundDomains"
         (select)="select($event)">
       </ngx-charts-bar-horizontal-2d>
@@ -106,6 +112,7 @@
         [yAxisLabel]="yAxisLabel"
         [showGridLines]="showGridLines"
         [barPadding]="barPadding"
+        [paddingProportion]="paddingProportion"
         [roundDomains]="roundDomains"
         (select)="select($event)">
       </ngx-charts-bar-vertical-stacked>
@@ -127,6 +134,7 @@
         [yAxisLabel]="yAxisLabel"
         [showGridLines]="showGridLines"
         [barPadding]="barPadding"
+        [paddingProportion]="paddingProportion"
         [roundDomains]="roundDomains"
         (select)="select($event)">
       </ngx-charts-bar-horizontal-stacked>
@@ -148,6 +156,7 @@
         [yAxisLabel]="yAxisLabel"
         [showGridLines]="showGridLines"
         [barPadding]="barPadding"
+        [paddingProportion]="paddingProportion"
         [roundDomains]="roundDomains"
         (select)="select($event)">
       </ngx-charts-bar-vertical-normalized>
@@ -169,6 +178,7 @@
         (legendLabelClick)="onLegendLabelClick($event)"
         [showGridLines]="showGridLines"
         [barPadding]="barPadding"
+        [paddingProportion]="paddingProportion"
         [roundDomains]="roundDomains"
         (select)="select($event)">
       </ngx-charts-bar-horizontal-normalized>
@@ -633,9 +643,18 @@
         <input type="number" [(ngModel)]="barPadding" min="0" step="1"><br />
       </div>
 
+      <div *ngIf="chart.options.includes('paddingProportion')">
+        <label>Proportion of padding to bar width:</label><br />
+        <input type="number" [(ngModel)]="paddingProportion" min="0" step="0.1"><br />
+      </div>
+
       <div *ngIf="chart.options.includes('groupPadding')">
         <label>Padding between groups:</label><br />
         <input type="number" [(ngModel)]="groupPadding" min="0" step="1"><br />
+      </div>
+      <div *ngIf="chart.options.includes('groupProportion')">
+        <label>Proportion of padding to individual group:</label><br />
+        <input type="number" [(ngModel)]="groupProportion" min="0" step="1"><br />
       </div>
 
       <div *ngIf="chart.options.includes('value')">
