@@ -37,6 +37,8 @@ export class Wrapper_YAxisComponent {
   /*private*/ _expr_5:any;
   /*private*/ _expr_6:any;
   /*private*/ _expr_7:any;
+  /*private*/ _expr_8:any;
+  /*private*/ _expr_9:any;
   subscription0:any;
   constructor() {
     this._changed = false;
@@ -50,6 +52,8 @@ export class Wrapper_YAxisComponent {
     this._expr_5 = import1.UNINITIALIZED;
     this._expr_6 = import1.UNINITIALIZED;
     this._expr_7 = import1.UNINITIALIZED;
+    this._expr_8 = import1.UNINITIALIZED;
+    this._expr_9 = import1.UNINITIALIZED;
   }
   ngOnDetach(view:import2.AppView<any>,componentView:import2.AppView<any>,el:any):void {
   }
@@ -80,44 +84,60 @@ export class Wrapper_YAxisComponent {
       this._expr_2 = currValue;
     }
   }
-  check_showGridLines(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_tickArguments(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_3,currValue))) {
       this._changed = true;
-      this.context.showGridLines = currValue;
-      this._changes['showGridLines'] = new import1.SimpleChange(this._expr_3,currValue);
+      this.context.tickArguments = currValue;
+      this._changes['tickArguments'] = new import1.SimpleChange(this._expr_3,currValue);
       this._expr_3 = currValue;
     }
   }
-  check_showLabel(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_maxTicks(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_4,currValue))) {
       this._changed = true;
-      this.context.showLabel = currValue;
-      this._changes['showLabel'] = new import1.SimpleChange(this._expr_4,currValue);
+      this.context.maxTicks = currValue;
+      this._changes['maxTicks'] = new import1.SimpleChange(this._expr_4,currValue);
       this._expr_4 = currValue;
     }
   }
-  check_labelText(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_showGridLines(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_5,currValue))) {
       this._changed = true;
-      this.context.labelText = currValue;
-      this._changes['labelText'] = new import1.SimpleChange(this._expr_5,currValue);
+      this.context.showGridLines = currValue;
+      this._changes['showGridLines'] = new import1.SimpleChange(this._expr_5,currValue);
       this._expr_5 = currValue;
     }
   }
-  check_yAxisTickInterval(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_showLabel(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_6,currValue))) {
       this._changed = true;
-      this.context.yAxisTickInterval = currValue;
-      this._changes['yAxisTickInterval'] = new import1.SimpleChange(this._expr_6,currValue);
+      this.context.showLabel = currValue;
+      this._changes['showLabel'] = new import1.SimpleChange(this._expr_6,currValue);
       this._expr_6 = currValue;
     }
   }
-  check_yAxisTickCount(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_labelText(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_7,currValue))) {
       this._changed = true;
-      this.context.yAxisTickCount = currValue;
-      this._changes['yAxisTickCount'] = new import1.SimpleChange(this._expr_7,currValue);
+      this.context.labelText = currValue;
+      this._changes['labelText'] = new import1.SimpleChange(this._expr_7,currValue);
       this._expr_7 = currValue;
+    }
+  }
+  check_yAxisTickInterval(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+    if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_8,currValue))) {
+      this._changed = true;
+      this.context.yAxisTickInterval = currValue;
+      this._changes['yAxisTickInterval'] = new import1.SimpleChange(this._expr_8,currValue);
+      this._expr_8 = currValue;
+    }
+  }
+  check_yAxisTickCount(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+    if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_9,currValue))) {
+      this._changed = true;
+      this.context.yAxisTickCount = currValue;
+      this._changes['yAxisTickCount'] = new import1.SimpleChange(this._expr_9,currValue);
+      this._expr_9 = currValue;
     }
   }
   ngDoCheck(view:import2.AppView<any>,el:any,throwOnChange:boolean):boolean {
@@ -238,10 +258,14 @@ export class View_YAxisComponent0 extends import2.AppView<import0.YAxisComponent
   _text_7:any;
   /*private*/ _expr_14:any;
   /*private*/ _expr_15:any;
+  _arr_16:any;
   constructor(viewUtils:import3.ViewUtils,parentView:import2.AppView<any>,parentIndex:number,parentElement:any) {
     super(View_YAxisComponent0,renderType_YAxisComponent,import6.ViewType.COMPONENT,viewUtils,parentView,parentIndex,parentElement,import7.ChangeDetectorStatus.CheckOnce);
     this._expr_14 = import1.UNINITIALIZED;
     this._expr_15 = import1.UNINITIALIZED;
+    this._arr_16 = import3.pureProxy1((p0:any):any[] => {
+      return [p0];
+    });
   }
   createInternal(rootSelector:string):import8.ComponentRef<any> {
     const parentRenderNode:any = this.renderer.createViewRoot(this.parentElement);
@@ -288,7 +312,7 @@ export class View_YAxisComponent0 extends import2.AppView<import0.YAxisComponent
     this._YAxisTicksComponent_3_3.check_scale(currVal_3_0_0,throwOnChange,false);
     const currVal_3_0_1:any = this.context.yOrient;
     this._YAxisTicksComponent_3_3.check_orient(currVal_3_0_1,throwOnChange,false);
-    const currVal_3_0_2:any = this.context.tickArguments;
+    const currVal_3_0_2:any = this._arr_16(this.context.maxTicks);
     this._YAxisTicksComponent_3_3.check_tickArguments(currVal_3_0_2,throwOnChange,false);
     const currVal_3_0_3:any = this.context.tickStroke;
     this._YAxisTicksComponent_3_3.check_tickStroke(currVal_3_0_3,throwOnChange,false);

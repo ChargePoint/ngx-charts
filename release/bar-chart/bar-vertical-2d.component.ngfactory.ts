@@ -38,7 +38,7 @@ import * as import29 from '../../../src/common/grid-panel-series.component';
 import * as import30 from '../common/grid-panel-series.component.ngfactory';
 import * as import31 from '../../node_modules/@angular/common/src/directives/ng_if.ngfactory';
 import * as import32 from '../../node_modules/@angular/common/src/directives/ng_for.ngfactory';
-import * as import33 from '../../../src/services/injection.service';
+import * as import33 from '../../../src/common/tooltip/injection.service';
 import * as import34 from '@angular/core/src/linker/template_ref';
 import * as import35 from '@angular/core/src/change_detection/differs/iterable_differs';
 import * as import36 from '@angular/common/src/directives/ng_if';
@@ -69,6 +69,8 @@ export class Wrapper_BarVertical2DComponent {
   /*private*/ _expr_18:any;
   /*private*/ _expr_19:any;
   /*private*/ _expr_20:any;
+  /*private*/ _expr_21:any;
+  /*private*/ _expr_22:any;
   subscription0:any;
   subscription1:any;
   subscription2:any;
@@ -97,6 +99,8 @@ export class Wrapper_BarVertical2DComponent {
     this._expr_18 = import1.UNINITIALIZED;
     this._expr_19 = import1.UNINITIALIZED;
     this._expr_20 = import1.UNINITIALIZED;
+    this._expr_21 = import1.UNINITIALIZED;
+    this._expr_22 = import1.UNINITIALIZED;
   }
   ngOnDetach(view:import2.AppView<any>,componentView:import2.AppView<any>,el:any):void {
   }
@@ -258,20 +262,36 @@ export class Wrapper_BarVertical2DComponent {
       this._expr_18 = currValue;
     }
   }
-  check_barPadding(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_groupProportion(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_19,currValue))) {
       this._changed = true;
-      this.context.barPadding = currValue;
-      this._changes['barPadding'] = new import1.SimpleChange(this._expr_19,currValue);
+      this.context.groupProportion = currValue;
+      this._changes['groupProportion'] = new import1.SimpleChange(this._expr_19,currValue);
       this._expr_19 = currValue;
     }
   }
-  check_roundDomains(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_barPadding(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_20,currValue))) {
       this._changed = true;
-      this.context.roundDomains = currValue;
-      this._changes['roundDomains'] = new import1.SimpleChange(this._expr_20,currValue);
+      this.context.barPadding = currValue;
+      this._changes['barPadding'] = new import1.SimpleChange(this._expr_20,currValue);
       this._expr_20 = currValue;
+    }
+  }
+  check_paddingProportion(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+    if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_21,currValue))) {
+      this._changed = true;
+      this.context.paddingProportion = currValue;
+      this._changes['paddingProportion'] = new import1.SimpleChange(this._expr_21,currValue);
+      this._expr_21 = currValue;
+    }
+  }
+  check_roundDomains(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+    if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_22,currValue))) {
+      this._changed = true;
+      this.context.roundDomains = currValue;
+      this._changes['roundDomains'] = new import1.SimpleChange(this._expr_22,currValue);
+      this._expr_22 = currValue;
     }
   }
   ngDoCheck(view:import2.AppView<any>,el:any,throwOnChange:boolean):boolean {

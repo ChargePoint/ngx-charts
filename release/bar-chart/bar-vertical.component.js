@@ -15,8 +15,11 @@ var BarVerticalComponent = (function (_super) {
         _super.apply(this, arguments);
         this.legend = false;
         this.showGridLines = true;
+        this.showBaseLines = true;
         this.activeEntries = [];
+        this.type = 'standard';
         this.barPadding = 8;
+        this.paddingProportion = 0;
         this.roundDomains = false;
         this.activate = new core_1.EventEmitter();
         this.deactivate = new core_1.EventEmitter();
@@ -51,10 +54,14 @@ var BarVerticalComponent = (function (_super) {
     BarVerticalComponent.prototype.getXScale = function () {
         this.xDomain = this.getXDomain();
         var spacing = this.xDomain.length / (this.dims.width / this.barPadding + 1);
-        return d3_1.default.scaleBand()
+        if (this.paddingProportion) {
+            spacing = this.paddingProportion;
+        }
+        var scale = d3_1.default.scaleBand()
             .rangeRound([0, this.dims.width])
             .paddingInner(spacing)
             .domain(this.xDomain);
+        return this.showBaseLines ? scale.paddingOuter(spacing / 2) : scale;
     };
     BarVerticalComponent.prototype.getYScale = function () {
         this.yDomain = this.getYDomain();
@@ -129,10 +136,13 @@ var BarVerticalComponent = (function (_super) {
         this.activeEntries = this.activeEntries.slice();
         this.deactivate.emit({ value: item, entries: this.activeEntries });
     };
+    BarVerticalComponent.prototype.xAxisLineTransform = function () {
+        return "translate(0," + this.dims.height + ")";
+    };
     BarVerticalComponent.decorators = [
         { type: core_1.Component, args: [{
                     selector: 'ngx-charts-bar-vertical',
-                    template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"legend\"\n      [legendOptions]=\"legendOptions\"\n      [activeEntries]=\"activeEntries\"\n      (legendLabelClick)=\"onClick($event)\"\n      (legendLabelActivate)=\"onActivate($event)\"\n      (legendLabelDeactivate)=\"onDeactivate($event)\">\n      <svg:g [attr.transform]=\"transform\" class=\"bar-chart chart\">\n        <svg:g ngx-charts-x-axis\n          *ngIf=\"xAxis\"\n          [xScale]=\"xScale\"\n          [dims]=\"dims\"\n          [showLabel]=\"showXAxisLabel\"\n          [labelText]=\"xAxisLabel\"\n          [tickFormatting]=\"xAxisTickFormatting\"\n          (dimensionsChanged)=\"updateXAxisHeight($event)\">\n        </svg:g>\n        <svg:g ngx-charts-y-axis\n          *ngIf=\"yAxis\"\n          [yScale]=\"yScale\"\n          [dims]=\"dims\"\n          [showGridLines]=\"showGridLines\"\n          [showLabel]=\"showYAxisLabel\"\n          [labelText]=\"yAxisLabel\"\n          [tickFormatting]=\"yAxisTickFormatting\"\n          (dimensionsChanged)=\"updateYAxisWidth($event)\">\n        </svg:g>\n        <svg:g ngx-charts-series-vertical\n          [xScale]=\"xScale\"\n          [yScale]=\"yScale\"\n          [colors]=\"colors\"\n          [series]=\"results\"\n          [dims]=\"dims\"\n          [gradient]=\"gradient\"\n          [activeEntries]=\"activeEntries\"\n          (activate)=\"onActivate($event)\"\n          (deactivate)=\"onDeactivate($event)\"\n          (select)=\"onClick($event)\">\n        </svg:g>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
+                    template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"legend\"\n      [legendOptions]=\"legendOptions\"\n      [activeEntries]=\"activeEntries\"\n      (legendLabelClick)=\"onClick($event)\"\n      (legendLabelActivate)=\"onActivate($event)\"\n      (legendLabelDeactivate)=\"onDeactivate($event)\">\n      <svg:g [attr.transform]=\"transform\" class=\"bar-chart chart\">\n        <svg:g ngx-charts-x-axis\n          *ngIf=\"xAxis\"\n          [xScale]=\"xScale\"\n          [dims]=\"dims\"\n          [showLabel]=\"showXAxisLabel\"\n          [labelText]=\"xAxisLabel\"\n          [tickFormatting]=\"xAxisTickFormatting\"\n          (dimensionsChanged)=\"updateXAxisHeight($event)\">\n        </svg:g>\n        <svg:g ngx-charts-y-axis\n          *ngIf=\"yAxis\"\n          [yScale]=\"yScale\"\n          [dims]=\"dims\"\n          [showGridLines]=\"showGridLines\"\n          [showLabel]=\"showYAxisLabel\"\n          [labelText]=\"yAxisLabel\"\n          [tickFormatting]=\"yAxisTickFormatting\"\n          [maxTicks]=\"maxTicks\"\n          (dimensionsChanged)=\"updateYAxisWidth($event)\">\n        </svg:g>\n        <svg:g ngx-charts-series-vertical\n          [type]=\"type\"\n          [xScale]=\"xScale\"\n          [yScale]=\"yScale\"\n          [colors]=\"colors\"\n          [series]=\"results\"\n          [dims]=\"dims\"\n          [gradient]=\"gradient\"\n          [activeEntries]=\"activeEntries\"\n          (activate)=\"onActivate($event)\"\n          (deactivate)=\"onDeactivate($event)\"\n          (select)=\"onClick($event)\">\n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\">\n          <svg:line\n            class=\"gridline-path gridline-path-vertical\"\n            y1=\"0\"\n            [attr.y2]=\"dims.height\" />\n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\"\n          [attr.transform]=\"xAxisLineTransform()\">\n          <svg:line\n            class=\"gridline-path gridline-path-horizontal\"\n            x1=\"0\"\n            [attr.x2]=\"dims.width\" />\n        </svg:g>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
                     changeDetection: core_1.ChangeDetectionStrategy.OnPush,
                     styleUrls: ['../common/base-chart.component.scss'],
                     encapsulation: core_1.ViewEncapsulation.None
@@ -150,11 +160,15 @@ var BarVerticalComponent = (function (_super) {
         'yAxisLabel': [{ type: core_1.Input },],
         'gradient': [{ type: core_1.Input },],
         'showGridLines': [{ type: core_1.Input },],
+        'showBaseLines': [{ type: core_1.Input },],
         'activeEntries': [{ type: core_1.Input },],
         'schemeType': [{ type: core_1.Input },],
+        'type': [{ type: core_1.Input },],
         'xAxisTickFormatting': [{ type: core_1.Input },],
         'yAxisTickFormatting': [{ type: core_1.Input },],
+        'maxTicks': [{ type: core_1.Input },],
         'barPadding': [{ type: core_1.Input },],
+        'paddingProportion': [{ type: core_1.Input },],
         'roundDomains': [{ type: core_1.Input },],
         'activate': [{ type: core_1.Output },],
         'deactivate': [{ type: core_1.Output },],

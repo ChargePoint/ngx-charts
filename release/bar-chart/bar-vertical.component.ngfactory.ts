@@ -29,7 +29,7 @@ import * as import20 from '../common/charts/chart.component.ngfactory';
 import * as import21 from '../../node_modules/@angular/common/src/directives/ng_if.ngfactory';
 import * as import22 from '../../../src/bar-chart/series-vertical.component';
 import * as import23 from './series-vertical.component.ngfactory';
-import * as import24 from '../../../src/services/injection.service';
+import * as import24 from '../../../src/common/tooltip/injection.service';
 import * as import25 from '@angular/core/src/linker/template_ref';
 import * as import26 from '@angular/common/src/directives/ng_if';
 export class Wrapper_BarVerticalComponent {
@@ -56,6 +56,10 @@ export class Wrapper_BarVerticalComponent {
   /*private*/ _expr_16:any;
   /*private*/ _expr_17:any;
   /*private*/ _expr_18:any;
+  /*private*/ _expr_19:any;
+  /*private*/ _expr_20:any;
+  /*private*/ _expr_21:any;
+  /*private*/ _expr_22:any;
   subscription0:any;
   subscription1:any;
   subscription2:any;
@@ -82,6 +86,10 @@ export class Wrapper_BarVerticalComponent {
     this._expr_16 = import1.UNINITIALIZED;
     this._expr_17 = import1.UNINITIALIZED;
     this._expr_18 = import1.UNINITIALIZED;
+    this._expr_19 = import1.UNINITIALIZED;
+    this._expr_20 = import1.UNINITIALIZED;
+    this._expr_21 = import1.UNINITIALIZED;
+    this._expr_22 = import1.UNINITIALIZED;
   }
   ngOnDetach(view:import2.AppView<any>,componentView:import2.AppView<any>,el:any):void {
   }
@@ -203,44 +211,76 @@ export class Wrapper_BarVerticalComponent {
       this._expr_13 = currValue;
     }
   }
-  check_activeEntries(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_showBaseLines(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_14,currValue))) {
       this._changed = true;
-      this.context.activeEntries = currValue;
-      this._changes['activeEntries'] = new import1.SimpleChange(this._expr_14,currValue);
+      this.context.showBaseLines = currValue;
+      this._changes['showBaseLines'] = new import1.SimpleChange(this._expr_14,currValue);
       this._expr_14 = currValue;
     }
   }
-  check_xAxisTickFormatting(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_activeEntries(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_15,currValue))) {
       this._changed = true;
-      this.context.xAxisTickFormatting = currValue;
-      this._changes['xAxisTickFormatting'] = new import1.SimpleChange(this._expr_15,currValue);
+      this.context.activeEntries = currValue;
+      this._changes['activeEntries'] = new import1.SimpleChange(this._expr_15,currValue);
       this._expr_15 = currValue;
     }
   }
-  check_yAxisTickFormatting(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_type(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_16,currValue))) {
       this._changed = true;
-      this.context.yAxisTickFormatting = currValue;
-      this._changes['yAxisTickFormatting'] = new import1.SimpleChange(this._expr_16,currValue);
+      this.context.type = currValue;
+      this._changes['type'] = new import1.SimpleChange(this._expr_16,currValue);
       this._expr_16 = currValue;
     }
   }
-  check_barPadding(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_xAxisTickFormatting(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_17,currValue))) {
       this._changed = true;
-      this.context.barPadding = currValue;
-      this._changes['barPadding'] = new import1.SimpleChange(this._expr_17,currValue);
+      this.context.xAxisTickFormatting = currValue;
+      this._changes['xAxisTickFormatting'] = new import1.SimpleChange(this._expr_17,currValue);
       this._expr_17 = currValue;
     }
   }
-  check_roundDomains(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_yAxisTickFormatting(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_18,currValue))) {
       this._changed = true;
-      this.context.roundDomains = currValue;
-      this._changes['roundDomains'] = new import1.SimpleChange(this._expr_18,currValue);
+      this.context.yAxisTickFormatting = currValue;
+      this._changes['yAxisTickFormatting'] = new import1.SimpleChange(this._expr_18,currValue);
       this._expr_18 = currValue;
+    }
+  }
+  check_maxTicks(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+    if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_19,currValue))) {
+      this._changed = true;
+      this.context.maxTicks = currValue;
+      this._changes['maxTicks'] = new import1.SimpleChange(this._expr_19,currValue);
+      this._expr_19 = currValue;
+    }
+  }
+  check_barPadding(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+    if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_20,currValue))) {
+      this._changed = true;
+      this.context.barPadding = currValue;
+      this._changes['barPadding'] = new import1.SimpleChange(this._expr_20,currValue);
+      this._expr_20 = currValue;
+    }
+  }
+  check_paddingProportion(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+    if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_21,currValue))) {
+      this._changed = true;
+      this.context.paddingProportion = currValue;
+      this._changes['paddingProportion'] = new import1.SimpleChange(this._expr_21,currValue);
+      this._expr_21 = currValue;
+    }
+  }
+  check_roundDomains(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+    if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_22,currValue))) {
+      this._changed = true;
+      this.context.roundDomains = currValue;
+      this._changes['roundDomains'] = new import1.SimpleChange(this._expr_22,currValue);
+      this._expr_22 = currValue;
     }
   }
   ngDoCheck(view:import2.AppView<any>,el:any,throwOnChange:boolean):boolean {
@@ -392,12 +432,14 @@ class View_BarVerticalComponent2 extends import2.AppView<any> {
     this._YAxisComponent_0_3.check_dims(currVal_0_0_1,throwOnChange,false);
     const currVal_0_0_2:any = this.parentView.context.yAxisTickFormatting;
     this._YAxisComponent_0_3.check_tickFormatting(currVal_0_0_2,throwOnChange,false);
-    const currVal_0_0_3:any = this.parentView.context.showGridLines;
-    this._YAxisComponent_0_3.check_showGridLines(currVal_0_0_3,throwOnChange,false);
-    const currVal_0_0_4:any = this.parentView.context.showYAxisLabel;
-    this._YAxisComponent_0_3.check_showLabel(currVal_0_0_4,throwOnChange,false);
-    const currVal_0_0_5:any = this.parentView.context.yAxisLabel;
-    this._YAxisComponent_0_3.check_labelText(currVal_0_0_5,throwOnChange,false);
+    const currVal_0_0_3:any = this.parentView.context.maxTicks;
+    this._YAxisComponent_0_3.check_maxTicks(currVal_0_0_3,throwOnChange,false);
+    const currVal_0_0_4:any = this.parentView.context.showGridLines;
+    this._YAxisComponent_0_3.check_showGridLines(currVal_0_0_4,throwOnChange,false);
+    const currVal_0_0_5:any = this.parentView.context.showYAxisLabel;
+    this._YAxisComponent_0_3.check_showLabel(currVal_0_0_5,throwOnChange,false);
+    const currVal_0_0_6:any = this.parentView.context.yAxisLabel;
+    this._YAxisComponent_0_3.check_labelText(currVal_0_0_6,throwOnChange,false);
     if (this._YAxisComponent_0_3.ngDoCheck(this,this._el_0,throwOnChange)) { this.compView_0.markAsCheckOnce(); }
     this.compView_0.internalDetectChanges(throwOnChange);
   }
@@ -416,6 +458,83 @@ class View_BarVerticalComponent2 extends import2.AppView<any> {
       result = (pd_sub_0 && result);
     }
     return result;
+  }
+}
+class View_BarVerticalComponent3 extends import2.AppView<any> {
+  _el_0:any;
+  _text_1:any;
+  _el_2:any;
+  _text_3:any;
+  /*private*/ _expr_4:any;
+  constructor(viewUtils:import3.ViewUtils,parentView:import2.AppView<any>,parentIndex:number,parentElement:any,declaredViewContainer:import15.ViewContainer) {
+    super(View_BarVerticalComponent3,renderType_BarVerticalComponent,import6.ViewType.EMBEDDED,viewUtils,parentView,parentIndex,parentElement,import7.ChangeDetectorStatus.CheckAlways,declaredViewContainer);
+    this._expr_4 = import1.UNINITIALIZED;
+  }
+  createInternal(rootSelector:string):import8.ComponentRef<any> {
+    this._el_0 = import3.createRenderElement(this.renderer,(null as any),':svg:g',import3.EMPTY_INLINE_ARRAY,(null as any));
+    this._text_1 = this.renderer.createText(this._el_0,'\n          ',(null as any));
+    this._el_2 = import3.createRenderElement(this.renderer,this._el_0,':svg:line',new import3.InlineArray4(4,'class','gridline-path gridline-path-vertical','y1','0'),(null as any));
+    this._text_3 = this.renderer.createText(this._el_0,'\n        ',(null as any));
+    this.init(this._el_0,((<any>this.renderer).directRenderer? (null as any): [
+      this._el_0,
+      this._text_1,
+      this._el_2,
+      this._text_3
+    ]
+    ),(null as any));
+    return (null as any);
+  }
+  detectChangesInternal(throwOnChange:boolean):void {
+    const currVal_4:any = this.parentView.context.dims.height;
+    if (import3.checkBinding(throwOnChange,this._expr_4,currVal_4)) {
+      this.renderer.setElementAttribute(this._el_2,'y2',((currVal_4 == null)? (null as any): currVal_4.toString()));
+      this._expr_4 = currVal_4;
+    }
+  }
+  visitRootNodesInternal(cb:any,ctx:any):void {
+    cb(this._el_0,ctx);
+  }
+}
+class View_BarVerticalComponent4 extends import2.AppView<any> {
+  _el_0:any;
+  _text_1:any;
+  _el_2:any;
+  _text_3:any;
+  /*private*/ _expr_4:any;
+  /*private*/ _expr_5:any;
+  constructor(viewUtils:import3.ViewUtils,parentView:import2.AppView<any>,parentIndex:number,parentElement:any,declaredViewContainer:import15.ViewContainer) {
+    super(View_BarVerticalComponent4,renderType_BarVerticalComponent,import6.ViewType.EMBEDDED,viewUtils,parentView,parentIndex,parentElement,import7.ChangeDetectorStatus.CheckAlways,declaredViewContainer);
+    this._expr_4 = import1.UNINITIALIZED;
+    this._expr_5 = import1.UNINITIALIZED;
+  }
+  createInternal(rootSelector:string):import8.ComponentRef<any> {
+    this._el_0 = import3.createRenderElement(this.renderer,(null as any),':svg:g',import3.EMPTY_INLINE_ARRAY,(null as any));
+    this._text_1 = this.renderer.createText(this._el_0,'\n          ',(null as any));
+    this._el_2 = import3.createRenderElement(this.renderer,this._el_0,':svg:line',new import3.InlineArray4(4,'class','gridline-path gridline-path-horizontal','x1','0'),(null as any));
+    this._text_3 = this.renderer.createText(this._el_0,'\n        ',(null as any));
+    this.init(this._el_0,((<any>this.renderer).directRenderer? (null as any): [
+      this._el_0,
+      this._text_1,
+      this._el_2,
+      this._text_3
+    ]
+    ),(null as any));
+    return (null as any);
+  }
+  detectChangesInternal(throwOnChange:boolean):void {
+    const currVal_4:any = this.parentView.context.xAxisLineTransform();
+    if (import3.checkBinding(throwOnChange,this._expr_4,currVal_4)) {
+      this.renderer.setElementAttribute(this._el_0,'transform',((currVal_4 == null)? (null as any): currVal_4.toString()));
+      this._expr_4 = currVal_4;
+    }
+    const currVal_5:any = this.parentView.context.dims.width;
+    if (import3.checkBinding(throwOnChange,this._expr_5,currVal_5)) {
+      this.renderer.setElementAttribute(this._el_2,'x2',((currVal_5 == null)? (null as any): currVal_5.toString()));
+      this._expr_5 = currVal_5;
+    }
+  }
+  visitRootNodesInternal(cb:any,ctx:any):void {
+    cb(this._el_0,ctx);
   }
 }
 var renderType_BarVerticalComponent:import4.RenderComponentType = import3.createRenderComponentType('',0,import5.ViewEncapsulation.None,styles_BarVerticalComponent,{});
@@ -444,20 +563,30 @@ export class View_BarVerticalComponent0 extends import2.AppView<import0.BarVerti
   _SeriesVerticalComponent_9_3:import23.Wrapper_SeriesVerticalComponent;
   _text_10:any;
   _text_11:any;
-  _text_12:any;
+  _anchor_12:any;
+  /*private*/ _vc_12:import15.ViewContainer;
+  _TemplateRef_12_5:any;
+  _NgIf_12_6:import21.Wrapper_NgIf;
   _text_13:any;
-  _arr_26:any;
-  /*private*/ _expr_27:any;
+  _anchor_14:any;
+  /*private*/ _vc_14:import15.ViewContainer;
+  _TemplateRef_14_5:any;
+  _NgIf_14_6:import21.Wrapper_NgIf;
+  _text_15:any;
+  _text_16:any;
+  _text_17:any;
+  _arr_36:any;
+  /*private*/ _expr_37:any;
   constructor(viewUtils:import3.ViewUtils,parentView:import2.AppView<any>,parentIndex:number,parentElement:any) {
     super(View_BarVerticalComponent0,renderType_BarVerticalComponent,import6.ViewType.COMPONENT,viewUtils,parentView,parentIndex,parentElement,import7.ChangeDetectorStatus.CheckOnce);
-    this._arr_26 = import3.pureProxy2((p0:any,p1:any):any[] => {
+    this._arr_36 = import3.pureProxy2((p0:any,p1:any):any[] => {
       return [
         p0,
         p1
       ]
       ;
     });
-    this._expr_27 = import1.UNINITIALIZED;
+    this._expr_37 = import1.UNINITIALIZED;
   }
   createInternal(rootSelector:string):import8.ComponentRef<any> {
     const parentRenderNode:any = this.renderer.createViewRoot(this.parentElement);
@@ -485,10 +614,20 @@ export class View_BarVerticalComponent0 extends import2.AppView<import0.BarVerti
     this._SeriesVerticalComponent_9_3 = new import23.Wrapper_SeriesVerticalComponent();
     this._text_10 = this.renderer.createText((null as any),'\n        ',(null as any));
     this.compView_9.create(this._SeriesVerticalComponent_9_3.context);
-    this._text_11 = this.renderer.createText(this._el_3,'\n      ',(null as any));
-    this._text_12 = this.renderer.createText((null as any),'\n    ',(null as any));
+    this._text_11 = this.renderer.createText(this._el_3,'\n        ',(null as any));
+    this._anchor_12 = this.renderer.createTemplateAnchor(this._el_3,(null as any));
+    this._vc_12 = new import15.ViewContainer(12,3,this,this._anchor_12);
+    this._TemplateRef_12_5 = new import25.TemplateRef_(this,12,this._anchor_12);
+    this._NgIf_12_6 = new import21.Wrapper_NgIf(this._vc_12.vcRef,this._TemplateRef_12_5);
+    this._text_13 = this.renderer.createText(this._el_3,'\n        ',(null as any));
+    this._anchor_14 = this.renderer.createTemplateAnchor(this._el_3,(null as any));
+    this._vc_14 = new import15.ViewContainer(14,3,this,this._anchor_14);
+    this._TemplateRef_14_5 = new import25.TemplateRef_(this,14,this._anchor_14);
+    this._NgIf_14_6 = new import21.Wrapper_NgIf(this._vc_14.vcRef,this._TemplateRef_14_5);
+    this._text_15 = this.renderer.createText(this._el_3,'\n      ',(null as any));
+    this._text_16 = this.renderer.createText((null as any),'\n    ',(null as any));
     this.compView_1.create(this._ChartComponent_1_6.context);
-    this._text_13 = this.renderer.createText(parentRenderNode,'\n  ',(null as any));
+    this._text_17 = this.renderer.createText(parentRenderNode,'\n  ',(null as any));
     var disposable_0:Function = import3.subscribeToRenderElement(this,this._el_1,new import3.InlineArray8(6,'legendLabelClick',(null as any),'legendLabelActivate',(null as any),'legendLabelDeactivate',(null as any)),this.eventHandler(this.handleEvent_1));
     this._ChartComponent_1_6.subscribe(this,this.eventHandler(this.handleEvent_1),true,true,true);
     var disposable_1:Function = import3.subscribeToRenderElement(this,this._el_9,new import3.InlineArray8(6,'activate',(null as any),'deactivate',(null as any),'select',(null as any)),this.eventHandler(this.handleEvent_9));
@@ -506,8 +645,12 @@ export class View_BarVerticalComponent0 extends import2.AppView<import0.BarVerti
       this._el_9,
       this._text_10,
       this._text_11,
-      this._text_12,
-      this._text_13
+      this._anchor_12,
+      this._text_13,
+      this._anchor_14,
+      this._text_15,
+      this._text_16,
+      this._text_17
     ]
     ),[
       disposable_0,
@@ -522,12 +665,16 @@ export class View_BarVerticalComponent0 extends import2.AppView<import0.BarVerti
     if (((token === import25.TemplateRef) && (7 === requestNodeIndex))) { return this._TemplateRef_7_5; }
     if (((token === import26.NgIf) && (7 === requestNodeIndex))) { return this._NgIf_7_6.context; }
     if (((token === import22.SeriesVerticalComponent) && ((9 <= requestNodeIndex) && (requestNodeIndex <= 10)))) { return this._SeriesVerticalComponent_9_3.context; }
-    if (((token === import19.TooltipService) && ((1 <= requestNodeIndex) && (requestNodeIndex <= 12)))) { return this._TooltipService_1_5; }
-    if (((token === import18.ChartComponent) && ((1 <= requestNodeIndex) && (requestNodeIndex <= 12)))) { return this._ChartComponent_1_6.context; }
+    if (((token === import25.TemplateRef) && (12 === requestNodeIndex))) { return this._TemplateRef_12_5; }
+    if (((token === import26.NgIf) && (12 === requestNodeIndex))) { return this._NgIf_12_6.context; }
+    if (((token === import25.TemplateRef) && (14 === requestNodeIndex))) { return this._TemplateRef_14_5; }
+    if (((token === import26.NgIf) && (14 === requestNodeIndex))) { return this._NgIf_14_6.context; }
+    if (((token === import19.TooltipService) && ((1 <= requestNodeIndex) && (requestNodeIndex <= 16)))) { return this._TooltipService_1_5; }
+    if (((token === import18.ChartComponent) && ((1 <= requestNodeIndex) && (requestNodeIndex <= 16)))) { return this._ChartComponent_1_6.context; }
     return notFoundResult;
   }
   detectChangesInternal(throwOnChange:boolean):void {
-    const currVal_1_0_0:any = this._arr_26(this.context.width,this.context.height);
+    const currVal_1_0_0:any = this._arr_36(this.context.width,this.context.height);
     this._ChartComponent_1_6.check_view(currVal_1_0_0,throwOnChange,false);
     const currVal_1_0_1:any = this.context.legend;
     this._ChartComponent_1_6.check_showLegend(currVal_1_0_1,throwOnChange,false);
@@ -544,26 +691,36 @@ export class View_BarVerticalComponent0 extends import2.AppView<import0.BarVerti
     this._NgIf_7_6.ngDoCheck(this,this._anchor_7,throwOnChange);
     const currVal_9_0_0:any = this.context.dims;
     this._SeriesVerticalComponent_9_3.check_dims(currVal_9_0_0,throwOnChange,false);
-    const currVal_9_0_1:any = this.context.results;
-    this._SeriesVerticalComponent_9_3.check_series(currVal_9_0_1,throwOnChange,false);
-    const currVal_9_0_2:any = this.context.xScale;
-    this._SeriesVerticalComponent_9_3.check_xScale(currVal_9_0_2,throwOnChange,false);
-    const currVal_9_0_3:any = this.context.yScale;
-    this._SeriesVerticalComponent_9_3.check_yScale(currVal_9_0_3,throwOnChange,false);
-    const currVal_9_0_4:any = this.context.colors;
-    this._SeriesVerticalComponent_9_3.check_colors(currVal_9_0_4,throwOnChange,false);
-    const currVal_9_0_5:any = this.context.gradient;
-    this._SeriesVerticalComponent_9_3.check_gradient(currVal_9_0_5,throwOnChange,false);
-    const currVal_9_0_6:any = this.context.activeEntries;
-    this._SeriesVerticalComponent_9_3.check_activeEntries(currVal_9_0_6,throwOnChange,false);
+    const currVal_9_0_1:any = this.context.type;
+    this._SeriesVerticalComponent_9_3.check_type(currVal_9_0_1,throwOnChange,false);
+    const currVal_9_0_2:any = this.context.results;
+    this._SeriesVerticalComponent_9_3.check_series(currVal_9_0_2,throwOnChange,false);
+    const currVal_9_0_3:any = this.context.xScale;
+    this._SeriesVerticalComponent_9_3.check_xScale(currVal_9_0_3,throwOnChange,false);
+    const currVal_9_0_4:any = this.context.yScale;
+    this._SeriesVerticalComponent_9_3.check_yScale(currVal_9_0_4,throwOnChange,false);
+    const currVal_9_0_5:any = this.context.colors;
+    this._SeriesVerticalComponent_9_3.check_colors(currVal_9_0_5,throwOnChange,false);
+    const currVal_9_0_6:any = this.context.gradient;
+    this._SeriesVerticalComponent_9_3.check_gradient(currVal_9_0_6,throwOnChange,false);
+    const currVal_9_0_7:any = this.context.activeEntries;
+    this._SeriesVerticalComponent_9_3.check_activeEntries(currVal_9_0_7,throwOnChange,false);
     if (this._SeriesVerticalComponent_9_3.ngDoCheck(this,this._el_9,throwOnChange)) { this.compView_9.markAsCheckOnce(); }
+    const currVal_12_0_0:any = this.context.showBaseLines;
+    this._NgIf_12_6.check_ngIf(currVal_12_0_0,throwOnChange,false);
+    this._NgIf_12_6.ngDoCheck(this,this._anchor_12,throwOnChange);
+    const currVal_14_0_0:any = this.context.showBaseLines;
+    this._NgIf_14_6.check_ngIf(currVal_14_0_0,throwOnChange,false);
+    this._NgIf_14_6.ngDoCheck(this,this._anchor_14,throwOnChange);
     this._vc_1.detectChangesInNestedViews(throwOnChange);
     this._vc_5.detectChangesInNestedViews(throwOnChange);
     this._vc_7.detectChangesInNestedViews(throwOnChange);
-    const currVal_27:any = this.context.transform;
-    if (import3.checkBinding(throwOnChange,this._expr_27,currVal_27)) {
-      this.renderer.setElementAttribute(this._el_3,'transform',((currVal_27 == null)? (null as any): currVal_27.toString()));
-      this._expr_27 = currVal_27;
+    this._vc_12.detectChangesInNestedViews(throwOnChange);
+    this._vc_14.detectChangesInNestedViews(throwOnChange);
+    const currVal_37:any = this.context.transform;
+    if (import3.checkBinding(throwOnChange,this._expr_37,currVal_37)) {
+      this.renderer.setElementAttribute(this._el_3,'transform',((currVal_37 == null)? (null as any): currVal_37.toString()));
+      this._expr_37 = currVal_37;
     }
     this.compView_1.internalDetectChanges(throwOnChange);
     this.compView_9.internalDetectChanges(throwOnChange);
@@ -572,6 +729,8 @@ export class View_BarVerticalComponent0 extends import2.AppView<import0.BarVerti
     this._vc_1.destroyNestedViews();
     this._vc_5.destroyNestedViews();
     this._vc_7.destroyNestedViews();
+    this._vc_12.destroyNestedViews();
+    this._vc_14.destroyNestedViews();
     this.compView_1.destroy();
     this.compView_9.destroy();
     this._SeriesVerticalComponent_9_3.ngOnDestroy();
@@ -581,12 +740,14 @@ export class View_BarVerticalComponent0 extends import2.AppView<import0.BarVerti
     if (((nodeIndex == 1) && (ngContentIndex == 0))) {
       cb(this._text_2,ctx);
       cb(this._el_3,ctx);
-      cb(this._text_12,ctx);
+      cb(this._text_16,ctx);
     }
   }
   createEmbeddedViewInternal(nodeIndex:number):import2.AppView<any> {
     if ((nodeIndex == 5)) { return new View_BarVerticalComponent1(this.viewUtils,this,5,this._anchor_5,this._vc_5); }
     if ((nodeIndex == 7)) { return new View_BarVerticalComponent2(this.viewUtils,this,7,this._anchor_7,this._vc_7); }
+    if ((nodeIndex == 12)) { return new View_BarVerticalComponent3(this.viewUtils,this,12,this._anchor_12,this._vc_12); }
+    if ((nodeIndex == 14)) { return new View_BarVerticalComponent4(this.viewUtils,this,14,this._anchor_14,this._vc_14); }
     return (null as any);
   }
   handleEvent_1(eventName:string,$event:any):boolean {

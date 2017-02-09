@@ -17,7 +17,9 @@ var BarHorizontal2DComponent = (function (_super) {
         this.showGridLines = true;
         this.activeEntries = [];
         this.groupPadding = 16;
+        this.groupProportion = 0;
         this.barPadding = 8;
+        this.paddingProportion = 0;
         this.roundDomains = false;
         this.activate = new core_1.EventEmitter();
         this.deactivate = new core_1.EventEmitter();
@@ -56,6 +58,9 @@ var BarHorizontal2DComponent = (function (_super) {
     };
     BarHorizontal2DComponent.prototype.getGroupScale = function () {
         var spacing = this.groupDomain.length / (this.dims.height / this.groupPadding + 1);
+        if (this.groupProportion) {
+            spacing = this.groupProportion;
+        }
         return d3_1.default.scaleBand()
             .rangeRound([this.dims.height, 0])
             .paddingInner(spacing)
@@ -65,6 +70,9 @@ var BarHorizontal2DComponent = (function (_super) {
     BarHorizontal2DComponent.prototype.getInnerScale = function () {
         var height = this.groupScale.bandwidth();
         var spacing = this.innerDomain.length / (height / this.barPadding + 1);
+        if (this.paddingProportion) {
+            spacing = this.paddingProportion;
+        }
         return d3_1.default.scaleBand()
             .rangeRound([0, height])
             .paddingInner(spacing)
@@ -225,7 +233,9 @@ var BarHorizontal2DComponent = (function (_super) {
         'xAxisTickFormatting': [{ type: core_1.Input },],
         'yAxisTickFormatting': [{ type: core_1.Input },],
         'groupPadding': [{ type: core_1.Input },],
+        'groupProportion': [{ type: core_1.Input },],
         'barPadding': [{ type: core_1.Input },],
+        'paddingProportion': [{ type: core_1.Input },],
         'roundDomains': [{ type: core_1.Input },],
         'activate': [{ type: core_1.Output },],
         'deactivate': [{ type: core_1.Output },],

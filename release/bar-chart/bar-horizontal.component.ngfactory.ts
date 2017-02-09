@@ -29,7 +29,7 @@ import * as import20 from '../common/charts/chart.component.ngfactory';
 import * as import21 from '../../node_modules/@angular/common/src/directives/ng_if.ngfactory';
 import * as import22 from '../../../src/bar-chart/series-horizontal.component';
 import * as import23 from './series-horizontal.component.ngfactory';
-import * as import24 from '../../../src/services/injection.service';
+import * as import24 from '../../../src/common/tooltip/injection.service';
 import * as import25 from '@angular/core/src/linker/template_ref';
 import * as import26 from '@angular/common/src/directives/ng_if';
 export class Wrapper_BarHorizontalComponent {
@@ -56,6 +56,7 @@ export class Wrapper_BarHorizontalComponent {
   /*private*/ _expr_16:any;
   /*private*/ _expr_17:any;
   /*private*/ _expr_18:any;
+  /*private*/ _expr_19:any;
   subscription0:any;
   subscription1:any;
   subscription2:any;
@@ -82,6 +83,7 @@ export class Wrapper_BarHorizontalComponent {
     this._expr_16 = import1.UNINITIALIZED;
     this._expr_17 = import1.UNINITIALIZED;
     this._expr_18 = import1.UNINITIALIZED;
+    this._expr_19 = import1.UNINITIALIZED;
   }
   ngOnDetach(view:import2.AppView<any>,componentView:import2.AppView<any>,el:any):void {
   }
@@ -235,12 +237,20 @@ export class Wrapper_BarHorizontalComponent {
       this._expr_17 = currValue;
     }
   }
-  check_roundDomains(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_paddingProportion(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_18,currValue))) {
       this._changed = true;
-      this.context.roundDomains = currValue;
-      this._changes['roundDomains'] = new import1.SimpleChange(this._expr_18,currValue);
+      this.context.paddingProportion = currValue;
+      this._changes['paddingProportion'] = new import1.SimpleChange(this._expr_18,currValue);
       this._expr_18 = currValue;
+    }
+  }
+  check_roundDomains(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+    if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_19,currValue))) {
+      this._changed = true;
+      this.context.roundDomains = currValue;
+      this._changes['roundDomains'] = new import1.SimpleChange(this._expr_19,currValue);
+      this._expr_19 = currValue;
     }
   }
   ngDoCheck(view:import2.AppView<any>,el:any,throwOnChange:boolean):boolean {

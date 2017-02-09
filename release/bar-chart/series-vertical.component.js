@@ -38,7 +38,7 @@ var SeriesVerticalComponent = (function () {
                 x: 0,
                 y: 0
             };
-            if (_this.type === 'standard') {
+            if (_this.type.indexOf('standard') === 0) {
                 bar.height = Math.abs(_this.yScale(value) - _this.yScale(0));
                 bar.x = _this.xScale(label);
                 if (value < 0) {
@@ -81,7 +81,7 @@ var SeriesVerticalComponent = (function () {
                 bar.color = _this.colors.getColor(label);
             }
             else {
-                if (_this.type === 'standard') {
+                if (_this.type.indexOf('standard') === 0) {
                     bar.color = _this.colors.getColor(value);
                     bar.gradientStops = _this.colors.getLinearGradientStops(value);
                 }

@@ -4,6 +4,8 @@ export declare class YAxisComponent implements OnChanges {
     yScale: any;
     dims: any;
     tickFormatting: any;
+    tickArguments: any;
+    maxTicks: any;
     showGridLines: boolean;
     showLabel: any;
     labelText: any;
@@ -11,7 +13,6 @@ export declare class YAxisComponent implements OnChanges {
     yAxisTickCount: any;
     dimensionsChanged: EventEmitter<{}>;
     yAxisClassName: string;
-    tickArguments: any;
     offset: any;
     transform: any;
     yAxisOffset: number;
