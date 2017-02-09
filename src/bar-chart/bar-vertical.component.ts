@@ -40,6 +40,7 @@ import d3 from '../d3';
           [showLabel]="showYAxisLabel"
           [labelText]="yAxisLabel"
           [tickFormatting]="yAxisTickFormatting"
+          [maxTicks]="maxTicks"
           (dimensionsChanged)="updateYAxisWidth($event)">
         </svg:g>
         <svg:g ngx-charts-series-vertical
@@ -94,6 +95,7 @@ export class BarVerticalComponent extends BaseChartComponent {
   @Input() type: string = 'standard';
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
+  @Input() maxTicks: number;
   @Input() barPadding = 8;
   @Input() paddingProportion = 0;
   @Input() roundDomains: boolean = false;
