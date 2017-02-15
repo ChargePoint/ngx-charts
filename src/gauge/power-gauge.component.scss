@@ -1,0 +1,15 @@
+.gauge {
+
+  .background-arc {
+    path {
+      fill: #ddd;
+    }
+  }
+
+  .pointer path {
+    stroke-width: 1px;
+    stroke: #444;
+    fill: #777;
+  }
+
+}

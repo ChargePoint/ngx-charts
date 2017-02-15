@@ -3,6 +3,7 @@
 const array = require('d3-array');
 const brush = require('d3-brush');
 const color = require('d3-color');
+const ease = require('d3-ease');
 const force = require('d3-force');
 const format = require('d3-format');
 const interpolate = require('d3-interpolate');
@@ -21,6 +22,7 @@ export default {
   brushY: brush.brushY,
   event: selection.event,
   extent: array.extent,
+  easeElastic: ease.easeElastic,
   forceCollide: force.forceCollide,
   forceLink: force.forceLink,
   forceManyBody: force.forceManyBody,

@@ -414,6 +414,18 @@
         [units]="gaugeUnits"
         (select)="select($event)">
       </ngx-charts-linear-gauge>
+      <ngx-charts-power-gauge
+        *ngIf="chartType === 'power-gauge'"
+        class="chart-container"
+        [view]="view"
+        [scheme]="colorScheme"
+        [min]="gaugeMin"
+        [max]="powerGaugeMax"
+        [pointerValue]="pointerValue"
+        [axisPoints]="single"
+        [results]="single">
+      </ngx-charts-power-gauge>
+
     </div>
   </div>
   <div class="sidebar">

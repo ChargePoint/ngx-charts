@@ -24,7 +24,7 @@ import { formatLabel } from '../common/label.helper';
         [value]="arc.value"
         [explodeSlices]="explodeSlices">
       </svg:g>
-      <svg:g 
+      <svg:g
         ngx-charts-pie-arc
         [startAngle]="arc.startAngle"
         [endAngle]="arc.endAngle"
@@ -32,14 +32,14 @@ import { formatLabel } from '../common/label.helper';
         [outerRadius]="outerRadius"
         [fill]="color(arc)"
         [value]="arc.data.value"
-        [gradient]="gradient" 
+        [gradient]="gradient"
         [data]="arc.data"
         [max]="max"
         [explodeSlices]="explodeSlices"
         [isActive]="isActive(arc.data)"
         (select)="onClick($event)"
         (activate)="activate.emit($event)"
-        (deactivate)="deactivate.emit($event)"        
+        (deactivate)="deactivate.emit($event)"
         ngx-tooltip
         [tooltipPlacement]="'top'"
         [tooltipType]="'tooltip'"
