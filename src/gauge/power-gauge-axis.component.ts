@@ -65,7 +65,7 @@ export class PowerGaugeAxisComponent implements OnChanges, OnInit {
         const pointerAngle = this.pointerAngle;
         const moveTick = Math.random() * 2;
         this.updatePointer(pointerAngle + moveTick, 0, 750);
-      }, 150);
+      }, 500);
     }, 1500);
   }
 
