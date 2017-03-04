@@ -5,7 +5,7 @@
  */
  /* tslint:disable */
 
-import * as import0 from '../../../src/tree-map/tree-map-cell-series.component';
+import * as import0 from '../../../build/tree-map/tree-map-cell-series.component';
 import * as import1 from '@angular/core/src/change_detection/change_detection_util';
 import * as import2 from '@angular/core/src/linker/view';
 import * as import3 from '@angular/core/src/linker/view_utils';
@@ -15,13 +15,13 @@ import * as import6 from '@angular/core/src/linker/view_type';
 import * as import7 from '@angular/core/src/change_detection/constants';
 import * as import8 from '@angular/core/src/linker/component_factory';
 import * as import9 from '@angular/core/src/linker/view_container';
-import * as import10 from '../../../src/tree-map/tree-map-cell.component';
+import * as import10 from '../../../build/tree-map/tree-map-cell.component';
 import * as import11 from '../common/tooltip/tooltip.directive.ngfactory';
 import * as import12 from './tree-map-cell.component.ngfactory';
-import * as import13 from '../../../src/common/tooltip/tooltip.service';
+import * as import13 from '../../../build/common/tooltip/tooltip.service';
 import * as import14 from '@angular/core/src/linker/element_ref';
 import * as import15 from '@angular/core/src/zone/ng_zone';
-import * as import16 from '../../../src/common/tooltip/tooltip.directive';
+import * as import16 from '../../../build/common/tooltip/tooltip.directive';
 import * as import17 from '../../node_modules/@angular/common/src/directives/ng_for.ngfactory';
 import * as import18 from '@angular/core/src/linker/template_ref';
 import * as import19 from '@angular/core/src/change_detection/differs/iterable_differs';
@@ -34,6 +34,7 @@ export class Wrapper_TreeMapCellSeriesComponent {
   /*private*/ _expr_0:any;
   /*private*/ _expr_1:any;
   /*private*/ _expr_2:any;
+  /*private*/ _expr_3:any;
   subscription0:any;
   constructor() {
     this._changed = false;
@@ -42,6 +43,7 @@ export class Wrapper_TreeMapCellSeriesComponent {
     this._expr_0 = import1.UNINITIALIZED;
     this._expr_1 = import1.UNINITIALIZED;
     this._expr_2 = import1.UNINITIALIZED;
+    this._expr_3 = import1.UNINITIALIZED;
   }
   ngOnDetach(view:import2.AppView<any>,componentView:import2.AppView<any>,el:any):void {
   }
@@ -70,6 +72,14 @@ export class Wrapper_TreeMapCellSeriesComponent {
       this.context.colors = currValue;
       this._changes['colors'] = new import1.SimpleChange(this._expr_2,currValue);
       this._expr_2 = currValue;
+    }
+  }
+  check_tooltipDisabled(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+    if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_3,currValue))) {
+      this._changed = true;
+      this.context.tooltipDisabled = currValue;
+      this._changes['tooltipDisabled'] = new import1.SimpleChange(this._expr_3,currValue);
+      this._expr_3 = currValue;
     }
   }
   ngDoCheck(view:import2.AppView<any>,el:any,throwOnChange:boolean):boolean {
@@ -157,10 +167,12 @@ class View_TreeMapCellSeriesComponent1 extends import2.AppView<any> {
   detectChangesInternal(throwOnChange:boolean):void {
     const currVal_0_0_0:any = this.parentView.context.getTooltipText(this.context.$implicit);
     this._TooltipDirective_0_5.check_tooltipTitle(currVal_0_0_0,throwOnChange,false);
-    const currVal_0_0_1:any = 'top';
-    this._TooltipDirective_0_5.check_tooltipPlacement(currVal_0_0_1,throwOnChange,false);
-    const currVal_0_0_2:any = 'tooltip';
-    this._TooltipDirective_0_5.check_tooltipType(currVal_0_0_2,throwOnChange,false);
+    const currVal_0_0_1:any = this.parentView.context.tooltipDisabled;
+    this._TooltipDirective_0_5.check_tooltipDisabled(currVal_0_0_1,throwOnChange,false);
+    const currVal_0_0_2:any = 'top';
+    this._TooltipDirective_0_5.check_tooltipPlacement(currVal_0_0_2,throwOnChange,false);
+    const currVal_0_0_3:any = 'tooltip';
+    this._TooltipDirective_0_5.check_tooltipType(currVal_0_0_3,throwOnChange,false);
     this._TooltipDirective_0_5.ngDoCheck(this,this._el_0,throwOnChange);
     const currVal_0_1_0:any = this.context.$implicit.fill;
     this._TreeMapCellComponent_0_6.check_fill(currVal_0_1_0,throwOnChange,false);

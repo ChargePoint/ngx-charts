@@ -1,5 +1,7 @@
 import {
   Component,
+  Input,
+  ViewEncapsulation,
   ChangeDetectionStrategy
 } from '@angular/core';
 
@@ -29,6 +31,7 @@ import { formatLabel } from '../common/label.helper';
             [outerRadius]="series.outerRadius"
             (select)="onClick($event)"
             ngx-tooltip
+            [tooltipDisabled]="tooltipDisabled"
             [tooltipPlacement]="'top'"
             [tooltipType]="'tooltip'"
             [tooltipTitle]="getTooltipText(series.label, series.value.toLocaleString())"
@@ -38,7 +41,7 @@ import { formatLabel } from '../common/label.helper';
             dy="-0.5em"
             x="0"
             y="5"
-            ngx-charts-count-up 
+            ngx-charts-count-up
             [countTo]="series.percent"
             [countSuffix]="'%'"
             text-anchor="middle">
@@ -57,7 +60,7 @@ import { formatLabel } from '../common/label.helper';
             x="0"
             [attr.y]="series.outerRadius"
             text-anchor="middle"
-            ngx-charts-count-up 
+            ngx-charts-count-up
             [countTo]="series.total"
             [countPrefix]="'Total: '">
           </svg:text>
@@ -65,10 +68,16 @@ import { formatLabel } from '../common/label.helper';
       </svg:g>
     </ngx-charts-chart>
   `,
+  styleUrls: [
+    '../common/base-chart.component.scss',
+    './pie-grid.component.scss'
+  ],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PieGridComponent extends BaseChartComponent {
-  
+  @Input() tooltipDisabled: boolean = false;  
+
   dims: ViewDimensions;
   data: any[];
   transform: string;
@@ -140,7 +149,7 @@ export class PieGridComponent extends BaseChartComponent {
         label: trimLabel(label),
         total: value,
         value,
-        percent: d3.format('.1p')(d.data.percent),
+        percent: d3.format('.1%')(d.data.percent),
         data: [d, {
           data: {
             other: true,
@@ -155,7 +164,7 @@ export class PieGridComponent extends BaseChartComponent {
   getTotal(): any {
     return this.results
       .map(d => d.value)
-      .reduce((sum, d) => { return sum + d; }, 0);
+      .reduce((sum, d) => sum + d, 0);
   }
 
   onClick(data): void {

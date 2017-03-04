@@ -1,6 +1,7 @@
 import {
   Component,
   Input,
+  ViewEncapsulation,
   ChangeDetectionStrategy
 } from '@angular/core';
 import d3 from '../d3';
@@ -51,12 +52,15 @@ import { ColorHelper } from '../common/color.helper';
           [colors]="colors"
           [data]="results"
           [gradient]="gradient"
+          [tooltipDisabled]="tooltipDisabled"
           (select)="onClick($event)"
         />
       </svg:g>
     </ngx-charts-chart>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['../common/base-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class HeatMapComponent extends BaseChartComponent {
 
@@ -68,9 +72,10 @@ export class HeatMapComponent extends BaseChartComponent {
   @Input() xAxisLabel;
   @Input() yAxisLabel;
   @Input() gradient: boolean;
-  @Input() innerPadding: Number | Number[] = 8;
+  @Input() innerPadding: number | number[] = 8;
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
+  @Input() tooltipDisabled: boolean = false;
 
   dims: ViewDimensions;
   xDomain: any[];

@@ -5,7 +5,7 @@
  */
  /* tslint:disable */
 
-import * as import0 from '../../../src/bar-chart/series-vertical.component';
+import * as import0 from '../../../build/bar-chart/series-vertical.component';
 import * as import1 from '@angular/core/src/change_detection/change_detection_util';
 import * as import2 from '@angular/core/src/linker/view';
 import * as import3 from '@angular/core/src/linker/view_utils';
@@ -21,14 +21,14 @@ import * as import12 from '@angular/core/src/animation/animation_style_util';
 import * as import13 from '@angular/core/src/animation/animation_keyframe';
 import * as import14 from '@angular/core/src/animation/animation_player';
 import * as import15 from '@angular/core/src/linker/view_container';
-import * as import16 from '../../../src/bar-chart/bar.component';
+import * as import16 from '../../../build/bar-chart/bar.component';
 import * as import17 from '../common/tooltip/tooltip.directive.ngfactory';
 import * as import18 from './bar.component.ngfactory';
-import * as import19 from '../../../src/common/tooltip/tooltip.service';
+import * as import19 from '../../../build/common/tooltip/tooltip.service';
 import * as import20 from '@angular/core/src/linker/element_ref';
 import * as import21 from '@angular/core/src/zone/ng_zone';
-import * as import22 from '@angular/common/src/location/location';
-import * as import23 from '../../../src/common/tooltip/tooltip.directive';
+import * as import22 from '@angular/common/src/location/location_strategy';
+import * as import23 from '../../../build/common/tooltip/tooltip.directive';
 import * as import24 from '../../node_modules/@angular/common/src/directives/ng_for.ngfactory';
 import * as import25 from '@angular/core/src/linker/template_ref';
 import * as import26 from '@angular/core/src/change_detection/differs/iterable_differs';
@@ -47,6 +47,7 @@ export class Wrapper_SeriesVerticalComponent {
   /*private*/ _expr_6:any;
   /*private*/ _expr_7:any;
   /*private*/ _expr_8:any;
+  /*private*/ _expr_9:any;
   subscription0:any;
   subscription1:any;
   subscription2:any;
@@ -63,6 +64,7 @@ export class Wrapper_SeriesVerticalComponent {
     this._expr_6 = import1.UNINITIALIZED;
     this._expr_7 = import1.UNINITIALIZED;
     this._expr_8 = import1.UNINITIALIZED;
+    this._expr_9 = import1.UNINITIALIZED;
   }
   ngOnDetach(view:import2.AppView<any>,componentView:import2.AppView<any>,el:any):void {
   }
@@ -119,28 +121,36 @@ export class Wrapper_SeriesVerticalComponent {
       this._expr_5 = currValue;
     }
   }
-  check_gradient(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_tooltipDisabled(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_6,currValue))) {
       this._changed = true;
-      this.context.gradient = currValue;
-      this._changes['gradient'] = new import1.SimpleChange(this._expr_6,currValue);
+      this.context.tooltipDisabled = currValue;
+      this._changes['tooltipDisabled'] = new import1.SimpleChange(this._expr_6,currValue);
       this._expr_6 = currValue;
     }
   }
-  check_activeEntries(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_gradient(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_7,currValue))) {
       this._changed = true;
-      this.context.activeEntries = currValue;
-      this._changes['activeEntries'] = new import1.SimpleChange(this._expr_7,currValue);
+      this.context.gradient = currValue;
+      this._changes['gradient'] = new import1.SimpleChange(this._expr_7,currValue);
       this._expr_7 = currValue;
     }
   }
-  check_seriesName(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_activeEntries(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_8,currValue))) {
       this._changed = true;
-      this.context.seriesName = currValue;
-      this._changes['seriesName'] = new import1.SimpleChange(this._expr_8,currValue);
+      this.context.activeEntries = currValue;
+      this._changes['activeEntries'] = new import1.SimpleChange(this._expr_8,currValue);
       this._expr_8 = currValue;
+    }
+  }
+  check_seriesName(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+    if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_9,currValue))) {
+      this._changed = true;
+      this.context.seriesName = currValue;
+      this._changes['seriesName'] = new import1.SimpleChange(this._expr_9,currValue);
+      this._expr_9 = currValue;
     }
   }
   ngDoCheck(view:import2.AppView<any>,el:any,throwOnChange:boolean):boolean {
@@ -266,7 +276,7 @@ class View_SeriesVerticalComponent1 extends import2.AppView<any> {
     this._vc_0 = new import15.ViewContainer(0,(null as any),this,this._el_0);
     this.compView_0 = new import18.View_BarComponent0(this.viewUtils,this,0,this._el_0);
     this._TooltipDirective_0_5 = new import17.Wrapper_TooltipDirective(this.parentView.injectorGet(import19.TooltipService,this.parentIndex),this._vc_0.vcRef,this.renderer,new import20.ElementRef(this._el_0),this.parentView.injectorGet(import21.NgZone,this.parentIndex));
-    this._BarComponent_0_6 = new import18.Wrapper_BarComponent(new import20.ElementRef(this._el_0),this.parentView.injectorGet(import22.Location,this.parentIndex));
+    this._BarComponent_0_6 = new import18.Wrapper_BarComponent(new import20.ElementRef(this._el_0),this.parentView.injectorGet(import22.LocationStrategy,this.parentIndex));
     this._text_1 = this.renderer.createText((null as any),'\n    ',(null as any));
     this.compView_0.create(this._BarComponent_0_6.context);
     this._el_2 = this.renderer.createTemplateAnchor((null as any),(null as any));
@@ -292,10 +302,12 @@ class View_SeriesVerticalComponent1 extends import2.AppView<any> {
     }
     const currVal_0_0_0:any = this.context.$implicit.tooltipText;
     this._TooltipDirective_0_5.check_tooltipTitle(currVal_0_0_0,throwOnChange,false);
-    const currVal_0_0_1:any = 'top';
-    this._TooltipDirective_0_5.check_tooltipPlacement(currVal_0_0_1,throwOnChange,false);
-    const currVal_0_0_2:any = 'tooltip';
-    this._TooltipDirective_0_5.check_tooltipType(currVal_0_0_2,throwOnChange,false);
+    const currVal_0_0_1:any = this.parentView.context.tooltipDisabled;
+    this._TooltipDirective_0_5.check_tooltipDisabled(currVal_0_0_1,throwOnChange,false);
+    const currVal_0_0_2:any = 'top';
+    this._TooltipDirective_0_5.check_tooltipPlacement(currVal_0_0_2,throwOnChange,false);
+    const currVal_0_0_3:any = 'tooltip';
+    this._TooltipDirective_0_5.check_tooltipType(currVal_0_0_3,throwOnChange,false);
     this._TooltipDirective_0_5.ngDoCheck(this,this._el_0,throwOnChange);
     const currVal_0_1_0:any = this.context.$implicit.color;
     this._BarComponent_0_6.check_fill(currVal_0_1_0,throwOnChange,false);
@@ -357,7 +369,7 @@ class View_SeriesVerticalComponent1 extends import2.AppView<any> {
     return result;
   }
 }
-var renderType_SeriesVerticalComponent:import4.RenderComponentType = import3.createRenderComponentType('',0,import5.ViewEncapsulation.None,styles_SeriesVerticalComponent,{animationState: SeriesVerticalComponent_animationState_factory});
+var renderType_SeriesVerticalComponent:import4.RenderComponentType = import3.createRenderComponentType('',0,import5.ViewEncapsulation.None,styles_SeriesVerticalComponent,{'animationState': SeriesVerticalComponent_animationState_factory});
 export class View_SeriesVerticalComponent0 extends import2.AppView<import0.SeriesVerticalComponent> {
   _text_0:any;
   _anchor_1:any;

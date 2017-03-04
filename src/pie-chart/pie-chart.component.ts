@@ -2,6 +2,7 @@ import {
   Component,
   Input,
   Output,
+  ViewEncapsulation,
   EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
@@ -30,6 +31,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [outerRadius]="outerRadius"
           [explodeSlices]="explodeSlices"
           [gradient]="gradient"
+          [tooltipDisabled]="tooltipDisabled"
           (select)="onClick($event)"
           (activate)="onActivate($event)"
           (deactivate)="onDeactivate($event)"
@@ -37,6 +39,11 @@ import { BaseChartComponent } from '../common/base-chart.component';
       </svg:g>
     </ngx-charts-chart>
   `,
+  styleUrls: [
+    '../common/base-chart.component.scss',
+    './pie-chart.component.scss'
+  ],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PieChartComponent extends BaseChartComponent {
@@ -48,6 +55,7 @@ export class PieChartComponent extends BaseChartComponent {
   @Input() arcWidth = 0.25;
   @Input() gradient: boolean;
   @Input() activeEntries: any[] = [];
+  @Input() tooltipDisabled: boolean = false;
 
   @Output() select = new EventEmitter();
   @Output() activate: EventEmitter<any> = new EventEmitter();

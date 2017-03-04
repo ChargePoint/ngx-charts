@@ -5,7 +5,7 @@
  */
  /* tslint:disable */
 
-import * as import0 from '../../../src/common/circle-series.component';
+import * as import0 from '../../../build/common/circle-series.component';
 import * as import1 from '@angular/core/src/change_detection/change_detection_util';
 import * as import2 from '@angular/core/src/linker/view';
 import * as import3 from '@angular/core/src/linker/view_utils';
@@ -14,7 +14,7 @@ import * as import5 from '@angular/core/src/metadata/view';
 import * as import6 from '@angular/core/src/linker/view_type';
 import * as import7 from '@angular/core/src/change_detection/constants';
 import * as import8 from '@angular/core/src/linker/component_factory';
-import * as import9 from '@angular/common/src/location/location';
+import * as import9 from '@angular/common/src/location/location_strategy';
 import * as import10 from '@angular/core/src/animation/animation_transition';
 import * as import11 from '@angular/core/src/animation/animation_sequence_player';
 import * as import12 from '@angular/core/src/animation/animation_styles';
@@ -22,14 +22,14 @@ import * as import13 from '@angular/core/src/animation/animation_style_util';
 import * as import14 from '@angular/core/src/animation/animation_keyframe';
 import * as import15 from '@angular/core/src/animation/animation_player';
 import * as import16 from '@angular/core/src/linker/view_container';
-import * as import17 from '../../../src/common/circle.component';
+import * as import17 from '../../../build/common/circle.component';
 import * as import18 from './tooltip/tooltip.directive.ngfactory';
 import * as import19 from './circle.component.ngfactory';
-import * as import20 from '../../../src/common/tooltip/tooltip.service';
+import * as import20 from '../../../build/common/tooltip/tooltip.service';
 import * as import21 from '@angular/core/src/linker/element_ref';
 import * as import22 from '@angular/core/src/zone/ng_zone';
-import * as import23 from '../../../src/common/tooltip/tooltip.directive';
-import * as import24 from '../../../src/common/svg-linear-gradient.component';
+import * as import23 from '../../../build/common/tooltip/tooltip.directive';
+import * as import24 from '../../../build/common/svg-linear-gradient.component';
 import * as import25 from './svg-linear-gradient.component.ngfactory';
 import * as import26 from '../../node_modules/@angular/common/src/directives/ng_if.ngfactory';
 import * as import27 from '@angular/core/src/linker/template_ref';
@@ -50,6 +50,7 @@ export class Wrapper_CircleSeriesComponent {
   /*private*/ _expr_5:any;
   /*private*/ _expr_6:any;
   /*private*/ _expr_7:any;
+  /*private*/ _expr_8:any;
   subscription0:any;
   subscription1:any;
   subscription2:any;
@@ -65,6 +66,7 @@ export class Wrapper_CircleSeriesComponent {
     this._expr_5 = import1.UNINITIALIZED;
     this._expr_6 = import1.UNINITIALIZED;
     this._expr_7 = import1.UNINITIALIZED;
+    this._expr_8 = import1.UNINITIALIZED;
   }
   ngOnDetach(view:import2.AppView<any>,componentView:import2.AppView<any>,el:any):void {
   }
@@ -137,6 +139,14 @@ export class Wrapper_CircleSeriesComponent {
       this._expr_7 = currValue;
     }
   }
+  check_tooltipDisabled(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+    if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_8,currValue))) {
+      this._changed = true;
+      this.context.tooltipDisabled = currValue;
+      this._changes['tooltipDisabled'] = new import1.SimpleChange(this._expr_8,currValue);
+      this._expr_8 = currValue;
+    }
+  }
   ngDoCheck(view:import2.AppView<any>,el:any,throwOnChange:boolean):boolean {
     var changed:any = this._changed;
     this._changed = false;
@@ -170,7 +180,7 @@ class View_CircleSeriesComponent_Host0 extends import2.AppView<any> {
   createInternal(rootSelector:string):import8.ComponentRef<any> {
     this._el_0 = import3.selectOrCreateRenderHostElement(this.renderer,'g',new import3.InlineArray2(2,'ngx-charts-circle-series',''),rootSelector,(null as any));
     this.compView_0 = new View_CircleSeriesComponent0(this.viewUtils,this,0,this._el_0);
-    this._CircleSeriesComponent_0_3 = new Wrapper_CircleSeriesComponent(this.injectorGet(import9.Location,this.parentIndex));
+    this._CircleSeriesComponent_0_3 = new Wrapper_CircleSeriesComponent(this.injectorGet(import9.LocationStrategy,this.parentIndex));
     this.compView_0.create(this._CircleSeriesComponent_0_3.context);
     this.init(this._el_0,((<any>this.renderer).directRenderer? (null as any): [this._el_0]),(null as any));
     return new import8.ComponentRef_<any>(0,this,this._el_0,this._CircleSeriesComponent_0_3.context);
@@ -328,10 +338,12 @@ class View_CircleSeriesComponent3 extends import2.AppView<any> {
   detectChangesInternal(throwOnChange:boolean):void {
     const currVal_0_0_0:any = this.parentView.parentView.context.getTooltipText(this.parentView.context.$implicit);
     this._TooltipDirective_0_5.check_tooltipTitle(currVal_0_0_0,throwOnChange,false);
-    const currVal_0_0_1:any = 'top';
-    this._TooltipDirective_0_5.check_tooltipPlacement(currVal_0_0_1,throwOnChange,false);
-    const currVal_0_0_2:any = 'tooltip';
-    this._TooltipDirective_0_5.check_tooltipType(currVal_0_0_2,throwOnChange,false);
+    const currVal_0_0_1:any = this.parentView.parentView.context.tooltipDisabled;
+    this._TooltipDirective_0_5.check_tooltipDisabled(currVal_0_0_1,throwOnChange,false);
+    const currVal_0_0_2:any = 'top';
+    this._TooltipDirective_0_5.check_tooltipPlacement(currVal_0_0_2,throwOnChange,false);
+    const currVal_0_0_3:any = 'tooltip';
+    this._TooltipDirective_0_5.check_tooltipType(currVal_0_0_3,throwOnChange,false);
     this._TooltipDirective_0_5.ngDoCheck(this,this._el_0,throwOnChange);
     const currVal_0_1_0:any = this.parentView.context.$implicit.cx;
     this._CircleComponent_0_6.check_cx(currVal_0_1_0,throwOnChange,false);
@@ -489,7 +501,7 @@ class View_CircleSeriesComponent1 extends import2.AppView<any> {
     return (null as any);
   }
 }
-var renderType_CircleSeriesComponent:import4.RenderComponentType = import3.createRenderComponentType('',0,import5.ViewEncapsulation.None,styles_CircleSeriesComponent,{animationState: CircleSeriesComponent_animationState_factory});
+var renderType_CircleSeriesComponent:import4.RenderComponentType = import3.createRenderComponentType('',0,import5.ViewEncapsulation.None,styles_CircleSeriesComponent,{'animationState': CircleSeriesComponent_animationState_factory});
 export class View_CircleSeriesComponent0 extends import2.AppView<import0.CircleSeriesComponent> {
   _text_0:any;
   _anchor_1:any;

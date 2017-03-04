@@ -2,6 +2,7 @@ import {
   Component,
   Input,
   Output,
+  ViewEncapsulation,
   EventEmitter,
   trigger,
   style,
@@ -63,6 +64,7 @@ import d3 from '../d3';
           [series]="group.series"
           [dims]="dims"
           [gradient]="gradient"
+          [tooltipDisabled]="tooltipDisabled"
           [seriesName]="group.name"
           (select)="onClick($event, group)"
           (activate)="onActivate($event, group)"
@@ -71,6 +73,8 @@ import d3 from '../d3';
         </svg:g>
     </ngx-charts-chart>
   `,
+  styleUrls: ['../common/base-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('animationState', [
@@ -93,6 +97,7 @@ export class BarVertical2DComponent extends BaseChartComponent {
   @Input() showYAxisLabel;
   @Input() xAxisLabel;
   @Input() yAxisLabel;
+  @Input() tooltipDisabled: boolean = false;
   @Input() scaleType = 'ordinal';
   @Input() gradient: boolean;
   @Input() showGridLines: boolean = true;
@@ -100,6 +105,9 @@ export class BarVertical2DComponent extends BaseChartComponent {
   @Input() schemeType: string;
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
+  @Input() groupPadding = 16;
+  @Input() barPadding = 8;
+  @Input() roundDomains: boolean = false;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
@@ -154,7 +162,8 @@ export class BarVertical2DComponent extends BaseChartComponent {
   }
 
   getGroupScale() {
-    const spacing = 0.2;
+    const spacing = this.groupDomain.length / (this.dims.height / this.groupPadding + 1);
+
     return d3.scaleBand()
       .rangeRound([0, this.dims.width])
       .paddingInner(spacing)
@@ -163,17 +172,19 @@ export class BarVertical2DComponent extends BaseChartComponent {
   }
 
   getInnerScale() {
-    const spacing = 0.2;
+    const width = this.groupScale.bandwidth();
+    const spacing = this.innerDomain.length / (width / this.barPadding + 1);
     return d3.scaleBand()
-      .rangeRound([0, this.groupScale.bandwidth()])
+      .rangeRound([0, width])
       .paddingInner(spacing)
       .domain(this.innerDomain);
   }
 
   getValueScale() {
-    return d3.scaleLinear()
+    const scale = d3.scaleLinear()
       .range([this.dims.height, 0])
       .domain(this.valuesDomain);
+    return this.roundDomains ? scale.nice() : scale;
   }
 
   getGroupDomain() {
@@ -219,10 +230,11 @@ export class BarVertical2DComponent extends BaseChartComponent {
     return `translate(${this.groupScale(group.name)}, 0)`;
   }
 
-  onClick(data, group) {
+  onClick(data, group?) {
     if (group) {
       data.series = group.name;
     }
+
     this.select.emit(data);
   }
 

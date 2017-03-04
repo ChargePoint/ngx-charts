@@ -5,7 +5,7 @@
  */
  /* tslint:disable */
 
-import * as import0 from '../../../src/line-chart/line.component';
+import * as import0 from '../../../build/line-chart/line.component';
 import * as import1 from '@angular/core/src/change_detection/change_detection_util';
 import * as import2 from '@angular/core/src/linker/view';
 import * as import3 from '@angular/core/src/linker/view_utils';
@@ -153,7 +153,7 @@ function LineComponent_animationState_factory(view:import2.AppView<any>,element:
   view.animationContext.queueAnimation(element,'animationState',player);
   return new import10.AnimationTransition(player,currentState,nextState,totalTime);
 }
-var renderType_LineComponent:import4.RenderComponentType = import3.createRenderComponentType('',0,import5.ViewEncapsulation.None,styles_LineComponent,{animationState: LineComponent_animationState_factory});
+var renderType_LineComponent:import4.RenderComponentType = import3.createRenderComponentType('',0,import5.ViewEncapsulation.None,styles_LineComponent,{'animationState': LineComponent_animationState_factory});
 export class View_LineComponent0 extends import2.AppView<import0.LineComponent> {
   _text_0:any;
   _el_1:any;

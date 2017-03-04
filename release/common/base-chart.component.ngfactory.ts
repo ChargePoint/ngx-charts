@@ -5,7 +5,7 @@
  */
  /* tslint:disable */
 
-import * as import0 from '../../../src/common/base-chart.component';
+import * as import0 from '../../../build/common/base-chart.component';
 import * as import1 from '@angular/core/src/change_detection/change_detection_util';
 import * as import2 from '@angular/core/src/linker/view';
 import * as import3 from '@angular/core/src/linker/view_utils';
@@ -16,7 +16,7 @@ import * as import7 from '@angular/core/src/change_detection/constants';
 import * as import8 from '@angular/core/src/linker/component_factory';
 import * as import9 from '@angular/core/src/linker/element_ref';
 import * as import10 from '@angular/core/src/zone/ng_zone';
-import * as import11 from '@angular/common/src/location/location';
+import * as import11 from '@angular/common/src/location/location_strategy';
 export class Wrapper_BaseChartComponent {
   /*private*/ _eventHandler:Function;
   context:import0.BaseChartComponent;
@@ -115,7 +115,7 @@ class View_BaseChartComponent_Host0 extends import2.AppView<any> {
   createInternal(rootSelector:string):import8.ComponentRef<any> {
     this._el_0 = import3.selectOrCreateRenderHostElement(this.renderer,'base-chart',import3.EMPTY_INLINE_ARRAY,rootSelector,(null as any));
     this.compView_0 = new View_BaseChartComponent0(this.viewUtils,this,0,this._el_0);
-    this._BaseChartComponent_0_3 = new Wrapper_BaseChartComponent(new import9.ElementRef(this._el_0),this.injectorGet(import10.NgZone,this.parentIndex),this.compView_0.ref,this.injectorGet(import11.Location,this.parentIndex));
+    this._BaseChartComponent_0_3 = new Wrapper_BaseChartComponent(new import9.ElementRef(this._el_0),this.injectorGet(import10.NgZone,this.parentIndex),this.compView_0.ref,this.injectorGet(import11.LocationStrategy,this.parentIndex));
     this.compView_0.create(this._BaseChartComponent_0_3.context);
     this.init(this._el_0,((<any>this.renderer).directRenderer? (null as any): [this._el_0]),(null as any));
     return new import8.ComponentRef_<any>(0,this,this._el_0,this._BaseChartComponent_0_3.context);
@@ -141,12 +141,14 @@ export const BaseChartComponentNgFactory:import8.ComponentFactory<import0.BaseCh
 const styles_BaseChartComponent:any[] = ([] as any[]);
 var renderType_BaseChartComponent:import4.RenderComponentType = import3.createRenderComponentType('',0,import5.ViewEncapsulation.None,styles_BaseChartComponent,{});
 export class View_BaseChartComponent0 extends import2.AppView<import0.BaseChartComponent> {
+  _el_0:any;
   constructor(viewUtils:import3.ViewUtils,parentView:import2.AppView<any>,parentIndex:number,parentElement:any) {
     super(View_BaseChartComponent0,renderType_BaseChartComponent,import6.ViewType.COMPONENT,viewUtils,parentView,parentIndex,parentElement,import7.ChangeDetectorStatus.CheckAlways);
   }
   createInternal(rootSelector:string):import8.ComponentRef<any> {
     const parentRenderNode:any = this.renderer.createViewRoot(this.parentElement);
-    this.init((null as any),((<any>this.renderer).directRenderer? (null as any): ([] as any[])),(null as any));
+    this._el_0 = import3.createRenderElement(this.renderer,parentRenderNode,'div',import3.EMPTY_INLINE_ARRAY,(null as any));
+    this.init((null as any),((<any>this.renderer).directRenderer? (null as any): [this._el_0]),(null as any));
     return (null as any);
   }
 }

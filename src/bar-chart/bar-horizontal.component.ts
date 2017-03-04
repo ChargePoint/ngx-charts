@@ -3,6 +3,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  ViewEncapsulation,
   ChangeDetectionStrategy
 } from '@angular/core';
 import { calculateViewDimensions, ViewDimensions } from '../common/view-dimensions.helper';
@@ -48,6 +49,7 @@ import d3 from '../d3';
           [series]="results"
           [dims]="dims"
           [gradient]="gradient"
+          [tooltipDisabled]="tooltipDisabled"
           [activeEntries]="activeEntries"
           (select)="onClick($event)"
           (activate)="onActivate($event)"
@@ -56,7 +58,9 @@ import d3 from '../d3';
       </svg:g>
     </ngx-charts-chart>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['../common/base-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class BarHorizontalComponent extends BaseChartComponent {
 
@@ -67,12 +71,15 @@ export class BarHorizontalComponent extends BaseChartComponent {
   @Input() showYAxisLabel;
   @Input() xAxisLabel;
   @Input() yAxisLabel;
+  @Input() tooltipDisabled: boolean = false;
   @Input() gradient: boolean;
   @Input() showGridLines: boolean = true;
   @Input() activeEntries: any[] = [];
   @Input() schemeType: string;
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
+  @Input() barPadding = 8;
+  @Input() roundDomains: boolean = false;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
@@ -120,14 +127,16 @@ export class BarHorizontalComponent extends BaseChartComponent {
   getXScale() {
     this.xDomain = this.getXDomain();
 
-    return d3.scaleLinear()
+    const scale = d3.scaleLinear()
       .range([0, this.dims.width])
       .domain(this.xDomain);
+
+    return this.roundDomains ? scale.nice() : scale;
   }
 
   getYScale() {
-    const spacing = 0.2;
     this.yDomain = this.getYDomain();
+    const spacing = this.yDomain.length / (this.dims.height / this.barPadding + 1);
 
     return d3.scaleBand()
       .rangeRound([this.dims.height, 0])

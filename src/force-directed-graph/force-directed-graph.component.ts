@@ -7,6 +7,7 @@ import {
   TemplateRef,
   ViewChild,
   Output,
+  ViewEncapsulation,
   EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
@@ -51,6 +52,7 @@ import { ColorHelper } from '../common/color.helper';
             (mousedown)="onDragStart(node, $event)"
             (click)="onClick({name: node.value})"
             ngx-tooltip
+            [tooltipDisabled]="tooltipDisabled"
             [tooltipPlacement]="'top'"
             [tooltipType]="'tooltip'"
             [tooltipTitle]="node.value">
@@ -64,6 +66,11 @@ import { ColorHelper } from '../common/color.helper';
       </svg:g>
     </ngx-charts-chart>
   `,
+  styleUrls: [
+    '../common/base-chart.component.scss',
+    './force-directed-graph.component.scss'
+  ],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForceDirectedGraphComponent extends BaseChartComponent {
@@ -79,6 +86,7 @@ export class ForceDirectedGraphComponent extends BaseChartComponent {
   @Input() nodes: any[] = [];
   @Input() links: Array<{ source: any, target: any }> = [];
   @Input() activeEntries: any[] = [];
+  @Input() tooltipDisabled: boolean = false;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
@@ -126,7 +134,7 @@ export class ForceDirectedGraphComponent extends BaseChartComponent {
     });
   }
 
-  onClick(data, node): void {
+  onClick(data): void {
     this.select.emit(data);
   }
 

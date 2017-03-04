@@ -3,9 +3,11 @@ import {
   Input,
   Output,
   EventEmitter,
+  ViewEncapsulation,
   HostListener,
   ChangeDetectionStrategy
 } from '@angular/core';
+import { PathLocationStrategy } from '@angular/common';
 import { calculateViewDimensions, ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 import { BaseChartComponent } from '../common/base-chart.component';
@@ -72,6 +74,7 @@ import d3 from '../d3';
             [results]="results"
             [height]="dims.height"
             [colors]="colors"
+            [tooltipDisabled]="tooltipDisabled"
             (hover)="updateHoveredVertical($event)"
           />
           <svg:g *ngFor="let series of results">
@@ -83,6 +86,7 @@ import d3 from '../d3';
               [data]="series"
               [scaleType]="scaleType"
               [visibleValue]="hoveredVertical"
+              [tooltipDisabled]="tooltipDisabled"
               (select)="onClick($event, series)"
               (activate)="onActivate($event)"
               (deactivate)="onDeactivate($event)"
@@ -115,7 +119,9 @@ import d3 from '../d3';
       </svg:g>
     </ngx-charts-chart>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['../common/base-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AreaChartComponent extends BaseChartComponent {
 
@@ -136,6 +142,8 @@ export class AreaChartComponent extends BaseChartComponent {
   @Input() schemeType: string;
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
+  @Input() roundDomains: boolean = false;
+  @Input() tooltipDisabled: boolean = false;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
@@ -207,7 +215,11 @@ export class AreaChartComponent extends BaseChartComponent {
       this.legendOptions = this.getLegendOptions();
 
       this.transform = `translate(${ this.dims.xOffset }, ${ this.margin[0] })`;
-      const pageUrl = this.location.path();
+
+      const pageUrl = this.location instanceof PathLocationStrategy
+        ? this.location.path()
+        : '';
+
       this.clipPathId = 'clip' + id().toString();
       this.clipPath = `url(${pageUrl}#${this.clipPathId})`;
     });
@@ -288,27 +300,25 @@ export class AreaChartComponent extends BaseChartComponent {
     let scale;
 
     if (this.scaleType === 'time') {
-      scale = d3.scaleTime()
-        .range([0, width])
-        .domain(domain);
+      scale = d3.scaleTime();
     } else if (this.scaleType === 'linear') {
-      scale = d3.scaleLinear()
-        .range([0, width])
-        .domain(domain);
+      scale = d3.scaleLinear();
     } else if (this.scaleType === 'ordinal') {
       scale = d3.scalePoint()
-        .range([0, width])
-        .padding(0.1)
-        .domain(domain);
+        .padding(0.1);
     }
 
-    return scale;
+    scale.range([0, width])
+        .domain(domain);
+
+    return this.roundDomains ? scale.nice() : scale;
   }
 
   getYScale(domain, height) {
-    return d3.scaleLinear()
+    const scale = d3.scaleLinear()
       .range([height, 0])
       .domain(domain);
+    return this.roundDomains ? scale.nice() : scale;
   }
 
   getScaleType(values): string {
@@ -359,10 +369,11 @@ export class AreaChartComponent extends BaseChartComponent {
     this.deactivateAll();
   }
 
-  onClick(data, series): void {
+  onClick(data, series?): void {
     if (series) {
       data.series = series.name;
     }
+
     this.select.emit(data);
   }
 

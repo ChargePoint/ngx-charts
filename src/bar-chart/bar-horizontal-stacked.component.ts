@@ -5,6 +5,7 @@ import {
   EventEmitter,
   trigger,
   style,
+  ViewEncapsulation,
   transition,
   animate,
   ChangeDetectionStrategy
@@ -58,6 +59,7 @@ import d3 from '../d3';
             [activeEntries]="activeEntries"
             [dims]="dims"
             [gradient]="gradient"
+            [tooltipDisabled]="tooltipDisabled"
             [seriesName]="group.name"
             (select)="onClick($event, group)"
             (activate)="onActivate($event, group)"
@@ -68,6 +70,8 @@ import d3 from '../d3';
     </ngx-charts-chart>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['../common/base-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('animationState', [
       transition('* => void', [
@@ -89,12 +93,15 @@ export class BarHorizontalStackedComponent extends BaseChartComponent {
   @Input() showYAxisLabel;
   @Input() xAxisLabel;
   @Input() yAxisLabel;
+  @Input() tooltipDisabled: boolean = false;
   @Input() gradient: boolean;
   @Input() showGridLines: boolean = true;
   @Input() activeEntries: any[] = [];
   @Input() schemeType: string;
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
+  @Input() barPadding = 8;
+  @Input() roundDomains: boolean = false;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
@@ -191,7 +198,7 @@ export class BarHorizontalStackedComponent extends BaseChartComponent {
   }
 
   getYScale() {
-    const spacing = 0.1;
+    const spacing = this.groupDomain.length / (this.dims.height / this.barPadding + 1);
 
     return d3.scaleBand()
       .rangeRound([this.dims.height, 0])
@@ -200,17 +207,17 @@ export class BarHorizontalStackedComponent extends BaseChartComponent {
   }
 
   getXScale() {
-    return d3.scaleLinear()
+    const scale = d3.scaleLinear()
       .range([0, this.dims.width])
       .domain(this.valueDomain);
-
+    return this.roundDomains ? scale.nice() : scale;
   }
 
   groupTransform(group): string {
     return `translate(0, ${this.yScale(group.name)})`;
   }
 
-  onClick(data, group): void {
+  onClick(data, group?): void {
     if (group) {
       data.series = group.name;
     }

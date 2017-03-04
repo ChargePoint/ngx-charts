@@ -3,6 +3,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  ViewEncapsulation,
   ChangeDetectionStrategy
 } from '@angular/core';
 import d3 from '../d3';
@@ -21,16 +22,20 @@ import { ColorHelper } from '../common/color.helper';
           [colors]="colors"
           [data]="data"
           [dims]="dims"
+          [tooltipDisabled]="tooltipDisabled"
           (select)="onClick($event)"
         />
       </svg:g>
     </ngx-charts-chart>
   `,
+  styleUrls: ['./tree-map.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TreeMapComponent extends BaseChartComponent {
 
   @Input() results;
+  @Input() tooltipDisabled: boolean = false;
 
   @Output() select = new EventEmitter();
 
@@ -74,7 +79,7 @@ export class TreeMapComponent extends BaseChartComponent {
           }
           return label;
         })
-        .parentId(d => { return d.isRoot ? null : 'root'; })
+        .parentId(d => d.isRoot ? null : 'root')
         ([rootNode, ...this.results])
         .sum(d => d.value);
 

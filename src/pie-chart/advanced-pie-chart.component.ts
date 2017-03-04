@@ -3,7 +3,8 @@ import {
   Input,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ViewEncapsulation
 } from '@angular/core';
 
 import { calculateViewDimensions, ViewDimensions } from '../common/view-dimensions.helper';
@@ -33,14 +34,16 @@ import { BaseChartComponent } from '../common/base-chart.component';
               [activeEntries]="activeEntries"
               [outerRadius]="outerRadius"
               [gradient]="gradient"
+              [tooltipDisabled]="tooltipDisabled"
               (select)="onClick($event)">
             </svg:g>
           </svg:g>
         </ngx-charts-chart>
       </div>
-      <div 
+      <div
         class="advanced-pie-legend-wrapper"
-        [style.width.px]="width - dims.width">
+        [style.width.px]="width - dims.width"
+        [style.height.px]="height">
         <ngx-charts-advanced-legend
           [data]="results"
           [colors]="colors"
@@ -52,12 +55,18 @@ import { BaseChartComponent } from '../common/base-chart.component';
       </div>
     </div>
   `,
+  styleUrls: [
+    '../common/base-chart.component.scss',
+    './advanced-pie-chart.component.scss'
+  ],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdvancedPieChartComponent extends BaseChartComponent {
 
   @Input() gradient: boolean;
   @Input() activeEntries: any[] = [];
+  @Input() tooltipDisabled: boolean = false;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
