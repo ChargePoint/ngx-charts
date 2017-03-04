@@ -22,6 +22,14 @@ import d3 from '../d3';
       (legendLabelClick)="onClick($event)"
       (legendLabelActivate)="onActivate($event)"
       (legendLabelDeactivate)="onDeactivate($event)">
+      <svg:text *ngIf="yAxisTickRoundingLabel" class="tick-round-label"
+          [style.textAnchor]="'start'"
+          [style.alignment-baseline]="'baseline'"
+          [attr.transform]="labelTransform"
+          alignment-baseline="central"
+          x="0" dy="0">
+          {{yAxisTickRoundingLabel}}
+      </svg:text>
       <svg:g [attr.transform]="transform" class="bar-chart chart">
         <svg:g ngx-charts-x-axis
           *ngIf="xAxis"
@@ -71,6 +79,7 @@ export class BarVerticalComponent extends BaseChartComponent {
   @Input() showYAxisLabel;
   @Input() xAxisLabel;
   @Input() yAxisLabel;
+  @Input() yAxisTickRoundingLabel;
   @Input() tooltipDisabled: boolean = false;
   @Input() gradient: boolean;
   @Input() showGridLines: boolean = true;
@@ -90,6 +99,7 @@ export class BarVerticalComponent extends BaseChartComponent {
   xDomain: any;
   yDomain: any;
   transform: string;
+  labelTransform: string;
   colors: ColorHelper;
   margin: any[] = [10, 20, 10, 20];
   xAxisHeight: number = 0;
@@ -120,6 +130,10 @@ export class BarVerticalComponent extends BaseChartComponent {
       this.setColors();
       this.legendOptions = this.getLegendOptions();
 
+      if (this.yAxisTickRoundingLabel) {
+        this.labelTransform = `translate(${ this.margin[3] + 20 } , ${ this.margin[0] })`;
+        this.margin[0] = 50;
+      }
       this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] })`;
     });
   }
