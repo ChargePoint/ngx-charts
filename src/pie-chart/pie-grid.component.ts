@@ -77,7 +77,7 @@ import { formatLabel } from '../common/label.helper';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PieGridComponent extends BaseChartComponent {
-  @Input() tooltipDisabled: boolean = false;  
+  @Input() tooltipDisabled: boolean = false;
 
   dims: ViewDimensions;
   data: any[];
