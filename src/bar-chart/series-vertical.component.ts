@@ -106,7 +106,7 @@ export class SeriesVerticalComponent implements OnChanges {
         y: 0
       };
 
-      if (this.type === 'standard') {
+      if (this.type.indexOf('standard') === 0) {
         bar.height = Math.abs(this.yScale(value) - this.yScale(0));
         bar.x = this.xScale(label);
 
@@ -149,7 +149,7 @@ export class SeriesVerticalComponent implements OnChanges {
       if (this.colors.scaleType === 'ordinal') {
         bar.color = this.colors.getColor(label);
       } else {
-        if (this.type === 'standard') {
+        if (this.type.indexOf('standard') === 0) {
           bar.color = this.colors.getColor(value);
           bar.gradientStops = this.colors.getLinearGradientStops(value);
         } else {

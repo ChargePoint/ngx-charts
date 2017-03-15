@@ -8,7 +8,7 @@ export declare class PieLabelComponent implements OnChanges {
     value: any;
     explodeSlices: any;
     element: HTMLElement;
-    trimLabel: (label: string) => string;
+    trimLabel: (label: string, max?: number) => string;
     labelXY: any;
     transform: string;
     line: string;

@@ -15,6 +15,7 @@ export declare class BarVerticalComponent extends BaseChartComponent {
     showGridLines: boolean;
     activeEntries: any[];
     schemeType: string;
+    type: string;
     xAxisTickFormatting: any;
     yAxisTickFormatting: any;
     barPadding: number;
