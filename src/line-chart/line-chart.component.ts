@@ -3,14 +3,18 @@ import {
   Input,
   Output,
   EventEmitter,
+  ViewEncapsulation,
   HostListener,
   ChangeDetectionStrategy
 } from '@angular/core';
+import { PathLocationStrategy } from '@angular/common';
+import { scaleLinear, scaleTime, scalePoint } from 'd3-scale';
+import { curveLinear } from 'd3-shape';
+
 import { calculateViewDimensions, ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 import { BaseChartComponent } from '../common/base-chart.component';
 import { id } from '../utils/id';
-import d3 from '../d3';
 
 @Component({
   selector: 'ngx-charts-line-chart',
@@ -72,6 +76,7 @@ import d3 from '../d3';
             [results]="results"
             [height]="dims.height"
             [colors]="colors"
+            [tooltipDisabled]="tooltipDisabled"
             (hover)="updateHoveredVertical($event)"
           />
           <svg:g *ngFor="let series of results">
@@ -83,6 +88,7 @@ import d3 from '../d3';
               [scaleType]="scaleType"
               [visibleValue]="hoveredVertical"
               [activeEntries]="activeEntries"
+              [tooltipDisabled]="tooltipDisabled"
               (select)="onClick($event, series)"
               (activate)="onActivate($event)"
               (deactivate)="onDeactivate($event)"
@@ -114,6 +120,8 @@ import d3 from '../d3';
       </svg:g>
     </ngx-charts-chart>
   `,
+  styleUrls: ['../common/base-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineChartComponent extends BaseChartComponent {
@@ -129,12 +137,14 @@ export class LineChartComponent extends BaseChartComponent {
   @Input() timeline;
   @Input() gradient: boolean;
   @Input() showGridLines: boolean = true;
-  @Input() curve = d3.shape.curveLinear;
+  @Input() curve: any = curveLinear;
   @Input() activeEntries: any[] = [];
   @Input() schemeType: string;
   @Input() rangeFillOpacity: number;
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
+  @Input() roundDomains: boolean = false;
+  @Input() tooltipDisabled: boolean = false;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
@@ -207,7 +217,11 @@ export class LineChartComponent extends BaseChartComponent {
       this.legendOptions = this.getLegendOptions();
 
       this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] })`;
-      const pageUrl = this.location.path();
+
+      const pageUrl = this.location instanceof PathLocationStrategy
+        ? this.location.path()
+        : '';
+
       this.clipPathId = 'clip' + id().toString();
       this.clipPath = `url(${pageUrl}#${this.clipPathId})`;
     });
@@ -297,27 +311,29 @@ export class LineChartComponent extends BaseChartComponent {
     let scale;
 
     if (this.scaleType === 'time') {
-      scale = d3.scaleTime()
+      scale = scaleTime()
         .range([0, width])
         .domain(domain);
     } else if (this.scaleType === 'linear') {
-      scale = d3.scaleLinear()
+      scale = scaleLinear()
         .range([0, width])
         .domain(domain);
     } else if (this.scaleType === 'ordinal') {
-      scale = d3.scalePoint()
+      scale = scalePoint()
         .range([0, width])
         .padding(0.1)
         .domain(domain);
     }
 
-    return scale;
+    return this.roundDomains ? scale.nice() : scale;
   }
 
   getYScale(domain, height): any {
-    return d3.scaleLinear()
+    const scale = scaleLinear()
       .range([height, 0])
       .domain(domain);
+
+    return this.roundDomains ? scale.nice() : scale;
   }
 
   getScaleType(values): string {
@@ -364,10 +380,11 @@ export class LineChartComponent extends BaseChartComponent {
     this.deactivateAll();
   }
 
-  onClick(data, series): void {
+  onClick(data, series?): void {
     if (series) {
       data.series = series.name;
     }
+
     this.select.emit(data);
   }
 

@@ -1,9 +1,10 @@
-"use strict";
-var core_1 = require('@angular/core');
-var CardSeriesComponent = (function () {
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, NgZone } from '@angular/core';
+export var CardSeriesComponent = (function () {
     function CardSeriesComponent(zone) {
         this.zone = zone;
-        this.select = new core_1.EventEmitter();
+        this.innerPadding = 2.5;
+        this.emptyColor = 'rgba(0, 0, 0, 0)';
+        this.select = new EventEmitter();
     }
     CardSeriesComponent.prototype.ngOnChanges = function (changes) {
         this.update();
@@ -11,28 +12,43 @@ var CardSeriesComponent = (function () {
     CardSeriesComponent.prototype.update = function () {
         var _this = this;
         this.zone.run(function () {
-            _this.cards = _this.getCards();
+            if (_this.data.length > 2) {
+                var sortedLengths = _this.data.map(function (d) { return ('' + d.data.value).length; }).sort(function (a, b) { return b - a; });
+                var idx = Math.ceil(_this.data.length / 2);
+                _this.medianSize = sortedLengths[idx];
+            }
+            var cards = _this.getCards();
+            _this.cards = cards.filter(function (d) { return d.data.value !== null; });
+            _this.emptySlots = cards.filter(function (d) { return d.data.value === null; });
         });
     };
     CardSeriesComponent.prototype.getCards = function () {
         var _this = this;
+        var yPadding = typeof this.innerPadding === 'number' ?
+            this.innerPadding :
+            this.innerPadding[0] + this.innerPadding[2];
+        var xPadding = typeof this.innerPadding === 'number' ?
+            this.innerPadding :
+            this.innerPadding[1] + this.innerPadding[3];
         return this.data
             .map(function (d, index) {
             var label = d.data.name;
-            if (label.constructor.name === 'Date') {
+            if (label && label.constructor.name === 'Date') {
                 label = label.toLocaleDateString();
             }
             else {
-                label = label.toLocaleString();
+                label = label ? label.toLocaleString() : label;
             }
             d.data.name = label;
             var value = d.data.value;
+            var labelColor = label ? _this.colors.getColor(label) : _this.emptyColor;
             return {
                 x: d.x,
                 y: d.y,
-                width: d.width,
-                height: d.height,
-                color: _this.colors.getColor(label),
+                width: d.width - xPadding,
+                height: d.height - yPadding,
+                color: _this.cardColor || labelColor,
+                bandColor: _this.bandColor || labelColor,
                 label: label,
                 data: d.data,
                 tooltipText: label + ": " + value
@@ -46,23 +62,27 @@ var CardSeriesComponent = (function () {
         this.select.emit(data);
     };
     CardSeriesComponent.decorators = [
-        { type: core_1.Component, args: [{
+        { type: Component, args: [{
                     selector: 'g[ngx-charts-card-series]',
-                    template: "\n    <svg:g ngx-charts-card *ngFor=\"let c of cards; trackBy:trackBy\"\n      [x]=\"c.x\"\n      [y]=\"c.y\"\n      [width]=\"c.width\"\n      [height]=\"c.height\"\n      [color]=\"c.color\"\n      [data]=\"c.data\"\n      (select)=\"onClick($event)\"\n    />\n  ",
-                    changeDetection: core_1.ChangeDetectionStrategy.OnPush
+                    template: "\n    <svg:rect\n      *ngFor=\"let c of emptySlots; trackBy:trackBy\"\n      class=\"card-empty\"\n      [attr.x]=\"c.x\"\n      [attr.y]=\"c.y\"\n      [style.fill]=\"emptyColor\"\n      [attr.width]=\"c.width\"\n      [attr.height]=\"c.height\"\n      rx=\"3\"\n      ry=\"3\"\n    />\n    <svg:g ngx-charts-card *ngFor=\"let c of cards; trackBy:trackBy\"\n      [x]=\"c.x\"\n      [y]=\"c.y\"\n      [width]=\"c.width\"\n      [height]=\"c.height\"\n      [color]=\"c.color\"\n      [bandColor]=\"c.bandColor\"\n      [data]=\"c.data\"\n      [medianSize]=\"medianSize\"\n      (select)=\"onClick($event)\"\n    />\n  ",
+                    changeDetection: ChangeDetectionStrategy.OnPush
                 },] },
     ];
     /** @nocollapse */
     CardSeriesComponent.ctorParameters = function () { return [
-        { type: core_1.NgZone, },
+        { type: NgZone, },
     ]; };
     CardSeriesComponent.propDecorators = {
-        'data': [{ type: core_1.Input },],
-        'dims': [{ type: core_1.Input },],
-        'colors': [{ type: core_1.Input },],
-        'select': [{ type: core_1.Output },],
+        'data': [{ type: Input },],
+        'slots': [{ type: Input },],
+        'dims': [{ type: Input },],
+        'colors': [{ type: Input },],
+        'innerPadding': [{ type: Input },],
+        'cardColor': [{ type: Input },],
+        'bandColor': [{ type: Input },],
+        'emptyColor': [{ type: Input },],
+        'select': [{ type: Output },],
     };
     return CardSeriesComponent;
 }());
-exports.CardSeriesComponent = CardSeriesComponent;
 //# sourceMappingURL=card-series.component.js.map

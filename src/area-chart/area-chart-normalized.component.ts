@@ -4,10 +4,13 @@ import {
   Output,
   EventEmitter,
   HostListener,
+  ViewEncapsulation,
   ChangeDetectionStrategy
 } from '@angular/core';
+import { scaleLinear, scalePoint, scaleTime } from 'd3-scale';
+import { curveLinear } from 'd3-shape';
 
-import d3 from '../d3';
+import { PathLocationStrategy } from '@angular/common';
 import { calculateViewDimensions, ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 import { BaseChartComponent } from '../common/base-chart.component';
@@ -75,6 +78,7 @@ import { id } from '../utils/id';
             [height]="dims.height"
             [colors]="colors"
             [showPercentage]="true"
+            [tooltipDisabled]="tooltipDisabled"
             (hover)="updateHoveredVertical($event)"
           />
           <svg:g *ngFor="let series of results">
@@ -87,6 +91,7 @@ import { id } from '../utils/id';
               [data]="series"
               [scaleType]="scaleType"
               [visibleValue]="hoveredVertical"
+              [tooltipDisabled]="tooltipDisabled"
               (select)="onClick($event, series)"
               (activate)="onActivate($event)"
               (deactivate)="onDeactivate($event)"
@@ -120,7 +125,9 @@ import { id } from '../utils/id';
       </svg:g>
     </ngx-charts-chart>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['../common/base-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AreaChartNormalizedComponent extends BaseChartComponent {
 
@@ -134,11 +141,13 @@ export class AreaChartNormalizedComponent extends BaseChartComponent {
   @Input() timeline;
   @Input() gradient;
   @Input() showGridLines: boolean = true;
-  @Input() curve = d3.shape.curveLinear;
+  @Input() curve: any = curveLinear;
   @Input() activeEntries: any[] = [];
   @Input() schemeType: string;
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
+  @Input() roundDomains: boolean = false;
+  @Input() tooltipDisabled: boolean = false;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
@@ -265,7 +274,11 @@ export class AreaChartNormalizedComponent extends BaseChartComponent {
       this.legendOptions = this.getLegendOptions();
 
       this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] })`;
-      const pageUrl = this.location.path();
+
+      const pageUrl = this.location instanceof PathLocationStrategy
+        ? this.location.path()
+        : '';
+
       this.clipPathId = 'clip' + id().toString();
       this.clipPath = `url(${pageUrl}#${this.clipPathId})`;
     });
@@ -326,31 +339,30 @@ export class AreaChartNormalizedComponent extends BaseChartComponent {
     return this.results.map(d => d.name);
   }
 
-  getXScale(domain, width) {
+  getXScale(domain, width): any {
     let scale;
 
     if (this.scaleType === 'time') {
-      scale = d3.scaleTime()
-        .range([0, width])
-        .domain(domain);
+      scale = scaleTime();
     } else if (this.scaleType === 'linear') {
-      scale = d3.scaleLinear()
-        .range([0, width])
-        .domain(domain);
+      scale = scaleLinear();
     } else if (this.scaleType === 'ordinal') {
-      scale = d3.scalePoint()
-        .range([0, width])
-        .padding(0.1)
-        .domain(domain);
+      scale = scalePoint()
+        .padding(0.1);
     }
 
-    return scale;
+    scale
+      .range([0, width])
+      .domain(domain);
+
+    return this.roundDomains ? scale.nice() : scale;
   }
 
-  getYScale(domain, height) {
-    return d3.scaleLinear()
+  getYScale(domain, height): any {
+    const scale = scaleLinear()
       .range([height, 0])
       .domain(domain);
+    return this.roundDomains ? scale.nice() : scale;
   }
 
   getScaleType(values): string {
@@ -402,7 +414,7 @@ export class AreaChartNormalizedComponent extends BaseChartComponent {
     this.deactivateAll();
   }
 
-  onClick(data, series): void {
+  onClick(data, series?): void {
     if (series) {
       data.series = series.name;
     }

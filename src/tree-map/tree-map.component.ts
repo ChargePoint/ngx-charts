@@ -3,9 +3,11 @@ import {
   Input,
   Output,
   EventEmitter,
+  ViewEncapsulation,
   ChangeDetectionStrategy
 } from '@angular/core';
-import d3 from '../d3';
+import { treemap, stratify } from 'd3-hierarchy';
+
 import { BaseChartComponent } from '../common/base-chart.component';
 import { calculateViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
@@ -21,16 +23,20 @@ import { ColorHelper } from '../common/color.helper';
           [colors]="colors"
           [data]="data"
           [dims]="dims"
+          [tooltipDisabled]="tooltipDisabled"
           (select)="onClick($event)"
         />
       </svg:g>
     </ngx-charts-chart>
   `,
+  styleUrls: ['./tree-map.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TreeMapComponent extends BaseChartComponent {
 
   @Input() results;
+  @Input() tooltipDisabled: boolean = false;
 
   @Output() select = new EventEmitter();
 
@@ -54,7 +60,7 @@ export class TreeMapComponent extends BaseChartComponent {
 
       this.domain = this.getDomain();
 
-      this.treemap = d3.treemap()
+      this.treemap = treemap<any>()
         .size([this.dims.width, this.dims.height]);
 
       const rootNode = {
@@ -63,7 +69,7 @@ export class TreeMapComponent extends BaseChartComponent {
         isRoot: true
       };
 
-      const root = d3.stratify()
+      const root = stratify<any>()
         .id(d => {
           let label = d.name;
 
@@ -74,7 +80,7 @@ export class TreeMapComponent extends BaseChartComponent {
           }
           return label;
         })
-        .parentId(d => { return d.isRoot ? null : 'root'; })
+        .parentId(d => d.isRoot ? null : 'root')
         ([rootNode, ...this.results])
         .sum(d => d.value);
 

@@ -9,9 +9,10 @@ import {
   OnChanges,
   ChangeDetectionStrategy
  } from '@angular/core';
-import { Location } from '@angular/common';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { select } from 'd3-selection';
+
 import { id } from '../utils/id';
-import d3 from '../d3';
 
 @Component({
   selector: 'g[ngx-charts-bar]',
@@ -63,7 +64,7 @@ export class BarComponent implements OnChanges {
   gradientStops: any[];
   hasGradient: boolean = false;
 
-  constructor(element: ElementRef, private location: Location) {
+  constructor(element: ElementRef, private location: LocationStrategy) {
     this.element = element.nativeElement;
   }
 
@@ -77,7 +78,10 @@ export class BarComponent implements OnChanges {
   }
 
   update(): void {
-    const pageUrl = this.location.path();
+    const pageUrl = this.location instanceof PathLocationStrategy
+      ? this.location.path()
+      : '';
+
     this.gradientId = 'grad' + id().toString();
     this.gradientFill = `url(${pageUrl}#${this.gradientId})`;
 
@@ -97,7 +101,7 @@ export class BarComponent implements OnChanges {
   }
 
   animateToCurrentForm(): void {
-    const node = d3.select(this.element).select('.bar');
+    const node = select(this.element).select('.bar');
     const path = this.getPath();
 
     node.transition().duration(750)

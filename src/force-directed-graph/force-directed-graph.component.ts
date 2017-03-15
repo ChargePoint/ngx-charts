@@ -7,14 +7,22 @@ import {
   TemplateRef,
   ViewChild,
   Output,
+  ViewEncapsulation,
   EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
+import {
+  forceCollide,
+  forceLink,
+  forceManyBody,
+  forceSimulation,
+  forceX,
+  forceY
+} from 'd3-force';
 
 import { ChartComponent } from '../common/charts/chart.component';
 import { BaseChartComponent } from '../common/base-chart.component';
 import { calculateViewDimensions, ViewDimensions } from '../common/view-dimensions.helper';
-import d3 from '../d3';
 import { ColorHelper } from '../common/color.helper';
 
 @Component({
@@ -51,6 +59,7 @@ import { ColorHelper } from '../common/color.helper';
             (mousedown)="onDragStart(node, $event)"
             (click)="onClick({name: node.value})"
             ngx-tooltip
+            [tooltipDisabled]="tooltipDisabled"
             [tooltipPlacement]="'top'"
             [tooltipType]="'tooltip'"
             [tooltipTitle]="node.value">
@@ -64,21 +73,27 @@ import { ColorHelper } from '../common/color.helper';
       </svg:g>
     </ngx-charts-chart>
   `,
+  styleUrls: [
+    '../common/base-chart.component.scss',
+    './force-directed-graph.component.scss'
+  ],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForceDirectedGraphComponent extends BaseChartComponent {
 
-  @Input() force = d3.forceSimulation()
-    .force('charge', d3.forceManyBody())
-    .force('collide', d3.forceCollide(5))
-    .force('x', d3.forceX())
-    .force('y', d3.forceY());
+  @Input() force: any = forceSimulation<any>()
+    .force('charge', forceManyBody())
+    .force('collide', forceCollide(5))
+    .force('x', forceX())
+    .force('y', forceY());
 
-  @Input() forceLink = d3.forceLink().id(node => node.value);
+  @Input() forceLink: any = forceLink<any, any>().id(node => node.value);
   @Input() legend: boolean;
   @Input() nodes: any[] = [];
   @Input() links: Array<{ source: any, target: any }> = [];
   @Input() activeEntries: any[] = [];
+  @Input() tooltipDisabled: boolean = false;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
@@ -126,7 +141,7 @@ export class ForceDirectedGraphComponent extends BaseChartComponent {
     });
   }
 
-  onClick(data, node): void {
+  onClick(data): void {
     this.select.emit(data);
   }
 
@@ -188,8 +203,8 @@ export class ForceDirectedGraphComponent extends BaseChartComponent {
     this.draggingNode.fy = $event.y - this.draggingStart.y;
   }
 
-  @HostListener('document:mouseup')
-  onDragEnd(node, $event: MouseEvent): void {
+  @HostListener('document:mouseup', ['$event'])
+  onDragEnd($event: MouseEvent): void {
     if (!this.draggingNode) return;
 
     this.force.alphaTarget(0);

@@ -1,9 +1,11 @@
 import {
   Component,
   Input,
+  ViewEncapsulation,
   ChangeDetectionStrategy
 } from '@angular/core';
-import d3 from '../d3';
+import { scaleBand } from 'd3-scale';
+
 import { BaseChartComponent } from '../common/base-chart.component';
 import { calculateViewDimensions, ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
@@ -15,8 +17,6 @@ import { ColorHelper } from '../common/color.helper';
       [view]="[width, height]"
       [showLegend]="legend"
       [legendOptions]="legendOptions"
-      (legendLabelActivate)="onActivate($event)"
-      (legendLabelDeactivate)="onDeactivate($event)"
       (legendLabelClick)="onClick($event)">
       <svg:g [attr.transform]="transform" class="heat-map chart">
         <svg:g ngx-charts-x-axis
@@ -51,12 +51,15 @@ import { ColorHelper } from '../common/color.helper';
           [colors]="colors"
           [data]="results"
           [gradient]="gradient"
+          [tooltipDisabled]="tooltipDisabled"
           (select)="onClick($event)"
         />
       </svg:g>
     </ngx-charts-chart>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['../common/base-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class HeatMapComponent extends BaseChartComponent {
 
@@ -68,9 +71,10 @@ export class HeatMapComponent extends BaseChartComponent {
   @Input() xAxisLabel;
   @Input() yAxisLabel;
   @Input() gradient: boolean;
-  @Input() innerPadding: Number | Number[] = 8;
+  @Input() innerPadding: number | number[] = 8;
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
+  @Input() tooltipDisabled: boolean = false;
 
   dims: ViewDimensions;
   xDomain: any[];
@@ -168,7 +172,7 @@ export class HeatMapComponent extends BaseChartComponent {
   getXScale(): any {
     const innerPadding = typeof this.innerPadding === 'number' ? this.innerPadding : this.innerPadding[0];
     const f = this.xDomain.length / (this.dims.width / innerPadding + 1);
-    return d3.scaleBand()
+    return scaleBand()
       .rangeRound([0, this.dims.width])
       .domain(this.xDomain)
       .paddingInner(f);
@@ -177,7 +181,7 @@ export class HeatMapComponent extends BaseChartComponent {
   getYScale(): any {
     const innerPadding = typeof this.innerPadding === 'number' ? this.innerPadding : this.innerPadding[1];
     const f = this.yDomain.length / (this.dims.height / innerPadding + 1);
-    return d3.scaleBand()
+    return scaleBand()
       .rangeRound([this.dims.height, 0])
       .domain(this.yDomain)
       .paddingInner(f);

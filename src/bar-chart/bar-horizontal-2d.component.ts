@@ -1,6 +1,7 @@
 import {
   Component,
   Input,
+  ViewEncapsulation,
   Output,
   EventEmitter,
   trigger,
@@ -9,10 +10,11 @@ import {
   animate,
   ChangeDetectionStrategy
 } from '@angular/core';
+import { scaleBand, scaleLinear } from 'd3-scale';
+
 import { calculateViewDimensions, ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 import { BaseChartComponent } from '../common/base-chart.component';
-import d3 from '../d3';
 
 @Component({
   selector: 'ngx-charts-bar-horizontal-2d',
@@ -64,6 +66,7 @@ import d3 from '../d3';
             [series]="group.series"
             [dims]="dims"
             [gradient]="gradient"
+            [tooltipDisabled]="tooltipDisabled"
             [seriesName]="group.name"
             (select)="onClick($event, group)"
             (activate)="onActivate($event, group)"
@@ -74,6 +77,8 @@ import d3 from '../d3';
     </ngx-charts-chart>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['../common/base-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('animationState', [
       transition('* => void', [
@@ -95,12 +100,16 @@ export class BarHorizontal2DComponent extends BaseChartComponent {
   @Input() showYAxisLabel;
   @Input() xAxisLabel;
   @Input() yAxisLabel;
+  @Input() tooltipDisabled: boolean = false;
   @Input() gradient: boolean;
   @Input() showGridLines: boolean = true;
   @Input() activeEntries: any[] = [];
   @Input() schemeType: string;
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
+  @Input() groupPadding = 16;
+  @Input() barPadding = 8;
+  @Input() roundDomains: boolean = false;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
@@ -154,29 +163,32 @@ export class BarHorizontal2DComponent extends BaseChartComponent {
     });
   }
 
-  getGroupScale() {
-    const spacing = 0.2;
+  getGroupScale(): any {
+    const spacing = this.groupDomain.length / (this.dims.height / this.groupPadding + 1);
 
-    return d3.scaleBand()
+    return scaleBand()
       .rangeRound([this.dims.height, 0])
       .paddingInner(spacing)
       .paddingOuter(spacing / 2)
       .domain(this.groupDomain);
   }
 
-  getInnerScale() {
-    const spacing = 0.2;
+  getInnerScale(): any {
+    const height = this.groupScale.bandwidth();
+    const spacing = this.innerDomain.length / (height / this.barPadding + 1);
 
-    return d3.scaleBand()
-      .rangeRound([0, this.groupScale.bandwidth()])
+    return scaleBand()
+      .rangeRound([0, height])
       .paddingInner(spacing)
       .domain(this.innerDomain);
   }
 
-  getValueScale() {
-    return d3.scaleLinear()
+  getValueScale(): any {
+    const scale = scaleLinear()
       .range([0, this.dims.width])
       .domain(this.valuesDomain);
+
+    return this.roundDomains ? scale.nice() : scale;
   }
 
   getGroupDomain(): any[] {
@@ -226,7 +238,7 @@ export class BarHorizontal2DComponent extends BaseChartComponent {
     return `translate(0, ${this.groupScale(group.name)})`;
   }
 
-  onClick(data, group): void {
+  onClick(data, group?): void {
     if (group) {
       data.series = group.name;
     }
@@ -276,7 +288,7 @@ export class BarHorizontal2DComponent extends BaseChartComponent {
     this.update();
   }
 
-  onActivate(event, group) {
+  onActivate(event, group?) {
     const item = Object.assign({}, event);
     if (group) {
       item.series = group.name;
@@ -293,7 +305,7 @@ export class BarHorizontal2DComponent extends BaseChartComponent {
     this.activate.emit({ value: item, entries: this.activeEntries });
   }
 
-  onDeactivate(event, group) {
+  onDeactivate(event, group?) {
     const item = Object.assign({}, event);
     if (group) {
       item.series = group.name;

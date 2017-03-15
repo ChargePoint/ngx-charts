@@ -7,7 +7,9 @@ import {
   OnChanges,
   ChangeDetectionStrategy
 } from '@angular/core';
-import d3 from '../d3';
+import { max } from 'd3-array';
+import { arc, pie } from 'd3-shape';
+
 import { formatLabel } from '../common/label.helper';
 
 @Component({
@@ -24,7 +26,7 @@ import { formatLabel } from '../common/label.helper';
         [value]="arc.value"
         [explodeSlices]="explodeSlices">
       </svg:g>
-      <svg:g 
+      <svg:g
         ngx-charts-pie-arc
         [startAngle]="arc.startAngle"
         [endAngle]="arc.endAngle"
@@ -32,15 +34,16 @@ import { formatLabel } from '../common/label.helper';
         [outerRadius]="outerRadius"
         [fill]="color(arc)"
         [value]="arc.data.value"
-        [gradient]="gradient" 
+        [gradient]="gradient"
         [data]="arc.data"
         [max]="max"
         [explodeSlices]="explodeSlices"
         [isActive]="isActive(arc.data)"
         (select)="onClick($event)"
         (activate)="activate.emit($event)"
-        (deactivate)="deactivate.emit($event)"        
+        (deactivate)="deactivate.emit($event)"
         ngx-tooltip
+        [tooltipDisabled]="tooltipDisabled"
         [tooltipPlacement]="'top'"
         [tooltipType]="'tooltip'"
         [tooltipTitle]="tooltipText(arc)">
@@ -60,6 +63,7 @@ export class PieSeriesComponent implements OnChanges {
   @Input() showLabels;
   @Input() gradient: boolean;
   @Input() activeEntries: any[];
+  @Input() tooltipDisabled: boolean = false;
 
   @Output() select = new EventEmitter();
   @Output() activate = new EventEmitter();
@@ -73,13 +77,13 @@ export class PieSeriesComponent implements OnChanges {
   }
 
   update(): void {
-    const pie: any = d3.pie()
+    const pieGenerator = pie<any, any>()
       .value((d) => d.value)
       .sort(null);
 
-    const arcData = pie(this.series);
+    const arcData = pieGenerator(this.series);
 
-    this.max = d3.max(arcData, (d) => {
+    this.max = max(arcData, (d) => {
       return d.value;
     });
 
@@ -93,18 +97,19 @@ export class PieSeriesComponent implements OnChanges {
   outerArc(): any {
     const factor = 1.5;
 
-    return d3.arc()
+    return arc()
       .innerRadius(this.outerRadius * factor)
       .outerRadius(this.outerRadius * factor);
   }
 
   calculateLabelPositions(pieData): any {
+    const factor = 1.5;
     const minDistance = 10;
     const labelPositions = pieData;
 
     labelPositions.forEach((d) => {
       d.pos = this.outerArc().centroid(d);
-      d.pos[0] = this.outerRadius * (this.midAngle(d) < Math.PI ? 1 : -1);
+      d.pos[0] = factor * this.outerRadius * (this.midAngle(d) < Math.PI ? 1 : -1);
     });
 
     for (let i = 0; i < labelPositions.length - 1; i++) {
@@ -115,10 +120,10 @@ export class PieSeriesComponent implements OnChanges {
         // if they're on the same side
         if (b.pos[0] * a.pos[0] > 0) {
           // if they're overlapping
-          if (Math.abs(b.pos[1] - a.pos[1]) <= minDistance) {
-            // push the second one down
-            labelPositions[j].pos[1] = b.pos[1] + minDistance;
-            j--;
+          const o = minDistance - Math.abs(b.pos[1] - a.pos[1]);
+          if (o > 0) {
+            // push the second up or down
+            b.pos[1] += Math.sign(b.pos[0]) * o;
           }
         }
       }

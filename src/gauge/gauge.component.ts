@@ -6,10 +6,11 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Output,
-  EventEmitter
+  EventEmitter,
+  ViewEncapsulation
 } from '@angular/core';
+import { scaleLinear } from 'd3-scale';
 
-import d3 from '../d3';
 import { BaseChartComponent } from '../common/base-chart.component';
 import { calculateViewDimensions, ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
@@ -33,6 +34,7 @@ import { ColorHelper } from '../common/color.helper';
             [cornerRadius]="cornerRadius"
             [colors]="colors"
             [isActive]="isActive(arc.valueArc.data)"
+            [tooltipDisabled]="tooltipDisabled"
             (select)="onClick($event)"
             (activate)="onActivate($event)"
             (deactivate)="onDeactivate($event)">
@@ -63,6 +65,11 @@ import { ColorHelper } from '../common/color.helper';
       </svg:g>
     </ngx-charts-chart>
   `,
+  styleUrls: [
+    '../common/base-chart.component.scss',
+    './gauge.component.scss'
+  ],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GaugeComponent extends BaseChartComponent implements AfterViewInit {
@@ -70,6 +77,7 @@ export class GaugeComponent extends BaseChartComponent implements AfterViewInit 
   @Input() legend = false;
   @Input() min: number = 0;
   @Input() max: number = 100;
+  @Input() textValue: string;
   @Input() units: string;
   @Input() bigSegments: number = 10;
   @Input() smallSegments: number = 5;
@@ -79,6 +87,7 @@ export class GaugeComponent extends BaseChartComponent implements AfterViewInit 
   @Input() angleSpan: number = 240;
   @Input() activeEntries: any[] = [];
   @Input() axisTickFormatting: any;
+  @Input() tooltipDisabled: boolean = false;
 
   // Specify margins
   @Input() margin: any[];
@@ -232,14 +241,18 @@ export class GaugeComponent extends BaseChartComponent implements AfterViewInit 
   }
 
   getValueScale(): any {
-    return d3.scaleLinear()
+    return scaleLinear()
       .range([0, this.angleSpan])
       .nice()
       .domain(this.valueDomain);
   }
 
   getDisplayValue(): string {
-    const value = this.results.map(d => d.value).reduce((a, b) => { return a + b; }, 0);
+    const value = this.results.map(d => d.value).reduce((a, b) => a + b, 0);
+
+    if(this.textValue && 0 !== this.textValue.length) {
+      return this.textValue.toLocaleString();
+    }
     return value.toLocaleString();
   }
 
