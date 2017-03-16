@@ -102,6 +102,7 @@ export class BarHorizontalNormalizedComponent extends BaseChartComponent {
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
   @Input() barPadding = 8;
+  @Input() paddingProportion = 0;
   @Input() roundDomains: boolean = false;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
@@ -185,7 +186,10 @@ export class BarHorizontalNormalizedComponent extends BaseChartComponent {
   }
 
   getYScale(): any {
-    const spacing = this.groupDomain.length / (this.dims.height / this.barPadding + 1);
+    let spacing = this.groupDomain.length / (this.dims.height / this.barPadding + 1);
+    if (this.paddingProportion) {
+      spacing = this.paddingProportion;
+    }
 
     return scaleBand()
       .rangeRound([this.dims.height, 0])
