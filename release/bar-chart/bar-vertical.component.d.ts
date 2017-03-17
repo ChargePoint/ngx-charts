@@ -10,6 +10,7 @@ export declare class BarVerticalComponent extends BaseChartComponent {
     showYAxisLabel: any;
     xAxisLabel: any;
     yAxisLabel: any;
+    yAxisTickRoundingLabel: any;
     tooltipDisabled: boolean;
     gradient: boolean;
     showGridLines: boolean;
@@ -18,7 +19,9 @@ export declare class BarVerticalComponent extends BaseChartComponent {
     type: string;
     xAxisTickFormatting: any;
     yAxisTickFormatting: any;
+    maxTicks: number;
     barPadding: number;
+    paddingProportion: number;
     roundDomains: boolean;
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;
@@ -28,6 +31,7 @@ export declare class BarVerticalComponent extends BaseChartComponent {
     xDomain: any;
     yDomain: any;
     transform: string;
+    labelTransform: string;
     colors: ColorHelper;
     margin: any[];
     xAxisHeight: number;

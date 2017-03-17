@@ -218,6 +218,21 @@ exports.push([module.i, ".linear-gauge {\n  cursor: pointer; }\n  .linear-gauge 
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/index.js?sourceMap!./node_modules/sass-loader/index.js?sourceMap!./src/gauge/power-gauge.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")();
+// imports
+
+
+// module
+exports.push([module.i, ".gauge .background-arc path {\n  fill: #ddd; }\n\n.gauge .pointer path {\n  stroke-width: 1px;\n  stroke: #444;\n  fill: #777; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/index.js?sourceMap!./node_modules/sass-loader/index.js?sourceMap!./src/number-card/card.component.scss":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -346,6 +361,389 @@ module.exports = function() {
 	};
 	return list;
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/d3-ease/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_linear__ = __webpack_require__("./node_modules/d3-ease/src/linear.js");
+/* unused harmony reexport easeLinear */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_quad__ = __webpack_require__("./node_modules/d3-ease/src/quad.js");
+/* unused harmony reexport easeQuad */
+/* unused harmony reexport easeQuadIn */
+/* unused harmony reexport easeQuadOut */
+/* unused harmony reexport easeQuadInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_cubic__ = __webpack_require__("./node_modules/d3-ease/src/cubic.js");
+/* unused harmony reexport easeCubic */
+/* unused harmony reexport easeCubicIn */
+/* unused harmony reexport easeCubicOut */
+/* unused harmony reexport easeCubicInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_poly__ = __webpack_require__("./node_modules/d3-ease/src/poly.js");
+/* unused harmony reexport easePoly */
+/* unused harmony reexport easePolyIn */
+/* unused harmony reexport easePolyOut */
+/* unused harmony reexport easePolyInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_sin__ = __webpack_require__("./node_modules/d3-ease/src/sin.js");
+/* unused harmony reexport easeSin */
+/* unused harmony reexport easeSinIn */
+/* unused harmony reexport easeSinOut */
+/* unused harmony reexport easeSinInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_exp__ = __webpack_require__("./node_modules/d3-ease/src/exp.js");
+/* unused harmony reexport easeExp */
+/* unused harmony reexport easeExpIn */
+/* unused harmony reexport easeExpOut */
+/* unused harmony reexport easeExpInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__src_circle__ = __webpack_require__("./node_modules/d3-ease/src/circle.js");
+/* unused harmony reexport easeCircle */
+/* unused harmony reexport easeCircleIn */
+/* unused harmony reexport easeCircleOut */
+/* unused harmony reexport easeCircleInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__src_bounce__ = __webpack_require__("./node_modules/d3-ease/src/bounce.js");
+/* unused harmony reexport easeBounce */
+/* unused harmony reexport easeBounceIn */
+/* unused harmony reexport easeBounceOut */
+/* unused harmony reexport easeBounceInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__src_back__ = __webpack_require__("./node_modules/d3-ease/src/back.js");
+/* unused harmony reexport easeBack */
+/* unused harmony reexport easeBackIn */
+/* unused harmony reexport easeBackOut */
+/* unused harmony reexport easeBackInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src_elastic__ = __webpack_require__("./node_modules/d3-ease/src/elastic.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_9__src_elastic__["a"]; });
+/* unused harmony reexport easeElasticIn */
+/* unused harmony reexport easeElasticOut */
+/* unused harmony reexport easeElasticInOut */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/d3-ease/src/back.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export backIn */
+/* unused harmony export backOut */
+/* unused harmony export backInOut */
+var overshoot = 1.70158;
+
+var backIn = (function custom(s) {
+  s = +s;
+
+  function backIn(t) {
+    return t * t * ((s + 1) * t - s);
+  }
+
+  backIn.overshoot = custom;
+
+  return backIn;
+})(overshoot);
+
+var backOut = (function custom(s) {
+  s = +s;
+
+  function backOut(t) {
+    return --t * t * ((s + 1) * t + s) + 1;
+  }
+
+  backOut.overshoot = custom;
+
+  return backOut;
+})(overshoot);
+
+var backInOut = (function custom(s) {
+  s = +s;
+
+  function backInOut(t) {
+    return ((t *= 2) < 1 ? t * t * ((s + 1) * t - s) : (t -= 2) * t * ((s + 1) * t + s) + 2) / 2;
+  }
+
+  backInOut.overshoot = custom;
+
+  return backInOut;
+})(overshoot);
+
+
+/***/ }),
+
+/***/ "./node_modules/d3-ease/src/bounce.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export bounceIn */
+/* unused harmony export bounceOut */
+/* unused harmony export bounceInOut */
+var b1 = 4 / 11,
+    b2 = 6 / 11,
+    b3 = 8 / 11,
+    b4 = 3 / 4,
+    b5 = 9 / 11,
+    b6 = 10 / 11,
+    b7 = 15 / 16,
+    b8 = 21 / 22,
+    b9 = 63 / 64,
+    b0 = 1 / b1 / b1;
+
+function bounceIn(t) {
+  return 1 - bounceOut(1 - t);
+}
+
+function bounceOut(t) {
+  return (t = +t) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + b4 : t < b6 ? b0 * (t -= b5) * t + b7 : b0 * (t -= b8) * t + b9;
+}
+
+function bounceInOut(t) {
+  return ((t *= 2) <= 1 ? 1 - bounceOut(1 - t) : bounceOut(t - 1) + 1) / 2;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/d3-ease/src/circle.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export circleIn */
+/* unused harmony export circleOut */
+/* unused harmony export circleInOut */
+function circleIn(t) {
+  return 1 - Math.sqrt(1 - t * t);
+}
+
+function circleOut(t) {
+  return Math.sqrt(1 - --t * t);
+}
+
+function circleInOut(t) {
+  return ((t *= 2) <= 1 ? 1 - Math.sqrt(1 - t * t) : Math.sqrt(1 - (t -= 2) * t) + 1) / 2;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/d3-ease/src/cubic.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export cubicIn */
+/* unused harmony export cubicOut */
+/* unused harmony export cubicInOut */
+function cubicIn(t) {
+  return t * t * t;
+}
+
+function cubicOut(t) {
+  return --t * t * t + 1;
+}
+
+function cubicInOut(t) {
+  return ((t *= 2) <= 1 ? t * t * t : (t -= 2) * t * t + 2) / 2;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/d3-ease/src/elastic.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export elasticIn */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return elasticOut; });
+/* unused harmony export elasticInOut */
+var tau = 2 * Math.PI,
+    amplitude = 1,
+    period = 0.3;
+
+var elasticIn = (function custom(a, p) {
+  var s = Math.asin(1 / (a = Math.max(1, a))) * (p /= tau);
+
+  function elasticIn(t) {
+    return a * Math.pow(2, 10 * --t) * Math.sin((s - t) / p);
+  }
+
+  elasticIn.amplitude = function(a) { return custom(a, p * tau); };
+  elasticIn.period = function(p) { return custom(a, p); };
+
+  return elasticIn;
+})(amplitude, period);
+
+var elasticOut = (function custom(a, p) {
+  var s = Math.asin(1 / (a = Math.max(1, a))) * (p /= tau);
+
+  function elasticOut(t) {
+    return 1 - a * Math.pow(2, -10 * (t = +t)) * Math.sin((t + s) / p);
+  }
+
+  elasticOut.amplitude = function(a) { return custom(a, p * tau); };
+  elasticOut.period = function(p) { return custom(a, p); };
+
+  return elasticOut;
+})(amplitude, period);
+
+var elasticInOut = (function custom(a, p) {
+  var s = Math.asin(1 / (a = Math.max(1, a))) * (p /= tau);
+
+  function elasticInOut(t) {
+    return ((t = t * 2 - 1) < 0
+        ? a * Math.pow(2, 10 * t) * Math.sin((s - t) / p)
+        : 2 - a * Math.pow(2, -10 * t) * Math.sin((s + t) / p)) / 2;
+  }
+
+  elasticInOut.amplitude = function(a) { return custom(a, p * tau); };
+  elasticInOut.period = function(p) { return custom(a, p); };
+
+  return elasticInOut;
+})(amplitude, period);
+
+
+/***/ }),
+
+/***/ "./node_modules/d3-ease/src/exp.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export expIn */
+/* unused harmony export expOut */
+/* unused harmony export expInOut */
+function expIn(t) {
+  return Math.pow(2, 10 * t - 10);
+}
+
+function expOut(t) {
+  return 1 - Math.pow(2, -10 * t);
+}
+
+function expInOut(t) {
+  return ((t *= 2) <= 1 ? Math.pow(2, 10 * t - 10) : 2 - Math.pow(2, 10 - 10 * t)) / 2;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/d3-ease/src/linear.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export linear */
+function linear(t) {
+  return +t;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/d3-ease/src/poly.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export polyIn */
+/* unused harmony export polyOut */
+/* unused harmony export polyInOut */
+var exponent = 3;
+
+var polyIn = (function custom(e) {
+  e = +e;
+
+  function polyIn(t) {
+    return Math.pow(t, e);
+  }
+
+  polyIn.exponent = custom;
+
+  return polyIn;
+})(exponent);
+
+var polyOut = (function custom(e) {
+  e = +e;
+
+  function polyOut(t) {
+    return 1 - Math.pow(1 - t, e);
+  }
+
+  polyOut.exponent = custom;
+
+  return polyOut;
+})(exponent);
+
+var polyInOut = (function custom(e) {
+  e = +e;
+
+  function polyInOut(t) {
+    return ((t *= 2) <= 1 ? Math.pow(t, e) : 2 - Math.pow(2 - t, e)) / 2;
+  }
+
+  polyInOut.exponent = custom;
+
+  return polyInOut;
+})(exponent);
+
+
+/***/ }),
+
+/***/ "./node_modules/d3-ease/src/quad.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export quadIn */
+/* unused harmony export quadOut */
+/* unused harmony export quadInOut */
+function quadIn(t) {
+  return t * t;
+}
+
+function quadOut(t) {
+  return t * (2 - t);
+}
+
+function quadInOut(t) {
+  return ((t *= 2) <= 1 ? t * t : --t * (2 - t) + 1) / 2;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/d3-ease/src/sin.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export sinIn */
+/* unused harmony export sinOut */
+/* unused harmony export sinInOut */
+var pi = Math.PI,
+    halfPi = pi / 2;
+
+function sinIn(t) {
+  return 1 - Math.cos(t * halfPi);
+}
+
+function sinOut(t) {
+  return Math.sin(t * halfPi);
+}
+
+function sinInOut(t) {
+  return (1 - Math.cos(pi * t)) / 2;
+}
 
 
 /***/ }),
@@ -2005,7 +2403,9 @@ var BarHorizontal2DComponent = (function (_super) {
         this.showGridLines = true;
         this.activeEntries = [];
         this.groupPadding = 16;
+        this.groupProportion = 0;
         this.barPadding = 8;
+        this.paddingProportion = 0;
         this.roundDomains = false;
         this.activate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.deactivate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
@@ -2044,6 +2444,9 @@ var BarHorizontal2DComponent = (function (_super) {
     };
     BarHorizontal2DComponent.prototype.getGroupScale = function () {
         var spacing = this.groupDomain.length / (this.dims.height / this.groupPadding + 1);
+        if (this.groupProportion) {
+            spacing = this.groupProportion;
+        }
         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3_scale__["scaleBand"])()
             .rangeRound([this.dims.height, 0])
             .paddingInner(spacing)
@@ -2053,6 +2456,9 @@ var BarHorizontal2DComponent = (function (_super) {
     BarHorizontal2DComponent.prototype.getInnerScale = function () {
         var height = this.groupScale.bandwidth();
         var spacing = this.innerDomain.length / (height / this.barPadding + 1);
+        if (this.paddingProportion) {
+            spacing = this.paddingProportion;
+        }
         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3_scale__["scaleBand"])()
             .rangeRound([0, height])
             .paddingInner(spacing)
@@ -2239,7 +2645,15 @@ var BarHorizontal2DComponent = (function (_super) {
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
+    ], BarHorizontal2DComponent.prototype, "groupProportion", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
     ], BarHorizontal2DComponent.prototype, "barPadding", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], BarHorizontal2DComponent.prototype, "paddingProportion", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Boolean)
@@ -2319,6 +2733,7 @@ var BarHorizontalNormalizedComponent = (function (_super) {
         this.showGridLines = true;
         this.activeEntries = [];
         this.barPadding = 8;
+        this.paddingProportion = 0;
         this.roundDomains = false;
         this.activate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.deactivate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
@@ -2382,6 +2797,9 @@ var BarHorizontalNormalizedComponent = (function (_super) {
     };
     BarHorizontalNormalizedComponent.prototype.getYScale = function () {
         var spacing = this.groupDomain.length / (this.dims.height / this.barPadding + 1);
+        if (this.paddingProportion) {
+            spacing = this.paddingProportion;
+        }
         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3_scale__["scaleBand"])()
             .rangeRound([this.dims.height, 0])
             .paddingInner(spacing)
@@ -2529,6 +2947,10 @@ var BarHorizontalNormalizedComponent = (function (_super) {
     ], BarHorizontalNormalizedComponent.prototype, "barPadding", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], BarHorizontalNormalizedComponent.prototype, "paddingProportion", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Boolean)
     ], BarHorizontalNormalizedComponent.prototype, "roundDomains", void 0);
     __decorate([
@@ -2606,6 +3028,7 @@ var BarHorizontalStackedComponent = (function (_super) {
         this.showGridLines = true;
         this.activeEntries = [];
         this.barPadding = 8;
+        this.paddingProportion = 0;
         this.roundDomains = false;
         this.activate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.deactivate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
@@ -2681,6 +3104,9 @@ var BarHorizontalStackedComponent = (function (_super) {
     };
     BarHorizontalStackedComponent.prototype.getYScale = function () {
         var spacing = this.groupDomain.length / (this.dims.height / this.barPadding + 1);
+        if (this.paddingProportion) {
+            spacing = this.paddingProportion;
+        }
         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3_scale__["scaleBand"])()
             .rangeRound([this.dims.height, 0])
             .paddingInner(spacing)
@@ -2828,6 +3254,10 @@ var BarHorizontalStackedComponent = (function (_super) {
     ], BarHorizontalStackedComponent.prototype, "barPadding", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], BarHorizontalStackedComponent.prototype, "paddingProportion", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Boolean)
     ], BarHorizontalStackedComponent.prototype, "roundDomains", void 0);
     __decorate([
@@ -2905,6 +3335,7 @@ var BarHorizontalComponent = (function (_super) {
         this.showGridLines = true;
         this.activeEntries = [];
         this.barPadding = 8;
+        this.paddingProportion = 0;
         this.roundDomains = false;
         this.activate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.deactivate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
@@ -2946,6 +3377,9 @@ var BarHorizontalComponent = (function (_super) {
     BarHorizontalComponent.prototype.getYScale = function () {
         this.yDomain = this.getYDomain();
         var spacing = this.yDomain.length / (this.dims.height / this.barPadding + 1);
+        if (this.paddingProportion) {
+            spacing = this.paddingProportion;
+        }
         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3_scale__["scaleBand"])()
             .rangeRound([this.dims.height, 0])
             .paddingInner(spacing)
@@ -3079,6 +3513,10 @@ var BarHorizontalComponent = (function (_super) {
     ], BarHorizontalComponent.prototype, "barPadding", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], BarHorizontalComponent.prototype, "paddingProportion", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Boolean)
     ], BarHorizontalComponent.prototype, "roundDomains", void 0);
     __decorate([
@@ -3146,7 +3584,9 @@ var BarVertical2DComponent = (function (_super) {
         this.showGridLines = true;
         this.activeEntries = [];
         this.groupPadding = 16;
+        this.groupProportion = 0;
         this.barPadding = 8;
+        this.paddingProportion = 0;
         this.roundDomains = false;
         this.activate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.deactivate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
@@ -3185,6 +3625,9 @@ var BarVertical2DComponent = (function (_super) {
     };
     BarVertical2DComponent.prototype.getGroupScale = function () {
         var spacing = this.groupDomain.length / (this.dims.height / this.groupPadding + 1);
+        if (this.groupProportion) {
+            spacing = this.groupProportion;
+        }
         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3_scale__["scaleBand"])()
             .rangeRound([0, this.dims.width])
             .paddingInner(spacing)
@@ -3194,6 +3637,9 @@ var BarVertical2DComponent = (function (_super) {
     BarVertical2DComponent.prototype.getInnerScale = function () {
         var width = this.groupScale.bandwidth();
         var spacing = this.innerDomain.length / (width / this.barPadding + 1);
+        if (this.paddingProportion) {
+            spacing = this.paddingProportion;
+        }
         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3_scale__["scaleBand"])()
             .rangeRound([0, width])
             .paddingInner(spacing)
@@ -3384,7 +3830,15 @@ var BarVertical2DComponent = (function (_super) {
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
+    ], BarVertical2DComponent.prototype, "groupProportion", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
     ], BarVertical2DComponent.prototype, "barPadding", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], BarVertical2DComponent.prototype, "paddingProportion", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Boolean)
@@ -3464,6 +3918,7 @@ var BarVerticalNormalizedComponent = (function (_super) {
         this.showGridLines = true;
         this.activeEntries = [];
         this.barPadding = 8;
+        this.paddingProportion = 0;
         this.roundDomains = false;
         this.activate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.deactivate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
@@ -3527,6 +3982,9 @@ var BarVerticalNormalizedComponent = (function (_super) {
     };
     BarVerticalNormalizedComponent.prototype.getXScale = function () {
         var spacing = this.groupDomain.length / (this.dims.width / this.barPadding + 1);
+        if (this.paddingProportion) {
+            spacing = this.paddingProportion;
+        }
         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3_scale__["scaleBand"])()
             .rangeRound([0, this.dims.width])
             .paddingInner(spacing)
@@ -3674,6 +4132,10 @@ var BarVerticalNormalizedComponent = (function (_super) {
     ], BarVerticalNormalizedComponent.prototype, "barPadding", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], BarVerticalNormalizedComponent.prototype, "paddingProportion", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Boolean)
     ], BarVerticalNormalizedComponent.prototype, "roundDomains", void 0);
     __decorate([
@@ -3751,6 +4213,7 @@ var BarVerticalStackedComponent = (function (_super) {
         this.showGridLines = true;
         this.activeEntries = [];
         this.barPadding = 8;
+        this.paddingProportion = 0;
         this.roundDomains = false;
         this.activate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.deactivate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
@@ -3826,6 +4289,9 @@ var BarVerticalStackedComponent = (function (_super) {
     };
     BarVerticalStackedComponent.prototype.getXScale = function () {
         var spacing = this.groupDomain.length / (this.dims.width / this.barPadding + 1);
+        if (this.paddingProportion) {
+            spacing = this.paddingProportion;
+        }
         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3_scale__["scaleBand"])()
             .rangeRound([0, this.dims.width])
             .paddingInner(spacing)
@@ -3973,6 +4439,10 @@ var BarVerticalStackedComponent = (function (_super) {
     ], BarVerticalStackedComponent.prototype, "barPadding", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], BarVerticalStackedComponent.prototype, "paddingProportion", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Boolean)
     ], BarVerticalStackedComponent.prototype, "roundDomains", void 0);
     __decorate([
@@ -4051,6 +4521,7 @@ var BarVerticalComponent = (function (_super) {
         this.activeEntries = [];
         this.type = 'standard';
         this.barPadding = 8;
+        this.paddingProportion = 0;
         this.roundDomains = false;
         this.activate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.deactivate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
@@ -4079,12 +4550,19 @@ var BarVerticalComponent = (function (_super) {
             _this.yScale = _this.getYScale();
             _this.setColors();
             _this.legendOptions = _this.getLegendOptions();
+            if (_this.yAxisTickRoundingLabel) {
+                _this.labelTransform = "translate(" + (_this.margin[3] + 20) + " , " + _this.margin[0] + ")";
+                _this.margin[0] = 50;
+            }
             _this.transform = "translate(" + _this.dims.xOffset + " , " + _this.margin[0] + ")";
         });
     };
     BarVerticalComponent.prototype.getXScale = function () {
         this.xDomain = this.getXDomain();
         var spacing = this.xDomain.length / (this.dims.width / this.barPadding + 1);
+        if (this.paddingProportion) {
+            spacing = this.paddingProportion;
+        }
         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3_scale__["scaleBand"])()
             .rangeRound([0, this.dims.width])
             .paddingInner(spacing)
@@ -4193,6 +4671,10 @@ var BarVerticalComponent = (function (_super) {
     ], BarVerticalComponent.prototype, "yAxisLabel", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], BarVerticalComponent.prototype, "yAxisTickRoundingLabel", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Boolean)
     ], BarVerticalComponent.prototype, "tooltipDisabled", void 0);
     __decorate([
@@ -4225,8 +4707,16 @@ var BarVerticalComponent = (function (_super) {
     ], BarVerticalComponent.prototype, "yAxisTickFormatting", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Number)
+    ], BarVerticalComponent.prototype, "maxTicks", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], BarVerticalComponent.prototype, "barPadding", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], BarVerticalComponent.prototype, "paddingProportion", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Boolean)
@@ -4242,7 +4732,7 @@ var BarVerticalComponent = (function (_super) {
     BarVerticalComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'ngx-charts-bar-vertical',
-            template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"legend\"\n      [legendOptions]=\"legendOptions\"\n      [activeEntries]=\"activeEntries\"\n      (legendLabelClick)=\"onClick($event)\"\n      (legendLabelActivate)=\"onActivate($event)\"\n      (legendLabelDeactivate)=\"onDeactivate($event)\">\n      <svg:g [attr.transform]=\"transform\" class=\"bar-chart chart\">\n        <svg:g ngx-charts-x-axis\n          *ngIf=\"xAxis\"\n          [xScale]=\"xScale\"\n          [dims]=\"dims\"\n          [showLabel]=\"showXAxisLabel\"\n          [labelText]=\"xAxisLabel\"\n          [tickFormatting]=\"xAxisTickFormatting\"\n          (dimensionsChanged)=\"updateXAxisHeight($event)\">\n        </svg:g>\n        <svg:g ngx-charts-y-axis\n          *ngIf=\"yAxis\"\n          [yScale]=\"yScale\"\n          [dims]=\"dims\"\n          [showGridLines]=\"showGridLines\"\n          [showLabel]=\"showYAxisLabel\"\n          [labelText]=\"yAxisLabel\"\n          [tickFormatting]=\"yAxisTickFormatting\"\n          (dimensionsChanged)=\"updateYAxisWidth($event)\">\n        </svg:g>\n        <svg:g ngx-charts-series-vertical\n          [type]=\"type\"\n          [xScale]=\"xScale\"\n          [yScale]=\"yScale\"\n          [colors]=\"colors\"\n          [series]=\"results\"\n          [dims]=\"dims\"\n          [gradient]=\"gradient\"\n          [tooltipDisabled]=\"tooltipDisabled\"\n          [activeEntries]=\"activeEntries\"\n          (activate)=\"onActivate($event)\"\n          (deactivate)=\"onDeactivate($event)\"\n          (select)=\"onClick($event)\">\n        </svg:g>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
+            template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"legend\"\n      [legendOptions]=\"legendOptions\"\n      [activeEntries]=\"activeEntries\"\n      (legendLabelClick)=\"onClick($event)\"\n      (legendLabelActivate)=\"onActivate($event)\"\n      (legendLabelDeactivate)=\"onDeactivate($event)\">\n      <svg:text *ngIf=\"yAxisTickRoundingLabel\" class=\"tick-round-label\"\n          [style.textAnchor]=\"'start'\"\n          [style.alignment-baseline]=\"'baseline'\"\n          [attr.transform]=\"labelTransform\"\n          alignment-baseline=\"central\"\n          x=\"0\" dy=\"0\">\n          {{yAxisTickRoundingLabel}}\n      </svg:text>\n      <svg:g [attr.transform]=\"transform\" class=\"bar-chart chart\">\n        <svg:g ngx-charts-x-axis\n          *ngIf=\"xAxis\"\n          [xScale]=\"xScale\"\n          [dims]=\"dims\"\n          [showLabel]=\"showXAxisLabel\"\n          [labelText]=\"xAxisLabel\"\n          [tickFormatting]=\"xAxisTickFormatting\"\n          (dimensionsChanged)=\"updateXAxisHeight($event)\">\n        </svg:g>\n        <svg:g ngx-charts-y-axis\n          *ngIf=\"yAxis\"\n          [yScale]=\"yScale\"\n          [dims]=\"dims\"\n          [showGridLines]=\"showGridLines\"\n          [showLabel]=\"showYAxisLabel\"\n          [labelText]=\"yAxisLabel\"\n          [tickFormatting]=\"yAxisTickFormatting\"\n          [maxTicks]=\"maxTicks\"\n          (dimensionsChanged)=\"updateYAxisWidth($event)\">\n        </svg:g>\n        <svg:g ngx-charts-series-vertical\n          [type]=\"type\"\n          [xScale]=\"xScale\"\n          [yScale]=\"yScale\"\n          [colors]=\"colors\"\n          [series]=\"results\"\n          [dims]=\"dims\"\n          [gradient]=\"gradient\"\n          [tooltipDisabled]=\"tooltipDisabled\"\n          [activeEntries]=\"activeEntries\"\n          (activate)=\"onActivate($event)\"\n          (deactivate)=\"onDeactivate($event)\"\n          (select)=\"onClick($event)\">\n        </svg:g>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
             changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush,
             styles: [__webpack_require__("./src/common/base-chart.component.scss")],
             encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewEncapsulation"].None
@@ -6781,6 +7271,14 @@ var YAxisComponent = (function () {
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
+    ], YAxisComponent.prototype, "tickArguments", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], YAxisComponent.prototype, "maxTicks", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
     ], YAxisComponent.prototype, "showGridLines", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
@@ -6809,7 +7307,7 @@ var YAxisComponent = (function () {
     YAxisComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'g[ngx-charts-y-axis]',
-            template: "\n    <svg:g\n      [attr.class]=\"yAxisClassName\"\n      [attr.transform]=\"transform\">\n      <svg:g ngx-charts-y-axis-ticks\n        [tickFormatting]=\"tickFormatting\"\n        [tickArguments]=\"tickArguments\"\n        [tickStroke]=\"tickStroke\"\n        [scale]=\"yScale\"\n        [orient]=\"yOrient\"\n        [showGridLines]=\"showGridLines\"\n        [gridLineWidth]=\"dims.width\"\n        [height]=\"dims.height\"\n        (dimensionsChanged)=\"emitTicksWidth($event)\"\n      />\n\n      <svg:g ngx-charts-axis-label\n        *ngIf=\"showLabel\"\n        [label]=\"labelText\"\n        [offset]=\"labelOffset\"\n        [orient]=\"yOrient\"\n        [height]=\"dims.height\"\n        [width]=\"dims.width\">\n      </svg:g>\n    </svg:g>\n  ",
+            template: "\n    <svg:g\n      [attr.class]=\"yAxisClassName\"\n      [attr.transform]=\"transform\">\n      <svg:g ngx-charts-y-axis-ticks\n        [tickFormatting]=\"tickFormatting\"\n        [tickArguments]=\"[maxTicks]\"\n        [tickStroke]=\"tickStroke\"\n        [scale]=\"yScale\"\n        [orient]=\"yOrient\"\n        [showGridLines]=\"showGridLines\"\n        [gridLineWidth]=\"dims.width\"\n        [height]=\"dims.height\"\n        (dimensionsChanged)=\"emitTicksWidth($event)\"\n      />\n\n      <svg:g ngx-charts-axis-label\n        *ngIf=\"showLabel\"\n        [label]=\"labelText\"\n        [offset]=\"labelOffset\"\n        [orient]=\"yOrient\"\n        [height]=\"dims.height\"\n        [width]=\"dims.width\">\n      </svg:g>\n    </svg:g>\n  ",
             changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush
         }), 
         __metadata('design:paramtypes', [])
@@ -10734,6 +11232,98 @@ var ForceDirectedGraphModule = (function () {
 
 /***/ }),
 
+/***/ "./src/gauge/gauge-arc-series.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_label_helper__ = __webpack_require__("./src/common/label.helper.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GaugeArcSeriesComponent; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var GaugeArcSeriesComponent = (function () {
+    function GaugeArcSeriesComponent() {
+    }
+    GaugeArcSeriesComponent.prototype.ngOnChanges = function () {
+        this.update();
+    };
+    GaugeArcSeriesComponent.prototype.update = function () {
+        this.arcs = this.getArcs();
+    };
+    GaugeArcSeriesComponent.prototype.getArcs = function () {
+        var arcs = [];
+        var startAngle = this.startAngle * Math.PI / 180;
+        var bigSegment;
+        for (var i = 0; i < this.bigSegments.length; i++) {
+            bigSegment = this.bigSegments[i];
+            var data = bigSegment.data, endAngle = bigSegment.endAngle;
+            arcs.push({
+                startAngle: startAngle,
+                endAngle: endAngle,
+                data: data
+            });
+            startAngle = endAngle;
+        }
+        return arcs;
+    };
+    GaugeArcSeriesComponent.prototype.color = function (arc) {
+        return this.colors.getColor(this.label(arc));
+    };
+    GaugeArcSeriesComponent.prototype.label = function (arc) {
+        return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common_label_helper__["a" /* formatLabel */])(arc.data.name);
+    };
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], GaugeArcSeriesComponent.prototype, "bigSegments", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], GaugeArcSeriesComponent.prototype, "colors", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Number)
+    ], GaugeArcSeriesComponent.prototype, "startAngle", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Number)
+    ], GaugeArcSeriesComponent.prototype, "angleSpan", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Number)
+    ], GaugeArcSeriesComponent.prototype, "innerRadius", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Number)
+    ], GaugeArcSeriesComponent.prototype, "outerRadius", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Number)
+    ], GaugeArcSeriesComponent.prototype, "cornerRadius", void 0);
+    GaugeArcSeriesComponent = __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'g[ngx-charts-gauge-arc-series]',
+            template: "\n  <svg:g *ngFor=\"let arc of arcs\">\n    <svg:g ngx-charts-pie-arc\n        [startAngle]=\"arc.startAngle\"\n        [endAngle]=\"arc.endAngle\"\n        [innerRadius]=\"innerRadius\"\n        [outerRadius]=\"outerRadius\"\n        [cornerRadius]=\"cornerRadius\"\n        [fill]=\"color(arc)\"\n        [data]=\"arc.data\"\n        [animate]=\"true\">\n    </svg:g>\n  </svg:g>\n  ",
+            changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush
+        }), 
+        __metadata('design:paramtypes', [])
+    ], GaugeArcSeriesComponent);
+    return GaugeArcSeriesComponent;
+}());
+
+
+/***/ }),
+
 /***/ "./src/gauge/gauge-arc.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -11314,12 +11904,15 @@ var GaugeComponent = (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__linear_gauge_component__ = __webpack_require__("./src/gauge/linear-gauge.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__gauge_component__ = __webpack_require__("./src/gauge/gauge.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__gauge_arc_component__ = __webpack_require__("./src/gauge/gauge-arc.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__gauge_axis_component__ = __webpack_require__("./src/gauge/gauge-axis.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pie_chart_pie_chart_module__ = __webpack_require__("./src/pie-chart/pie-chart.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__bar_chart_bar_chart_module__ = __webpack_require__("./src/bar-chart/bar-chart.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__gauge_arc_series_component__ = __webpack_require__("./src/gauge/gauge-arc-series.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__gauge_axis_component__ = __webpack_require__("./src/gauge/gauge-axis.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__power_gauge_component__ = __webpack_require__("./src/gauge/power-gauge.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__power_gauge_axis_component__ = __webpack_require__("./src/gauge/power-gauge-axis.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pie_chart_pie_chart_module__ = __webpack_require__("./src/pie-chart/pie-chart.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__bar_chart_bar_chart_module__ = __webpack_require__("./src/bar-chart/bar-chart.module.ts");
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__gauge_component__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_4__gauge_arc_component__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_5__gauge_axis_component__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_6__gauge_axis_component__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_2__linear_gauge_component__["a"]; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return GaugeModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -11340,23 +11933,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
+
 var GaugeModule = (function () {
     function GaugeModule() {
     }
     GaugeModule = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-            imports: [__WEBPACK_IMPORTED_MODULE_1__common_chart_common_module__["a" /* ChartCommonModule */], __WEBPACK_IMPORTED_MODULE_6__pie_chart_pie_chart_module__["a" /* PieChartModule */], __WEBPACK_IMPORTED_MODULE_7__bar_chart_bar_chart_module__["a" /* BarChartModule */]],
+            imports: [__WEBPACK_IMPORTED_MODULE_1__common_chart_common_module__["a" /* ChartCommonModule */], __WEBPACK_IMPORTED_MODULE_9__pie_chart_pie_chart_module__["a" /* PieChartModule */], __WEBPACK_IMPORTED_MODULE_10__bar_chart_bar_chart_module__["a" /* BarChartModule */]],
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_2__linear_gauge_component__["a" /* LinearGaugeComponent */],
                 __WEBPACK_IMPORTED_MODULE_3__gauge_component__["a" /* GaugeComponent */],
                 __WEBPACK_IMPORTED_MODULE_4__gauge_arc_component__["a" /* GaugeArcComponent */],
-                __WEBPACK_IMPORTED_MODULE_5__gauge_axis_component__["a" /* GaugeAxisComponent */]
+                __WEBPACK_IMPORTED_MODULE_5__gauge_arc_series_component__["a" /* GaugeArcSeriesComponent */],
+                __WEBPACK_IMPORTED_MODULE_6__gauge_axis_component__["a" /* GaugeAxisComponent */],
+                __WEBPACK_IMPORTED_MODULE_7__power_gauge_component__["a" /* PowerGaugeComponent */],
+                __WEBPACK_IMPORTED_MODULE_8__power_gauge_axis_component__["a" /* PowerGaugeAxisComponent */]
             ],
             exports: [
                 __WEBPACK_IMPORTED_MODULE_2__linear_gauge_component__["a" /* LinearGaugeComponent */],
                 __WEBPACK_IMPORTED_MODULE_3__gauge_component__["a" /* GaugeComponent */],
                 __WEBPACK_IMPORTED_MODULE_4__gauge_arc_component__["a" /* GaugeArcComponent */],
-                __WEBPACK_IMPORTED_MODULE_5__gauge_axis_component__["a" /* GaugeAxisComponent */]
+                __WEBPACK_IMPORTED_MODULE_5__gauge_arc_series_component__["a" /* GaugeArcSeriesComponent */],
+                __WEBPACK_IMPORTED_MODULE_6__gauge_axis_component__["a" /* GaugeAxisComponent */],
+                __WEBPACK_IMPORTED_MODULE_7__power_gauge_component__["a" /* PowerGaugeComponent */],
+                __WEBPACK_IMPORTED_MODULE_8__power_gauge_axis_component__["a" /* PowerGaugeAxisComponent */]
             ]
         }), 
         __metadata('design:paramtypes', [])
@@ -11379,6 +11981,9 @@ var GaugeModule = (function () {
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_0__gauge_module__["e"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__gauge_component__ = __webpack_require__("./src/gauge/gauge.component.ts");
 /* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__power_gauge_component__ = __webpack_require__("./src/gauge/power-gauge.component.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_2__power_gauge_component__["a"]; });
+
 
 
 
@@ -11585,6 +12190,468 @@ var LinearGaugeComponent = (function (_super) {
         __metadata('design:paramtypes', [])
     ], LinearGaugeComponent);
     return LinearGaugeComponent;
+}(__WEBPACK_IMPORTED_MODULE_2__common_base_chart_component__["a" /* BaseChartComponent */]));
+
+
+/***/ }),
+
+/***/ "./src/gauge/power-gauge-axis.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_d3_ease__ = __webpack_require__("./node_modules/d3-ease/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_d3_selection__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_d3_selection___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_d3_selection__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_d3_shape__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_d3_shape___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_d3_shape__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PowerGaugeAxisComponent; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var PowerGaugeAxisComponent = (function () {
+    function PowerGaugeAxisComponent() {
+        this.pointerWidth = 16;
+        this.pointerTailLength = 8;
+        this.rotate = '';
+    }
+    PowerGaugeAxisComponent.prototype.ngOnChanges = function () {
+        this.update();
+    };
+    PowerGaugeAxisComponent.prototype.ngOnDestroy = function () {
+        this.stopAnimation();
+    };
+    PowerGaugeAxisComponent.prototype.startAnimation = function (pointerAngle) {
+        var _this = this;
+        this.animator = setInterval(function () {
+            var moveTick = Math.random() * 2;
+            _this.updatePointer(pointerAngle + moveTick, 0, 750, 1);
+        }, 300);
+    };
+    PowerGaugeAxisComponent.prototype.stopAnimation = function () {
+        clearInterval(this.animator);
+    };
+    PowerGaugeAxisComponent.prototype.update = function () {
+        var _this = this;
+        this.rotationAngle = this.startAngle;
+        this.rotate = "rotate(" + this.rotationAngle + ")";
+        this.ticks = this.getTicks();
+        this.stopAnimation();
+        setTimeout(function () {
+            _this.startAnimation(_this.pointerAngle);
+        }, 1500);
+        if (this.pointerAngle) {
+            this.updatePointer(this.pointerAngle, 750, 750, 0.8);
+        }
+    };
+    PowerGaugeAxisComponent.prototype.updatePointer = function (pointerAngle, delay, duration, easeValue) {
+        var pointer = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_d3_selection__["select"])('.pointer');
+        var pointerRotate = "rotate(" + pointerAngle + ")";
+        var ease = __WEBPACK_IMPORTED_MODULE_1_d3_ease__["a" /* easeElastic */].period(easeValue);
+        pointer
+            .transition().delay(delay).duration(duration)
+            .ease(ease)
+            .attr('transform', pointerRotate);
+    };
+    PowerGaugeAxisComponent.prototype.getTicks = function () {
+        var bigTickSegment = this.angleSpan / this.bigSegments.length;
+        var tickLength = this.outerRadius - this.innerRadius;
+        var ticks = [];
+        var startDistance = this.innerRadius;
+        var textDist = this.outerRadius + 20;
+        var startAngle = this.startAngle * Math.PI / 180;
+        var bigSegment;
+        for (var i = 0; i < this.bigSegments.length; i++) {
+            bigSegment = this.bigSegments[i];
+            var data = bigSegment.data, endAngle = bigSegment.endAngle, textAnchor = bigSegment.textAnchor;
+            var text = data.value;
+            if (this.tickFormatting) {
+                text = this.tickFormatting(text);
+            }
+            ticks.push({
+                line: this.getTickPath(startDistance, tickLength, endAngle),
+                textAnchor: bigSegment.textAnchor,
+                text: text,
+                textTransform: "\n          translate(" + textDist * Math.cos(endAngle) + ", " + textDist * Math.sin(endAngle) + ") rotate(" + -this.rotationAngle + ")\n        "
+            });
+            startAngle = endAngle;
+        }
+        return ticks;
+    };
+    PowerGaugeAxisComponent.prototype.getTickPath = function (startDistance, tickLength, angle) {
+        var y1 = startDistance * Math.sin(angle);
+        var y2 = (startDistance + tickLength) * Math.sin(angle);
+        var x1 = startDistance * Math.cos(angle);
+        var x2 = (startDistance + tickLength) * Math.cos(angle);
+        var points = [{ x: x1, y: y1 }, { x: x2, y: y2 }];
+        var lineGenerator = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_d3_shape__["line"])().x(function (d) { return d.x; }).y(function (d) { return d.y; });
+        return lineGenerator(points);
+    };
+    PowerGaugeAxisComponent.prototype.getPointerPath = function () {
+        var rw = this.dims.width / 2;
+        var rh = this.dims.height / 2;
+        var r = rw < rh ? rw : rh;
+        var pointerHeadLength = r;
+        var pointerLine = [{ x: this.pointerWidth / 2, y: 0 },
+            { x: 0, y: -pointerHeadLength },
+            { x: -(this.pointerWidth / 2), y: 0 },
+            { x: 0, y: this.pointerTailLength },
+            { x: this.pointerWidth / 2, y: 0 }];
+        var lineGenerator = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_d3_shape__["line"])().x(function (d) { return d.x; }).y(function (d) { return d.y; }).curve(__WEBPACK_IMPORTED_MODULE_3_d3_shape__["curveMonotoneX"]);
+        return lineGenerator(pointerLine);
+    };
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], PowerGaugeAxisComponent.prototype, "bigSegments", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Number)
+    ], PowerGaugeAxisComponent.prototype, "startAngle", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Number)
+    ], PowerGaugeAxisComponent.prototype, "pointerAngle", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Number)
+    ], PowerGaugeAxisComponent.prototype, "angleSpan", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Number)
+    ], PowerGaugeAxisComponent.prototype, "outerRadius", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Number)
+    ], PowerGaugeAxisComponent.prototype, "innerRadius", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Number)
+    ], PowerGaugeAxisComponent.prototype, "cornerRadius", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], PowerGaugeAxisComponent.prototype, "tickFormatting", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], PowerGaugeAxisComponent.prototype, "dims", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], PowerGaugeAxisComponent.prototype, "pointerWidth", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], PowerGaugeAxisComponent.prototype, "pointerTailLength", void 0);
+    PowerGaugeAxisComponent = __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'g[ngx-charts-power-gauge-axis]',
+            template: "\n  <svg:g [attr.transform]=\"rotate\">\n    <svg:g *ngFor=\"let tick of ticks\"\n        class=\"gauge-tick gauge-tick-large\">\n        <svg:path [attr.d]=\"tick.line\" />\n    </svg:g>\n    <svg:g *ngFor=\"let tick of ticks\"\n        class=\"gauge-tick gauge-tick-large\">\n        <svg:text\n            [style.textAnchor]=\"tick.textAnchor\"\n            [attr.transform]=\"tick.textTransform\"\n            alignment-baseline=\"central\">\n            {{tick.text}}\n        </svg:text>\n    </svg:g>\n  </svg:g>\n  <svg:g [attr.transform]=\"'rotate(0)'\" class=\"pointer\">\n    <svg:g>\n      <svg:path\n        [attr.d]=\"getPointerPath()\"\n      />\n    </svg:g>\n  </svg:g>\n  ",
+            changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush
+        }), 
+        __metadata('design:paramtypes', [])
+    ], PowerGaugeAxisComponent);
+    return PowerGaugeAxisComponent;
+}());
+
+
+/***/ }),
+
+/***/ "./src/gauge/power-gauge.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+
+        var result = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/postcss-loader/index.js?sourceMap!./node_modules/sass-loader/index.js?sourceMap!./src/gauge/power-gauge.component.scss");
+
+        if (typeof result === "string") {
+            module.exports = result;
+        } else {
+            module.exports = result.toString();
+        }
+    
+
+/***/ }),
+
+/***/ "./src/gauge/power-gauge.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_d3_scale__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_d3_scale___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_d3_scale__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_base_chart_component__ = __webpack_require__("./src/common/base-chart.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_view_dimensions_helper__ = __webpack_require__("./src/common/view-dimensions.helper.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_sort__ = __webpack_require__("./src/utils/sort.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PowerGaugeComponent; });
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var PowerGaugeComponent = (function (_super) {
+    __extends(PowerGaugeComponent, _super);
+    function PowerGaugeComponent() {
+        _super.apply(this, arguments);
+        this.min = 0;
+        this.max = 100;
+        this.showAxis = true;
+        this.activeEntries = [];
+        this.resizeScale = 1;
+        this.textTransform = 'scale(1, 1)';
+        this.cornerRadius = 0;
+        this.startAngle = -90;
+        this.pointerAngle = 0;
+        this.endAngle = 90;
+        this.angleSpan = 180;
+    }
+    PowerGaugeComponent.prototype.ngAfterViewInit = function () {
+        _super.prototype.ngAfterViewInit.call(this);
+        // setTimeout(() => this.scaleText());
+    };
+    PowerGaugeComponent.prototype.update = function () {
+        var _this = this;
+        _super.prototype.update.call(this);
+        this.zone.run(function () {
+            if (!_this.margin) {
+                _this.margin = [30, 75, 30, 45];
+            }
+            _this.dims = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__common_view_dimensions_helper__["a" /* calculateViewDimensions */])({
+                width: _this.width,
+                height: _this.height,
+                margins: _this.margin
+            });
+            _this.domain = _this.getDomain();
+            _this.setColors();
+            _this.valueDomain = _this.getValueDomain();
+            _this.valueScale = _this.getValueScale();
+            _this.displayValue = _this.getDisplayValue();
+            _this.outerRadius = Math.min(_this.dims.width, _this.dims.height) * .7;
+            var radiusPerArc = 100;
+            var arcWidth = radiusPerArc * 0.4;
+            _this.innerRadius = _this.outerRadius - arcWidth;
+            _this.textRadius = _this.outerRadius - radiusPerArc;
+            _this.arcSet = _this.getArcSet();
+            _this.axisValues = _this.getAxisValues();
+            var xOffset = _this.margin[3] + (_this.dims.width / 2) - 15;
+            var yOffset = _this.dims.height - (_this.margin[0] / 2);
+            _this.transform = "translate(" + xOffset + ", " + yOffset + ")";
+            // setTimeout(() => this.scaleText(), 50);
+        });
+    };
+    PowerGaugeComponent.prototype.getArcSet = function () {
+        var backgroundArc = {
+            startAngle: this.startAngle * Math.PI / 180,
+            endAngle: this.endAngle * Math.PI / 180,
+            data: {
+                value: this.max,
+                name: 'background-arc'
+            }
+        };
+        var i = 0;
+        var angle;
+        var valueArcs = [];
+        this.results = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__utils_sort__["a" /* sortLinear */])(this.results, 'value');
+        for (var _i = 0, _a = this.results; _i < _a.length; _i++) {
+            var d = _a[_i];
+            angle = Math.min(this.valueScale(d.value) + this.startAngle, this.angleSpan);
+            if (this.pointerValue === d.value) {
+                this.pointerAngle = angle;
+            }
+            var valueArc = {
+                endAngle: angle * Math.PI / 180,
+                data: {
+                    value: d.value,
+                    name: d.name
+                },
+                textAnchor: this.getTextAnchor(angle)
+            };
+            valueArcs.push(valueArc);
+            i++;
+        }
+        return {
+            backgroundArc: backgroundArc,
+            valueArcs: valueArcs
+        };
+    };
+    PowerGaugeComponent.prototype.getAxisValues = function () {
+        var i = 0;
+        var angle;
+        var axisValues = [];
+        this.axisPoints = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__utils_sort__["a" /* sortLinear */])(this.axisPoints, 'value');
+        for (var _i = 0, _a = this.axisPoints; _i < _a.length; _i++) {
+            var d = _a[_i];
+            angle = Math.min(this.valueScale(d.value) + this.startAngle, this.angleSpan);
+            if (this.pointerValue === d.value) {
+                this.pointerAngle = angle;
+            }
+            var valueArc = {
+                endAngle: angle * Math.PI / 180,
+                data: {
+                    value: d.value,
+                    name: d.name
+                }
+            };
+            axisValues.push(valueArc);
+            i++;
+        }
+        return axisValues;
+    };
+    PowerGaugeComponent.prototype.getTextAnchor = function (angle) {
+        angle = (this.startAngle + angle) % 360;
+        var textAnchor = 'middle';
+        if (angle > 45 && angle <= 135) {
+            textAnchor = 'start';
+        }
+        else if (angle > 225 && angle <= 315) {
+            textAnchor = 'end';
+        }
+        return textAnchor;
+    };
+    PowerGaugeComponent.prototype.getDomain = function () {
+        return this.results.map(function (d) { return d.name; });
+    };
+    PowerGaugeComponent.prototype.getValueDomain = function () {
+        var values = this.results.map(function (d) { return d.value; });
+        var dataMin = Math.min.apply(Math, values);
+        var dataMax = Math.max.apply(Math, values);
+        if (this.min !== undefined) {
+            this.min = Math.min(this.min, dataMin);
+        }
+        else {
+            this.min = dataMin;
+        }
+        if (this.max !== undefined) {
+            this.max = Math.max(this.max, dataMax);
+        }
+        else {
+            this.max = dataMax;
+        }
+        return [this.min, this.max];
+    };
+    PowerGaugeComponent.prototype.getValueScale = function () {
+        return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3_scale__["scaleLinear"])()
+            .range([0, this.angleSpan])
+            .nice()
+            .domain(this.valueDomain);
+    };
+    // scaleText(repeat: boolean = true): void {
+    //   this.zone.run(() => {
+    //     const { width } = this.textEl.nativeElement.getBoundingClientRect();
+    //     const oldScale = this.resizeScale;
+    //
+    //     if (width === 0) {
+    //       this.resizeScale = 1;
+    //     } else {
+    //       const availableSpace = this.textRadius;
+    //       this.resizeScale = Math.floor((availableSpace / (width / this.resizeScale)) * 100) / 100;
+    //     }
+    //
+    //     if (this.resizeScale !== oldScale) {
+    //       this.textTransform = `scale(${this.resizeScale}, ${this.resizeScale})`;
+    //       this.cd.markForCheck();
+    //       if (repeat) {
+    //         setTimeout(() => this.scaleText(false), 50);
+    //       }
+    //     }
+    //   });
+    // }
+    PowerGaugeComponent.prototype.setColors = function () {
+        this.colors = new __WEBPACK_IMPORTED_MODULE_3__common_color_helper__["a" /* ColorHelper */](this.scheme, 'ordinal', this.domain, this.customColors);
+    };
+    PowerGaugeComponent.prototype.getDisplayValue = function () {
+        if (this.axisTickFormatting) {
+            return this.axisTickFormatting(this.pointerValue);
+        }
+        return this.pointerValue.toString();
+    };
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Number)
+    ], PowerGaugeComponent.prototype, "min", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Number)
+    ], PowerGaugeComponent.prototype, "max", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', String)
+    ], PowerGaugeComponent.prototype, "units", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Array)
+    ], PowerGaugeComponent.prototype, "results", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Array)
+    ], PowerGaugeComponent.prototype, "axisPoints", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Number)
+    ], PowerGaugeComponent.prototype, "pointerValue", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Boolean)
+    ], PowerGaugeComponent.prototype, "showAxis", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Array)
+    ], PowerGaugeComponent.prototype, "activeEntries", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], PowerGaugeComponent.prototype, "axisTickFormatting", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Array)
+    ], PowerGaugeComponent.prototype, "margin", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('textEl'), 
+        __metadata('design:type', __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"])
+    ], PowerGaugeComponent.prototype, "textEl", void 0);
+    PowerGaugeComponent = __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'ngx-charts-power-gauge',
+            template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\">\n      <svg:g [attr.transform]=\"transform\" class=\"gauge chart\">\n        <svg:g ngx-charts-pie-arc\n            class=\"background-arc\"\n            [startAngle]=\"arcSet.backgroundArc.startAngle\"\n            [endAngle]=\"arcSet.backgroundArc.endAngle\"\n            [innerRadius]=\"innerRadius\"\n            [outerRadius]=\"outerRadius\"\n            [cornerRadius]=\"cornerRadius\"\n            [data]=\"arcSet.backgroundArc.data\"\n            [animate]=\"false\"\n            [pointerEvents]=\"false\">\n        </svg:g>\n\n        <svg:g ngx-charts-gauge-arc-series\n          [bigSegments]=\"arcSet.valueArcs\"\n          [startAngle]=\"startAngle\"\n          [angleSpan]=\"angleSpan\"\n          [cornerRadius]=\"cornerRadius\"\n          [innerRadius]=\"innerRadius\"\n          [outerRadius]=\"outerRadius\"\n          [colors]=\"colors\">\n        </svg:g>\n\n        <svg:g ngx-charts-power-gauge-axis\n          [bigSegments]=\"axisValues\"\n          [startAngle]=\"startAngle\"\n          [pointerAngle]=\"pointerAngle\"\n          [angleSpan]=\"angleSpan\"\n          [cornerRadius]=\"cornerRadius\"\n          [innerRadius]=\"innerRadius\"\n          [outerRadius]=\"outerRadius\"\n          [tickFormatting]=\"axisTickFormatting\"\n          [dims]=\"dims\">\n        </svg:g>\n\n        <svg:text #textEl\n            [style.textAnchor]=\"'middle'\"\n            [attr.transform]=\"textTransform\"\n            alignment-baseline=\"central\">\n          <tspan x=\"0\" dy=\"1.5em\">{{displayValue}}</tspan>\n        </svg:text>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
+            styles: [
+                __webpack_require__("./src/common/base-chart.component.scss"),
+                __webpack_require__("./src/gauge/gauge.component.scss"),
+                __webpack_require__("./src/gauge/power-gauge.component.scss")
+            ],
+            encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewEncapsulation"].None,
+            changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush,
+        }), 
+        __metadata('design:paramtypes', [])
+    ], PowerGaugeComponent);
+    return PowerGaugeComponent;
 }(__WEBPACK_IMPORTED_MODULE_2__common_base_chart_component__["a" /* BaseChartComponent */]));
 
 
@@ -12226,6 +13293,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "GaugeAxisComponent", function() { return __WEBPACK_IMPORTED_MODULE_11__gauge__["c"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "LinearGaugeComponent", function() { return __WEBPACK_IMPORTED_MODULE_11__gauge__["d"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "GaugeModule", function() { return __WEBPACK_IMPORTED_MODULE_11__gauge__["e"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PowerGaugeComponent", function() { return __WEBPACK_IMPORTED_MODULE_11__gauge__["f"]; });
 
 
 

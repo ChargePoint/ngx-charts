@@ -17,6 +17,7 @@ export var BarHorizontalComponent = (function (_super) {
         this.showGridLines = true;
         this.activeEntries = [];
         this.barPadding = 8;
+        this.paddingProportion = 0;
         this.roundDomains = false;
         this.activate = new EventEmitter();
         this.deactivate = new EventEmitter();
@@ -58,6 +59,9 @@ export var BarHorizontalComponent = (function (_super) {
     BarHorizontalComponent.prototype.getYScale = function () {
         this.yDomain = this.getYDomain();
         var spacing = this.yDomain.length / (this.dims.height / this.barPadding + 1);
+        if (this.paddingProportion) {
+            spacing = this.paddingProportion;
+        }
         return scaleBand()
             .rangeRound([this.dims.height, 0])
             .paddingInner(spacing)
@@ -156,6 +160,7 @@ export var BarHorizontalComponent = (function (_super) {
         'xAxisTickFormatting': [{ type: Input },],
         'yAxisTickFormatting': [{ type: Input },],
         'barPadding': [{ type: Input },],
+        'paddingProportion': [{ type: Input },],
         'roundDomains': [{ type: Input },],
         'activate': [{ type: Output },],
         'deactivate': [{ type: Output },],

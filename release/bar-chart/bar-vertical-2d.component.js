@@ -18,7 +18,9 @@ export var BarVertical2DComponent = (function (_super) {
         this.showGridLines = true;
         this.activeEntries = [];
         this.groupPadding = 16;
+        this.groupProportion = 0;
         this.barPadding = 8;
+        this.paddingProportion = 0;
         this.roundDomains = false;
         this.activate = new EventEmitter();
         this.deactivate = new EventEmitter();
@@ -57,6 +59,9 @@ export var BarVertical2DComponent = (function (_super) {
     };
     BarVertical2DComponent.prototype.getGroupScale = function () {
         var spacing = this.groupDomain.length / (this.dims.height / this.groupPadding + 1);
+        if (this.groupProportion) {
+            spacing = this.groupProportion;
+        }
         return scaleBand()
             .rangeRound([0, this.dims.width])
             .paddingInner(spacing)
@@ -66,6 +71,9 @@ export var BarVertical2DComponent = (function (_super) {
     BarVertical2DComponent.prototype.getInnerScale = function () {
         var width = this.groupScale.bandwidth();
         var spacing = this.innerDomain.length / (width / this.barPadding + 1);
+        if (this.paddingProportion) {
+            spacing = this.paddingProportion;
+        }
         return scaleBand()
             .rangeRound([0, width])
             .paddingInner(spacing)
@@ -228,7 +236,9 @@ export var BarVertical2DComponent = (function (_super) {
         'xAxisTickFormatting': [{ type: Input },],
         'yAxisTickFormatting': [{ type: Input },],
         'groupPadding': [{ type: Input },],
+        'groupProportion': [{ type: Input },],
         'barPadding': [{ type: Input },],
+        'paddingProportion': [{ type: Input },],
         'roundDomains': [{ type: Input },],
         'activate': [{ type: Output },],
         'deactivate': [{ type: Output },],

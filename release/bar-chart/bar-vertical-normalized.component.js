@@ -17,6 +17,7 @@ export var BarVerticalNormalizedComponent = (function (_super) {
         this.showGridLines = true;
         this.activeEntries = [];
         this.barPadding = 8;
+        this.paddingProportion = 0;
         this.roundDomains = false;
         this.activate = new EventEmitter();
         this.deactivate = new EventEmitter();
@@ -80,6 +81,9 @@ export var BarVerticalNormalizedComponent = (function (_super) {
     };
     BarVerticalNormalizedComponent.prototype.getXScale = function () {
         var spacing = this.groupDomain.length / (this.dims.width / this.barPadding + 1);
+        if (this.paddingProportion) {
+            spacing = this.paddingProportion;
+        }
         return scaleBand()
             .rangeRound([0, this.dims.width])
             .paddingInner(spacing)
@@ -203,6 +207,7 @@ export var BarVerticalNormalizedComponent = (function (_super) {
         'xAxisTickFormatting': [{ type: Input },],
         'yAxisTickFormatting': [{ type: Input },],
         'barPadding': [{ type: Input },],
+        'paddingProportion': [{ type: Input },],
         'roundDomains': [{ type: Input },],
         'activate': [{ type: Output },],
         'deactivate': [{ type: Output },],
