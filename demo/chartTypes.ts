@@ -220,6 +220,15 @@ const chartGroups = [
         selector: 'linear-gauge',
         inputFormat: 'single',
         options: ['colorScheme', 'value', 'previousValue', 'min', 'max', 'units']
+      },
+      {
+        name: 'Power Gauge',
+        selector: 'power-gauge',
+        inputFormat: 'singleSeries',
+        options: [
+          'showLegend', 'colorScheme', 'min', 'max', 'largeSegments', 'smallSegments', 'units',
+          'angleSpan', 'startAngle', 'showAxis', 'margin'
+        ]
       }
     ]
   }
