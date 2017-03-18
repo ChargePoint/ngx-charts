@@ -4518,6 +4518,7 @@ var BarVerticalComponent = (function (_super) {
         this.legend = false;
         this.tooltipDisabled = false;
         this.showGridLines = true;
+        this.showBaseLines = true;
         this.activeEntries = [];
         this.type = 'standard';
         this.barPadding = 8;
@@ -4551,7 +4552,7 @@ var BarVerticalComponent = (function (_super) {
             _this.setColors();
             _this.legendOptions = _this.getLegendOptions();
             if (_this.yAxisTickRoundingLabel) {
-                _this.labelTransform = "translate(" + (_this.margin[3] + 20) + " , " + _this.margin[0] + ")";
+                _this.labelTransform = "translate(" + _this.margin[3] + " , 10)";
                 _this.margin[0] = 50;
             }
             _this.transform = "translate(" + _this.dims.xOffset + " , " + _this.margin[0] + ")";
@@ -4563,10 +4564,11 @@ var BarVerticalComponent = (function (_super) {
         if (this.paddingProportion) {
             spacing = this.paddingProportion;
         }
-        return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3_scale__["scaleBand"])()
+        var scale = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3_scale__["scaleBand"])()
             .rangeRound([0, this.dims.width])
             .paddingInner(spacing)
             .domain(this.xDomain);
+        return this.showBaseLines ? scale.paddingOuter(spacing / 2) : scale;
     };
     BarVerticalComponent.prototype.getYScale = function () {
         this.yDomain = this.getYDomain();
@@ -4641,6 +4643,9 @@ var BarVerticalComponent = (function (_super) {
         this.activeEntries = this.activeEntries.slice();
         this.deactivate.emit({ value: item, entries: this.activeEntries });
     };
+    BarVerticalComponent.prototype.xAxisLineTransform = function () {
+        return "translate(0," + this.dims.height + ")";
+    };
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
@@ -4685,6 +4690,10 @@ var BarVerticalComponent = (function (_super) {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Boolean)
     ], BarVerticalComponent.prototype, "showGridLines", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Boolean)
+    ], BarVerticalComponent.prototype, "showBaseLines", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Array)
@@ -4732,7 +4741,7 @@ var BarVerticalComponent = (function (_super) {
     BarVerticalComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'ngx-charts-bar-vertical',
-            template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"legend\"\n      [legendOptions]=\"legendOptions\"\n      [activeEntries]=\"activeEntries\"\n      (legendLabelClick)=\"onClick($event)\"\n      (legendLabelActivate)=\"onActivate($event)\"\n      (legendLabelDeactivate)=\"onDeactivate($event)\">\n      <svg:text *ngIf=\"yAxisTickRoundingLabel\" class=\"tick-round-label\"\n          [style.textAnchor]=\"'start'\"\n          [style.alignment-baseline]=\"'baseline'\"\n          [attr.transform]=\"labelTransform\"\n          alignment-baseline=\"central\"\n          x=\"0\" dy=\"0\">\n          {{yAxisTickRoundingLabel}}\n      </svg:text>\n      <svg:g [attr.transform]=\"transform\" class=\"bar-chart chart\">\n        <svg:g ngx-charts-x-axis\n          *ngIf=\"xAxis\"\n          [xScale]=\"xScale\"\n          [dims]=\"dims\"\n          [showLabel]=\"showXAxisLabel\"\n          [labelText]=\"xAxisLabel\"\n          [tickFormatting]=\"xAxisTickFormatting\"\n          (dimensionsChanged)=\"updateXAxisHeight($event)\">\n        </svg:g>\n        <svg:g ngx-charts-y-axis\n          *ngIf=\"yAxis\"\n          [yScale]=\"yScale\"\n          [dims]=\"dims\"\n          [showGridLines]=\"showGridLines\"\n          [showLabel]=\"showYAxisLabel\"\n          [labelText]=\"yAxisLabel\"\n          [tickFormatting]=\"yAxisTickFormatting\"\n          [maxTicks]=\"maxTicks\"\n          (dimensionsChanged)=\"updateYAxisWidth($event)\">\n        </svg:g>\n        <svg:g ngx-charts-series-vertical\n          [type]=\"type\"\n          [xScale]=\"xScale\"\n          [yScale]=\"yScale\"\n          [colors]=\"colors\"\n          [series]=\"results\"\n          [dims]=\"dims\"\n          [gradient]=\"gradient\"\n          [tooltipDisabled]=\"tooltipDisabled\"\n          [activeEntries]=\"activeEntries\"\n          (activate)=\"onActivate($event)\"\n          (deactivate)=\"onDeactivate($event)\"\n          (select)=\"onClick($event)\">\n        </svg:g>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
+            template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"legend\"\n      [legendOptions]=\"legendOptions\"\n      [activeEntries]=\"activeEntries\"\n      (legendLabelClick)=\"onClick($event)\"\n      (legendLabelActivate)=\"onActivate($event)\"\n      (legendLabelDeactivate)=\"onDeactivate($event)\">\n      <svg:text *ngIf=\"yAxisTickRoundingLabel\" class=\"tick-round-label\"\n          [style.textAnchor]=\"'start'\"\n          [style.alignment-baseline]=\"'baseline'\"\n          [attr.transform]=\"labelTransform\"\n          alignment-baseline=\"central\"\n          x=\"20\" dy=\"15\">\n          {{yAxisTickRoundingLabel}}\n      </svg:text>\n      <svg:g [attr.transform]=\"transform\" class=\"bar-chart chart\">\n        <svg:g ngx-charts-x-axis\n          *ngIf=\"xAxis\"\n          [xScale]=\"xScale\"\n          [dims]=\"dims\"\n          [showLabel]=\"showXAxisLabel\"\n          [labelText]=\"xAxisLabel\"\n          [tickFormatting]=\"xAxisTickFormatting\"\n          (dimensionsChanged)=\"updateXAxisHeight($event)\">\n        </svg:g>\n        <svg:g ngx-charts-y-axis\n          *ngIf=\"yAxis\"\n          [yScale]=\"yScale\"\n          [dims]=\"dims\"\n          [showGridLines]=\"showGridLines\"\n          [showLabel]=\"showYAxisLabel\"\n          [labelText]=\"yAxisLabel\"\n          [tickFormatting]=\"yAxisTickFormatting\"\n          [maxTicks]=\"maxTicks\"\n          (dimensionsChanged)=\"updateYAxisWidth($event)\">\n        </svg:g>\n        <svg:g ngx-charts-series-vertical\n          [type]=\"type\"\n          [xScale]=\"xScale\"\n          [yScale]=\"yScale\"\n          [colors]=\"colors\"\n          [series]=\"results\"\n          [dims]=\"dims\"\n          [gradient]=\"gradient\"\n          [tooltipDisabled]=\"tooltipDisabled\"\n          [activeEntries]=\"activeEntries\"\n          (activate)=\"onActivate($event)\"\n          (deactivate)=\"onDeactivate($event)\"\n          (select)=\"onClick($event)\">\n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\">\n          <svg:line\n            class=\"gridline-path gridline-path-vertical\"\n            y1=\"0\"\n            [attr.y2]=\"dims.height\" />\n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\"\n          [attr.transform]=\"xAxisLineTransform()\">\n          <svg:line\n            class=\"gridline-path gridline-path-horizontal\"\n            x1=\"0\"\n            [attr.x2]=\"dims.width\" />\n        </svg:g>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
             changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush,
             styles: [__webpack_require__("./src/common/base-chart.component.scss")],
             encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewEncapsulation"].None

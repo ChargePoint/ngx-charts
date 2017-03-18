@@ -14,6 +14,7 @@ export declare class BarVerticalComponent extends BaseChartComponent {
     tooltipDisabled: boolean;
     gradient: boolean;
     showGridLines: boolean;
+    showBaseLines: boolean;
     activeEntries: any[];
     schemeType: string;
     type: string;
@@ -57,4 +58,5 @@ export declare class BarVerticalComponent extends BaseChartComponent {
     }): void;
     onActivate(item: any): void;
     onDeactivate(item: any): void;
+    xAxisLineTransform(): string;
 }
