@@ -66,6 +66,21 @@ import { BaseChartComponent } from '../common/base-chart.component';
           (deactivate)="onDeactivate($event)"
           (select)="onClick($event)">
         </svg:g>
+        <svg:g
+          *ngIf="showBaseLines">
+          <svg:line
+            class="gridline-path gridline-path-vertical"
+            y1="0"
+            [attr.y2]="dims.height" />
+        </svg:g>
+        <svg:g
+          *ngIf="showBaseLines"
+          [attr.transform]="xAxisLineTransform()">
+          <svg:line
+            class="gridline-path gridline-path-horizontal"
+            x1="0"
+            [attr.x2]="dims.width" />
+        </svg:g>
       </svg:g>
     </ngx-charts-chart>
   `,
@@ -86,6 +101,7 @@ export class BarVerticalComponent extends BaseChartComponent {
   @Input() tooltipDisabled: boolean = false;
   @Input() gradient: boolean;
   @Input() showGridLines: boolean = true;
+  @Input() showBaseLines: boolean = true;
   @Input() activeEntries: any[] = [];
   @Input() schemeType: string;
   @Input() type: string = 'standard';
@@ -151,10 +167,12 @@ export class BarVerticalComponent extends BaseChartComponent {
       spacing = this.paddingProportion;
     }
 
-    return scaleBand()
+    const scale = scaleBand()
       .rangeRound([0, this.dims.width])
       .paddingInner(spacing)
       .domain(this.xDomain);
+
+    return this.showBaseLines ? scale.paddingOuter(spacing / 2) : scale;
   }
 
   getYScale(): any {
@@ -162,6 +180,7 @@ export class BarVerticalComponent extends BaseChartComponent {
     const scale = scaleLinear()
       .range([this.dims.height, 0])
       .domain(this.yDomain);
+
     return this.roundDomains ? scale.nice() : scale;
   }
 
@@ -240,4 +259,7 @@ export class BarVerticalComponent extends BaseChartComponent {
     this.deactivate.emit({ value: item, entries: this.activeEntries });
   }
 
+  xAxisLineTransform(): string {
+    return `translate(0,${this.dims.height})`;
+  }
 }
