@@ -21,7 +21,6 @@ import { BaseChartComponent } from '../common/base-chart.component';
         class="pie chart">
         <svg:g ngx-charts-pie-series
           [colors]="colors"
-          [showLabels]="labels"
           [series]="results"
           [innerRadius]="innerRadius"
           [activeEntries]="activeEntries"
