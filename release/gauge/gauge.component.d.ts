@@ -6,6 +6,7 @@ export declare class GaugeComponent extends BaseChartComponent implements AfterV
     legend: boolean;
     min: number;
     max: number;
+    textValue: string;
     units: string;
     bigSegments: number;
     smallSegments: number;
@@ -14,6 +15,9 @@ export declare class GaugeComponent extends BaseChartComponent implements AfterV
     startAngle: number;
     angleSpan: number;
     activeEntries: any[];
+    axisTickFormatting: any;
+    tooltipDisabled: boolean;
+    valueFormatting: any;
     margin: any[];
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;
