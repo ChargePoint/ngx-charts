@@ -14,6 +14,7 @@ import {
   animate,
   transition
 } from '@angular/animations';
+
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { formatLabel } from '../common/label.helper';
 import { id } from '../utils/id';

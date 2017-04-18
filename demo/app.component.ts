@@ -69,6 +69,7 @@ export class AppComponent implements OnInit {
   xAxisLabel = 'Country';
   showYAxisLabel = true;
   yAxisLabel = 'GDP Per Capita';
+  yAxisTickRoundingLabel = 'in thousands';
   showGridLines = true;
   innerPadding = '10%';
   barPadding = 8;
