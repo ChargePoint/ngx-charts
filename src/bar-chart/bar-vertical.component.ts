@@ -91,6 +91,7 @@ export class BarVerticalComponent extends BaseChartComponent {
   @Input() gradient: boolean;
   @Input() showGridLines: boolean = true;
   @Input() showBaseLines: boolean = true;
+  @Input() showAxisLines: boolean = false;
   @Input() activeEntries: any[] = [];
   @Input() schemeType: string;
   @Input() xAxisTickFormatting: any;

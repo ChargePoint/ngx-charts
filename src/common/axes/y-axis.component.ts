@@ -9,6 +9,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { YAxisTicksComponent } from './y-axis-ticks.component';
+import d3 from '../../d3';
 
 @Component({
   selector: 'g[ngx-charts-y-axis]',
@@ -29,6 +30,7 @@ import { YAxisTicksComponent } from './y-axis-ticks.component';
       />
 
       <svg:g ngx-charts-axis-label
+        class="fake"
         *ngIf="showLabel"
         [label]="labelText"
         [offset]="labelOffset"
@@ -81,6 +83,12 @@ export class YAxisComponent implements OnChanges {
     if (this.yAxisTickCount !== undefined) {
       this.tickArguments = [this.yAxisTickCount];
     }
+
+    // if (this.showAxisLines) {
+    const axis = d3.axisLeft(this.yScale);
+    axis.tickFormat('');
+    d3.select('.fake').call(axis);
+    // }
   }
 
   emitTicksWidth({ width }): void {

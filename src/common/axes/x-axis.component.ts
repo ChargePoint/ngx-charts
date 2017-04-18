@@ -88,5 +88,4 @@ export class XAxisComponent implements OnChanges {
       }, 0);
     }
   }
-
 }
