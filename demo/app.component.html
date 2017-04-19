@@ -711,22 +711,10 @@
         <label>Padding between bars:</label><br />
         <input type="number" [(ngModel)]="barPadding" min="0" step="1"><br />
       </div>
-
-      <div *ngIf="chart.options.includes('paddingProportion')">
-        <label>Proportion of padding to bar width:</label><br />
-        <input type="number" [(ngModel)]="paddingProportion" min="0" step="0.1"><br />
-      </div>
-
       <div *ngIf="chart.options.includes('groupPadding')">
         <label>Padding between groups:</label><br />
         <input type="number" [(ngModel)]="groupPadding" min="0" step="1"><br />
       </div>
-
-      <div *ngIf="chart.options.includes('groupProportion')">
-        <label>Proportion of padding to individual group:</label><br />
-        <input type="number" [(ngModel)]="groupProportion" min="0" step="1"><br />
-      </div>
-
       <div *ngIf="chart.options.includes('value')">
         <label>Value:</label><br />
         <input type="number" [(ngModel)]="gaugeValue"><br />

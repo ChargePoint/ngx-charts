@@ -110,9 +110,7 @@ export class BarVertical2DComponent extends BaseChartComponent {
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
   @Input() groupPadding = 16;
-  @Input() groupProportion = 0;
   @Input() barPadding = 8;
-  @Input() paddingProportion = 0;
   @Input() roundDomains: boolean = false;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
@@ -166,9 +164,9 @@ export class BarVertical2DComponent extends BaseChartComponent {
   }
 
   getGroupScale(): any {
-    let spacing = this.groupDomain.length / (this.dims.height / this.groupPadding + 1);
-    if (this.groupProportion) {
-      spacing = this.groupProportion;
+    let spacing = parseInt(this.groupPadding);
+    if (this.groupPadding != (spacing + '%')) {
+      spacing = this.groupDomain.length / (this.dims.height / spacing + 1);
     }
     return scaleBand()
       .rangeRound([0, this.dims.width])
@@ -179,9 +177,9 @@ export class BarVertical2DComponent extends BaseChartComponent {
 
   getInnerScale(): any {
     const width = this.groupScale.bandwidth();
-    let spacing = this.innerDomain.length / (width / this.barPadding + 1);
-    if (this.paddingProportion) {
-      spacing = this.paddingProportion;
+    let spacing = parseInt(this.barPadding);
+    if (this.barPadding != (spacing + '%')) {
+      spacing = this.innerDomain.length / (width / spacing + 1);
     }
     return scaleBand()
       .rangeRound([0, width])

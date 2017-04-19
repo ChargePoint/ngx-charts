@@ -44,6 +44,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
           (dimensionsChanged)="updateYAxisWidth($event)">
         </svg:g>
         <svg:g ngx-charts-series-vertical
+          [type]="type"
           [xScale]="xScale"
           [yScale]="yScale"
           [colors]="colors"
@@ -94,10 +95,10 @@ export class BarVerticalComponent extends BaseChartComponent {
   @Input() showAxisLines: boolean = false;
   @Input() activeEntries: any[] = [];
   @Input() schemeType: string;
+  @Input() type: string = 'standard';
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
   @Input() barPadding = 8;
-  @Input() paddingProportion = 0;
   @Input() roundDomains: boolean = false;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
@@ -143,11 +144,11 @@ export class BarVerticalComponent extends BaseChartComponent {
 
   getXScale(): any {
     this.xDomain = this.getXDomain();
-    let spacing = this.xDomain.length / (this.dims.width / this.barPadding + 1);
-    if (this.paddingProportion) {
-      spacing = this.paddingProportion;
+    let spacing = parseInt(this.barPadding);
+    if (this.barPadding != (spacing + '%')) {
+      spacing = this.xDomain.length / (this.dims.width / spacing + 1);
     }
-    const scale = scaleBand()
+    return scaleBand()
       .rangeRound([0, this.dims.width])
       .paddingInner(spacing)
       .domain(this.xDomain);

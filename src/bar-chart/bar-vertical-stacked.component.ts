@@ -105,7 +105,6 @@ export class BarVerticalStackedComponent extends BaseChartComponent {
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
   @Input() barPadding = 8;
-  @Input() paddingProportion = 0;
   @Input() roundDomains: boolean = false;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
@@ -198,9 +197,9 @@ export class BarVerticalStackedComponent extends BaseChartComponent {
   }
 
   getXScale(): any {
-    let spacing = this.groupDomain.length / (this.dims.width / this.barPadding + 1);
-    if (this.paddingProportion) {
-      spacing = this.paddingProportion;
+    let spacing = parseInt(this.barPadding);
+    if (this.barPadding != (spacing + '%')) {
+      spacing = this.groupDomain.length / (this.dims.width / spacing + 1);
     }
     return scaleBand()
       .rangeRound([0, this.dims.width])
