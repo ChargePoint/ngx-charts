@@ -9,7 +9,6 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { YAxisTicksComponent } from './y-axis-ticks.component';
-import d3 from '../../d3';
 
 @Component({
   selector: 'g[ngx-charts-y-axis]',
@@ -19,7 +18,7 @@ import d3 from '../../d3';
       [attr.transform]="transform">
       <svg:g ngx-charts-y-axis-ticks
         [tickFormatting]="tickFormatting"
-        [tickArguments]="[maxTicks]"
+        [tickArguments]="tickArguments"
         [tickStroke]="tickStroke"
         [scale]="yScale"
         [orient]="yOrient"
@@ -30,7 +29,6 @@ import d3 from '../../d3';
       />
 
       <svg:g ngx-charts-axis-label
-        class="fake"
         *ngIf="showLabel"
         [label]="labelText"
         [offset]="labelOffset"
@@ -47,8 +45,6 @@ export class YAxisComponent implements OnChanges {
   @Input() yScale;
   @Input() dims;
   @Input() tickFormatting;
-  @Input() tickArguments;
-  @Input() maxTicks;
   @Input() showGridLines = false;
   @Input() showLabel;
   @Input() labelText;
@@ -57,6 +53,7 @@ export class YAxisComponent implements OnChanges {
   @Output() dimensionsChanged = new EventEmitter();
 
   yAxisClassName: string = 'y axis';
+  tickArguments: any;
   offset: any;
   transform: any;
   yAxisOffset: number = -5;
@@ -84,12 +81,6 @@ export class YAxisComponent implements OnChanges {
     if (this.yAxisTickCount !== undefined) {
       this.tickArguments = [this.yAxisTickCount];
     }
-
-    // if (this.showAxisLines) {
-    const axis = d3.axisLeft(this.yScale);
-    axis.tickFormat('');
-    d3.select('.fake').call(axis);
-    // }
   }
 
   emitTicksWidth({ width }): void {
