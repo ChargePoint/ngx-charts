@@ -72,11 +72,13 @@ export class AppComponent implements OnInit {
   showGridLines = false;
   showBaseLines = true;
   innerPadding = 8;
+  yAxisTickRoundingLabel = 'in thousands';
   barPadding = 8;
   groupPadding = 16;
   roundDomains = false;
   maxRadius = 10;
   minRadius = 3;
+  maxTicks = 5;
 
   // line interpolation
   curveType: string = 'Linear';
