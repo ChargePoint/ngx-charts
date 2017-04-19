@@ -100,7 +100,7 @@ export class BarVerticalComponent extends BaseChartComponent {
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
   @Input() maxTicks: number;
-  @Input() barPadding = 8;
+  @Input() barPadding: string | number  = 8;
   @Input() roundDomains: boolean = false;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
@@ -146,8 +146,8 @@ export class BarVerticalComponent extends BaseChartComponent {
 
   getXScale(): any {
     this.xDomain = this.getXDomain();
-    let spacing = parseInt(this.barPadding);
-    if (this.barPadding != (spacing + '%')) {
+    let spacing = parseInt(this.barPadding.toString(), 10);
+    if (this.barPadding !== (spacing + '%')) {
       spacing = this.xDomain.length / (this.dims.width / spacing + 1);
     }
     return scaleBand()
