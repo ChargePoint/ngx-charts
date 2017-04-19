@@ -138,7 +138,7 @@ export class PowerGaugeAxisComponent implements OnChanges, OnInit {
     const rw = this.dims.width / 2;
     const rh = this.dims.height / 2;
     const r = rw < rh ? rw : rh;
-    const pointerHeadLength = Math.round(r * 0.9);
+    const pointerHeadLength = r;
     const pointerLine = [{ x: this.pointerWidth / 2, y: 0 },
       { x: 0, y: -pointerHeadLength },
       { x: -(this.pointerWidth / 2), y: 0 },
