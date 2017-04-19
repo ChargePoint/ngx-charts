@@ -136,17 +136,17 @@ export class PowerGaugeComponent extends BaseChartComponent implements AfterView
       this.valueScale = this.getValueScale();
       this.displayValue = this.getDisplayValue();
 
-      this.outerRadius = Math.min(this.dims.width, this.dims.height) / 2;
-      const radiusPerArc = 65;
-      const arcWidth = radiusPerArc * 0.7;
+      this.outerRadius = Math.min(this.dims.width, this.dims.height) * .7;
+      const radiusPerArc = 100;
+      const arcWidth = radiusPerArc * 0.4;
       this.innerRadius = this.outerRadius - arcWidth;
       this.textRadius = this.outerRadius - radiusPerArc;
 
       this.arcSet = this.getArcSet();
       this.axisValues = this.getAxisValues();
 
-      const xOffset = this.margin[3] + this.dims.width / 2;
-      const yOffset = this.dims.height / 2 + (this.margin[0] * 2);
+      const xOffset = this.margin[3] + (this.dims.width / 2) - 15;
+      const yOffset = this.dims.height - (this.margin[0] / 2);
 
       this.transform = `translate(${ xOffset }, ${ yOffset })`;
       // setTimeout(() => this.scaleText(), 50);
