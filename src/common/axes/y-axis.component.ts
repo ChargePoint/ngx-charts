@@ -19,7 +19,7 @@ import d3 from '../../d3';
       [attr.transform]="transform">
       <svg:g ngx-charts-y-axis-ticks
         [tickFormatting]="tickFormatting"
-        [tickArguments]="tickArguments"
+        [tickArguments]="[maxTicks]"
         [tickStroke]="tickStroke"
         [scale]="yScale"
         [orient]="yOrient"
@@ -47,6 +47,8 @@ export class YAxisComponent implements OnChanges {
   @Input() yScale;
   @Input() dims;
   @Input() tickFormatting;
+  @Input() tickArguments;
+  @Input() maxTicks;
   @Input() showGridLines = false;
   @Input() showLabel;
   @Input() labelText;
@@ -55,7 +57,6 @@ export class YAxisComponent implements OnChanges {
   @Output() dimensionsChanged = new EventEmitter();
 
   yAxisClassName: string = 'y axis';
-  tickArguments: any;
   offset: any;
   transform: any;
   yAxisOffset: number = -5;

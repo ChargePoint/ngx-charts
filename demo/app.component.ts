@@ -73,9 +73,7 @@ export class AppComponent implements OnInit {
   showBaseLines = true;
   innerPadding = 8;
   barPadding = 8;
-  paddingProportion = 0;
   groupPadding = 16;
-  groupProportion = 0;
   roundDomains = false;
   maxRadius = 10;
   minRadius = 3;
@@ -122,6 +120,8 @@ export class AppComponent implements OnInit {
   // gauge
   gaugeMin: number = 0;
   gaugeMax: number = 100;
+  pointerValue: number = 40632;
+  powerGaugeMax: number = 50000;
   gaugeLargeSegments: number = 10;
   gaugeSmallSegments: number = 5;
   gaugeTextValue: string = '';

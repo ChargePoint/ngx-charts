@@ -20,8 +20,8 @@
         [yAxisLabel]="yAxisLabel"
         [showGridLines]="showGridLines"
         [showBaseLines]="showBaseLines"
+        [maxTicks]="maxTicks"
         [barPadding]="barPadding"
-        [paddingProportion]="paddingProportion"
         [roundDomains]="roundDomains"
         (select)="select($event)"
         (legendLabelClick)="onLegendLabelClick($event)">
@@ -44,7 +44,6 @@
         [yAxisLabel]="yAxisLabel"
         [showGridLines]="showGridLines"
         [barPadding]="barPadding"
-        [paddingProportion]="paddingProportion"
         [roundDomains]="roundDomains"
         (legendLabelClick)="onLegendLabelClick($event)"
         (select)="select($event)">
@@ -68,9 +67,7 @@
         (legendLabelClick)="onLegendLabelClick($event)"
         [showGridLines]="showGridLines"
         [barPadding]="barPadding"
-        [paddingProportion]="paddingProportion"
         [groupPadding]="groupPadding"
-        [groupProportion]="groupProportion"
         [roundDomains]="roundDomains"
         (select)="select($event)">
       </ngx-charts-bar-vertical-2d>
@@ -93,9 +90,7 @@
         [yAxisLabel]="yAxisLabel"
         [showGridLines]="showGridLines"
         [barPadding]="barPadding"
-        [paddingProportion]="paddingProportion"
         [groupPadding]="groupPadding"
-        [groupProportion]="groupProportion"
         [roundDomains]="roundDomains"
         (select)="select($event)">
       </ngx-charts-bar-horizontal-2d>
@@ -118,7 +113,6 @@
         [yAxisLabel]="yAxisLabel"
         [showGridLines]="showGridLines"
         [barPadding]="barPadding"
-        [paddingProportion]="paddingProportion"
         [roundDomains]="roundDomains"
         (select)="select($event)">
       </ngx-charts-bar-vertical-stacked>
@@ -141,7 +135,6 @@
         [yAxisLabel]="yAxisLabel"
         [showGridLines]="showGridLines"
         [barPadding]="barPadding"
-        [paddingProportion]="paddingProportion"
         [roundDomains]="roundDomains"
         (select)="select($event)">
       </ngx-charts-bar-horizontal-stacked>
@@ -164,7 +157,6 @@
         [yAxisLabel]="yAxisLabel"
         [showGridLines]="showGridLines"
         [barPadding]="barPadding"
-        [paddingProportion]="paddingProportion"
         [roundDomains]="roundDomains"
         (select)="select($event)">
       </ngx-charts-bar-vertical-normalized>
@@ -187,7 +179,6 @@
         (legendLabelClick)="onLegendLabelClick($event)"
         [showGridLines]="showGridLines"
         [barPadding]="barPadding"
-        [paddingProportion]="paddingProportion"
         [roundDomains]="roundDomains"
         (select)="select($event)">
       </ngx-charts-bar-horizontal-normalized>
@@ -471,6 +462,18 @@
         [units]="gaugeUnits"
         (select)="select($event)">
       </ngx-charts-linear-gauge>
+      <ngx-charts-power-gauge
+        *ngIf="chartType === 'power-gauge'"
+        class="chart-container"
+        [view]="view"
+        [scheme]="colorScheme"
+        [min]="gaugeMin"
+        [max]="powerGaugeMax"
+        [pointerValue]="pointerValue"
+        [axisPoints]="single"
+        [results]="single">
+      </ngx-charts-power-gauge>
+
     </div>
   </div>
   <div class="sidebar">
