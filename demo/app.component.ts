@@ -119,6 +119,8 @@ export class AppComponent implements OnInit {
   // gauge
   gaugeMin: number = 0;
   gaugeMax: number = 100;
+  pointerValue: number = 40632;
+  powerGaugeMax: number = 50000;
   gaugeLargeSegments: number = 10;
   gaugeSmallSegments: number = 5;
   gaugeTextValue: string = '';

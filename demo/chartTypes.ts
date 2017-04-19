@@ -97,6 +97,12 @@ const chartGroups = [
         ]
       },
       {
+        name: 'Simple Pie Chart',
+        selector: 'simple-pie-chart',
+        inputFormat: 'singleSeries',
+        options: ['colorScheme']
+      },
+      {
         name: 'Advanced Pie Chart',
         selector: 'advanced-pie-chart',
         inputFormat: 'singleSeries',
@@ -214,6 +220,15 @@ const chartGroups = [
         selector: 'linear-gauge',
         inputFormat: 'single',
         options: ['colorScheme', 'value', 'previousValue', 'min', 'max', 'units']
+      },
+      {
+        name: 'Power Gauge',
+        selector: 'power-gauge',
+        inputFormat: 'singleSeries',
+        options: [
+          'showLegend', 'colorScheme', 'min', 'max', 'largeSegments', 'smallSegments', 'units',
+          'angleSpan', 'startAngle', 'showAxis', 'margin'
+        ]
       }
     ]
   },

@@ -19,6 +19,8 @@
         [xAxisLabel]="xAxisLabel"
         [yAxisLabel]="yAxisLabel"
         [showGridLines]="showGridLines"
+        [showBaseLines]="showBaseLines"
+        [maxTicks]="maxTicks"
         [barPadding]="barPadding"
         [roundDomains]="roundDomains"
         (select)="select($event)"
@@ -196,6 +198,16 @@
         [tooltipDisabled]="tooltipDisabled"
         (select)="select($event)">
       </ngx-charts-pie-chart>
+      <ngx-charts-simple-pie-chart
+        *ngIf="chartType === 'simple-pie-chart'"
+        class="chart-container"
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="single"
+        totalLabel="Total:"
+        [totalValue]="78"
+        (select)="select($event)">
+      </ngx-charts-simple-pie-chart>
       <ngx-charts-advanced-pie-chart
         *ngIf="chartType === 'advanced-pie-chart'"
         class="chart-container"
@@ -450,6 +462,18 @@
         [units]="gaugeUnits"
         (select)="select($event)">
       </ngx-charts-linear-gauge>
+      <ngx-charts-power-gauge
+        *ngIf="chartType === 'power-gauge'"
+        class="chart-container"
+        [view]="view"
+        [scheme]="colorScheme"
+        [min]="gaugeMin"
+        [max]="powerGaugeMax"
+        [pointerValue]="pointerValue"
+        [axisPoints]="single"
+        [results]="single">
+      </ngx-charts-power-gauge>
+
     </div>
   </div>
   <div class="sidebar">
