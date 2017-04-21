@@ -6,7 +6,8 @@ export interface ViewDimensions {
 
 export function calculateViewDimensions({
   width, height, margins, showXAxis = false, showYAxis = false, xAxisHeight = 0,
-  yAxisWidth = 0, showXLabel = false, showYLabel = false, showLegend = false, legendType = 'ordinal', columns = 12
+  yAxisWidth = 0, showXLabel = false, showYLabel = false, showLegend = false,
+  legendType = 'ordinal', columns = 12, yAxisLabel = true
 }): ViewDimensions {
   let xOffset = margins[3];
   let chartWidth = width;
@@ -43,7 +44,10 @@ export function calculateViewDimensions({
 
     if (showYLabel) {
       // text height + spacing between axis label and tick labels
-      const offset = 25 + 5;
+      let offset = 25 + 5;
+      if (!yAxisLabel) {
+        offset -= 20;
+      }
       chartWidth -= offset;
       xOffset += offset;
     }
