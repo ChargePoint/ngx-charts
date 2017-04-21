@@ -2,14 +2,14 @@ import {
   Component,
   Input,
   OnChanges,
-  OnInit,
+  OnDestroy,
   ChangeDetectionStrategy
 } from '@angular/core';
 
-import { ViewDimensions } from '../common/view-dimensions.helper';
-import { select } from 'd3-selection';
-import { line, curveMonotoneX } from 'd3-shape';
 import { easeElastic } from 'd3-ease';
+import { select } from 'd3-selection';
+import { curveMonotoneX, line } from 'd3-shape';
+import { ViewDimensions } from '../common/view-dimensions.helper';
 
 @Component({
   selector: 'g[ngx-charts-power-gauge-axis]',
@@ -39,7 +39,7 @@ import { easeElastic } from 'd3-ease';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PowerGaugeAxisComponent implements OnChanges, OnInit {
+export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
   @Input() bigSegments: any;
   @Input() startAngle: number;
   @Input() pointerAngle: number;
@@ -56,19 +56,25 @@ export class PowerGaugeAxisComponent implements OnChanges, OnInit {
   rotationAngle: number;
   rotate: string = '';
   tickTurner: -1;
+  animator: any;
 
   ngOnChanges() {
     this.update();
   }
 
-  ngOnInit() {
-    setTimeout(() => {
-      setInterval(() => {
-        const pointerAngle = this.pointerAngle;
-        const moveTick = Math.random() * 2;
-        this.updatePointer(pointerAngle + moveTick, 0, 750);
-      }, 500);
-    }, 1500);
+  ngOnDestroy() {
+    this.stopAnimation();
+  }
+
+  startAnimation(pointerAngle) {
+    this.animator = setInterval(() => {
+      const moveTick = Math.random() * 2;
+      this.updatePointer(pointerAngle + moveTick, 0, 750, 1);
+    }, 300);
+  }
+
+  stopAnimation() {
+    clearInterval(this.animator);
   }
 
   update(): void {
@@ -76,15 +82,19 @@ export class PowerGaugeAxisComponent implements OnChanges, OnInit {
     this.rotate = `rotate(${this.rotationAngle})`;
     this.ticks = this.getTicks();
 
+    this.stopAnimation();
+    setTimeout(() => {
+      this.startAnimation(this.pointerAngle);
+    }, 1500);
     if (this.pointerAngle) {
-      this.updatePointer(this.pointerAngle, 750, 750);
+      this.updatePointer(this.pointerAngle, 750, 750, 0.8);
     }
   }
 
-  updatePointer(pointerAngle, delay, duration): void {
+  updatePointer(pointerAngle, delay, duration, easeValue): void {
     const pointer = select('.pointer');
     const pointerRotate = `rotate(${pointerAngle})`;
-    const ease = easeElastic.period(0.8);
+    const ease = easeElastic.period(easeValue);
     pointer
       .transition().delay(delay).duration(duration)
       .ease(ease)
@@ -130,8 +140,8 @@ export class PowerGaugeAxisComponent implements OnChanges, OnInit {
     const x2 = (startDistance + tickLength) * Math.cos(angle);
 
     const points = [{ x: x1, y: y1 }, { x: x2, y: y2 }];
-    const lineObj = line<any>().x(d => d.x).y(d => d.y);
-    return lineObj(points);
+    const lineGenerator = line<any>().x(d => d.x).y(d => d.y);
+    return lineGenerator(points);
   }
 
   getPointerPath() {
