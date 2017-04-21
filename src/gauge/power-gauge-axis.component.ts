@@ -3,7 +3,8 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  NgZone
 } from '@angular/core';
 
 import { easeElastic } from 'd3-ease';
@@ -58,6 +59,10 @@ export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
   tickTurner: -1;
   animator: any;
 
+  constructor(private zone: NgZone) {
+
+  }
+
   ngOnChanges() {
     this.update();
   }
@@ -67,14 +72,18 @@ export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
   }
 
   startAnimation(pointerAngle) {
-    this.animator = setInterval(() => {
-      const moveTick = Math.random() * 2;
-      this.updatePointer(pointerAngle + moveTick, 0, 750, 1);
-    }, 300);
+    this.zone.runOutsideAngular(() => {
+      this.animator = setInterval(() => {
+        const moveTick = Math.random() * 2;
+        this.updatePointer(pointerAngle + moveTick, 0, 750, 1);
+      }, 300);
+    });
   }
 
   stopAnimation() {
-    clearInterval(this.animator);
+    this.zone.runOutsideAngular(() => {
+      clearInterval(this.animator);
+    });
   }
 
   update(): void {
@@ -83,9 +92,13 @@ export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
     this.ticks = this.getTicks();
 
     this.stopAnimation();
-    setTimeout(() => {
-      this.startAnimation(this.pointerAngle);
-    }, 1500);
+
+    this.zone.runOutsideAngular(() => {
+      setTimeout(() => {
+        this.startAnimation(this.pointerAngle);
+      }, 1500);
+    });
+
     if (this.pointerAngle) {
       this.updatePointer(this.pointerAngle, 750, 750, 0.8);
     }
