@@ -166,10 +166,12 @@ export class BarVerticalComponent extends BaseChartComponent {
     } else {
       spacing /= 100;
     }
-    return scaleBand()
+    const scale = scaleBand()
       .rangeRound([0, this.dims.width])
       .paddingInner(spacing)
       .domain(this.xDomain);
+
+    return this.showBaseLines ? scale.paddingOuter(spacing / 2) : scale;
   }
 
   getYScale(): any {
