@@ -56,6 +56,19 @@ import { BaseChartComponent } from '../common/base-chart.component';
           (deactivate)="onDeactivate($event)"
           (select)="onClick($event)">
         </svg:g>
+        <svg:g *ngIf="showBaseLines">
+          <svg:line
+            class="gridline-path gridline-path-vertical"
+           y1="0"
+           [attr.y2]="dims.height" />
+        </svg:g>
+        <svg:g *ngIf="showBaseLines"
+          [attr.transform]="xAxisLineTransform()">
+         <svg:line
+           class="gridline-path gridline-path-horizontal"
+           x1="0"
+           [attr.x2]="dims.width" />
+        </svg:g>
       </svg:g>
     </ngx-charts-chart>
   `,
@@ -70,6 +83,7 @@ export class BarVerticalComponent extends BaseChartComponent {
   @Input() yAxis;
   @Input() showXAxisLabel;
   @Input() showYAxisLabel;
+  @Input() showBaseLines: boolean = true;
   @Input() xAxisLabel;
   @Input() yAxisLabel;
   @Input() tooltipDisabled: boolean = false;
@@ -120,16 +134,18 @@ export class BarVerticalComponent extends BaseChartComponent {
     this.setColors();
     this.legendOptions = this.getLegendOptions();
 
-    this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] })`;
+    this.transform = `translate(${this.dims.xOffset} , ${this.margin[0]})`;
   }
 
   getXScale(): any {
     this.xDomain = this.getXDomain();
     const spacing = this.xDomain.length / (this.dims.width / this.barPadding + 1);
-    return scaleBand()
+    const scale = scaleBand()
       .rangeRound([0, this.dims.width])
       .paddingInner(spacing)
       .domain(this.xDomain);
+
+    return this.showBaseLines ? scale.paddingOuter(spacing / 2) : scale;
   }
 
   getYScale(): any {
@@ -200,7 +216,7 @@ export class BarVerticalComponent extends BaseChartComponent {
       return;
     }
 
-    this.activeEntries = [ item, ...this.activeEntries ];
+    this.activeEntries = [item, ...this.activeEntries];
     this.activate.emit({ value: item, entries: this.activeEntries });
   }
 
@@ -215,4 +231,7 @@ export class BarVerticalComponent extends BaseChartComponent {
     this.deactivate.emit({ value: item, entries: this.activeEntries });
   }
 
+  xAxisLineTransform(): string {
+    return `translate(0,${this.dims.height})`;
+  }
 }
