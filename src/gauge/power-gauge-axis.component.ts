@@ -22,6 +22,12 @@ import { ViewDimensions } from '../common/view-dimensions.helper';
     </svg:g>
     <svg:g *ngFor="let tick of ticks"
         class="gauge-tick gauge-tick-large">
+        <svg:text *ngIf="tick.label"
+            [style.textAnchor]="tick.textAnchor"
+            [attr.transform]="tick.labelTransform"
+            alignment-baseline="central">
+            {{tick.label}}
+        </svg:text>
         <svg:text
             [style.textAnchor]="tick.textAnchor"
             [attr.transform]="tick.textTransform"
@@ -59,9 +65,13 @@ export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
   tickTurner: -1;
   animator: any;
 
+<<<<<<< HEAD
+  constructor(private zone: NgZone) {}
+=======
   constructor(private zone: NgZone) {
 
   }
+>>>>>>> b38aa93... move setInterval to run outside of angular zone
 
   ngOnChanges() {
     this.update();
@@ -127,7 +137,7 @@ export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
 
     for (let i = 0; i < this.bigSegments.length; i++) {
       bigSegment = this.bigSegments[i];
-      const { data, endAngle, textAnchor } = bigSegment;
+      const { data, endAngle, textAnchor, label } = bigSegment;
       let text = data.value;
       if (this.tickFormatting) {
         text = this.tickFormatting(text);
@@ -136,6 +146,11 @@ export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
         line: this.getTickPath(startDistance, tickLength, endAngle),
         textAnchor: bigSegment.textAnchor,
         text,
+        label,
+        labelTransform: `
+          translate(${textDist * Math.cos(endAngle) + 20},
+          ${textDist * Math.sin(endAngle) - 10}) rotate(${-this.rotationAngle})
+        `,
         textTransform: `
           translate(${textDist * Math.cos(endAngle)}, ${textDist * Math.sin(endAngle)}) rotate(${-this.rotationAngle})
         `
