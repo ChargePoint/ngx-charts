@@ -125,7 +125,8 @@ export class BarVerticalComponent extends BaseChartComponent {
       showXLabel: this.showXAxisLabel,
       showYLabel: this.showYAxisLabel,
       showLegend: this.legend,
-      legendType: this.schemeType
+      legendType: this.schemeType,
+      yAxisLabel: this.yAxisLabel
     });
 
     this.xScale = this.getXScale();
