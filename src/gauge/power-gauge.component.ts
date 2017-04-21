@@ -206,7 +206,8 @@ export class PowerGaugeComponent extends BaseChartComponent implements AfterView
         data: {
           value: d.value,
           name: d.name
-        }
+        },
+        label: d.label
       };
 
       axisValues.push(valueArc);
