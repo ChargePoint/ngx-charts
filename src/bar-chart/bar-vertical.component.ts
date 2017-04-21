@@ -133,7 +133,11 @@ export class BarVerticalComponent extends BaseChartComponent {
     this.legendOptions = this.getLegendOptions();
 
     if (this.yAxisTickRoundingLabel) {
-      this.labelTransform = `translate(${ this.margin[3] } , 10)`;
+      let offset = this.margin[3];
+      if (!this.yAxisLabel) {
+        offset -= 20;
+      }
+      this.labelTransform = `translate(${ offset } , 10)`;
       this.margin[0] = 50;
     }
     this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] })`;
