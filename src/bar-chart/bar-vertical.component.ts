@@ -61,6 +61,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [dims]="dims"
           [gradient]="gradient"
           [tooltipDisabled]="tooltipDisabled"
+          [tooltipFormatting]="tooltipFormatting"
           [activeEntries]="activeEntries"
           (activate)="onActivate($event)"
           (deactivate)="onDeactivate($event)"
@@ -99,6 +100,7 @@ export class BarVerticalComponent extends BaseChartComponent {
   @Input() yAxisLabel;
   @Input() yAxisTickRoundingLabel;
   @Input() tooltipDisabled: boolean = false;
+  @Input() tooltipFormatting: any;
   @Input() gradient: boolean;
   @Input() showGridLines: boolean = true;
   @Input() showBaseLines: boolean = true;
