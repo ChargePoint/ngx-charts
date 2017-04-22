@@ -63,6 +63,7 @@ export class SeriesVerticalComponent implements OnChanges {
   @Input() yScale;
   @Input() colors;
   @Input() tooltipDisabled: boolean = false;
+  @Input() tooltipFormatting: any;
   @Input() gradient: boolean;
   @Input() activeEntries: any[];
   @Input() seriesName: string;
@@ -166,9 +167,13 @@ export class SeriesVerticalComponent implements OnChanges {
         tooltipLabel = `${this.seriesName} • ${formattedLabel}`;
       }
 
+      let tValue = value.toLocaleString();
+      if (this.tooltipFormatting) {
+        tValue = this.tooltipFormatting(value);
+      }
       bar.tooltipText = `
         <span class="tooltip-label">${tooltipLabel}</span>
-        <span class="tooltip-val">${value.toLocaleString()}</span>
+        <span class="tooltip-val">${tValue}</span>
       `;
 
       return bar;
