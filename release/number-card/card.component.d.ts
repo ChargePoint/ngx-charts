@@ -12,6 +12,7 @@ export declare class CardComponent implements OnChanges, OnDestroy {
     label: any;
     data: any;
     medianSize: number;
+    valueFormatting: any;
     select: EventEmitter<{}>;
     textEl: ElementRef;
     element: HTMLElement;
@@ -21,7 +22,6 @@ export declare class CardComponent implements OnChanges, OnDestroy {
     cardWidth: number;
     cardHeight: number;
     textWidth: number;
-    resizeScale: number;
     textFontSize: number;
     textTransform: string;
     originalWidth: number;
@@ -39,6 +39,7 @@ export declare class CardComponent implements OnChanges, OnDestroy {
     ngOnChanges(changes: SimpleChanges): void;
     ngOnDestroy(): void;
     update(): void;
+    paddedValue(value: string): string;
     startCount(): void;
     scaleText(): void;
     onClick(): void;

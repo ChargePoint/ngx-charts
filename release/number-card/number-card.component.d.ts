@@ -7,6 +7,7 @@ export declare class NumberCardComponent extends BaseChartComponent {
     emptyColor: string;
     innerPadding: number;
     textColor: string;
+    valueFormatting: any;
     dims: ViewDimensions;
     data: any[];
     slots: any[];

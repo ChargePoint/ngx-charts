@@ -8,7 +8,6 @@ var CardComponent = (function () {
         this.zone = zone;
         this.select = new EventEmitter();
         this.value = '';
-        this.resizeScale = 1;
         this.textFontSize = 35;
         this.textTransform = '';
         this.initialized = false;
@@ -26,6 +25,7 @@ var CardComponent = (function () {
     CardComponent.prototype.update = function () {
         var _this = this;
         var hasValue = this.data && typeof this.data.value !== 'undefined';
+        this.valueFormatting = this.valueFormatting || (function (card) { return card.data.value.toLocaleString(); });
         this.transform = "translate(" + this.x + " , " + this.y + ")";
         this.textWidth = Math.max(0, this.width) - this.textPadding[1] - this.textPadding[3];
         this.cardWidth = Math.max(0, this.width);
@@ -33,18 +33,30 @@ var CardComponent = (function () {
         this.label = this.data ? this.data.name : '';
         this.trimmedLabel = trimLabel(this.label, 55);
         this.transformBand = "translate(0 , " + (this.cardHeight - this.bandHeight) + ")";
-        var value = this.value = hasValue ? this.data.value.toLocaleString() : '';
-        if (this.medianSize && this.medianSize > value.length) {
-            this.value = this.value + '\u2007'.repeat(this.medianSize - value.length);
-        }
+        var value = hasValue ?
+            this.valueFormatting({
+                label: this.label,
+                data: this.data,
+                value: this.data.value
+            }) :
+            '';
+        this.value = this.paddedValue(value);
         var textHeight = this.textFontSize + 2 * this.labelFontSize;
         this.textPadding[0] = this.textPadding[2] = (this.cardHeight - textHeight - this.bandHeight) / 2;
         this.bandPath = roundedRect(0, 0, this.cardWidth, this.bandHeight, 3, false, false, true, true);
         setTimeout(function () {
             _this.scaleText();
             _this.value = value;
-            setTimeout(function () { return _this.startCount(); }, 20);
+            if (hasValue) {
+                setTimeout(function () { return _this.startCount(); }, 20);
+            }
         }, 0);
+    };
+    CardComponent.prototype.paddedValue = function (value) {
+        if (this.medianSize && this.medianSize > value.length) {
+            value += '\u2007'.repeat(this.medianSize - value.length);
+        }
+        return value;
     };
     CardComponent.prototype.startCount = function () {
         var _this = this;
@@ -54,10 +66,8 @@ var CardComponent = (function () {
             var decs = decimalChecker(val);
             var callback = function (_a) {
                 var value = _a.value;
-                _this.value = value.toLocaleString();
-                if (_this.medianSize && _this.medianSize > value.length) {
-                    _this.value = _this.value + '\u2007'.repeat(_this.medianSize - value.length);
-                }
+                var v = _this.valueFormatting({ label: _this.label, data: _this.data, value: value });
+                _this.value = _this.paddedValue(v);
                 _this.cd.markForCheck();
             };
             this.animationReq = count(0, val, decs, 1, callback);
@@ -82,8 +92,8 @@ var CardComponent = (function () {
         }
         var newWidthRatio = (availableWidth / this.originalWidth) * this.originalWidthRatio;
         var newHeightRatio = (availableHeight / this.originalHeight) * this.originalHeightRatio;
-        this.resizeScale = Math.min(newWidthRatio, newHeightRatio);
-        this.textFontSize = Number.parseInt((35 * this.resizeScale).toString());
+        var resizeScale = Math.min(newWidthRatio, newHeightRatio);
+        this.textFontSize = Number.parseInt((35 * resizeScale).toString());
         this.labelFontSize = Math.min(this.textFontSize, 12);
         var textHeight = this.textFontSize + 2 * this.labelFontSize;
         this.textPadding[0] = this.textPadding[2] = (this.cardHeight - textHeight - this.bandHeight) / 2;
@@ -122,6 +132,7 @@ CardComponent.propDecorators = {
     'label': [{ type: Input },],
     'data': [{ type: Input },],
     'medianSize': [{ type: Input },],
+    'valueFormatting': [{ type: Input },],
     'select': [{ type: Output },],
     'textEl': [{ type: ViewChild, args: ['textEl',] },],
 };

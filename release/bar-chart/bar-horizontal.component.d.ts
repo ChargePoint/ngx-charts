@@ -17,7 +17,7 @@ export declare class BarHorizontalComponent extends BaseChartComponent {
     schemeType: string;
     xAxisTickFormatting: any;
     yAxisTickFormatting: any;
-    barPadding: number;
+    barPadding: string | number;
     roundDomains: boolean;
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;

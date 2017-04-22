@@ -39,7 +39,7 @@ var SeriesVerticalComponent = (function () {
                 x: 0,
                 y: 0
             };
-            if (_this.type === 'standard') {
+            if (_this.type.indexOf('standard') === 0) {
                 bar.height = Math.abs(_this.yScale(value) - _this.yScale(0));
                 bar.x = _this.xScale(label);
                 if (value < 0) {
@@ -82,7 +82,7 @@ var SeriesVerticalComponent = (function () {
                 bar.color = _this.colors.getColor(label);
             }
             else {
-                if (_this.type === 'standard') {
+                if (_this.type.indexOf('standard') === 0) {
                     bar.color = _this.colors.getColor(value);
                     bar.gradientStops = _this.colors.getLinearGradientStops(value);
                 }
@@ -95,7 +95,11 @@ var SeriesVerticalComponent = (function () {
             if (_this.seriesName) {
                 tooltipLabel = _this.seriesName + " \u2022 " + formattedLabel;
             }
-            bar.tooltipText = "\n        <span class=\"tooltip-label\">" + tooltipLabel + "</span>\n        <span class=\"tooltip-val\">" + value.toLocaleString() + "</span>\n      ";
+            var tValue = value.toLocaleString();
+            if (_this.tooltipFormatting) {
+                tValue = _this.tooltipFormatting(value);
+            }
+            bar.tooltipText = "\n        <span class=\"tooltip-label\">" + tooltipLabel + "</span>\n        <span class=\"tooltip-val\">" + tValue + "</span>\n      ";
             return bar;
         });
     };
@@ -144,6 +148,7 @@ SeriesVerticalComponent.propDecorators = {
     'yScale': [{ type: Input },],
     'colors': [{ type: Input },],
     'tooltipDisabled': [{ type: Input },],
+    'tooltipFormatting': [{ type: Input },],
     'gradient': [{ type: Input },],
     'activeEntries': [{ type: Input },],
     'seriesName': [{ type: Input },],

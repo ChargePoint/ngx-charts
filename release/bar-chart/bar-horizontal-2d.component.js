@@ -17,7 +17,7 @@ var BarHorizontal2DComponent = (function (_super) {
         _this.tooltipDisabled = false;
         _this.showGridLines = true;
         _this.activeEntries = [];
-        _this.groupPadding = 16;
+        _this.groupPadding = '16';
         _this.barPadding = 8;
         _this.roundDomains = false;
         _this.activate = new EventEmitter();
@@ -54,7 +54,13 @@ var BarHorizontal2DComponent = (function (_super) {
         this.transform = "translate(" + this.dims.xOffset + " , " + this.margin[0] + ")";
     };
     BarHorizontal2DComponent.prototype.getGroupScale = function () {
-        var spacing = this.groupDomain.length / (this.dims.height / this.groupPadding + 1);
+        var spacing = parseInt(this.groupPadding.toString(), 10);
+        if (this.groupPadding !== (spacing + '%')) {
+            spacing = this.groupDomain.length / (this.dims.height / spacing + 1);
+        }
+        else {
+            spacing /= 100;
+        }
         return scaleBand()
             .rangeRound([this.dims.height, 0])
             .paddingInner(spacing)
@@ -63,7 +69,13 @@ var BarHorizontal2DComponent = (function (_super) {
     };
     BarHorizontal2DComponent.prototype.getInnerScale = function () {
         var height = this.groupScale.bandwidth();
-        var spacing = this.innerDomain.length / (height / this.barPadding + 1);
+        var spacing = parseInt(this.barPadding.toString(), 10);
+        if (this.barPadding !== (spacing + '%')) {
+            spacing = this.innerDomain.length / (height / spacing + 1);
+        }
+        else {
+            spacing /= 100;
+        }
         return scaleBand()
             .rangeRound([0, height])
             .paddingInner(spacing)

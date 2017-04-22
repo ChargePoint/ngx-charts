@@ -1,6 +1,7 @@
-import { OnChanges, OnInit } from '@angular/core';
+import { OnChanges, OnDestroy, NgZone } from '@angular/core';
 import { ViewDimensions } from '../common/view-dimensions.helper';
-export declare class PowerGaugeAxisComponent implements OnChanges, OnInit {
+export declare class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
+    private zone;
     bigSegments: any;
     startAngle: number;
     pointerAngle: number;
@@ -16,10 +17,14 @@ export declare class PowerGaugeAxisComponent implements OnChanges, OnInit {
     rotationAngle: number;
     rotate: string;
     tickTurner: -1;
+    animator: any;
+    constructor(zone: NgZone);
     ngOnChanges(): void;
-    ngOnInit(): void;
+    ngOnDestroy(): void;
+    startAnimation(pointerAngle: any): void;
+    stopAnimation(): void;
     update(): void;
-    updatePointer(pointerAngle: any, delay: any, duration: any): void;
+    updatePointer(pointerAngle: any, delay: any, duration: any, easeValue: any): void;
     getTicks(): any;
     getTickPath(startDistance: any, tickLength: any, angle: any): any;
     getPointerPath(): string;

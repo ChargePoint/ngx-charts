@@ -90,7 +90,13 @@ var BarHorizontalStackedComponent = (function (_super) {
         return [min, max];
     };
     BarHorizontalStackedComponent.prototype.getYScale = function () {
-        var spacing = this.groupDomain.length / (this.dims.height / this.barPadding + 1);
+        var spacing = parseInt(this.barPadding.toString(), 10);
+        if (this.barPadding !== (spacing + '%')) {
+            spacing = this.groupDomain.length / (this.dims.height / spacing + 1);
+        }
+        else {
+            spacing /= 100;
+        }
         return scaleBand()
             .rangeRound([this.dims.height, 0])
             .paddingInner(spacing)

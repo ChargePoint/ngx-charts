@@ -18,8 +18,8 @@ export declare class BarVertical2DComponent extends BaseChartComponent {
     schemeType: string;
     xAxisTickFormatting: any;
     yAxisTickFormatting: any;
-    groupPadding: number;
-    barPadding: number;
+    groupPadding: string | number;
+    barPadding: string | number;
     roundDomains: boolean;
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;

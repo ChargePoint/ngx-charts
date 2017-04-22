@@ -1,9 +1,10 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { select } from 'd3-selection';
-import { line, curveMonotoneX } from 'd3-shape';
+import { Component, Input, ChangeDetectionStrategy, NgZone } from '@angular/core';
 import { easeElastic } from 'd3-ease';
+import { select } from 'd3-selection';
+import { curveMonotoneX, line } from 'd3-shape';
 var PowerGaugeAxisComponent = (function () {
-    function PowerGaugeAxisComponent() {
+    function PowerGaugeAxisComponent(zone) {
+        this.zone = zone;
         this.pointerWidth = 16;
         this.pointerTailLength = 8;
         this.rotate = '';
@@ -11,28 +12,43 @@ var PowerGaugeAxisComponent = (function () {
     PowerGaugeAxisComponent.prototype.ngOnChanges = function () {
         this.update();
     };
-    PowerGaugeAxisComponent.prototype.ngOnInit = function () {
+    PowerGaugeAxisComponent.prototype.ngOnDestroy = function () {
+        this.stopAnimation();
+    };
+    PowerGaugeAxisComponent.prototype.startAnimation = function (pointerAngle) {
         var _this = this;
-        setTimeout(function () {
-            setInterval(function () {
-                var pointerAngle = _this.pointerAngle;
+        this.zone.runOutsideAngular(function () {
+            _this.animator = setInterval(function () {
                 var moveTick = Math.random() * 2;
-                _this.updatePointer(pointerAngle + moveTick, 0, 750);
-            }, 500);
-        }, 1500);
+                _this.updatePointer(pointerAngle + moveTick, 0, 750, 1);
+            }, 300);
+        });
+    };
+    PowerGaugeAxisComponent.prototype.stopAnimation = function () {
+        var _this = this;
+        this.zone.runOutsideAngular(function () {
+            clearInterval(_this.animator);
+        });
     };
     PowerGaugeAxisComponent.prototype.update = function () {
+        var _this = this;
         this.rotationAngle = this.startAngle;
         this.rotate = "rotate(" + this.rotationAngle + ")";
         this.ticks = this.getTicks();
+        this.stopAnimation();
+        this.zone.runOutsideAngular(function () {
+            setTimeout(function () {
+                _this.startAnimation(_this.pointerAngle);
+            }, 1500);
+        });
         if (this.pointerAngle) {
-            this.updatePointer(this.pointerAngle, 750, 750);
+            this.updatePointer(this.pointerAngle, 750, 750, 0.8);
         }
     };
-    PowerGaugeAxisComponent.prototype.updatePointer = function (pointerAngle, delay, duration) {
+    PowerGaugeAxisComponent.prototype.updatePointer = function (pointerAngle, delay, duration, easeValue) {
         var pointer = select('.pointer');
         var pointerRotate = "rotate(" + pointerAngle + ")";
-        var ease = easeElastic.period(0.8);
+        var ease = easeElastic.period(easeValue);
         pointer
             .transition().delay(delay).duration(duration)
             .ease(ease)
@@ -57,6 +73,8 @@ var PowerGaugeAxisComponent = (function () {
                 line: this.getTickPath(startDistance, tickLength, endAngle),
                 textAnchor: bigSegment.textAnchor,
                 text: text,
+                label: data.name,
+                labelTransform: "\n          translate(" + (textDist * Math.cos(endAngle) + 20) + ",\n          " + (textDist * Math.sin(endAngle) - 10) + ") rotate(" + -this.rotationAngle + ")\n        ",
                 textTransform: "\n          translate(" + textDist * Math.cos(endAngle) + ", " + textDist * Math.sin(endAngle) + ") rotate(" + -this.rotationAngle + ")\n        "
             });
             startAngle = endAngle;
@@ -69,14 +87,14 @@ var PowerGaugeAxisComponent = (function () {
         var x1 = startDistance * Math.cos(angle);
         var x2 = (startDistance + tickLength) * Math.cos(angle);
         var points = [{ x: x1, y: y1 }, { x: x2, y: y2 }];
-        var lineObj = line().x(function (d) { return d.x; }).y(function (d) { return d.y; });
-        return lineObj(points);
+        var lineGenerator = line().x(function (d) { return d.x; }).y(function (d) { return d.y; });
+        return lineGenerator(points);
     };
     PowerGaugeAxisComponent.prototype.getPointerPath = function () {
         var rw = this.dims.width / 2;
         var rh = this.dims.height / 2;
         var r = rw < rh ? rw : rh;
-        var pointerHeadLength = Math.round(r * 0.9);
+        var pointerHeadLength = r;
         var pointerLine = [{ x: this.pointerWidth / 2, y: 0 },
             { x: 0, y: -pointerHeadLength },
             { x: -(this.pointerWidth / 2), y: 0 },
@@ -91,12 +109,14 @@ export { PowerGaugeAxisComponent };
 PowerGaugeAxisComponent.decorators = [
     { type: Component, args: [{
                 selector: 'g[ngx-charts-power-gauge-axis]',
-                template: "\n  <svg:g [attr.transform]=\"rotate\">\n    <svg:g *ngFor=\"let tick of ticks\"\n        class=\"gauge-tick gauge-tick-large\">\n        <svg:path [attr.d]=\"tick.line\" />\n    </svg:g>\n    <svg:g *ngFor=\"let tick of ticks\"\n        class=\"gauge-tick gauge-tick-large\">\n        <svg:text\n            [style.textAnchor]=\"tick.textAnchor\"\n            [attr.transform]=\"tick.textTransform\"\n            alignment-baseline=\"central\">\n            {{tick.text}}\n        </svg:text>\n    </svg:g>\n  </svg:g>\n  <svg:g [attr.transform]=\"'rotate(0)'\" class=\"pointer\">\n    <svg:g>\n      <svg:path\n        [attr.d]=\"getPointerPath()\"\n      />\n    </svg:g>\n  </svg:g>\n  ",
+                template: "\n  <svg:g [attr.transform]=\"rotate\">\n    <svg:g *ngFor=\"let tick of ticks\"\n        class=\"gauge-tick gauge-tick-large\">\n        <svg:path [attr.d]=\"tick.line\" />\n    </svg:g>\n    <svg:g *ngFor=\"let tick of ticks\"\n        class=\"gauge-tick gauge-tick-large\">\n        <svg:text *ngIf=\"tick.label\"\n            [style.textAnchor]=\"tick.textAnchor\"\n            [attr.transform]=\"tick.labelTransform\"\n            alignment-baseline=\"central\">\n            {{tick.label}}\n        </svg:text>\n        <svg:text\n            [style.textAnchor]=\"tick.textAnchor\"\n            [attr.transform]=\"tick.textTransform\"\n            alignment-baseline=\"central\">\n            {{tick.text}}\n        </svg:text>\n    </svg:g>\n  </svg:g>\n  <svg:g [attr.transform]=\"'rotate(0)'\" class=\"pointer\">\n    <svg:g>\n      <svg:path\n        [attr.d]=\"getPointerPath()\"\n      />\n    </svg:g>\n  </svg:g>\n  ",
                 changeDetection: ChangeDetectionStrategy.OnPush
             },] },
 ];
 /** @nocollapse */
-PowerGaugeAxisComponent.ctorParameters = function () { return []; };
+PowerGaugeAxisComponent.ctorParameters = function () { return [
+    { type: NgZone, },
+]; };
 PowerGaugeAxisComponent.propDecorators = {
     'bigSegments': [{ type: Input },],
     'startAngle': [{ type: Input },],
