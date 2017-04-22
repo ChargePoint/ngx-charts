@@ -137,7 +137,7 @@ export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
 
     for (let i = 0; i < this.bigSegments.length; i++) {
       bigSegment = this.bigSegments[i];
-      const { data, endAngle, textAnchor, label } = bigSegment;
+      const { data, endAngle, textAnchor } = bigSegment;
       let text = data.value;
       if (this.tickFormatting) {
         text = this.tickFormatting(text);
@@ -146,7 +146,7 @@ export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
         line: this.getTickPath(startDistance, tickLength, endAngle),
         textAnchor: bigSegment.textAnchor,
         text,
-        label,
+        label: data.name,
         labelTransform: `
           translate(${textDist * Math.cos(endAngle) + 20},
           ${textDist * Math.sin(endAngle) - 10}) rotate(${-this.rotationAngle})
