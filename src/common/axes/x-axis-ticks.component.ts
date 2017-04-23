@@ -17,7 +17,7 @@ import { reduceTicks } from './ticks.helper';
   selector: 'g[ngx-charts-x-axis-ticks]',
   template: `
     <svg:g #ticksel>
-      <svg:g *ngFor="let tick of ticks" class="tick"
+      <svg:g *ngFor="let tick of ticks;let i = index" class="tick"
         [attr.transform]="tickTransform(tick)">
         <title>{{tickFormat(tick)}}</title>
         <svg:text
@@ -26,6 +26,7 @@ import { reduceTicks } from './ticks.helper';
           [attr.transform]="textTransform"
           [style.font-size]="'12px'">
           {{trimLabel(tickFormat(tick))}}
+          <tspan *ngIf="tickLabels && tickLabels[i]" x="0" dy="15" class="stick">{{tickLabels[i]}}</tspan>
         </svg:text>
       </svg:g>
     </svg:g>
@@ -53,6 +54,7 @@ export class XAxisTicksComponent implements OnChanges, AfterViewInit {
   @Input() showGridLines = false;
   @Input() gridLineHeight;
   @Input() width;
+  @Input() tickLabels: string[];
 
   @Output() dimensionsChanged = new EventEmitter();
 
