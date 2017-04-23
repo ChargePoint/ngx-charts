@@ -39,6 +39,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [showLabel]="showXAxisLabel"
           [labelText]="xAxisLabel"
           [tickFormatting]="xAxisTickFormatting"
+          [xAxisTickLabels]="xAxisTickLabels"
           (dimensionsChanged)="updateXAxisHeight($event)">
         </svg:g>
         <svg:g ngx-charts-y-axis
@@ -97,6 +98,7 @@ export class BarVerticalComponent extends BaseChartComponent {
   @Input() showXAxisLabel;
   @Input() showYAxisLabel;
   @Input() xAxisLabel;
+  @Input() xAxisTickLabels: string[];
   @Input() yAxisLabel;
   @Input() yAxisTickRoundingLabel;
   @Input() tooltipDisabled: boolean = false;
