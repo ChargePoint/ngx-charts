@@ -138,7 +138,7 @@ export class PowerGaugeComponent extends BaseChartComponent implements AfterView
 
       this.outerRadius = Math.min(this.dims.width, this.dims.height) * .7;
       const radiusPerArc = 100;
-      const arcWidth = radiusPerArc * 0.35;
+      const arcWidth = radiusPerArc * 0.38;
       this.innerRadius = this.outerRadius - arcWidth;
       this.textRadius = this.outerRadius - radiusPerArc;
 
