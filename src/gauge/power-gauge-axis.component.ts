@@ -56,7 +56,7 @@ export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
   @Input() cornerRadius: number;
   @Input() tickFormatting: any;
   @Input() dims: ViewDimensions;
-  @Input() pointerWidth = 16;
+  @Input() pointerWidth = 13;
   @Input() pointerTailLength = 8;
 
   ticks: any[];
@@ -65,8 +65,8 @@ export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
   tickTurner: -1;
   animator: any;
 
-  constructor(private zone: NgZone) {}
-
+  constructor(private zone: NgZone) { }
+  
   ngOnChanges() {
     this.update();
   }
@@ -170,7 +170,7 @@ export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
     const rw = this.dims.width / 2;
     const rh = this.dims.height / 2;
     const r = rw < rh ? rw : rh;
-    const pointerHeadLength = r;
+    const pointerHeadLength = r + 18;
     const pointerLine = [{ x: this.pointerWidth / 2, y: 0 },
       { x: 0, y: -pointerHeadLength },
       { x: -(this.pointerWidth / 2), y: 0 },
