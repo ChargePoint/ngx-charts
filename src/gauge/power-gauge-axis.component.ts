@@ -66,7 +66,7 @@ export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
   animator: any;
 
   constructor(private zone: NgZone) { }
-  
+
   ngOnChanges() {
     this.update();
   }
@@ -170,7 +170,7 @@ export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
     const rw = this.dims.width / 2;
     const rh = this.dims.height / 2;
     const r = rw < rh ? rw : rh;
-    const pointerHeadLength = r + 18;
+    const pointerHeadLength = r + this.pointerWidth;
     const pointerLine = [{ x: this.pointerWidth / 2, y: 0 },
       { x: 0, y: -pointerHeadLength },
       { x: -(this.pointerWidth / 2), y: 0 },
