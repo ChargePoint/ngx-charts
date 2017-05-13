@@ -13,6 +13,7 @@
         [xAxis]="showXAxis"
         [yAxis]="showYAxis"
         [legend]="showLegend"
+        [legendTitle]="legendTitle"
         [showXAxisLabel]="showXAxisLabel"
         [showYAxisLabel]="showYAxisLabel"
         [tooltipDisabled]="tooltipDisabled"
@@ -38,6 +39,7 @@
         [xAxis]="showXAxis"
         [yAxis]="showYAxis"
         [legend]="showLegend"
+        [legendTitle]="legendTitle"
         [showXAxisLabel]="showXAxisLabel"
         [showYAxisLabel]="showYAxisLabel"
         [tooltipDisabled]="tooltipDisabled"
@@ -60,6 +62,7 @@
         [xAxis]="showXAxis"
         [yAxis]="showYAxis"
         [legend]="showLegend"
+        [legendTitle]="legendTitle"
         [showXAxisLabel]="showXAxisLabel"
         [showYAxisLabel]="showYAxisLabel"
         [tooltipDisabled]="tooltipDisabled"
@@ -84,6 +87,7 @@
         [xAxis]="showXAxis"
         [yAxis]="showYAxis"
         [legend]="showLegend"
+        [legendTitle]="legendTitle"
         (legendLabelClick)="onLegendLabelClick($event)"
         [showXAxisLabel]="showXAxisLabel"
         [showYAxisLabel]="showYAxisLabel"
@@ -107,6 +111,7 @@
         [xAxis]="showXAxis"
         [yAxis]="showYAxis"
         [legend]="showLegend"
+        [legendTitle]="legendTitle"
         (legendLabelClick)="onLegendLabelClick($event)"
         [showXAxisLabel]="showXAxisLabel"
         [showYAxisLabel]="showYAxisLabel"
@@ -129,6 +134,7 @@
         [xAxis]="showXAxis"
         [yAxis]="showYAxis"
         [legend]="showLegend"
+        [legendTitle]="legendTitle"
         [showXAxisLabel]="showXAxisLabel"
         (legendLabelClick)="onLegendLabelClick($event)"
         [showYAxisLabel]="showYAxisLabel"
@@ -151,6 +157,7 @@
         [xAxis]="showXAxis"
         [yAxis]="showYAxis"
         [legend]="showLegend"
+        [legendTitle]="legendTitle"
         [showXAxisLabel]="showXAxisLabel"
         (legendLabelClick)="onLegendLabelClick($event)"
         [showYAxisLabel]="showYAxisLabel"
@@ -173,6 +180,7 @@
         [xAxis]="showXAxis"
         [yAxis]="showYAxis"
         [legend]="showLegend"
+        [legendTitle]="legendTitle"
         [showXAxisLabel]="showXAxisLabel"
         [showYAxisLabel]="showYAxisLabel"
         [xAxisLabel]="xAxisLabel"
@@ -190,6 +198,7 @@
         [scheme]="colorScheme"
         [results]="single"
         [legend]="showLegend"
+        [legendTitle]="legendTitle"
         [explodeSlices]="explodeSlices"
         [labels]="showLabels"
         [doughnut]="doughnut"
@@ -197,6 +206,7 @@
         (legendLabelClick)="onLegendLabelClick($event)"
         [gradient]="gradient"
         [tooltipDisabled]="tooltipDisabled"
+        [tooltipText]="pieTooltipText"
         (select)="select($event)">
       </ngx-charts-pie-chart>
       <ngx-charts-simple-pie-chart
@@ -218,6 +228,7 @@
         (legendLabelClick)="onLegendLabelClick($event)"
         [gradient]="gradient"
         [tooltipDisabled]="tooltipDisabled"
+        [tooltipText]="pieTooltipText"
         (select)="select($event)">
       </ngx-charts-advanced-pie-chart>
       <ngx-charts-pie-grid
@@ -228,6 +239,7 @@
         (legendLabelClick)="onLegendLabelClick($event)"
         [results]="single"
         [tooltipDisabled]="tooltipDisabled"
+        [tooltipText]="pieTooltipText"
         (select)="select($event)">
       </ngx-charts-pie-grid>
       <ngx-charts-line-chart
@@ -238,6 +250,7 @@
         [schemeType]="schemeType"
         [results]="dateDataWithOrWithoutRange"
         [legend]="showLegend"
+        [legendTitle]="legendTitle"
         (legendLabelClick)="onLegendLabelClick($event)"
         [gradient]="gradient"
         [xAxis]="showXAxis"
@@ -253,8 +266,35 @@
         [rangeFillOpacity]="rangeFillOpacity"
         [roundDomains]="roundDomains"
         [tooltipDisabled]="tooltipDisabled"
+        [showSeriesOnHover]="showSeriesOnHover"
         (select)="select($event)">
       </ngx-charts-line-chart>
+      <ngx-charts-polar-chart
+        *ngIf="chartType === 'polar-chart'"
+        [view]="view"
+        class="chart-container"
+        [scheme]="colorScheme"
+        [schemeType]="schemeType"
+        [results]="multi"
+        [legend]="showLegend"
+        [legendTitle]="legendTitle"
+        (legendLabelClick)="onLegendLabelClick($event)"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [autoScale]="autoScale"
+        [showGridLines]="showGridLines"
+        [rangeFillOpacity]="rangeFillOpacity"
+        [roundDomains]="roundDomains"
+        [tooltipDisabled]="tooltipDisabled"
+        [showSeriesOnHover]="showSeriesOnHover"
+        [curve]="closedCurve"
+        (select)="select($event)">
+      </ngx-charts-polar-chart>
       <ngx-charts-bubble-chart
         *ngIf="chartType === 'bubble-chart'"
         [view]="view"
@@ -262,6 +302,7 @@
         [results]="bubble"
         [showGridLines]="showGridLines"
         [legend]="showLegend"
+        [legendTitle]="legendTitle"
         [xAxis]="showXAxis"
         [yAxis]="showYAxis"
         [showXAxisLabel]="showXAxisLabel"
@@ -272,7 +313,7 @@
         [scheme]="colorScheme"
         [schemeType]="schemeType"
         [roundDomains]="roundDomains"
-        [tooltipDisabled]="tooltipDisabled">
+        [tooltipDisabled]="tooltipDisabled"
         [minRadius]="minRadius"
         [maxRadius]="maxRadius">
       </ngx-charts-bubble-chart>
@@ -280,6 +321,7 @@
         *ngIf="chartType === 'force-directed-graph'"
         class="chart-container"
         [legend]="showLegend"
+        [legendTitle]="legendTitle"
         [links]="graph.links"
         (legendLabelClick)="onLegendLabelClick($event)"
         [nodes]="graph.nodes"
@@ -296,6 +338,7 @@
         [schemeType]="schemeType"
         [results]="dateData"
         [legend]="showLegend"
+        [legendTitle]="legendTitle"
         (legendLabelClick)="onLegendLabelClick($event)"
         [gradient]="gradient"
         [xAxis]="showXAxis"
@@ -320,6 +363,7 @@
         [schemeType]="schemeType"
         [results]="dateData"
         [legend]="showLegend"
+        [legendTitle]="legendTitle"
         [gradient]="gradient"
         [xAxis]="showXAxis"
         [yAxis]="showYAxis"
@@ -343,6 +387,7 @@
         [schemeType]="schemeType"
         [results]="dateData"
         [legend]="showLegend"
+        [legendTitle]="legendTitle"
         [gradient]="gradient"
         [xAxis]="showXAxis"
         (legendLabelClick)="onLegendLabelClick($event)"
@@ -404,6 +449,9 @@
         [scheme]="colorScheme"
         [results]="single"
         [tooltipDisabled]="tooltipDisabled"
+        [labelFormatting]="gdpLabelFormatting"
+        [valueFormatting]="currencyFormatting"
+        [gradient]="gradient"
         (select)="select($event)">
       </ngx-charts-tree-map>
       <ngx-charts-number-card
@@ -415,26 +463,46 @@
         cardColor="#232837"
         emptyColor="#1e222e"
         [results]="single"
-        [valueFormatting]="dollarValueFormat"
         (select)="select($event)">
       </ngx-charts-number-card>
-      <ngx-charts-number-card
-        *ngIf="chartType === 'status-demo'"
-        class="chart-container"
-        [view]="view"
-        (legendLabelClick)="onLegendLabelClick($event)"
-        [scheme]="colorScheme"
-        cardColor="#232837"
-        emptyColor="#1e222e"
-        [results]="statusData"
-        [valueFormatting]="statusValueFormat"
-        (select)="select($event)">
-      </ngx-charts-number-card>
+      <div *ngIf="chartType === 'status-demo'">
+        <ngx-slider
+          [(ngModel)]="salePrice"
+          [step]="100"
+          [filled]="true"
+          [min]="0"
+          [max]="10000"
+          (change)="statusData = calcStatusData()">
+        </ngx-slider>
+        Price: ${{salePrice}}
+        <br />
+        <ngx-slider
+          [(ngModel)]="personnelCost"
+          [step]="100"
+          [filled]="true"
+          [min]="0"
+          [max]="10000"
+          (change)="statusData = calcStatusData()">
+        </ngx-slider>
+        Cost: ${{personnelCost}} / hr
+        <ngx-charts-number-card
+          class="chart-container"
+          [view]="view"
+          (legendLabelClick)="onLegendLabelClick($event)"
+          [scheme]="colorScheme"
+          cardColor="#232837"
+          emptyColor="#1e222e"
+          [results]="statusData"
+          [valueFormatting]="statusValueFormat"
+          [labelFormatting]="statusLabelFormat">
+        </ngx-charts-number-card>
+      </div>
       <ngx-charts-gauge
         *ngIf="chartType === 'gauge'"
         class="chart-container"
         [view]="view"
         [legend]="showLegend"
+        [legendTitle]="legendTitle"
         [results]="single"
         [textValue]="gaugeTextValue"
         [scheme]="colorScheme"
@@ -474,7 +542,68 @@
         [axisPoints]="single"
         [results]="single">
       </ngx-charts-power-gauge>
-
+      <div *ngIf="chartType === 'plot-demo'">
+        <ngx-input
+          type="text"
+          [required]="true"
+          [(ngModel)]="mathText"
+          (change)="mathFunction = getFunction(mathText); plotData = generatePlotData()">
+        </ngx-input>
+        <ngx-charts-line-chart
+          style="position: static; display: inline-block; transform: none;"
+          [view]="view"
+          class="chart-container"
+          [scheme]="colorScheme"
+          [schemeType]="schemeType"
+          [results]="plotData"
+          [legend]="false"
+          [legendTitle]="legendTitle"
+          (legendLabelClick)="onLegendLabelClick($event)"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [showXAxisLabel]="false"
+          [showYAxisLabel]="false"
+          [xAxisLabel]="'angle'"
+          [yAxisLabel]="'radius'"
+          [autoScale]="autoScale"
+          [timeline]="timeline"
+          [showGridLines]="showGridLines"
+          [curve]="curves['Cardinal']"
+          [rangeFillOpacity]="rangeFillOpacity"
+          [roundDomains]="roundDomains"
+          [tooltipDisabled]="tooltipDisabled"
+          [showSeriesOnHover]="showSeriesOnHover"
+          (select)="select($event)">
+        </ngx-charts-line-chart>
+        <p></p>
+        <ngx-charts-polar-chart
+          style="position: static; display: inline-block; transform: none;"
+          [view]="view"
+          class="chart-container"
+          [scheme]="colorScheme"
+          [schemeType]="schemeType"
+          [results]="plotData"
+          [legend]="false"
+          [legendTitle]="legendTitle"
+          (legendLabelClick)="onLegendLabelClick($event)"
+          [gradient]="gradient"
+          [xAxis]="false"
+          [yAxis]="true"
+          [showXAxisLabel]="false"
+          [showYAxisLabel]="false"
+          [xAxisLabel]="'angle'"
+          [yAxisLabel]="'radius'"
+          [autoScale]="autoScale"
+          [showGridLines]="showGridLines"
+          [rangeFillOpacity]="rangeFillOpacity"
+          [roundDomains]="roundDomains"
+          [tooltipDisabled]="tooltipDisabled"
+          [showSeriesOnHover]="showSeriesOnHover"
+          [curve]="curves['Cardinal Closed']"
+          (select)="select($event)">
+        </ngx-charts-polar-chart>
+      </div>
     </div>
   </div>
   <div class="sidebar">
@@ -628,16 +757,20 @@
           Show Legend
         </label> <br />
       </div>
-      <div *ngIf="chart.options.includes('showXAxisLabel')">
-        <label>
-          <input type="checkbox" [checked]="showXAxisLabel" (change)="showXAxisLabel = $event.target.checked">
-          Show X Axis Label
-        </label> <br />
+      <div *ngIf="chart.options.includes('legendTitle')">
+        <label>Legend Title:</label><br />
+        <input type="text" [(ngModel)]="legendTitle"><br />
       </div>
       <div *ngIf="chart.options.includes('tooltipDisabled')">
         <label>
           <input type="checkbox" [checked]="tooltipDisabled" (change)="tooltipDisabled = $event.target.checked">
           Disable tooltip
+        </label> <br />
+      </div>
+      <div *ngIf="chart.options.includes('showXAxisLabel')">
+        <label>
+          <input type="checkbox" [checked]="showXAxisLabel" (change)="showXAxisLabel = $event.target.checked">
+          Show X Axis Label
         </label> <br />
       </div>
       <div *ngIf="chart.options.includes('xAxisLabel')">
@@ -692,9 +825,19 @@
       <div *ngIf="chart.options.includes('curve')">
         <label>Line Interpolation</label>
         <select
-          [ngModel]="curveType"
-          (ngModelChange)="setInterpolationType($event)">
+          [(ngModel)]="curveType"
+          (ngModelChange)="curve = getInterpolationType($event)">
           <option *ngFor="let interpolationType of interpolationTypes" [value]="interpolationType">
+            {{interpolationType}}
+          </option>
+        </select>
+      </div>
+      <div *ngIf="chart.options.includes('curveClosed')">
+        <label>Line Interpolation</label>
+        <select
+          [(ngModel)]="closedCurveType"
+          (ngModelChange)="closedCurve = getInterpolationType($event)">
+          <option *ngFor="let interpolationType of closedInterpolationTypes" [value]="interpolationType">
             {{interpolationType}}
           </option>
         </select>

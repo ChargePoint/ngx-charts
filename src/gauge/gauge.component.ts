@@ -76,6 +76,7 @@ import { ColorHelper } from '../common/color.helper';
 export class GaugeComponent extends BaseChartComponent implements AfterViewInit {
 
   @Input() legend = false;
+  @Input() legendTitle: string = 'Legend';
   @Input() min: number = 0;
   @Input() max: number = 100;
   @Input() textValue: string;
@@ -89,7 +90,7 @@ export class GaugeComponent extends BaseChartComponent implements AfterViewInit 
   @Input() activeEntries: any[] = [];
   @Input() axisTickFormatting: any;
   @Input() tooltipDisabled: boolean = false;
-  @Input() valueFormatting: (value) => string;
+  @Input() valueFormatting: (value: any) => string;
 
   // Specify margins
   @Input() margin: any[];
@@ -289,7 +290,8 @@ export class GaugeComponent extends BaseChartComponent implements AfterViewInit 
     return {
       scaleType: 'ordinal',
       colors: this.colors,
-      domain: this.domain
+      domain: this.domain,
+      title: this.legendTitle
     };
   }
 

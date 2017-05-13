@@ -1,5 +1,39 @@
 # Changelog
 
+## 5.2.1
+- Bug: Remove RGBColor type from color-util file (#394)
+
+## 5.2.0
+- Feature: Added Polar/Radar chart type (#380)
+- Enhancement: Disable pointer if no click events are attached to number cards (#378)
+- Enhancement: Added gradiant to tree map chart (#382)
+- Enhancement: Added support for inverted colors from rgba values in number cards (#366)
+- Enhancement: Added value and albel formatting to tree map (#383)
+- Refactor: loremess restrictive angular dependency versioning (#358)
+- Bug: Fixed types in gauge chart (#364)
+- Bug: Fixed axis and tooltips on bubble chart (#352)
+- Bug: Added styleUrls and changeDetection to bubble chart
+- Bug: Truncate dimension values
+- Bug: Fixed number card count animation (#387)
+- Bug: Added type to gauge chart valueFormatting parameter (#388)
+
+## 5.1.2
+- Bug: Fix number card scaling in hybrid apps using ngUpgrade  (#338)
+- Bug: Fix label trimming and clipped SVGs (#340)
+
+## 5.1.1
+- Bug: Add default value for label format  (#334)
+
+## 5.1.0
+- Enhancement: Added valueFormatting input to number card chart (#325)
+- Enhancement: Added label formatting input to number card chart (#332)
+- Enhancement: Added tooltipText to pie charts (#331)
+- Enhancement: Added option in line-chart for disabling series on hover (#323)
+- Enhancement: Added an input for custom legend title (#317)
+- Bug: Fixed number card text scaling when values change (#330)
+- Bug: Inverted y-axis on horizontal bar charts (#328)
+- Bug: Fix division by zero in pie label component
+
 ## 5.0.1
 - Enhancement: `valueFormatting` applies to Gauge Arc Labels too
 

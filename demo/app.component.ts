@@ -1,29 +1,26 @@
+declare var APP_VERSION: string;
+
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location, LocationStrategy, HashLocationStrategy } from '@angular/common';
 import * as shape from 'd3-shape';
 import * as d3 from 'd3';
 
 import { colorSets } from '../src/utils/color-sets';
+import { formatLabel } from '../src/common/label.helper';
 import { single, multi, countries, bubble, generateData, generateGraph } from './data';
 import chartGroups from './chartTypes';
 
 const monthName = new Intl.DateTimeFormat('en-us', { month: 'short' });
 const weekdayName = new Intl.DateTimeFormat('en-us', { weekday: 'short' });
 
-function twoDigits(value) {
-  return Math.round(value * 10) / 10;
-}
-
 function multiFormat(value) {
-  if (value < 1000) return `${twoDigits(value)}ms`;
+  if (value < 1000) return `${value.toFixed(2)}ms`;
   value /= 1000;
-  if (value < 60) return `${twoDigits(value)}s`;
+  if (value < 60) return `${value.toFixed(2)}s`;
   value /= 60;
-  if (value < 60) return `${twoDigits(value)}mins`;
+  if (value < 60) return `${value.toFixed(2)}mins`;
   value /= 60;
-  if (value < 24) return `${twoDigits(value)}hrs`;
-  value /= 24;
-  return `${twoDigits(value)}days`;
+  return `${value.toFixed(2)}hrs`;
 }
 
 @Component({
@@ -64,6 +61,7 @@ export class AppComponent implements OnInit {
   showYAxis = true;
   gradient = false;
   showLegend = true;
+  legendTitle = 'Legend';
   showXAxisLabel = true;
   tooltipDisabled = false;
   xAxisLabel = 'Country';
@@ -79,13 +77,39 @@ export class AppComponent implements OnInit {
   maxRadius = 10;
   minRadius = 3;
   maxTicks = 5;
+  showSeriesOnHover = true;
+
+  curves = {
+    Basis: shape.curveBasis,
+    'Basis Closed': shape.curveBasisClosed,
+    Bundle: shape.curveBundle.beta(1),
+    Cardinal: shape.curveCardinal,
+    'Cardinal Closed': shape.curveCardinalClosed,
+    'Catmull Rom': shape.curveCatmullRom,
+    'Catmull Rom Closed': shape.curveCatmullRomClosed,
+    Linear: shape.curveLinear,
+    'Linear Closed': shape.curveLinearClosed,
+    'Monotone X': shape.curveMonotoneX,
+    'Monotone Y': shape.curveMonotoneY,
+    Natural: shape.curveNatural,
+    Step: shape.curveStep,
+    'Step After': shape.curveStepAfter,
+    'Step Before': shape.curveStepBefore,
+    default: shape.curveLinear
+  };
 
   // line interpolation
   curveType: string = 'Linear';
-  curve: any = shape.curveLinear;
+  curve: any = this.curves[this.curveType];
   interpolationTypes = [
     'Basis', 'Bundle', 'Cardinal', 'Catmull Rom', 'Linear', 'Monotone X',
     'Monotone Y', 'Natural', 'Step', 'Step After', 'Step Before'
+  ];
+
+  closedCurveType: string = 'Linear Closed';
+  closedCurve: any = this.curves[this.closedCurveType];
+  closedInterpolationTypes = [
+    'Basis Closed', 'Cardinal Closed', 'Catmull Rom Closed', 'Linear Closed'
   ];
 
   colorSets: any;
@@ -134,7 +158,17 @@ export class AppComponent implements OnInit {
   gaugeValue: number = 50; // linear gauge value
   gaugePreviousValue: number = 70;
 
+  // demos
+  totalSales = 0;
+  salePrice = 100;
+  personnelCost = 100;
+
+  mathText = '3 - 1.5*sin(x) + cos(2*x) - 1.5*abs(cos(x))';
+  mathFunction: (o: any) => any;
+
   constructor(public location: Location) {
+    this.mathFunction = this.getFunction();
+
     Object.assign(this, {
       single,
       multi,
@@ -142,7 +176,8 @@ export class AppComponent implements OnInit {
       chartGroups,
       colorSets,
       graph: generateGraph(50),
-      bubble
+      bubble,
+      plotData: this.generatePlotData()
     });
 
     this.dateData = generateData(5, false);
@@ -227,11 +262,14 @@ export class AppComponent implements OnInit {
       const multiEntry = {
         name: country,
         series: [{
-          name: '2010',
-          value: Math.floor(1000000 + Math.random() * 20000000)
+          name: '1990',
+          value: Math.floor(10000 + Math.random() * 50000)
         }, {
-          name: '2011',
-          value: Math.floor(1000000 + Math.random() * 20000000)
+          name: '2000',
+          value: Math.floor(10000 + Math.random() * 50000)
+        }, {
+          name: '2010',
+          value: Math.floor(10000 + Math.random() * 50000)
         }]
       };
 
@@ -248,16 +286,12 @@ export class AppComponent implements OnInit {
       this.graph = { links, nodes };
 
       // bubble
+      const bubbleYear = Math.floor((2010 - 1990) * Math.random() + 1990);
       const bubbleEntry = {
         name: country,
         series: [{
-          name: '2010',
-          x: Math.floor(10000 + Math.random() * 20000),
-          y: Math.floor(30 + Math.random() * 70),
-          r: Math.floor(30 + Math.random() * 20),
-        }, {
-          name: '2011',
-          x: Math.floor(10000 + Math.random() * 20000),
+          name: '' + bubbleYear,
+          x: new Date(bubbleYear, 0, 1),
           y: Math.floor(30 + Math.random() * 70),
           r: Math.floor(30 + Math.random() * 20),
         }]
@@ -278,27 +312,6 @@ export class AppComponent implements OnInit {
     this.view = [this.width, this.height];
   }
 
-  getStatusData() {
-    return [
-      {
-        name: 'Count',
-        value: Math.round(10000 * Math.random())
-      },
-      {
-        name: 'Time',
-        value: 10 * 60 * 60 * 1000 * Math.random()
-      },
-      {
-        name: 'Cost',
-        value: Math.round(4000000 * Math.random()) / 100
-      },
-      {
-        name: 'Percent',
-        value: Math.random()
-      }
-    ];
-  }
-
   toggleFitContainer(event) {
     this.fitContainer = event;
 
@@ -313,39 +326,22 @@ export class AppComponent implements OnInit {
     this.chartType = chartSelector = chartSelector.replace('/', '');
     this.location.replaceState(this.chartType);
 
-    this.linearScale = this.chartType === 'line-chart' ||
-      this.chartType === 'line-chart-with-ranges' ||
-      this.chartType === 'area-chart' ||
-      this.chartType === 'area-chart-normalized' ||
-      this.chartType === 'area-chart-stacked';
-
-    if (this.chartType === 'bubble-chart') {
-      this.xAxisLabel = 'GDP Per Capita';
-      this.yAxisLabel = 'Life expectancy [years]';
-    } else {
-      this.yAxisLabel = 'GDP Per Capita';
-      this.xAxisLabel = 'Country';
+    for (const group of this.chartGroups) {
+      this.chart = group.charts.find(x => x.selector === chartSelector);
+      if (this.chart) break;
     }
 
-    if (this.chartType === 'calendar') {
-      this.width = 1100;
-      this.height = 200;
-    } else {
-      this.width = 700;
-      this.height = 300;
-    }
+    this.linearScale = false;
+    this.yAxisLabel = 'GDP Per Capita';
+    this.xAxisLabel = 'Country';
+
+    this.width = 700;
+    this.height = 300;
+
+    Object.assign(this, this.chart.defaults);
 
     if (!this.fitContainer) {
       this.applyDimensions();
-    }
-
-    for (const group of this.chartGroups) {
-      for (const chart of group.charts) {
-        if (chart.selector === chartSelector) {
-          this.chart = chart;
-          return;
-        }
-      }
     }
   }
 
@@ -353,41 +349,8 @@ export class AppComponent implements OnInit {
     console.log('Item clicked', data);
   }
 
-  setInterpolationType(curveType) {
-    this.curveType = curveType;
-    if (curveType === 'Basis') {
-      this.curve = shape.curveBasis;
-    }
-    if (curveType === 'Bundle') {
-      this.curve = shape.curveBundle.beta(1);
-    }
-    if (curveType === 'Cardinal') {
-      this.curve = shape.curveCardinal;
-    }
-    if (curveType === 'Catmull Rom') {
-      this.curve = shape.curveCatmullRom;
-    }
-    if (curveType === 'Linear') {
-      this.curve = shape.curveLinear;
-    }
-    if (curveType === 'Monotone X') {
-      this.curve = shape.curveMonotoneX;
-    }
-    if (curveType === 'Monotone Y') {
-      this.curve = shape.curveMonotoneY;
-    }
-    if (curveType === 'Natural') {
-      this.curve = shape.curveNatural;
-    }
-    if (curveType === 'Step') {
-      this.curve = shape.curveStep;
-    }
-    if (curveType === 'Step After') {
-      this.curve = shape.curveStepAfter;
-    }
-    if (curveType === 'Step Before') {
-      this.curve = shape.curveStepBefore;
-    }
+  getInterpolationType(curveType) {
+    return this.curves[curveType] || this.curves['default'];
   }
 
   setColorScheme(name) {
@@ -464,21 +427,112 @@ export class AppComponent implements OnInit {
     `;
   }
 
+  pieTooltipText({data}) {
+    const label = formatLabel(data.name);
+    const val = formatLabel(data.value);
+
+    return `
+      <span class="tooltip-label">${label}</span>
+      <span class="tooltip-val">$${val}</span>
+    `;
+  }
+
   dollarValueFormat(c): string {
     return `\$${c.value.toLocaleString()}`;
   }
 
+  getStatusData() {
+    const sales = Math.round(1E4 * Math.random());
+    const dur = 36E5 * Math.random();
+    return this.calcStatusData(sales, dur);
+  }
+
+  calcStatusData(sales = this.statusData[0].value, dur = this.statusData[2].value) {
+    const ret = sales * this.salePrice;
+    const cost = sales * dur / 60 / 60 / 1000 * this.personnelCost;
+    const ROI = (ret - cost) / cost;
+    return [
+      {
+        name: 'Sales',
+        value: sales
+      },
+      {
+        name: 'Gross',
+        value: ret,
+        extra: { format: 'currency' }
+      },
+      {
+        name: 'Avg. Time',
+        value: dur,
+        extra: { format: 'time' }
+      },
+      {
+        name: 'Cost',
+        value: cost,
+        extra: { format: 'currency' }
+      },
+      {
+        name: 'ROI',
+        value: ROI,
+        extra: { format: 'percent' }
+      }
+    ];
+  }
+
   statusValueFormat(c): string {
-    switch(c.label) {
-      case 'Cost':
-        return `\$${c.value.toLocaleString()}`;
-      case 'Time':
+    switch(c.data.extra ? c.data.extra.format : '') {
+      case 'currency':
+        return `\$${Math.round(c.value).toLocaleString()}`;
+      case 'time':
         return multiFormat(c.value);
-      case 'Percent':
-        return `${Math.floor(c.value * 100)}%`;
+      case 'percent':
+        return `${Math.round(c.value * 100)}%`;
       default:
         return c.value.toLocaleString();
     }
   }
 
+  currencyFormatting(c) {
+    return `\$${Math.round(c.value).toLocaleString()}`;
+  }
+
+  gdpLabelFormatting(c) {
+    return `${c.label}<br/><small class="number-card-label">GDP Per Capita</small>`;
+  }
+
+  statusLabelFormat(c): string {
+    return `${c.label}<br/><small class="number-card-label">This week</small>`;
+  }
+
+  generatePlotData() {
+    if (!this.mathFunction) {
+      return [];
+    }
+    const twoPi = 2 * Math.PI;
+    const length = 25;
+    const series = Array.apply(null, { length })
+      .map((d, i) => {
+        const x = i / (length - 1);
+        const t = x * twoPi;
+        return {
+          name: ~~(x * 360),
+          value: this.mathFunction(t)
+        };
+      });
+
+    return [{
+      name: this.mathText,
+      series
+    }];
+  }
+
+  getFunction(text = this.mathText) {
+    try {
+      text = `with (Math) { return ${this.mathText} }`;
+      const fn = new Function('x', text).bind(Math);
+      return (typeof fn(1) === 'number') ? fn : null;
+    } catch(err) {
+      return null;
+    }
+  }
 }

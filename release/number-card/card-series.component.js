@@ -12,7 +12,17 @@ var CardSeriesComponent = (function () {
     };
     CardSeriesComponent.prototype.update = function () {
         if (this.data.length > 2) {
-            var sortedLengths = this.data.map(function (d) { return ('' + d.data.value).length; }).sort(function (a, b) { return b - a; });
+            var valueFormatting_1 = this.valueFormatting || (function (card) { return card.value.toLocaleString(); });
+            var sortedLengths = this.data
+                .map(function (d) {
+                var hasValue = d && d.data && typeof d.data.value !== 'undefined' && d.data.value !== null;
+                return hasValue ? valueFormatting_1({
+                    data: d.data,
+                    label: d ? d.data.name : '',
+                    value: (d && d.data) ? d.data.value : ''
+                }).length : 0;
+            })
+                .sort(function (a, b) { return b - a; });
             var idx = Math.ceil(this.data.length / 2);
             this.medianSize = sortedLengths[idx];
         }
@@ -40,7 +50,7 @@ var CardSeriesComponent = (function () {
             d.data.name = label;
             var value = d.data.value;
             var valueColor = label ? _this.colors.getColor(label) : _this.emptyColor;
-            var color = _this.cardColor || valueColor;
+            var color = _this.cardColor || valueColor || '#000';
             return {
                 x: d.x,
                 y: d.y,
@@ -67,7 +77,7 @@ export { CardSeriesComponent };
 CardSeriesComponent.decorators = [
     { type: Component, args: [{
                 selector: 'g[ngx-charts-card-series]',
-                template: "\n    <svg:rect\n      *ngFor=\"let c of emptySlots; trackBy:trackBy\"\n      class=\"card-empty\"\n      [attr.x]=\"c.x\"\n      [attr.y]=\"c.y\"\n      [style.fill]=\"emptyColor\"\n      [attr.width]=\"c.width\"\n      [attr.height]=\"c.height\"\n      rx=\"3\"\n      ry=\"3\"\n    />\n    <svg:g ngx-charts-card *ngFor=\"let c of cards; trackBy:trackBy\"\n      [x]=\"c.x\"\n      [y]=\"c.y\"\n      [width]=\"c.width\"\n      [height]=\"c.height\"\n      [color]=\"c.color\"\n      [bandColor]=\"c.bandColor\"\n      [textColor]=\"c.textColor\"\n      [data]=\"c.data\"\n      [medianSize]=\"medianSize\"\n      (select)=\"onClick($event)\"\n    />\n  ",
+                template: "\n    <svg:rect\n      *ngFor=\"let c of emptySlots; trackBy:trackBy\"\n      class=\"card-empty\"\n      [attr.x]=\"c.x\"\n      [attr.y]=\"c.y\"\n      [style.fill]=\"emptyColor\"\n      [attr.width]=\"c.width\"\n      [attr.height]=\"c.height\"\n      rx=\"3\"\n      ry=\"3\"\n    />\n    <svg:g ngx-charts-card *ngFor=\"let c of cards; trackBy:trackBy\"\n      [x]=\"c.x\"\n      [y]=\"c.y\"\n      [width]=\"c.width\"\n      [height]=\"c.height\"\n      [color]=\"c.color\"\n      [bandColor]=\"c.bandColor\"\n      [textColor]=\"c.textColor\"\n      [data]=\"c.data\"\n      [medianSize]=\"medianSize\"\n      [valueFormatting]=\"valueFormatting\"\n      [labelFormatting]=\"labelFormatting\"\n      (select)=\"onClick($event)\"\n    />\n  ",
                 changeDetection: ChangeDetectionStrategy.OnPush
             },] },
 ];
@@ -85,6 +95,8 @@ CardSeriesComponent.propDecorators = {
     'bandColor': [{ type: Input },],
     'emptyColor': [{ type: Input },],
     'textColor': [{ type: Input },],
+    'valueFormatting': [{ type: Input },],
+    'labelFormatting': [{ type: Input },],
     'select': [{ type: Output },],
 };
 //# sourceMappingURL=card-series.component.js.map

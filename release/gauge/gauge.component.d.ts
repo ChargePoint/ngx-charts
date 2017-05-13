@@ -4,6 +4,7 @@ import { ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 export declare class GaugeComponent extends BaseChartComponent implements AfterViewInit {
     legend: boolean;
+    legendTitle: string;
     min: number;
     max: number;
     textValue: string;
@@ -17,7 +18,7 @@ export declare class GaugeComponent extends BaseChartComponent implements AfterV
     activeEntries: any[];
     axisTickFormatting: any;
     tooltipDisabled: boolean;
-    valueFormatting: (value) => string;
+    valueFormatting: (value: any) => string;
     margin: any[];
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;

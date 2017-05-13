@@ -35,14 +35,14 @@ import { count, decimalChecker } from '../common/count';
         class="trimmed-label"
         x="5"
         [attr.x]="textPadding[3]"
-        [attr.y]="textPadding[0] + textFontSize + labelFontSize"
+        [attr.y]="cardHeight - textPadding[2]"
         [attr.width]="textWidth"
         [attr.height]="labelFontSize + textPadding[2]"
         alignment-baseline="hanging">
         <xhtml:p
           [style.color]="textColor"
-          [style.fontSize.px]="labelFontSize">
-          {{trimmedLabel}}
+          [style.fontSize.px]="labelFontSize"
+          [innerHTML]="formattedLabel">
         </xhtml:p>
       </svg:foreignObject>
       <svg:text #textEl
@@ -73,6 +73,7 @@ export class CardComponent implements OnChanges, OnDestroy {
   @Input() data;
   @Input() medianSize: number;
   @Input() valueFormatting: any;
+  @Input() labelFormatting: any;
 
   @Output() select = new EventEmitter();
 
@@ -81,16 +82,12 @@ export class CardComponent implements OnChanges, OnDestroy {
   element: HTMLElement;
   value: string = '';
   transform: string;
-  trimmedLabel: string;
+  formattedLabel: string;
   cardWidth: number;
   cardHeight: number;
   textWidth: number;
-  textFontSize: number = 35;
+  textFontSize: number = 12;
   textTransform: string = '';
-  originalWidth: number;
-  originalHeight: number;
-  originalWidthRatio: number;
-  originalHeightRatio: number;
   initialized: boolean = false;
   animationReq: any;
 
@@ -104,7 +101,7 @@ export class CardComponent implements OnChanges, OnDestroy {
   constructor(element: ElementRef, private cd: ChangeDetectorRef, private zone: NgZone) {
     this.element = element.nativeElement;
   }
-  
+
   ngOnChanges(changes: SimpleChanges): void {
     this.update();
   }
@@ -114,42 +111,43 @@ export class CardComponent implements OnChanges, OnDestroy {
   }
 
   update(): void {
-    const hasValue = this.data && typeof this.data.value !== 'undefined';
-    this.valueFormatting = this.valueFormatting || (card => card.data.value.toLocaleString());
+    this.zone.run(() => {
+      const hasValue = this.data && typeof this.data.value !== 'undefined';
+      const valueFormatting = this.valueFormatting || (card => card.value.toLocaleString());
+      const labelFormatting = this.labelFormatting || (card => trimLabel(card.label, 55));
 
-    this.transform = `translate(${this.x} , ${this.y})`;
+      this.transform = `translate(${this.x} , ${this.y})`;
 
-    this.textWidth = Math.max(0, this.width) - this.textPadding[1] - this.textPadding[3];
-    this.cardWidth = Math.max(0, this.width);
-    this.cardHeight = Math.max(0, this.height);
+      this.textWidth = Math.max(0, this.width) - this.textPadding[1] - this.textPadding[3];
+      this.cardWidth = Math.max(0, this.width);
+      this.cardHeight = Math.max(0, this.height);
 
-    this.label = this.data ? this.data.name : '';
-    this.trimmedLabel = trimLabel(this.label, 55);
-    this.transformBand = `translate(0 , ${this.cardHeight - this.bandHeight})`;
+      this.label = this.data ? this.data.name : '';
 
-    const value = hasValue ?
-      this.valueFormatting({
+      const cardData = {
         label: this.label,
         data: this.data,
         value: this.data.value
-      }) :
-      '';
+      };
 
-    this.value = this.paddedValue(value);
+      this.formattedLabel = labelFormatting(cardData);
+      this.transformBand = `translate(0 , ${this.cardHeight - this.bandHeight})`;
 
-    const textHeight = this.textFontSize + 2 * this.labelFontSize;
-    this.textPadding[0] = this.textPadding[2] = (this.cardHeight - textHeight - this.bandHeight) / 2 ;
+      const value = hasValue ? valueFormatting(cardData) : '';
 
-    this.bandPath = roundedRect(0, 0, this.cardWidth, this.bandHeight, 3, false, false, true, true);
+      this.value = this.paddedValue(value);
+      this.setPadding();
 
-    setTimeout(() => {
-      this.scaleText();
-      this.value = value;
-      
-      if (hasValue) {
-        setTimeout(() => this.startCount(), 20);
-      }
-    }, 0);
+      this.bandPath = roundedRect(0, 0, this.cardWidth, this.bandHeight, 3, false, false, true, true);
+
+      setTimeout(() => {
+        this.scaleText();
+        this.value = value;
+        if (hasValue && !this.initialized) {
+          setTimeout(() => this.startCount(), 20);
+        }
+      }, 8);
+    });
   }
 
   paddedValue(value: string) {
@@ -165,11 +163,17 @@ export class CardComponent implements OnChanges, OnDestroy {
 
       const val = this.data.value;
       const decs = decimalChecker(val);
+      const valueFormatting = this.valueFormatting || (card => card.value.toLocaleString());
 
-      const callback = ({value}) => {
-        const v = this.valueFormatting({label: this.label, data: this.data, value});
-        this.value = this.paddedValue(v);
-        this.cd.markForCheck();
+      const callback = ({value, finished}) => {
+        this.zone.run(() => {
+          value = finished ? val : value;
+          this.value = valueFormatting({label: this.label, data: this.data, value});
+          if (!finished) {
+            this.value = this.paddedValue(this.value);
+          }
+          this.cd.markForCheck();
+        });
       };
 
       this.animationReq = count(0, val, decs, 1, callback);
@@ -178,38 +182,30 @@ export class CardComponent implements OnChanges, OnDestroy {
   }
 
   scaleText(): void {
-    const { width, height } = this.textEl.nativeElement.getBoundingClientRect();
-    if (width === 0 || height === 0) {
-      return;
-    }
+    this.zone.run(() => {
+      const { width, height } = this.textEl.nativeElement.getBoundingClientRect();
+      if (width === 0 || height === 0) {
+        return;
+      }
 
+      const textPadding = this.textPadding[1] = this.textPadding[3] = this.cardWidth / 8;
+      const availableWidth = this.cardWidth - 2 * textPadding;
+      const availableHeight = this.cardHeight / 3;
+
+      const resizeScale = Math.min(availableWidth / width, availableHeight / height);
+      this.textFontSize = Math.floor(this.textFontSize * resizeScale);
+      this.labelFontSize = Math.min(this.textFontSize, 12);
+
+      this.setPadding();
+      this.cd.markForCheck();
+    });
+  }
+
+  setPadding() {
     this.textPadding[1] = this.textPadding[3] = this.cardWidth / 8;
-
-    const availableWidth = this.cardWidth - this.textPadding[1] - this.textPadding[3];
-    const availableHeight = this.cardHeight / 3;
-
-    if (!this.originalWidthRatio) {
-      this.originalWidthRatio = availableWidth / width;
-      this.originalWidth = availableWidth;
-    }
-
-    if (!this.originalHeightRatio) {
-      this.originalHeightRatio = availableHeight / height;
-      this.originalHeight = availableHeight;
-    }
-
-    const newWidthRatio = (availableWidth / this.originalWidth) * this.originalWidthRatio;
-    const newHeightRatio = (availableHeight / this.originalHeight) * this.originalHeightRatio;
-
-    const resizeScale = Math.min(newWidthRatio, newHeightRatio);
-
-    this.textFontSize = Number.parseInt((35 * resizeScale).toString());
-    this.labelFontSize = Math.min(this.textFontSize, 12);
-
-    const textHeight = this.textFontSize + 2 * this.labelFontSize;
-    this.textPadding[0] = this.textPadding[2] = (this.cardHeight - textHeight - this.bandHeight) / 2 ;
-
-    this.cd.markForCheck();
+    const padding = this.cardHeight / 2;
+    this.textPadding[0] = padding - this.textFontSize - this.labelFontSize / 2;
+    this.textPadding[2] = padding - this.labelFontSize;
   }
 
   onClick(): void {

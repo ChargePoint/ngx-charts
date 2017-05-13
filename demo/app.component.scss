@@ -288,6 +288,10 @@ main {
       }
     }
 
+    .polar-chart .polar-chart-background {
+      fill: rgb(30, 34, 46);
+    }
+
   }
 
   .chart-legend {
@@ -326,6 +330,11 @@ main {
         color: #fff !important;
       }
     }
+  }
+
+  .number-card .number-card-label {
+    font-size: 0.8em;
+    color: $color-text-med;
   }
 
 }
