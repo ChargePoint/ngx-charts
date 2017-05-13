@@ -23,6 +23,7 @@ import { XAxisTicksComponent } from './x-axis-ticks.component';
         [tickArguments]="tickArguments"
         [tickStroke]="tickStroke"
         [tickLabels]="xAxisTickLabels"
+        [showTicks]="showTicks"
         [scale]="xScale"
         [orient]="xOrient"
         [showGridLines]="showGridLines"
@@ -47,6 +48,7 @@ export class XAxisComponent implements OnChanges {
   @Input() xScale;
   @Input() dims;
   @Input() tickFormatting;
+  @Input() showTicks: boolean[];
   @Input() showGridLines = false;
   @Input() showLabel;
   @Input() labelText;
@@ -54,7 +56,7 @@ export class XAxisComponent implements OnChanges {
   @Input() xAxisTickLabels: string[];
   @Input() xAxisTickCount: any;
   @Input() xOrient: string = 'bottom';
-  
+
   @Output() dimensionsChanged = new EventEmitter();
 
   xAxisClassName: string = 'x axis';
