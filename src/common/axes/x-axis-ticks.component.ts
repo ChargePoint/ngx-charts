@@ -24,8 +24,15 @@ import { reduceTicks } from './ticks.helper';
           stroke-width="0.01"
           [attr.text-anchor]="textAnchor"
           [attr.transform]="textTransform"
-          [style.font-size]="'12px'">
+          [style.font-size]="'12px'" *ngIf="!showTicks || showTicks[i]">
           {{trimLabel(tickFormat(tick))}}
+        </svg:text>
+        <svg:text
+          stroke-width="0.01"
+          [attr.text-anchor]="textAnchor"
+          [attr.transform]="textTransform"
+          [style.font-size]="'12px'" *ngIf="showTicks && !showTicks[i]">
+          <tspan *ngIf="tickLabels && tickLabels[i]" x="0" dy="15" class="stick">{{tickLabels[i]}}</tspan>
         </svg:text>
       </svg:g>
     </svg:g>
@@ -50,6 +57,7 @@ export class XAxisTicksComponent implements OnChanges, AfterViewInit {
   @Input() tickArguments = [5];
   @Input() tickStroke = '#ccc';
   @Input() tickFormatting;
+  @Input() showTicks: boolean[];
   @Input() showGridLines = false;
   @Input() gridLineHeight;
   @Input() width;
@@ -61,12 +69,12 @@ export class XAxisTicksComponent implements OnChanges, AfterViewInit {
   innerTickSize: number = 6;
   outerTickSize: number = 6;
   tickPadding: number = 3;
+  tickValues: any;
   textAnchor: string = 'middle';
   maxTicksLength: number = 0;
   maxAllowedLength: number = 16;
   trimLabel: any;
   adjustedScale: any;
-  tickValues: any;
   textTransform: any;
   ticks: any;
   tickFormat: any;
@@ -131,6 +139,10 @@ export class XAxisTicksComponent implements OnChanges, AfterViewInit {
   }
 
   getRotationAngle(ticks): number {
+    if (this.showTicks) {
+      return 0;
+    }
+
     let angle = 0;
     for (let i = 0; i < ticks.length; i++) {
       const tick = ticks[i].toString();
