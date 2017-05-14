@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 
 import { BaseChartComponent } from '../common/base-chart.component';
+import { formatLabel } from '../common/label.helper';
 import { ColorHelper } from '../common/color.helper';
 import { calculateViewDimensions, ViewDimensions } from '../common/view-dimensions.helper';
 import { sortLinear } from '../utils/sort';
@@ -30,8 +31,14 @@ import { scaleLinear } from 'd3-scale';
             [outerRadius]="outerRadius"
             [cornerRadius]="cornerRadius"
             [data]="arcSet.backgroundArc.data"
-            [animate]="false"
-            [pointerEvents]="false">
+            [animate]="true"
+            [class.active]="true"
+            [pointerEvents]="true"
+            ngx-tooltip
+            [tooltipDisabled]="false"
+            [tooltipPlacement]="'top'"
+            [tooltipType]="'tooltip'"
+            [tooltipTitle]="tooltipText(arcSet.backgroundArc)">
         </svg:g>
 
         <svg:g ngx-charts-gauge-arc-series
@@ -60,7 +67,9 @@ import { scaleLinear } from 'd3-scale';
             [style.textAnchor]="'middle'"
             [attr.transform]="textTransform"
             alignment-baseline="central">
-          <tspan x="0" dy="1.5em">{{displayValue}}</tspan>
+          <tspan x="0" dy="1.5em">{{displayValue}}&nbsp;
+            <tspan class="units" *ngIf="units">{{units}}</tspan>
+          </tspan>
         </svg:text>
       </svg:g>
     </ngx-charts-chart>
@@ -82,11 +91,10 @@ export class PowerGaugeComponent extends BaseChartComponent implements AfterView
   @Input() axisPoints: any[];
   @Input() pointerValue: number;
   @Input() showAxis: boolean = true;
-  @Input() activeEntries: any[] = [];
   @Input() axisTickFormatting: any;
+  @Input() valueFormatting: any;
   // Specify margins
   @Input() margin: any[];
-
   @ViewChild('textEl') textEl: ElementRef;
 
   colors: ColorHelper;
@@ -110,6 +118,22 @@ export class PowerGaugeComponent extends BaseChartComponent implements AfterView
   pointerAngle: number = 0;
   endAngle: number = 90;
   angleSpan: number = 180;
+
+  tooltipText(arc): string {
+    const label = formatLabel(arc.data.name);
+    let val;
+
+    if(this.axisTickFormatting) {
+      val = this.axisTickFormatting(arc.data.value);
+    } else {
+      val = formatLabel(arc.data.value);
+    }
+
+    return `
+      <span class="tooltip-label">${label}</span>
+      <span class="tooltip-val">${val}</span>
+    `;
+  }
 
   ngAfterViewInit(): void {
     super.ngAfterViewInit();
@@ -159,7 +183,7 @@ export class PowerGaugeComponent extends BaseChartComponent implements AfterView
       endAngle: this.endAngle * Math.PI / 180,
       data: {
         value: this.max,
-        name: 'background-arc'
+        name: 'Total'
       }
     };
 
@@ -264,8 +288,8 @@ export class PowerGaugeComponent extends BaseChartComponent implements AfterView
   }
 
   getDisplayValue(): string {
-    if (this.axisTickFormatting) {
-      return this.axisTickFormatting(this.pointerValue);
+    if (this.valueFormatting) {
+      return this.valueFormatting(this.pointerValue);
     }
     return this.pointerValue.toString();
   }

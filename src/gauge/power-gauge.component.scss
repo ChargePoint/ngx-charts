@@ -1,8 +1,17 @@
 .gauge {
-
   .background-arc {
+    .arc {
+      cursor: pointer;
+    }
     path {
       fill: #ddd;
+    }
+  }
+
+  .arc {
+    cursor: default;
+    &:hover {
+      opacity: 1;
     }
   }
 
@@ -11,5 +20,4 @@
     stroke: #444;
     fill: #777;
   }
-
 }
