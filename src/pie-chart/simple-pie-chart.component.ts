@@ -23,10 +23,8 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [colors]="colors"
           [series]="results"
           [innerRadius]="innerRadius"
-          [activeEntries]="activeEntries"
           [outerRadius]="outerRadius"
-          [gradient]="gradient"
-          (select)="onClick($event)">
+          [gradient]="gradient">
         </svg:g>
         <svg:text
           class="label"
@@ -54,13 +52,13 @@ import { BaseChartComponent } from '../common/base-chart.component';
 export class SimplePieChartComponent extends BaseChartComponent {
 
   @Input() gradient: boolean;
-  @Input() activeEntries: any[] = [];
+  // @Input() activeEntries: any[] = [];
   @Input() totalLabel: string;
   @Input() totalValue: number;
   @Input() unit: string = '';
 
-  @Output() activate: EventEmitter<any> = new EventEmitter();
-  @Output() deactivate: EventEmitter<any> = new EventEmitter();
+  // @Output() activate: EventEmitter<any> = new EventEmitter();
+  // @Output() deactivate: EventEmitter<any> = new EventEmitter();
 
   data: any;
   dims: ViewDimensions;
@@ -108,18 +106,18 @@ export class SimplePieChartComponent extends BaseChartComponent {
     this.colors = new ColorHelper(this.scheme, 'ordinal', this.domain, this.customColors);
   }
 
-  onActivate(event): void {
-    if(this.activeEntries.indexOf(event) > -1) return;
-    this.activeEntries = [ event, ...this.activeEntries ];
-    this.activate.emit({ value: event, entries: this.activeEntries });
-  }
-
-  onDeactivate(event): void {
-    const idx = this.activeEntries.indexOf(event);
-
-    this.activeEntries.splice(idx, 1);
-    this.activeEntries = [...this.activeEntries];
-
-    this.deactivate.emit({ value: event, entries: this.activeEntries });
-  }
+  // onActivate(event): void {
+  //   if(this.activeEntries.indexOf(event) > -1) return;
+  //   this.activeEntries = [ event, ...this.activeEntries ];
+  //   this.activate.emit({ value: event, entries: this.activeEntries });
+  // }
+  //
+  // onDeactivate(event): void {
+  //   const idx = this.activeEntries.indexOf(event);
+  //
+  //   this.activeEntries.splice(idx, 1);
+  //   this.activeEntries = [...this.activeEntries];
+  //
+  //   this.deactivate.emit({ value: event, entries: this.activeEntries });
+  // }
 }
