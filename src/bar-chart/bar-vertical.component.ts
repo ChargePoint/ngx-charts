@@ -28,7 +28,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [style.alignment-baseline]="'baseline'"
           [attr.transform]="labelTransform"
           alignment-baseline="central"
-          x="20" dy="15">
+          x="15" dy="5">
           {{yAxisTickRoundingLabel}}
       </svg:text>
       <svg:g [attr.transform]="transform" class="bar-chart chart">
@@ -140,7 +140,7 @@ export class BarVerticalComponent extends BaseChartComponent {
         offset -= 20;
       }
       this.labelTransform = `translate(${ offset } , 10)`;
-      this.margin[0] = 50;
+      this.margin[0] = 30;
     }
     this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] })`;
   }
