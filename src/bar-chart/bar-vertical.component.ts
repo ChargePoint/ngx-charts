@@ -28,7 +28,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [style.alignment-baseline]="'baseline'"
           [attr.transform]="labelTransform"
           alignment-baseline="central"
-          x="15" dy="5">
+          x="20" dy="5">
           {{yAxisTickRoundingLabel}}
       </svg:text>
       <svg:g [attr.transform]="transform" class="bar-chart chart">
