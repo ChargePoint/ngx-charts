@@ -2,7 +2,6 @@ import {
   Component,
   Input,
   OnChanges,
-  OnDestroy,
   ChangeDetectionStrategy,
   NgZone
 } from '@angular/core';
@@ -46,7 +45,7 @@ import { ViewDimensions } from '../common/view-dimensions.helper';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
+export class PowerGaugeAxisComponent implements OnChanges {
   @Input() bigSegments: any;
   @Input() startAngle: number;
   @Input() pointerAngle: number;
@@ -71,9 +70,9 @@ export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
     this.update();
   }
 
-  ngOnDestroy() {
-    this.stopAnimation();
-  }
+  // ngOnDestroy() {
+  //   this.stopAnimation();
+  // }
 
   startAnimation(pointerAngle) {
     this.zone.runOutsideAngular(() => {
@@ -95,13 +94,13 @@ export class PowerGaugeAxisComponent implements OnChanges, OnDestroy {
     this.rotate = `rotate(${this.rotationAngle})`;
     this.ticks = this.getTicks();
 
-    this.stopAnimation();
-
-    this.zone.runOutsideAngular(() => {
-      setTimeout(() => {
-        this.startAnimation(this.pointerAngle);
-      }, 1500);
-    });
+    // this.stopAnimation();
+    //
+    // this.zone.runOutsideAngular(() => {
+    //   setTimeout(() => {
+    //     this.startAnimation(this.pointerAngle);
+    //   }, 1500);
+    // });
 
     if (this.pointerAngle) {
       this.updatePointer(this.pointerAngle, 750, 750, 0.8);
