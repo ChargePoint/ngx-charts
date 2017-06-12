@@ -67,7 +67,7 @@ import { scaleLinear } from 'd3-scale';
             [style.textAnchor]="'middle'"
             [attr.transform]="textTransform"
             alignment-baseline="central">
-          <tspan x="0" dy="1.5em">{{displayValue}}&nbsp;
+          <tspan x="0" dy="1.5em">{{displayValue}}
             <tspan class="units" *ngIf="units">{{units}}</tspan>
           </tspan>
         </svg:text>
