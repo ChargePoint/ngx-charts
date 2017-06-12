@@ -10,8 +10,8 @@ export declare class PowerGaugeComponent extends BaseChartComponent implements A
     axisPoints: any[];
     pointerValue: number;
     showAxis: boolean;
-    activeEntries: any[];
     axisTickFormatting: any;
+    valueFormatting: any;
     margin: any[];
     textEl: ElementRef;
     colors: ColorHelper;
@@ -33,6 +33,7 @@ export declare class PowerGaugeComponent extends BaseChartComponent implements A
     pointerAngle: number;
     endAngle: number;
     angleSpan: number;
+    tooltipText(arc: any): string;
     ngAfterViewInit(): void;
     update(): void;
     getArcSet(): any;

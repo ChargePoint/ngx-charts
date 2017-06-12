@@ -13,7 +13,6 @@ var BubbleChartComponent = (function (_super) {
     __extends(BubbleChartComponent, _super);
     function BubbleChartComponent() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.view = [400, 400];
         _this.showGridLines = true;
         _this.legend = false;
         _this.legendTitle = 'Legend';
@@ -226,8 +225,6 @@ BubbleChartComponent.decorators = [
 /** @nocollapse */
 BubbleChartComponent.ctorParameters = function () { return []; };
 BubbleChartComponent.propDecorators = {
-    'view': [{ type: Input },],
-    'results': [{ type: Input },],
     'showGridLines': [{ type: Input },],
     'legend': [{ type: Input },],
     'legendTitle': [{ type: Input },],

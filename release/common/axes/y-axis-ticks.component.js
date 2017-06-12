@@ -31,6 +31,9 @@ var YAxisTicksComponent = (function () {
             this.dimensionsChanged.emit({ width: width });
             setTimeout(function () { return _this.updateDims(); });
         }
+        else if (!width) {
+            this.dimensionsChanged.emit({ width: width });
+        }
     };
     YAxisTicksComponent.prototype.update = function () {
         var _this = this;
