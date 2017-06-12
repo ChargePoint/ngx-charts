@@ -5,6 +5,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 import { Component, Input, ViewChild, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { BaseChartComponent } from '../common/base-chart.component';
+import { formatLabel } from '../common/label.helper';
 import { ColorHelper } from '../common/color.helper';
 import { calculateViewDimensions } from '../common/view-dimensions.helper';
 import { sortLinear } from '../utils/sort';
@@ -16,7 +17,6 @@ var PowerGaugeComponent = (function (_super) {
         _this.min = 0;
         _this.max = 100;
         _this.showAxis = true;
-        _this.activeEntries = [];
         _this.resizeScale = 1;
         _this.textTransform = 'scale(1, 1)';
         _this.cornerRadius = 0;
@@ -26,6 +26,17 @@ var PowerGaugeComponent = (function (_super) {
         _this.angleSpan = 180;
         return _this;
     }
+    PowerGaugeComponent.prototype.tooltipText = function (arc) {
+        var label = formatLabel(arc.data.name);
+        var val;
+        if (this.axisTickFormatting) {
+            val = this.axisTickFormatting(arc.data.value);
+        }
+        else {
+            val = formatLabel(arc.data.value);
+        }
+        return "\n      <span class=\"tooltip-label\">" + label + "</span>\n      <span class=\"tooltip-val\">" + val + "</span>\n    ";
+    };
     PowerGaugeComponent.prototype.ngAfterViewInit = function () {
         _super.prototype.ngAfterViewInit.call(this);
         // setTimeout(() => this.scaleText());
@@ -47,15 +58,15 @@ var PowerGaugeComponent = (function (_super) {
             _this.valueDomain = _this.getValueDomain();
             _this.valueScale = _this.getValueScale();
             _this.displayValue = _this.getDisplayValue();
-            _this.outerRadius = Math.min(_this.dims.width, _this.dims.height) / 2;
-            var radiusPerArc = 65;
-            var arcWidth = radiusPerArc * 0.7;
+            _this.outerRadius = Math.min(_this.dims.width, _this.dims.height) * .7;
+            var radiusPerArc = 100;
+            var arcWidth = radiusPerArc * 0.38;
             _this.innerRadius = _this.outerRadius - arcWidth;
             _this.textRadius = _this.outerRadius - radiusPerArc;
             _this.arcSet = _this.getArcSet();
             _this.axisValues = _this.getAxisValues();
-            var xOffset = _this.margin[3] + _this.dims.width / 2;
-            var yOffset = _this.dims.height / 2 + (_this.margin[0] * 2);
+            var xOffset = _this.margin[3] + (_this.dims.width / 2) - 15;
+            var yOffset = _this.dims.height - (_this.margin[0] / 2);
             _this.transform = "translate(" + xOffset + ", " + yOffset + ")";
             // setTimeout(() => this.scaleText(), 50);
         });
@@ -66,7 +77,7 @@ var PowerGaugeComponent = (function (_super) {
             endAngle: this.endAngle * Math.PI / 180,
             data: {
                 value: this.max,
-                name: 'background-arc'
+                name: 'Total'
             }
         };
         var i = 0;
@@ -160,8 +171,8 @@ var PowerGaugeComponent = (function (_super) {
         this.colors = new ColorHelper(this.scheme, 'ordinal', this.domain, this.customColors);
     };
     PowerGaugeComponent.prototype.getDisplayValue = function () {
-        if (this.axisTickFormatting) {
-            return this.axisTickFormatting(this.pointerValue);
+        if (this.valueFormatting) {
+            return this.valueFormatting(this.pointerValue);
         }
         return this.pointerValue.toString();
     };
@@ -171,7 +182,7 @@ export { PowerGaugeComponent };
 PowerGaugeComponent.decorators = [
     { type: Component, args: [{
                 selector: 'ngx-charts-power-gauge',
-                template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\">\n      <svg:g [attr.transform]=\"transform\" class=\"gauge chart\">\n        <svg:g ngx-charts-pie-arc\n            class=\"background-arc\"\n            [startAngle]=\"arcSet.backgroundArc.startAngle\"\n            [endAngle]=\"arcSet.backgroundArc.endAngle\"\n            [innerRadius]=\"innerRadius\"\n            [outerRadius]=\"outerRadius\"\n            [cornerRadius]=\"cornerRadius\"\n            [data]=\"arcSet.backgroundArc.data\"\n            [animate]=\"false\"\n            [pointerEvents]=\"false\">\n        </svg:g>\n\n        <svg:g ngx-charts-gauge-arc-series\n          [bigSegments]=\"arcSet.valueArcs\"\n          [startAngle]=\"startAngle\"\n          [angleSpan]=\"angleSpan\"\n          [cornerRadius]=\"cornerRadius\"\n          [innerRadius]=\"innerRadius\"\n          [outerRadius]=\"outerRadius\"\n          [colors]=\"colors\">\n        </svg:g>\n\n        <svg:g ngx-charts-power-gauge-axis\n          [bigSegments]=\"axisValues\"\n          [startAngle]=\"startAngle\"\n          [pointerAngle]=\"pointerAngle\"\n          [angleSpan]=\"angleSpan\"\n          [cornerRadius]=\"cornerRadius\"\n          [innerRadius]=\"innerRadius\"\n          [outerRadius]=\"outerRadius\"\n          [tickFormatting]=\"axisTickFormatting\"\n          [dims]=\"dims\">\n        </svg:g>\n\n        <svg:text #textEl\n            [style.textAnchor]=\"'middle'\"\n            [attr.transform]=\"textTransform\"\n            alignment-baseline=\"central\">\n          <tspan x=\"0\" dy=\"1.5em\">{{displayValue}}</tspan>\n        </svg:text>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
+                template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\">\n      <svg:g [attr.transform]=\"transform\" class=\"gauge chart\">\n        <svg:g ngx-charts-pie-arc\n            class=\"background-arc\"\n            [startAngle]=\"arcSet.backgroundArc.startAngle\"\n            [endAngle]=\"arcSet.backgroundArc.endAngle\"\n            [innerRadius]=\"innerRadius\"\n            [outerRadius]=\"outerRadius\"\n            [cornerRadius]=\"cornerRadius\"\n            [data]=\"arcSet.backgroundArc.data\"\n            [animate]=\"true\"\n            [class.active]=\"true\"\n            [pointerEvents]=\"true\"\n            ngx-tooltip\n            [tooltipDisabled]=\"false\"\n            [tooltipPlacement]=\"'top'\"\n            [tooltipType]=\"'tooltip'\"\n            [tooltipTitle]=\"tooltipText(arcSet.backgroundArc)\">\n        </svg:g>\n\n        <svg:g ngx-charts-gauge-arc-series\n          [bigSegments]=\"arcSet.valueArcs\"\n          [startAngle]=\"startAngle\"\n          [angleSpan]=\"angleSpan\"\n          [cornerRadius]=\"cornerRadius\"\n          [innerRadius]=\"innerRadius\"\n          [outerRadius]=\"outerRadius\"\n          [colors]=\"colors\">\n        </svg:g>\n\n        <svg:g ngx-charts-power-gauge-axis\n          [bigSegments]=\"axisValues\"\n          [startAngle]=\"startAngle\"\n          [pointerAngle]=\"pointerAngle\"\n          [angleSpan]=\"angleSpan\"\n          [cornerRadius]=\"cornerRadius\"\n          [innerRadius]=\"innerRadius\"\n          [outerRadius]=\"outerRadius\"\n          [tickFormatting]=\"axisTickFormatting\"\n          [dims]=\"dims\">\n        </svg:g>\n\n        <svg:text #textEl\n            [style.textAnchor]=\"'middle'\"\n            [attr.transform]=\"textTransform\"\n            alignment-baseline=\"central\">\n          <tspan x=\"0\" dy=\"1.5em\">{{displayValue}}\n            <tspan class=\"units\" *ngIf=\"units\">{{units}}</tspan>\n          </tspan>\n        </svg:text>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
                 styleUrls: [
                     '../common/base-chart.component.css',
                     './gauge.component.css',
@@ -191,8 +202,8 @@ PowerGaugeComponent.propDecorators = {
     'axisPoints': [{ type: Input },],
     'pointerValue': [{ type: Input },],
     'showAxis': [{ type: Input },],
-    'activeEntries': [{ type: Input },],
     'axisTickFormatting': [{ type: Input },],
+    'valueFormatting': [{ type: Input },],
     'margin': [{ type: Input },],
     'textEl': [{ type: ViewChild, args: ['textEl',] },],
 };

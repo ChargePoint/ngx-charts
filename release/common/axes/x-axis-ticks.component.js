@@ -68,6 +68,9 @@ var XAxisTicksComponent = (function () {
         setTimeout(function () { return _this.updateDims(); });
     };
     XAxisTicksComponent.prototype.getRotationAngle = function (ticks) {
+        if (this.showTicks) {
+            return 0;
+        }
         var angle = 0;
         for (var i = 0; i < ticks.length; i++) {
             var tick = ticks[i].toString();
@@ -118,7 +121,7 @@ export { XAxisTicksComponent };
 XAxisTicksComponent.decorators = [
     { type: Component, args: [{
                 selector: 'g[ngx-charts-x-axis-ticks]',
-                template: "\n    <svg:g #ticksel>\n      <svg:g *ngFor=\"let tick of ticks\" class=\"tick\"\n        [attr.transform]=\"tickTransform(tick)\">\n        <title>{{tickFormat(tick)}}</title>\n        <svg:text\n          stroke-width=\"0.01\"\n          [attr.text-anchor]=\"textAnchor\"\n          [attr.transform]=\"textTransform\"\n          [style.font-size]=\"'12px'\">\n          {{trimLabel(tickFormat(tick))}}\n        </svg:text>\n      </svg:g>\n    </svg:g>\n\n    <svg:g *ngFor=\"let tick of ticks\"\n      [attr.transform]=\"tickTransform(tick)\">\n      <svg:g *ngIf=\"showGridLines\"\n        [attr.transform]=\"gridLineTransform()\">\n        <svg:line\n          class=\"gridline-path gridline-path-vertical\"\n          [attr.y1]=\"-gridLineHeight\"\n          y2=\"0\" />\n      </svg:g>\n    </svg:g>\n  ",
+                template: "\n    <svg:g #ticksel>\n      <svg:g *ngFor=\"let tick of ticks;let i = index\" class=\"tick\"\n        [attr.transform]=\"tickTransform(tick)\">\n        <title>{{tickFormat(tick)}}</title>\n        <svg:text\n          stroke-width=\"0.01\"\n          [attr.text-anchor]=\"textAnchor\"\n          [attr.transform]=\"textTransform\"\n          [style.font-size]=\"'12px'\" *ngIf=\"!showTicks || showTicks[i]\">\n          {{trimLabel(tickFormat(tick))}}\n          <tspan *ngIf=\"tickLabels && tickLabels[i]\" x=\"0\" dy=\"15\" class=\"stick\">{{tickLabels[i]}}</tspan>\n        </svg:text>\n        <svg:text\n          stroke-width=\"0.01\"\n          [attr.text-anchor]=\"textAnchor\"\n          [attr.transform]=\"textTransform\"\n          [style.font-size]=\"'12px'\" *ngIf=\"showTicks && !showTicks[i]\">\n          <tspan *ngIf=\"tickLabels && tickLabels[i]\" x=\"0\" dy=\"15\" class=\"stick\">{{tickLabels[i]}}</tspan>\n        </svg:text>\n      </svg:g>\n    </svg:g>\n\n    <svg:g *ngFor=\"let tick of ticks\"\n      [attr.transform]=\"tickTransform(tick)\">\n      <svg:g *ngIf=\"showGridLines\"\n        [attr.transform]=\"gridLineTransform()\">\n        <svg:line\n          class=\"gridline-path gridline-path-vertical\"\n          [attr.y1]=\"-gridLineHeight\"\n          y2=\"0\" />\n      </svg:g>\n    </svg:g>\n  ",
                 changeDetection: ChangeDetectionStrategy.OnPush
             },] },
 ];
@@ -130,9 +133,11 @@ XAxisTicksComponent.propDecorators = {
     'tickArguments': [{ type: Input },],
     'tickStroke': [{ type: Input },],
     'tickFormatting': [{ type: Input },],
+    'showTicks': [{ type: Input },],
     'showGridLines': [{ type: Input },],
     'gridLineHeight': [{ type: Input },],
     'width': [{ type: Input },],
+    'tickLabels': [{ type: Input },],
     'dimensionsChanged': [{ type: Output },],
     'ticksElement': [{ type: ViewChild, args: ['ticksel',] },],
 };

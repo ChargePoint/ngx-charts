@@ -4,14 +4,16 @@ export declare class XAxisComponent implements OnChanges {
     xScale: any;
     dims: any;
     tickFormatting: any;
+    showTicks: boolean[];
     showGridLines: boolean;
     showLabel: any;
     labelText: any;
     xAxisTickInterval: any;
+    xAxisTickLabels: string[];
     xAxisTickCount: any;
+    xOrient: string;
     dimensionsChanged: EventEmitter<{}>;
     xAxisClassName: string;
-    xOrient: string;
     tickArguments: any;
     transform: any;
     labelOffset: number;

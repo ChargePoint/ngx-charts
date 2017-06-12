@@ -3,8 +3,6 @@ import { BaseChartComponent } from '../common/base-chart.component';
 import { ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 export declare class BubbleChartComponent extends BaseChartComponent {
-    view: number[];
-    results: any;
     showGridLines: boolean;
     legend: boolean;
     legendTitle: string;

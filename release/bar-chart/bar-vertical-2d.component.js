@@ -56,7 +56,13 @@ var BarVertical2DComponent = (function (_super) {
         this.transform = "translate(" + this.dims.xOffset + " , " + this.margin[0] + ")";
     };
     BarVertical2DComponent.prototype.getGroupScale = function () {
-        var spacing = this.groupDomain.length / (this.dims.height / this.groupPadding + 1);
+        var spacing = parseInt(this.groupPadding.toString(), 10);
+        if (this.groupPadding !== (spacing + '%')) {
+            spacing = this.groupDomain.length / (this.dims.height / spacing + 1);
+        }
+        else {
+            spacing /= 100;
+        }
         return scaleBand()
             .rangeRound([0, this.dims.width])
             .paddingInner(spacing)
@@ -65,7 +71,13 @@ var BarVertical2DComponent = (function (_super) {
     };
     BarVertical2DComponent.prototype.getInnerScale = function () {
         var width = this.groupScale.bandwidth();
-        var spacing = this.innerDomain.length / (width / this.barPadding + 1);
+        var spacing = parseInt(this.barPadding.toString(), 10);
+        if (this.barPadding !== (spacing + '%')) {
+            spacing = this.innerDomain.length / (width / spacing + 1);
+        }
+        else {
+            spacing /= 100;
+        }
         return scaleBand()
             .rangeRound([0, width])
             .paddingInner(spacing)

@@ -1,15 +1,11 @@
-import { EventEmitter } from '@angular/core';
 import { ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 import { BaseChartComponent } from '../common/base-chart.component';
 export declare class SimplePieChartComponent extends BaseChartComponent {
     gradient: boolean;
-    activeEntries: any[];
     totalLabel: string;
     totalValue: number;
     unit: string;
-    activate: EventEmitter<any>;
-    deactivate: EventEmitter<any>;
     data: any;
     dims: ViewDimensions;
     domain: any[];
@@ -23,6 +19,4 @@ export declare class SimplePieChartComponent extends BaseChartComponent {
     getDomain(): any[];
     onClick(data: any): void;
     setColors(): void;
-    onActivate(event: any): void;
-    onDeactivate(event: any): void;
 }
