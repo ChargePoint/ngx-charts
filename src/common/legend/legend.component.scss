@@ -19,7 +19,7 @@
   }
 
   .legend-wrap {
-    width: 90%;
+    width: calc(100% - 10px);
   }
 
   .legend-labels {
@@ -39,8 +39,8 @@
     cursor: pointer;
     font-size: 90%;
     margin: 8px;
-    color: #76818a;
-
+    color: #AFB7C8;
+    
     &:hover {
       color: #000;
       -webkit-transition: 0.2s;
@@ -69,16 +69,10 @@
     vertical-align: top;
     line-height: 15px;
     font-size: 12px;
-    width: 100%;
+    width: calc(100% - 20px);
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    padding-right: 20px;
-  }
-
-  .legend-icon {
-    color: #4d9df6;
-    margin-right: 5px;
   }
 
   .legend-title-text {

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import { Location, LocationStrategy, PathLocationStrategy, CommonModule } from '@angular/common';
 
 import { ChartComponent } from './charts/chart.component';
-import { 
-  ScaleLegendComponent, LegendComponent, LegendEntryComponent, AdvancedLegendComponent 
+import {
+  ScaleLegendComponent, LegendComponent, LegendEntryComponent, AdvancedLegendComponent
 } from './legend';
 import { BaseChartComponent } from './base-chart.component';
 import { AxesModule } from './axes/axes.module';
@@ -15,16 +15,15 @@ import { GridPanelSeriesComponent } from './grid-panel-series.component';
 import { SvgLinearGradientComponent } from './svg-linear-gradient.component';
 import { SvgRadialGradientComponent } from './svg-radial-gradient.component';
 import { Timeline } from './timeline';
-import { CommonModule } from '@angular/common';
 import { AreaComponent } from './area.component';
-import { AreaTooltip } from './area-tooltip.component';
+import { TooltipArea } from './tooltip-area.component';
 import { CountUpDirective } from './count';
 
-const COMPONENTS = [  
+const COMPONENTS = [
   AreaComponent,
   BaseChartComponent,
   CountUpDirective,
-  AreaTooltip,
+  TooltipArea,
   ChartComponent,
   LegendComponent,
   LegendEntryComponent,
@@ -41,9 +40,9 @@ const COMPONENTS = [
 
 @NgModule({
   providers: [
-    Location, 
+    Location,
     {
-      provide: LocationStrategy, 
+      provide: LocationStrategy,
       useClass: PathLocationStrategy
     }
   ],

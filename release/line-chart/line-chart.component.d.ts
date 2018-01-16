@@ -1,4 +1,4 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, TemplateRef } from '@angular/core';
 import { ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 import { BaseChartComponent } from '../common/base-chart.component';
@@ -23,9 +23,17 @@ export declare class LineChartComponent extends BaseChartComponent {
     yAxisTickFormatting: any;
     roundDomains: boolean;
     tooltipDisabled: boolean;
-    showSeriesOnHover: boolean;
+    showRefLines: boolean;
+    referenceLines: any;
+    showRefLabels: boolean;
+    xScaleMin: any;
+    xScaleMax: any;
+    yScaleMin: number;
+    yScaleMax: number;
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;
+    tooltipTemplate: TemplateRef<any>;
+    seriesTooltipTemplate: TemplateRef<any>;
     dims: ViewDimensions;
     xSet: any;
     xDomain: any;
@@ -46,6 +54,7 @@ export declare class LineChartComponent extends BaseChartComponent {
     yAxisWidth: number;
     filteredDomain: any;
     legendOptions: any;
+    hasRange: boolean;
     timelineWidth: any;
     timelineHeight: number;
     timelineXScale: any;

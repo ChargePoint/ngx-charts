@@ -5,12 +5,13 @@ import {
   EventEmitter,
   HostListener,
   ViewEncapsulation,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ContentChild,
+  TemplateRef
 } from '@angular/core';
 import { scaleLinear, scalePoint, scaleTime } from 'd3-scale';
 import { curveLinear } from 'd3-shape';
 
-import { PathLocationStrategy } from '@angular/common';
 import { calculateViewDimensions, ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 import { BaseChartComponent } from '../common/base-chart.component';
@@ -24,6 +25,7 @@ import { id } from '../utils/id';
       [showLegend]="legend"
       [legendOptions]="legendOptions"
       [activeEntries]="activeEntries"
+      [animations]="animations"
       (legendLabelClick)="onClick($event)"
       (legendLabelActivate)="onActivate($event)"
       (legendLabelDeactivate)="onDeactivate($event)">
@@ -68,39 +70,46 @@ import { id } from '../utils/id';
               [gradient]="gradient"
               normalized="true"
               [curve]="curve"
+              [animations]="animations"
             />
           </svg:g>
-          <svg:g ngx-charts-area-tooltip
-            [xSet]="xSet"
-            [xScale]="xScale"
-            [yScale]="yScale"
-            [results]="results"
-            [height]="dims.height"
-            [colors]="colors"
-            [showPercentage]="true"
-            [tooltipDisabled]="tooltipDisabled"
-            (hover)="updateHoveredVertical($event)"
-          />
-          <svg:g *ngFor="let series of results">
-            <svg:g ngx-charts-circle-series
-              type="stacked"
+
+          <svg:g *ngIf="!tooltipDisabled" (mouseleave)="hideCircles()">
+            <svg:g ngx-charts-tooltip-area
+              [dims]="dims"
+              [xSet]="xSet"
               [xScale]="xScale"
               [yScale]="yScale"
+              [results]="results"
               [colors]="colors"
-              [activeEntries]="activeEntries"
-              [data]="series"
-              [scaleType]="scaleType"
-              [visibleValue]="hoveredVertical"
+              [showPercentage]="true"
               [tooltipDisabled]="tooltipDisabled"
-              (select)="onClick($event, series)"
-              (activate)="onActivate($event)"
-              (deactivate)="onDeactivate($event)"
+              [tooltipTemplate]="seriesTooltipTemplate"
+              (hover)="updateHoveredVertical($event)"
             />
+
+            <svg:g *ngFor="let series of results">
+              <svg:g ngx-charts-circle-series
+                type="stacked"
+                [xScale]="xScale"
+                [yScale]="yScale"
+                [colors]="colors"
+                [activeEntries]="activeEntries"
+                [data]="series"
+                [scaleType]="scaleType"
+                [visibleValue]="hoveredVertical"
+                [tooltipDisabled]="tooltipDisabled"
+                [tooltipTemplate]="tooltipTemplate"
+                (select)="onClick($event, series)"
+                (activate)="onActivate($event)"
+                (deactivate)="onDeactivate($event)"
+              />
+            </svg:g>
           </svg:g>
         </svg:g>
       </svg:g>
       <svg:g ngx-charts-timeline
-        *ngIf="timeline && scaleType === 'time'"
+        *ngIf="timeline && scaleType != 'ordinal'"
         [attr.transform]="timelineTransform"
         [results]="results"
         [view]="[timelineWidth, height]"
@@ -120,6 +129,7 @@ import { id } from '../utils/id';
             [gradient]="gradient"
             normalized="true"
             [curve]="curve"
+            [animations]="animations"
           />
         </svg:g>
       </svg:g>
@@ -152,6 +162,9 @@ export class AreaChartNormalizedComponent extends BaseChartComponent {
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
+
+  @ContentChild('tooltipTemplate') tooltipTemplate: TemplateRef<any>;
+  @ContentChild('seriesTooltipTemplate') seriesTooltipTemplate: TemplateRef<any>;
 
   dims: ViewDimensions;
   scaleType: string;
@@ -218,7 +231,7 @@ export class AreaChartNormalizedComponent extends BaseChartComponent {
       let d0 = 0;
 
       let total = 0;
-      for (const group of this.results){
+      for (const group of this.results) {
         const d = group.series.find(item => {
           let a = item.name;
           let b = val;
@@ -233,7 +246,7 @@ export class AreaChartNormalizedComponent extends BaseChartComponent {
         }
       }
 
-      for (const group of this.results){
+      for (const group of this.results) {
         let d = group.series.find(item => {
           let a = item.name;
           let b = val;
@@ -275,22 +288,13 @@ export class AreaChartNormalizedComponent extends BaseChartComponent {
 
     this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] })`;
 
-    const pageUrl = this.location instanceof PathLocationStrategy
-      ? this.location.path()
-      : '';
-
     this.clipPathId = 'clip' + id().toString();
-    this.clipPath = `url(${pageUrl}#${this.clipPathId})`;
+    this.clipPath = `url(#${this.clipPathId})`;
   }
 
   updateTimeline(): void {
     if (this.timeline) {
-      this.timelineWidth = this.width;
-
-      if (this.legend) {
-        this.timelineWidth = this.dims.width;
-      }
-
+      this.timelineWidth = this.dims.width;
       this.timelineXDomain = this.getXDomain();
       this.timelineXScale = this.getXScale(this.timelineXDomain, this.timelineWidth);
       this.timelineYScale = this.getYScale(this.yDomain, this.timelineHeight);
@@ -316,16 +320,24 @@ export class AreaChartNormalizedComponent extends BaseChartComponent {
       const min = Math.min(...values);
       const max = Math.max(...values);
       domain = [new Date(min), new Date(max)];
+      this.xSet = [...values].sort((a, b) => {
+        const aDate = a.getTime();
+        const bDate = b.getTime();
+        if (aDate > bDate) return 1;
+        if (bDate > aDate) return -1;
+        return 0;
+      });
     } else if (this.scaleType === 'linear') {
       values = values.map(v => Number(v));
       const min = Math.min(...values);
       const max = Math.max(...values);
       domain = [min, max];
+      // Use compare function to sort numbers numerically
+      this.xSet = [...values].sort((a, b) => (a - b));
     } else {
       domain = values;
+      this.xSet = values;
     }
-
-    this.xSet = values;
 
     return domain;
   }

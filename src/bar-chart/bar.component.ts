@@ -9,10 +9,8 @@ import {
   OnChanges,
   ChangeDetectionStrategy
  } from '@angular/core';
-import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { select } from 'd3-selection';
 import { roundedRect } from '../common/shape.helper';
-
 import { id } from '../utils/id';
 
 @Component({
@@ -50,6 +48,7 @@ export class BarComponent implements OnChanges {
   @Input() offset = 0;
   @Input() isActive: boolean = false;
   @Input() stops: any[];
+  @Input() animations: boolean = true;
 
   @Output() select = new EventEmitter();
   @Output() activate = new EventEmitter();
@@ -64,7 +63,7 @@ export class BarComponent implements OnChanges {
   gradientStops: any[];
   hasGradient: boolean = false;
 
-  constructor(element: ElementRef, private location: LocationStrategy) {
+  constructor(element: ElementRef) {
     this.element = element.nativeElement;
   }
 
@@ -78,12 +77,8 @@ export class BarComponent implements OnChanges {
   }
 
   update(): void {
-    const pageUrl = this.location instanceof PathLocationStrategy
-      ? this.location.path()
-      : '';
-
     this.gradientId = 'grad' + id().toString();
-    this.gradientFill = `url(${pageUrl}#${this.gradientId})`;
+    this.gradientFill = `url(#${this.gradientId})`;
 
     if (this.gradient || this.stops) {
       this.gradientStops = this.getGradient();
@@ -91,8 +86,8 @@ export class BarComponent implements OnChanges {
     } else {
       this.hasGradient = false;
     }
-
-    this.animateToCurrentForm();
+    
+    this.updatePathEl();
   }
 
   loadAnimation(): void {
@@ -100,12 +95,15 @@ export class BarComponent implements OnChanges {
     setTimeout(this.update.bind(this), 100);
   }
 
-  animateToCurrentForm(): void {
+  updatePathEl(): void {
     const node = select(this.element).select('.bar');
     const path = this.getPath();
-
-    node.transition().duration(750)
-      .attr('d', path);
+    if (this.animations) {
+     node.transition().duration(500)
+         .attr('d', path);
+    } else {
+      node.attr('d', path);
+    }    
   }
 
   getGradient() {
@@ -127,22 +125,26 @@ export class BarComponent implements OnChanges {
   }
 
   getStartingPath() {
+    if (!this.animations) {
+      return this.getPath();
+    }
+
     let radius = this.getRadius();
     let path;
 
     if (this.roundEdges) {
       if (this.orientation === 'vertical') {
         radius = Math.min(this.height, radius);
-        path = roundedRect(this.x, this.y + this.height, this.width, 0, radius, true, true, false, false);
+        path = roundedRect(this.x, this.y + this.height, this.width, 1, 0, this.edges);
       } else if (this.orientation === 'horizontal') {
         radius = Math.min(this.width, radius);
-        path = roundedRect(this.x, this.y, 0, this.height, radius, false, true, false, true);
+        path = roundedRect(this.x, this.y, 1, this.height, 0, this.edges);
       }
     } else {
       if (this.orientation === 'vertical') {
-        path = roundedRect(this.x, this.y + this.height, this.width, 0, radius, false, false, false, false);
+        path = roundedRect(this.x, this.y + this.height, this.width, 1, 0, this.edges);
       } else if (this.orientation === 'horizontal') {
-        path = roundedRect(this.x, this.y, 0, this.height, radius, false, false, false, false);
+        path = roundedRect(this.x, this.y, 1, this.height, 0, this.edges);
       }
     }
 
@@ -156,13 +158,13 @@ export class BarComponent implements OnChanges {
     if (this.roundEdges) {
       if (this.orientation === 'vertical') {
         radius = Math.min(this.height, radius);
-        path = roundedRect(this.x, this.y, this.width, this.height, radius, true, true, false, false);
+        path = roundedRect(this.x, this.y, this.width, this.height, radius, this.edges);
       } else if (this.orientation === 'horizontal') {
         radius = Math.min(this.width, radius);
-        path = roundedRect(this.x, this.y, this.width, this.height, radius, false, true, false, true);
+        path = roundedRect(this.x, this.y, this.width, this.height, radius, this.edges);
       }
     } else {
-      path = roundedRect(this.x, this.y, this.width, this.height, radius, false, false, false, false);
+      path = roundedRect(this.x, this.y, this.width, this.height, radius, this.edges);
     }
 
     return path;
@@ -184,6 +186,26 @@ export class BarComponent implements OnChanges {
     } else {
       return 0.5;
     }
+  }
+
+  get edges() {
+    let edges = [false, false, false, false];
+    if (this.roundEdges) {
+      if (this.orientation === 'vertical') {
+        if (this.data.value > 0) {
+          edges =  [true, true, false, false];
+        } else {
+          edges =  [false, false, true, true];
+        }
+      } else if (this.orientation === 'horizontal') {
+        if (this.data.value > 0) {
+          edges =  [false, true, false, true];
+        } else {
+          edges =  [true, false, true, false];
+        }
+      }
+    }
+    return edges;
   }
 
   @HostListener('mouseenter')

@@ -5,23 +5,23 @@ import {
   EventEmitter,
   OnChanges,
   SimpleChanges,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  TemplateRef
 } from '@angular/core';
 import {
   trigger,
-  state,
   style,
   animate,
   transition
 } from '@angular/animations';
- import { formatLabel } from '../common/label.helper';
+import { formatLabel } from '../common/label.helper';
 
 @Component({
   selector: 'g[ngx-charts-series-horizontal]',
   template: `
     <svg:g ngx-charts-bar
       *ngFor="let bar of bars; trackBy:trackBy"
-      [@animationState]="'active'"
+      [@animationState]="'active'"     
       [width]="bar.width"
       [height]="bar.height"
       [x]="bar.x"
@@ -34,24 +34,26 @@ import {
       (select)="click($event)"
       [gradient]="gradient"
       [isActive]="isActive(bar.data)"
+      [animations]="animations"
       (activate)="activate.emit($event)"
       (deactivate)="deactivate.emit($event)"
       ngx-tooltip
       [tooltipDisabled]="tooltipDisabled"
-      [tooltipPlacement]="'top'"
-      [tooltipType]="'tooltip'"
-      [tooltipTitle]="bar.tooltipText">
+      [tooltipPlacement]="tooltipPlacement"
+      [tooltipType]="tooltipType"
+      [tooltipTitle]="tooltipTemplate ? undefined : bar.tooltipText"
+      [tooltipTemplate]="tooltipTemplate"
+      [tooltipContext]="bar.data">
     </svg:g>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('animationState', [
-      transition('* => void', [
+      transition(':leave', [
         style({
-          opacity: 1,
-          transform: '*',
+          opacity: 1
         }),
-        animate(500, style({opacity: 0, transform: 'scale(0)'}))
+        animate(500, style({opacity: 0}))
       ])
     ])
   ]
@@ -71,16 +73,23 @@ export class SeriesHorizontal implements OnChanges {
   @Input() gradient: boolean;
   @Input() activeEntries: any[];
   @Input() seriesName: string;
+  @Input() tooltipTemplate: TemplateRef<any>;
+  @Input() roundEdges: boolean;
+  @Input() animations: boolean = true;
 
   @Output() select = new EventEmitter();
   @Output() activate = new EventEmitter();
   @Output() deactivate = new EventEmitter();
+
+  tooltipPlacement: string;
+  tooltipType: string;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.update();
   }
 
   update(): void {
+    this.updateTooltipSettings();
     let d0 = 0;
     let total;
     if (this.type === 'normalized') {
@@ -91,7 +100,7 @@ export class SeriesHorizontal implements OnChanges {
       let value = d.value;
       const label = d.name;
       const formattedLabel = formatLabel(label);
-      const roundEdges = this.type === 'standard';
+      const roundEdges = this.roundEdges;
 
       const bar: any = {
         value,
@@ -157,15 +166,21 @@ export class SeriesHorizontal implements OnChanges {
       let tooltipLabel = formattedLabel;
       if (this.seriesName) {
         tooltipLabel = `${this.seriesName} • ${formattedLabel}`;
+        bar.data.series = this.seriesName;
       }
 
-      bar.tooltipText = `
+      bar.tooltipText = this.tooltipDisabled ? undefined : `
         <span class="tooltip-label">${tooltipLabel}</span>
         <span class="tooltip-val">${value.toLocaleString()}</span>
       `;
 
       return bar;
     });
+  }
+
+  updateTooltipSettings() {
+    this.tooltipPlacement = this.tooltipDisabled ? undefined : 'top';
+    this.tooltipType =  this.tooltipDisabled ? undefined : 'tooltip';
   }
 
   isActive(entry): boolean {

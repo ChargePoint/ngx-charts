@@ -5,9 +5,16 @@ import {
   EventEmitter,
   ViewEncapsulation,
   HostListener,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ContentChild,
+  TemplateRef
 } from '@angular/core';
-import { PathLocationStrategy } from '@angular/common';
+import {
+  trigger,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
 import { scaleLinear, scaleTime, scalePoint } from 'd3-scale';
 import { curveLinear } from 'd3-shape';
 
@@ -24,6 +31,7 @@ import { id } from '../utils/id';
       [showLegend]="legend"
       [legendOptions]="legendOptions"
       [activeEntries]="activeEntries"
+      [animations]="animations"
       (legendLabelClick)="onClick($event)"
       (legendLabelActivate)="onActivate($event)"
       (legendLabelDeactivate)="onDeactivate($event)">
@@ -54,10 +62,13 @@ import { id } from '../utils/id';
           [showLabel]="showYAxisLabel"
           [labelText]="yAxisLabel"
           [tickFormatting]="yAxisTickFormatting"
+          [referenceLines]="referenceLines"
+          [showRefLines]="showRefLines"
+          [showRefLabels]="showRefLabels"
           (dimensionsChanged)="updateYAxisWidth($event)">
         </svg:g>
         <svg:g [attr.clip-path]="clipPath">
-          <svg:g *ngFor="let series of results; trackBy:trackBy">
+          <svg:g *ngFor="let series of results; trackBy:trackBy" [@animationState]="'active'">
             <svg:g ngx-charts-line-series
               [xScale]="xScale"
               [yScale]="yScale"
@@ -67,37 +78,45 @@ import { id } from '../utils/id';
               [scaleType]="scaleType"
               [curve]="curve"
               [rangeFillOpacity]="rangeFillOpacity"
+              [hasRange]="hasRange"
+              [animations]="animations"
             />
           </svg:g>
-          <svg:g ngx-charts-area-tooltip
-            [xSet]="xSet"
-            [xScale]="xScale"
-            [yScale]="yScale"
-            [results]="results"
-            [height]="dims.height"
-            [colors]="colors"
-            [tooltipDisabled]="tooltipDisabled"
-            (hover)="updateHoveredVertical($event)"
-          />
-          <svg:g *ngFor="let series of results">
-            <svg:g ngx-charts-circle-series
+
+          <svg:g *ngIf="!tooltipDisabled" (mouseleave)="hideCircles()">
+            <svg:g ngx-charts-tooltip-area
+              [dims]="dims"
+              [xSet]="xSet"
               [xScale]="xScale"
               [yScale]="yScale"
+              [results]="results"
               [colors]="colors"
-              [data]="series"
-              [scaleType]="scaleType"
-              [visibleValue]="hoveredVertical"
-              [activeEntries]="activeEntries"
               [tooltipDisabled]="tooltipDisabled"
-              (select)="onClick($event, series)"
-              (activate)="onActivate($event)"
-              (deactivate)="onDeactivate($event)"
+              [tooltipTemplate]="seriesTooltipTemplate"
+              (hover)="updateHoveredVertical($event)"
             />
+
+            <svg:g *ngFor="let series of results">
+              <svg:g ngx-charts-circle-series
+                [xScale]="xScale"
+                [yScale]="yScale"
+                [colors]="colors"
+                [data]="series"
+                [scaleType]="scaleType"
+                [visibleValue]="hoveredVertical"
+                [activeEntries]="activeEntries"
+                [tooltipDisabled]="tooltipDisabled"
+                [tooltipTemplate]="tooltipTemplate"
+                (select)="onClick($event, series)"
+                (activate)="onActivate($event)"
+                (deactivate)="onDeactivate($event)"
+              />
+            </svg:g>
           </svg:g>
         </svg:g>
       </svg:g>
       <svg:g ngx-charts-timeline
-        *ngIf="timeline && scaleType === 'time'"
+        *ngIf="timeline && scaleType != 'ordinal'"
         [attr.transform]="timelineTransform"
         [results]="results"
         [view]="[timelineWidth, height]"
@@ -115,6 +134,8 @@ import { id } from '../utils/id';
             [data]="series"
             [scaleType]="scaleType"
             [curve]="curve"
+            [hasRange]="hasRange"
+            [animations]="animations"
           />
         </svg:g>
       </svg:g>
@@ -123,6 +144,18 @@ import { id } from '../utils/id';
   styleUrls: ['../common/base-chart.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('animationState', [
+      transition(':leave', [
+        style({
+          opacity: 1,
+        }),
+        animate(500, style({
+          opacity: 0
+        }))
+      ])
+    ])
+  ]
 })
 export class LineChartComponent extends BaseChartComponent {
 
@@ -146,10 +179,19 @@ export class LineChartComponent extends BaseChartComponent {
   @Input() yAxisTickFormatting: any;
   @Input() roundDomains: boolean = false;
   @Input() tooltipDisabled: boolean = false;
-  @Input() showSeriesOnHover: boolean = true;
+  @Input() showRefLines: boolean = false;
+  @Input() referenceLines: any;
+  @Input() showRefLabels: boolean = true;
+  @Input() xScaleMin: any;
+  @Input() xScaleMax: any;
+  @Input() yScaleMin: number;
+  @Input() yScaleMax: number;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
+
+  @ContentChild('tooltipTemplate') tooltipTemplate: TemplateRef<any>;
+  @ContentChild('seriesTooltipTemplate') seriesTooltipTemplate: TemplateRef<any>;
 
   dims: ViewDimensions;
   xSet: any;
@@ -171,7 +213,7 @@ export class LineChartComponent extends BaseChartComponent {
   yAxisWidth: number = 0;
   filteredDomain: any;
   legendOptions: any;
-
+  hasRange: boolean; // whether the line has a min-max range around it
   timelineWidth: any;
   timelineHeight: number = 50;
   timelineXScale: any;
@@ -194,7 +236,7 @@ export class LineChartComponent extends BaseChartComponent {
       showXLabel: this.showXAxisLabel,
       showYLabel: this.showYAxisLabel,
       showLegend: this.legend,
-      legendType: this.schemeType
+      legendType: this.schemeType,
     });
 
     if (this.timeline) {
@@ -219,22 +261,13 @@ export class LineChartComponent extends BaseChartComponent {
 
     this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] })`;
 
-    const pageUrl = this.location instanceof PathLocationStrategy
-      ? this.location.path()
-      : '';
-
     this.clipPathId = 'clip' + id().toString();
-    this.clipPath = `url(${pageUrl}#${this.clipPathId})`;
+    this.clipPath = `url(#${this.clipPathId})`;
   }
 
   updateTimeline(): void {
     if (this.timeline) {
-      this.timelineWidth = this.width;
-
-      if (this.legend) {
-        this.timelineWidth = this.dims.width;
-      }
-
+      this.timelineWidth = this.dims.width;
       this.timelineXDomain = this.getXDomain();
       this.timelineXScale = this.getXScale(this.timelineXDomain, this.timelineWidth);
       this.timelineYScale = this.getYScale(this.yDomain, this.timelineHeight);
@@ -246,7 +279,7 @@ export class LineChartComponent extends BaseChartComponent {
     let values = [];
 
     for (const results of this.results) {
-      for (const d of results.series){
+      for (const d of results.series) {
         if (!values.includes(d.name)) {
           values.push(d.name);
         }
@@ -256,37 +289,58 @@ export class LineChartComponent extends BaseChartComponent {
     this.scaleType = this.getScaleType(values);
     let domain = [];
 
-    if (this.scaleType === 'time') {
-      const min = Math.min(...values);
-      const max = Math.max(...values);
-      domain = [min, max];
-    } else if (this.scaleType === 'linear') {
+    if (this.scaleType === 'linear') {
       values = values.map(v => Number(v));
-      const min = Math.min(...values);
-      const max = Math.max(...values);
-      domain = [min, max];
-    } else {
-      domain = values;
     }
 
-    this.xSet = values;
+    let min;
+    let max;
+    if (this.scaleType === 'time' || this.scaleType === 'linear') {
+      min = this.xScaleMin
+        ? this.xScaleMin
+        : Math.min(...values);
+
+      max = this.xScaleMax
+        ? this.xScaleMax
+        : Math.max(...values);
+    }
+
+    if (this.scaleType === 'time') {
+      domain = [new Date(min), new Date(max)];
+      this.xSet = [...values].sort((a, b) => {
+        const aDate = a.getTime();
+        const bDate = b.getTime();
+        if (aDate > bDate) return 1;
+        if (bDate > aDate) return -1;
+        return 0;
+      });
+    } else if (this.scaleType === 'linear') {
+      domain = [min, max];
+      // Use compare function to sort numbers numerically
+      this.xSet = [...values].sort((a, b) => (a - b));
+    } else {
+      domain = values;
+      this.xSet = values;
+    }
+
     return domain;
   }
 
   getYDomain(): any[] {
     const domain = [];
-
     for (const results of this.results) {
-      for (const d of results.series){
+      for (const d of results.series) {
         if (domain.indexOf(d.value) < 0) {
           domain.push(d.value);
         }
         if (d.min !== undefined) {
+          this.hasRange = true;
           if (domain.indexOf(d.min) < 0) {
             domain.push(d.min);
           }
         }
         if (d.max !== undefined) {
+          this.hasRange = true;
           if (domain.indexOf(d.max) < 0) {
             domain.push(d.max);
           }
@@ -294,11 +348,18 @@ export class LineChartComponent extends BaseChartComponent {
       }
     }
 
-    let min = Math.min(...domain);
-    const max = Math.max(...domain);
+    const values = [...domain];
     if (!this.autoScale) {
-      min = Math.min(0, min);
+      values.push(0);
     }
+
+    const min = this.yScaleMin
+      ? this.yScaleMin
+      : Math.min(...values);
+
+    const max = this.yScaleMax
+      ? this.yScaleMax
+      : Math.max(...values);
 
     return [min, max];
   }
@@ -436,13 +497,16 @@ export class LineChartComponent extends BaseChartComponent {
   }
 
   onActivate(item) {
+    this.deactivateAll();
+
     const idx = this.activeEntries.findIndex(d => {
       return d.name === item.name && d.value === item.value;
     });
     if (idx > -1) {
       return;
     }
-    this.activeEntries = this.showSeriesOnHover ? [ item, ...this.activeEntries ] : this.activeEntries;
+
+    this.activeEntries = [item];
     this.activate.emit({ value: item, entries: this.activeEntries });
   }
 

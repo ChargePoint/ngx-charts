@@ -7,8 +7,10 @@ import * as d3 from 'd3';
 
 import { colorSets } from '../src/utils/color-sets';
 import { formatLabel } from '../src/common/label.helper';
-import { single, multi, countries, bubble, generateData, generateGraph } from './data';
+import { single, multi, bubble, generateData, generateGraph, treemap, timelineFilterBarData } from './data';
+import { data as countries } from 'emoji-flags';
 import chartGroups from './chartTypes';
+import { barChart, lineChartSeries } from './combo-chart-data';
 
 const monthName = new Intl.DateTimeFormat('en-us', { month: 'short' });
 const weekdayName = new Intl.DateTimeFormat('en-us', { weekday: 'short' });
@@ -27,7 +29,7 @@ function multiFormat(value) {
   selector: 'app',
   providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['../node_modules/@swimlane/ngx-ui/release/index.css', './app.component.scss'],
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
@@ -46,6 +48,8 @@ export class AppComponent implements OnInit {
   dateDataWithRange: any[];
   calendarData: any[];
   statusData: any[];
+  sparklineData: any[];
+  timelineFilterBarData: any[];
   graph: { links: any[], nodes: any[] };
   bubble: any;
   linearScale: boolean = false;
@@ -78,6 +82,12 @@ export class AppComponent implements OnInit {
   minRadius = 3;
   maxTicks = 5;
   showSeriesOnHover = true;
+  roundEdges: boolean = true;
+  animations: boolean = true;
+  xScaleMin: any;
+  xScaleMax: any;
+  yScaleMin: number;
+  yScaleMax: number;
 
   curves = {
     Basis: shape.curveBasis,
@@ -158,6 +168,30 @@ export class AppComponent implements OnInit {
   gaugeValue: number = 50; // linear gauge value
   gaugePreviousValue: number = 70;
 
+  // Combo Chart
+  barChart: any[] = barChart;
+  lineChartSeries: any[] = lineChartSeries;
+  lineChartScheme = {
+    name: 'coolthree',
+    selectable: true,
+    group: 'Ordinal',
+    domain: [
+      '#01579b', '#7aa3e5', '#a8385d', '#00bfa5'
+    ]
+  };
+
+  comboBarScheme = {
+    name: 'singleLightBlue',
+    selectable: true,
+    group: 'Ordinal',
+    domain: [
+      '#01579b'
+    ]
+  };
+
+  showRightYAxisLabel: boolean = true;
+  yAxisLabelRight: string = 'Utilization';
+
   // demos
   totalSales = 0;
   salePrice = 100;
@@ -165,6 +199,21 @@ export class AppComponent implements OnInit {
 
   mathText = '3 - 1.5*sin(x) + cos(2*x) - 1.5*abs(cos(x))';
   mathFunction: (o: any) => any;
+
+  treemap: any[];
+  treemapPath: any[] = [];
+  sumBy: string = 'Size';
+
+  // Reference lines
+  showRefLines: boolean = true;
+  showRefLabels: boolean = true;
+
+  // Supports any number of reference lines.
+  refLines = [
+    { value: 42500, name: 'Maximum' },
+    { value: 37750, name: 'Average' },
+    { value: 33000, name: 'Minimum' }
+  ];
 
   constructor(public location: Location) {
     this.mathFunction = this.getFunction();
@@ -177,14 +226,19 @@ export class AppComponent implements OnInit {
       colorSets,
       graph: generateGraph(50),
       bubble,
-      plotData: this.generatePlotData()
+      plotData: this.generatePlotData(),
+      treemap
     });
+
+    this.treemapProcess();
 
     this.dateData = generateData(5, false);
     this.dateDataWithRange = generateData(2, true);
     this.setColorScheme('cool');
     this.calendarData = this.getCalendarData();
     this.statusData = this.getStatusData();
+    this.sparklineData = generateData(1, false, 30);
+    this.timelineFilterBarData = timelineFilterBarData();
   }
 
   get dateDataWithOrWithoutRange() {
@@ -253,14 +307,14 @@ export class AppComponent implements OnInit {
     if (add) {
       // single
       const entry = {
-        name: country,
+        name: country.name,
         value: Math.floor(10000 + Math.random() * 50000)
       };
       this.single = [...this.single, entry];
 
       // multi
       const multiEntry = {
-        name: country,
+        name: country.name,
         series: [{
           name: '1990',
           value: Math.floor(10000 + Math.random() * 50000)
@@ -276,10 +330,10 @@ export class AppComponent implements OnInit {
       this.multi = [...this.multi, multiEntry];
 
       // graph
-      const node = { value: country };
+      const node = { value: country.name };
       const nodes = [ ...this.graph.nodes, node];
       const link = {
-        source: country,
+        source: country.name,
         target: nodes[Math.floor(Math.random() * (nodes.length - 1))].value,
       };
       const links = [ ...this.graph.links, link];
@@ -288,7 +342,7 @@ export class AppComponent implements OnInit {
       // bubble
       const bubbleYear = Math.floor((2010 - 1990) * Math.random() + 1990);
       const bubbleEntry = {
-        name: country,
+        name: country.name,
         series: [{
           name: '' + bubbleYear,
           x: new Date(bubbleYear, 0, 1),
@@ -302,7 +356,15 @@ export class AppComponent implements OnInit {
       this.statusData = this.getStatusData();
     }
 
-    this.dateData = generateData(5, false);
+    const date = new Date(Math.floor(1473700105009 +  Math.random() * 1000000000));
+    for (const series of this.dateData) {
+      series.series.push({
+        name: date,
+        value: Math.floor(2000 + Math.random() * 5000)
+      });
+    }
+    this.dateData = [...this.dateData];
+
     this.dateDataWithRange = generateData(2, true);
 
     if (this.chart.inputFormat === 'calendarData') this.calendarData = this.getCalendarData();
@@ -535,4 +597,80 @@ export class AppComponent implements OnInit {
       return null;
     }
   }
+
+  treemapProcess(sumBy = this.sumBy) {
+    this.sumBy = sumBy;
+    const children = treemap[0];
+    const value = (sumBy === 'Size') ? sumChildren(children) : countChildren(children);
+    this.treemap = [children];
+    this.treemapPath = [{name: 'Top', children: [children], value }];
+
+    function sumChildren(node) {
+      return node.value = node.size || d3.sum(node.children, sumChildren);
+    }
+
+    function countChildren(node) {
+      return node.value = node.children ? d3.sum(node.children, countChildren) : 1;
+    }
+  }
+
+  treemapSelect(item) {
+    let node;
+    if (item.children) {
+      const idx = this.treemapPath.indexOf(item);
+      this.treemapPath.splice(idx + 1);
+      this.treemap = this.treemapPath[idx].children;
+      return;
+    }
+    node = this.treemap.find(d => d.name === item.name);
+    if (node.children) {
+      this.treemapPath.push(node);
+      this.treemap = node.children;
+    }
+  }
+
+  getFlag(country) {
+    return this.countries.find(c => c.name === country).emoji;
+  }
+
+  onFilter(event) {
+    console.log('timeline filter', event);
+  }
+
+  /*
+  **
+  Combo Chart
+  **
+  [yLeftAxisScaleFactor]="yLeftAxisScale" and [yRightAxisScaleFactor]="yRightAxisScale"
+  exposes the left and right min and max axis values for custom scaling, it is probably best to
+  scale one axis in relation to the other axis but for flexibility to scale either the left or
+  right axis bowth were exposed.
+  **
+  */
+
+  yLeftAxisScale(min, max) {
+    return {min: `${min}`, max: `${max}`};
+  }
+
+  yRightAxisScale(min, max) {
+    return {min: `${min}`, max: `${max}`};
+  }
+
+  yLeftTickFormat(data) {
+    return `${data.toLocaleString()}`;
+  }
+
+  yRightTickFormat(data) {
+    return `${data}%`;
+  }
+  /*
+  **
+  End of Combo Chart
+  **
+  */
+
+  onSelect(event) {
+    console.log(event);
+  }
+
 }

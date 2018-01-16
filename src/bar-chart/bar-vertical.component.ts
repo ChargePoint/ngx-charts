@@ -4,7 +4,9 @@ import {
   ViewEncapsulation,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ContentChild,
+  TemplateRef
 } from '@angular/core';
 import { scaleBand, scaleLinear } from 'd3-scale';
 
@@ -20,6 +22,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
       [showLegend]="legend"
       [legendOptions]="legendOptions"
       [activeEntries]="activeEntries"
+      [animations]="animations"
       (legendLabelClick)="onClick($event)"
       (legendLabelActivate)="onActivate($event)"
       (legendLabelDeactivate)="onDeactivate($event)">
@@ -64,7 +67,10 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [gradient]="gradient"
           [tooltipDisabled]="tooltipDisabled"
           [tooltipFormatting]="tooltipFormatting"
+          [tooltipTemplate]="tooltipTemplate"
           [activeEntries]="activeEntries"
+          [roundEdges]="roundEdges"
+          [animations]="animations"
           (activate)="onActivate($event)"
           (deactivate)="onDeactivate($event)"
           (select)="onClick($event)">
@@ -118,9 +124,13 @@ export class BarVerticalComponent extends BaseChartComponent {
   @Input() maxTicks: number;
   @Input() barPadding: string | number  = 8;
   @Input() roundDomains: boolean = false;
+  @Input() roundEdges: boolean = true;
+  @Input() yScaleMax: number;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
+
+  @ContentChild('tooltipTemplate') tooltipTemplate: TemplateRef<any>;
 
   dims: ViewDimensions;
   xScale: any;
@@ -202,7 +212,9 @@ export class BarVerticalComponent extends BaseChartComponent {
   getYDomain() {
     const values = this.results.map(d => d.value);
     const min = Math.min(0, ...values);
-    const max = Math.max(...values);
+    const max = this.yScaleMax 
+      ? Math.max(this.yScaleMax, ...values)
+      : Math.max(...values);
     return [min, max];
   }
 

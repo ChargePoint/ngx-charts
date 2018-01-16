@@ -1,7 +1,7 @@
 import {
   Directive, Input, Output, EventEmitter, HostListener,
   ViewContainerRef,
-  ElementRef, Renderer, OnDestroy, NgZone
+  Renderer, OnDestroy
 } from '@angular/core';
 
 import { PlacementTypes } from './position';
@@ -30,6 +30,7 @@ export class TooltipDirective implements OnDestroy {
   @Input() tooltipTemplate: any;
   @Input() tooltipShowEvent: ShowTypes = ShowTypes.all;
   @Input() tooltipContext: any;
+  @Input() tooltipImmediateExit: boolean = false;
 
   @Output() show = new EventEmitter();
   @Output() hide = new EventEmitter();
@@ -53,9 +54,7 @@ export class TooltipDirective implements OnDestroy {
   constructor(
     private tooltipService: TooltipService,
     private viewContainerRef: ViewContainerRef,
-    private renderer: Renderer,
-    private element: ElementRef,
-    private zone: NgZone) {
+    private renderer: Renderer) {
   }
 
   ngOnDestroy(): void {
@@ -94,7 +93,7 @@ export class TooltipDirective implements OnDestroy {
         if(contains) return;
       }
 
-      this.hideTooltip();
+      this.hideTooltip(this.tooltipImmediateExit);
     }
   }
 
@@ -137,7 +136,7 @@ export class TooltipDirective implements OnDestroy {
     // content mouse leave listener
     if(this.tooltipCloseOnMouseLeave) {
       this.mouseLeaveContentEvent = this.renderer.listen(tooltip, 'mouseleave', () => {
-        this.hideTooltip();
+        this.hideTooltip(this.tooltipImmediateExit);
       });
     }
 
@@ -150,7 +149,7 @@ export class TooltipDirective implements OnDestroy {
     }
   }
 
-  hideTooltip(immediate?: boolean): void {
+  hideTooltip(immediate: boolean = false): void {
     if(!this.component) return;
 
     const destroyFn = () => {

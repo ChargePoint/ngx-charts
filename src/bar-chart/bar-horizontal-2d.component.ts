@@ -4,11 +4,12 @@ import {
   ViewEncapsulation,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ContentChild,
+  TemplateRef
 } from '@angular/core';
 import {
   trigger,
-  state,
   style,
   animate,
   transition
@@ -28,6 +29,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
       [showLegend]="legend"
       [legendOptions]="legendOptions"
       [activeEntries]="activeEntries"
+      [animations]="animations"
       (legendLabelActivate)="onActivate($event)"
       (legendLabelDeactivate)="onDeactivate($event)"
       (legendLabelClick)="onClick($event)">
@@ -71,7 +73,10 @@ import { BaseChartComponent } from '../common/base-chart.component';
             [dims]="dims"
             [gradient]="gradient"
             [tooltipDisabled]="tooltipDisabled"
+            [tooltipTemplate]="tooltipTemplate"
             [seriesName]="group.name"
+            [roundEdges]="roundEdges"
+            [animations]="animations"
             (select)="onClick($event, group)"
             (activate)="onActivate($event, group)"
             (deactivate)="onDeactivate($event, group)"
@@ -85,7 +90,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
   encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('animationState', [
-      transition('* => void', [
+      transition(':leave', [
         style({
           opacity: 1,
           transform: '*',
@@ -115,9 +120,13 @@ export class BarHorizontal2DComponent extends BaseChartComponent {
   @Input() groupPadding = '16';
   @Input() barPadding: string | number = 8;
   @Input() roundDomains: boolean = false;
+  @Input() roundEdges: boolean = true;
+  @Input() xScaleMax: number;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
+
+  @ContentChild('tooltipTemplate') tooltipTemplate: TemplateRef<any>;
 
   dims: ViewDimensions;
   groupDomain: any[];
@@ -241,9 +250,10 @@ export class BarHorizontal2DComponent extends BaseChartComponent {
     }
 
     const min = Math.min(0, ...domain);
-    const max = Math.max(...domain);
-
-    return [ min, max ];
+    const max = this.xScaleMax
+      ? Math.max(this.xScaleMax, ...domain)
+      : Math.max(...domain);
+    return [min, max];
   }
 
   groupTransform(group) {

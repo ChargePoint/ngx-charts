@@ -22,7 +22,7 @@ import { AlignmentTypes } from './alignment.type';
         <span *ngIf="!title">
           <ng-template
             [ngTemplateOutlet]="template"
-            [ngOutletContext]="{ model: context }">
+            [ngTemplateOutletContext]="{ model: context }">
           </ng-template>
         </span>
         <span
@@ -50,7 +50,7 @@ export class TooltipContentComponent implements AfterViewInit {
 
   @HostBinding('class')
   get cssClasses(): string {
-    let clz = 'ngx-tooltip-content';
+    let clz = 'ngx-charts-tooltip-content';
     clz += ` position-${this.placement}`;
     clz += ` type-${this.type}`;
     clz += ` ${this.cssClass}`;

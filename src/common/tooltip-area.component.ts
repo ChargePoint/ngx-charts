@@ -3,39 +3,36 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnChanges,
-  ViewChildren,
-  SimpleChanges,
+  ViewChild,
   Renderer,
   ChangeDetectionStrategy,
+  TemplateRef,
 } from '@angular/core';
 import {
   trigger,
-  state,
   style,
   animate,
   transition
 } from '@angular/animations';
+
 @Component({
-  selector: 'g[ngx-charts-area-tooltip]',
+  selector: 'g[ngx-charts-tooltip-area]',
   template: `
-    <svg:g
-      #tooltips
-      *ngFor="let tooltipArea of tooltipAreas; let i = index">
+    <svg:g>
       <svg:rect
         class="tooltip-area"
-        [attr.x]="tooltipArea.x0"
+        [attr.x]="0"
         y="0"
-        [attr.width]="tooltipArea.width"
-        [attr.height]="height"
+        [attr.width]="dims.width"
+        [attr.height]="dims.height"
         style="opacity: 0; cursor: 'auto';"
-        (mouseenter)="showTooltip(i)"
-        (mouseleave)="hideTooltip(i)"
+        (mousemove)="mouseMove($event)"
+        (mouseleave)="hideTooltip()"
       />
-      <xhtml:ng-template #tooltipTemplate>
+      <xhtml:ng-template #defaultTooltipTemplate let-model="model">
         <xhtml:div class="area-tooltip-container">
           <xhtml:div
-            *ngFor="let tooltipItem of tooltipArea.values"
+            *ngFor="let tooltipItem of model"
             class="tooltip-item">
             <span
               class="tooltip-item-color"
@@ -46,20 +43,23 @@ import {
         </xhtml:div>
       </xhtml:ng-template>
       <svg:rect
-        [@animationState]="anchorOpacity[i] !== 0 ? 'active' : 'inactive'"
+        #tooltipAnchor
+        [@animationState]="anchorOpacity !== 0 ? 'active' : 'inactive'"
         class="tooltip-anchor"
-        [attr.x]="tooltipArea.tooltipAnchor"
+        [attr.x]="anchorPos"
         y="0"
         [attr.width]="1"
-        [attr.height]="height"
-        [style.opacity]="anchorOpacity[i]"
+        [attr.height]="dims.height"
+        [style.opacity]="anchorOpacity"
         [style.pointer-events]="'none'"
         ngx-tooltip
         [tooltipDisabled]="tooltipDisabled"
         [tooltipPlacement]="'right'"
         [tooltipType]="'tooltip'"
         [tooltipSpacing]="15"
-        [tooltipTemplate]="tooltipTemplate"
+        [tooltipTemplate]="tooltipTemplate ? tooltipTemplate: defaultTooltipTemplate"
+        [tooltipContext]="anchorValues"
+        [tooltipImmediateExit]="true"
       />
     </svg:g>
   `,
@@ -81,68 +81,27 @@ import {
     ])
   ]
 })
-export class AreaTooltip implements OnChanges {
-  tooltipAreas: any[];
-  anchorOpacity: number[] = new Array();
+export class TooltipArea {
+  anchorOpacity: number = 0;
+  anchorPos: number = -1;
+  anchorValues: any[] = [];
+  lastAnchorPos: number;
 
+  @Input() dims;
   @Input() xSet;
   @Input() xScale;
   @Input() yScale;
   @Input() results;
-  @Input() height;
   @Input() colors;
   @Input() showPercentage: boolean = false;
   @Input() tooltipDisabled: boolean = false;
+  @Input() tooltipTemplate: TemplateRef<any>;
 
   @Output() hover = new EventEmitter();
 
-  @ViewChildren('tooltips') tooltips;
+  @ViewChild('tooltipAnchor') tooltipAnchor;
 
   constructor(private renderer: Renderer) { }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.update();
-  }
-
-  update(): void {
-    this.tooltipAreas = this.getTooltipAreas();
-  }
-
-  getTooltipAreas(): any[] {
-    let uniqueSet = this.getUniqueValues(this.xSet);
-
-    uniqueSet = uniqueSet.sort((a, b) => {
-      return this.xScale(a) - this.xScale(b);
-    });
-
-    const results = [];
-    for (let i = 0; i < uniqueSet.length; i++) {
-      const val = uniqueSet[i];
-      const ob: any = {};
-      ob.tooltipAnchor = this.xScale(val);
-
-      if (i === 0) {
-        ob.x0 = this.xScale(val);
-      } else {
-        ob.x0 = (this.xScale(uniqueSet[i - 1]) + this.xScale(uniqueSet[i])) / 2;
-      }
-
-      if (i === uniqueSet.length - 1) {
-        ob.x1 = this.xScale(uniqueSet[i]);
-      } else {
-        ob.x1 = (this.xScale(uniqueSet[i]) + this.xScale(uniqueSet[i + 1])) / 2;
-      }
-
-      ob.width = ob.x1 - ob.x0;
-      ob.value = val;
-      ob.values = this.getValues(val);
-      results.push(ob);
-
-      this.anchorOpacity[i] = 0;
-    }
-
-    return results;
-  }
 
   getValues(xVal): any[] {
     const results = [];
@@ -155,10 +114,7 @@ export class AreaTooltip implements OnChanges {
       }
 
       if (item) {
-        let label = item.name;
-        if (label instanceof Date) {
-          label = label.toLocaleDateString();
-        }
+        const label = item.name;
         let val = item.value;
         if (this.showPercentage) {
           val = (item.d1 - item.d0).toFixed(2) + '%';
@@ -188,37 +144,70 @@ export class AreaTooltip implements OnChanges {
     return results;
   }
 
-  getUniqueValues(array): any[] {
-    const results = [];
+  mouseMove(event) {
+    const xPos = event.offsetX - this.dims.xOffset;
 
-    for (let i = 0; i < array.length; i++) {
-      const val = array[i];
+    const closestIndex = this.findClosestPointIndex(xPos);
+    const closestPoint = this.xSet[closestIndex];
+    this.anchorPos = this.xScale(closestPoint);
+    this.anchorPos = Math.max(0, this.anchorPos);
+    this.anchorPos = Math.min(this.dims.width, this.anchorPos);
 
-      const exists = results.find(v => {
-        return v.toString() === val.toString();
+    this.anchorValues = this.getValues(closestPoint);
+    if (this.anchorPos !== this.lastAnchorPos) {
+      const ev = new MouseEvent('mouseleave', {bubbles: false});
+      this.renderer.invokeElementMethod(this.tooltipAnchor.nativeElement, 'dispatchEvent', [ev]);
+      this.anchorOpacity = 0.7;
+      this.hover.emit({
+        value: closestPoint
       });
+      this.showTooltip();
 
-      if (!exists) {
-        results.push(val);
+      this.lastAnchorPos = this.anchorPos;
+    }
+  }
+
+  findClosestPointIndex(xPos) {
+    let minIndex = 0;
+    let maxIndex = this.xSet.length - 1;
+    let minDiff = Number.MAX_VALUE;
+    let closestIndex = 0;
+
+    while (minIndex <= maxIndex) {
+      const currentIndex = (minIndex + maxIndex) / 2 | 0;
+      const currentElement = this.xScale(this.xSet[currentIndex]);
+
+      const curDiff = Math.abs(currentElement - xPos);
+
+      if (curDiff < minDiff) {
+        minDiff = curDiff;
+        closestIndex = currentIndex;
+      }
+
+      if (currentElement < xPos) {
+        minIndex = currentIndex + 1;
+      } else if (currentElement > xPos) {
+        maxIndex = currentIndex - 1;
+      } else {
+        minDiff = 0;
+        closestIndex = currentIndex;
+        break;
       }
     }
 
-    return results;
+    return closestIndex;
   }
 
-  showTooltip(index): void {
-    const tooltipAnchor = this.tooltips.toArray()[index].nativeElement.getElementsByTagName('rect')[1];
+  showTooltip(): void {
     const event = new MouseEvent('mouseenter', {bubbles: false});
-    this.renderer.invokeElementMethod(tooltipAnchor, 'dispatchEvent', [event]);
-    this.anchorOpacity[index] = 0.7;
-    this.hover.emit(this.tooltipAreas[index]);
+    this.renderer.invokeElementMethod(this.tooltipAnchor.nativeElement, 'dispatchEvent', [event]);
   }
 
-  hideTooltip(index): void {
-    const tooltipAnchor = this.tooltips.toArray()[index].nativeElement.getElementsByTagName('rect')[1];
+  hideTooltip(): void {
     const event = new MouseEvent('mouseleave', {bubbles: false});
-    this.renderer.invokeElementMethod(tooltipAnchor, 'dispatchEvent', [event]);
-    this.anchorOpacity[index] = 0;
+    this.renderer.invokeElementMethod(this.tooltipAnchor.nativeElement, 'dispatchEvent', [event]);
+    this.anchorOpacity = 0;
+    this.lastAnchorPos = -1;
   }
 
   getToolTipText(tooltipItem: any): string {

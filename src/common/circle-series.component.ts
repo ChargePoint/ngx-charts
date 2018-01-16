@@ -5,42 +5,41 @@ import {
   SimpleChanges,
   EventEmitter,
   OnChanges,
+  OnInit,
   ChangeDetectionStrategy,
+  TemplateRef
 } from '@angular/core';
 import {
   trigger,
-  state,
   style,
   animate,
   transition
 } from '@angular/animations';
-import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { formatLabel } from '../common/label.helper';
 import { id } from '../utils/id';
 
 @Component({
   selector: 'g[ngx-charts-circle-series]',
   template: `
-    <svg:g *ngFor="let circle of circles">
+    <svg:g *ngIf="circle">
       <defs>
         <svg:g ngx-charts-svg-linear-gradient
           orientation="vertical"
-          [name]="circle.gradientId"
+          [name]="gradientId"
           [stops]="circle.gradientStops"
         />
       </defs>
       <svg:rect
-        *ngIf="circle.barVisible && type === 'standard'"
+        *ngIf="barVisible && type === 'standard'"
         [@animationState]="'active'"
         [attr.x]="circle.cx - circle.radius"
         [attr.y]="circle.cy"
         [attr.width]="circle.radius * 2"
         [attr.height]="circle.height"
-        [attr.fill]="circle.gradientFill"
+        [attr.fill]="gradientFill"
         class="tooltip-bar"
       />
       <svg:g ngx-charts-circle
-        *ngIf="isVisible(circle)"
         class="circle"
         [cx]="circle.cx"
         [cy]="circle.cy"
@@ -51,20 +50,22 @@ import { id } from '../utils/id';
         [data]="circle.value"
         [classNames]="circle.classNames"
         (select)="onClick($event, circle.label)"
-        (activate)="activateCircle(circle)"
-        (deactivate)="deactivateCircle(circle)"
+        (activate)="activateCircle()"
+        (deactivate)="deactivateCircle()"
         ngx-tooltip
         [tooltipDisabled]="tooltipDisabled"
         [tooltipPlacement]="'top'"
         [tooltipType]="'tooltip'"
-        [tooltipTitle]="getTooltipText(circle)"
+        [tooltipTitle]="tooltipTemplate ? undefined : getTooltipText(circle)"
+        [tooltipTemplate]="tooltipTemplate"
+        [tooltipContext]="circle.data"
       />
     </svg:g>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('animationState', [
-      transition('void => *', [
+      transition(':enter', [
         style({
           opacity: 0,
         }),
@@ -73,7 +74,7 @@ import { id } from '../utils/id';
     ])
   ]
 })
-export class CircleSeriesComponent implements OnChanges {
+export class CircleSeriesComponent implements OnChanges, OnInit {
 
   @Input() data;
   @Input() type = 'standard';
@@ -84,6 +85,7 @@ export class CircleSeriesComponent implements OnChanges {
   @Input() visibleValue;
   @Input() activeEntries: any[];
   @Input() tooltipDisabled: boolean = false;
+  @Input() tooltipTemplate: TemplateRef<any>;
 
   @Output() select = new EventEmitter();
   @Output() activate = new EventEmitter();
@@ -91,8 +93,14 @@ export class CircleSeriesComponent implements OnChanges {
 
   areaPath: any;
   circles: any[];
+  circle: any; // active circle
+  barVisible: boolean = false;
+  gradientId: string;
+  gradientFill: string;
 
-  constructor(private location: LocationStrategy) {
+  ngOnInit() {
+    this.gradientId = 'grad' + id().toString();
+    this.gradientFill = `url(#${this.gradientId})`;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -101,14 +109,13 @@ export class CircleSeriesComponent implements OnChanges {
 
   update(): void {
     this.circles = this.getCircles();
+    this.circle = this.circles.find(c => {
+      return c.opacity !== 0;
+    });
   }
 
   getCircles(): any[] {
     const seriesName = this.data.name;
-
-    const pageUrl = this.location instanceof PathLocationStrategy
-      ? this.location.path()
-      : '';
 
     return this.data.series.map((d, i) => {
       const value = d.value;
@@ -134,9 +141,6 @@ export class CircleSeriesComponent implements OnChanges {
           opacity = 1;
         }
 
-        const gradientId = 'grad' + id().toString();
-        const gradientFill = `url(${pageUrl}#${gradientId})`;
-
         let color;
         if (this.colors.scaleType === 'linear') {
           if (this.type === 'standard') {
@@ -148,10 +152,17 @@ export class CircleSeriesComponent implements OnChanges {
           color = this.colors.getColor(seriesName);
         }
 
+        const data = {
+          series: seriesName,
+          value,
+          name: label
+        };
+
         return {
           classNames: [`circle-data-${i}`],
           value,
           label,
+          data,
           cx,
           cy,
           radius,
@@ -160,9 +171,6 @@ export class CircleSeriesComponent implements OnChanges {
           color,
           opacity,
           seriesName,
-          barVisible: false,
-          gradientId,
-          gradientFill,
           gradientStops: this.getGradientStops(color),
           min: d.min,
           max: d.max
@@ -231,21 +239,14 @@ export class CircleSeriesComponent implements OnChanges {
     return item !== undefined;
   }
 
-  isVisible(circle): boolean {
-    if (this.activeEntries.length > 0) {
-      return this.isActive({name: circle.seriesName});
-    }
-
-    return circle.opacity !== 0;
-  }
-
-  activateCircle(circle): void {
-    circle.barVisible = true;
+  activateCircle(): void {
+    this.barVisible = true;
     this.activate.emit({name: this.data.name});
   }
 
-  deactivateCircle(circle): void {
-    circle.barVisible = false;
+  deactivateCircle(): void {
+    this.barVisible = false;
+    this.circle.opacity = 0;
     this.deactivate.emit({name: this.data.name});
   }
 

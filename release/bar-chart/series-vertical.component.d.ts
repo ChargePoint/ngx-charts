@@ -1,4 +1,4 @@
-import { EventEmitter, OnChanges } from '@angular/core';
+import { EventEmitter, OnChanges, TemplateRef } from '@angular/core';
 export declare class SeriesVerticalComponent implements OnChanges {
     dims: any;
     type: string;
@@ -11,14 +11,20 @@ export declare class SeriesVerticalComponent implements OnChanges {
     gradient: boolean;
     activeEntries: any[];
     seriesName: string;
+    tooltipTemplate: TemplateRef<any>;
+    roundEdges: boolean;
+    animations: boolean;
     select: EventEmitter<{}>;
     activate: EventEmitter<{}>;
     deactivate: EventEmitter<{}>;
+    tooltipPlacement: string;
+    tooltipType: string;
     bars: any;
     x: any;
     y: any;
     ngOnChanges(changes: any): void;
     update(): void;
+    updateTooltipSettings(): void;
     isActive(entry: any): boolean;
     onClick(data: any): void;
     trackBy(index: any, bar: any): string;

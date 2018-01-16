@@ -5,7 +5,8 @@ import {
   Output,
   EventEmitter,
   OnChanges,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  TemplateRef
 } from '@angular/core';
 import { max } from 'd3-array';
 import { arc, pie } from 'd3-shape';
@@ -24,7 +25,8 @@ import { formatLabel } from '../common/label.helper';
         [label]="labelText(arc)"
         [max]="max"
         [value]="arc.value"
-        [explodeSlices]="explodeSlices">
+        [explodeSlices]="explodeSlices"
+        [animations]="animations">
       </svg:g>
       <svg:g
         ngx-charts-pie-arc
@@ -39,6 +41,7 @@ import { formatLabel } from '../common/label.helper';
         [max]="max"
         [explodeSlices]="explodeSlices"
         [isActive]="isActive(arc.data)"
+        [animate]="animations"
         (select)="onClick($event)"
         (activate)="activate.emit($event)"
         (deactivate)="deactivate.emit($event)"
@@ -46,7 +49,9 @@ import { formatLabel } from '../common/label.helper';
         [tooltipDisabled]="tooltipDisabled"
         [tooltipPlacement]="'top'"
         [tooltipType]="'tooltip'"
-        [tooltipTitle]="tooltipText(arc)">
+        [tooltipTitle]="tooltipTemplate ? undefined : tooltipText(arc)"
+        [tooltipTemplate]="tooltipTemplate"
+        [tooltipContext]="arc.data">
       </svg:g>
     </svg:g>
   `,
@@ -63,9 +68,11 @@ export class PieSeriesComponent implements OnChanges {
   @Input() showLabels;
   @Input() gradient: boolean;
   @Input() activeEntries: any[];
-  @Input() tooltipDisabled: boolean = false;
   @Input() labelFormatting: any;
   @Input() tooltipText: (o: any) => any;
+  @Input() tooltipDisabled: boolean = false;
+  @Input() tooltipTemplate: TemplateRef<any>;
+  @Input() animations: boolean = true;
 
   @Output() select = new EventEmitter();
   @Output() activate = new EventEmitter();
@@ -135,24 +142,24 @@ export class PieSeriesComponent implements OnChanges {
     return labelPositions;
   }
 
-  labelVisible(arc): boolean {
-    return this.showLabels && (arc.endAngle - arc.startAngle > Math.PI / 30);
+  labelVisible(myArc): boolean {
+    return this.showLabels && (myArc.endAngle - myArc.startAngle > Math.PI / 30);
   }
 
-  labelText(arc): string {
+  labelText(myArc): string {
     if (this.labelFormatting) {
-      return this.labelFormatting(arc.data.name);
+      return this.labelFormatting(myArc.data.name);
     }
-    return this.label(arc);
+    return this.label(myArc);
   }
 
-  label(arc): string {
-    return formatLabel(arc.data.name);
+  label(myArc): string {
+    return formatLabel(myArc.data.name);
   }
 
-  defaultTooltipText(arc) {
-    const label = this.label(arc);
-    const val = formatLabel(arc.data.value);
+  defaultTooltipText(myArc): string {
+    const label = this.label(myArc);
+    const val = formatLabel(myArc.data.value);
 
     return `
       <span class="tooltip-label">${label}</span>
@@ -160,8 +167,8 @@ export class PieSeriesComponent implements OnChanges {
     `;
   }
 
-  color(arc): any {
-    return this.colors.getColor(this.label(arc));
+  color(myArc): any {
+    return this.colors.getColor(this.label(myArc));
   }
 
   trackBy(index, item): string {

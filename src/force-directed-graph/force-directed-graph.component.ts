@@ -32,6 +32,7 @@ import { ColorHelper } from '../common/color.helper';
       [view]="[width, height]"
       [showLegend]="legend"
       [legendOptions]="legendOptions"
+      [animations]="animations"
       (legendLabelClick)="onClick($event)"
       (legendLabelActivate)="onActivate($event)"
       (legendLabelDeactivate)="onDeactivate($event)">
@@ -40,7 +41,7 @@ import { ColorHelper } from '../common/color.helper';
           <svg:g *ngFor="let link of links; trackBy:trackLinkBy">
             <ng-template *ngIf="linkTemplate"
               [ngTemplateOutlet]="linkTemplate"
-              [ngOutletContext]="{ $implicit: link }">
+              [ngTemplateOutletContext]="{ $implicit: link }">
             </ng-template>
             <svg:line *ngIf="!linkTemplate"
               strokeWidth="1" class="edge"
@@ -62,10 +63,12 @@ import { ColorHelper } from '../common/color.helper';
             [tooltipDisabled]="tooltipDisabled"
             [tooltipPlacement]="'top'"
             [tooltipType]="'tooltip'"
-            [tooltipTitle]="node.value">
+            [tooltipTitle]="tooltipTemplate ? undefined : node.value"
+            [tooltipTemplate]="tooltipTemplate"
+            [tooltipContext]="node">
             <ng-template *ngIf="nodeTemplate"
               [ngTemplateOutlet]="nodeTemplate"
-              [ngOutletContext]="{ $implicit: node }">
+              [ngTemplateOutletContext]="{ $implicit: node }">
             </ng-template>
             <svg:circle *ngIf="!nodeTemplate" r="5" />
           </svg:g>
@@ -101,6 +104,7 @@ export class ForceDirectedGraphComponent extends BaseChartComponent {
 
   @ContentChild('linkTemplate') linkTemplate: TemplateRef<any>;
   @ContentChild('nodeTemplate') nodeTemplate: TemplateRef<any>;
+  @ContentChild('tooltipTemplate') tooltipTemplate: TemplateRef<any>;
   @ViewChild(ChartComponent, { read: ElementRef }) chart: ElementRef;
 
   colors: ColorHelper;

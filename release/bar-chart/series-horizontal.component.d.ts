@@ -1,4 +1,4 @@
-import { EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { EventEmitter, OnChanges, SimpleChanges, TemplateRef } from '@angular/core';
 export declare class SeriesHorizontal implements OnChanges {
     bars: any;
     x: any;
@@ -13,11 +13,17 @@ export declare class SeriesHorizontal implements OnChanges {
     gradient: boolean;
     activeEntries: any[];
     seriesName: string;
+    tooltipTemplate: TemplateRef<any>;
+    roundEdges: boolean;
+    animations: boolean;
     select: EventEmitter<{}>;
     activate: EventEmitter<{}>;
     deactivate: EventEmitter<{}>;
+    tooltipPlacement: string;
+    tooltipType: string;
     ngOnChanges(changes: SimpleChanges): void;
     update(): void;
+    updateTooltipSettings(): void;
     isActive(entry: any): boolean;
     trackBy(index: any, bar: any): any;
     click(data: any): void;

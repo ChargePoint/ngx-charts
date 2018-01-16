@@ -1,4 +1,4 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, TemplateRef } from '@angular/core';
 import { ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 import { BaseChartComponent } from '../common/base-chart.component';
@@ -20,8 +20,11 @@ export declare class BarHorizontalComponent extends BaseChartComponent {
     yAxisTickFormatting: any;
     barPadding: string | number;
     roundDomains: boolean;
+    roundEdges: boolean;
+    xScaleMax: number;
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;
+    tooltipTemplate: TemplateRef<any>;
     dims: ViewDimensions;
     yScale: any;
     xScale: any;

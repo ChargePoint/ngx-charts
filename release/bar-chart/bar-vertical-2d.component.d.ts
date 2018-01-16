@@ -1,4 +1,4 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, TemplateRef } from '@angular/core';
 import { ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 import { BaseChartComponent } from '../common/base-chart.component';
@@ -22,8 +22,11 @@ export declare class BarVertical2DComponent extends BaseChartComponent {
     groupPadding: string | number;
     barPadding: string | number;
     roundDomains: boolean;
+    roundEdges: boolean;
+    yScaleMax: number;
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;
+    tooltipTemplate: TemplateRef<any>;
     dims: ViewDimensions;
     groupDomain: any[];
     innerDomain: any[];

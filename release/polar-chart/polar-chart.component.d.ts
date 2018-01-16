@@ -1,4 +1,4 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, TemplateRef } from '@angular/core';
 import { ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 import { BaseChartComponent } from '../common/base-chart.component';
@@ -23,8 +23,10 @@ export declare class PolarChartComponent extends BaseChartComponent {
     tooltipDisabled: boolean;
     showSeriesOnHover: boolean;
     gradient: boolean;
+    yAxisMinScale: number;
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;
+    tooltipTemplate: TemplateRef<any>;
     dims: ViewDimensions;
     yAxisDims: ViewDimensions;
     labelOffset: number;
@@ -34,7 +36,6 @@ export declare class PolarChartComponent extends BaseChartComponent {
     yScale: any;
     xScale: any;
     yAxisScale: any;
-    any: any;
     colors: ColorHelper;
     scaleType: string;
     transform: string;
@@ -84,4 +85,5 @@ export declare class PolarChartComponent extends BaseChartComponent {
     onActivate(item: any): void;
     onDeactivate(item: any): void;
     deactivateAll(): void;
+    trackBy(index: any, item: any): any;
 }

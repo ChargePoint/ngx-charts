@@ -4,7 +4,9 @@ import {
   Output,
   EventEmitter,
   ViewEncapsulation,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ContentChild,
+  TemplateRef
 } from '@angular/core';
 import { treemap, stratify } from 'd3-hierarchy';
 
@@ -17,16 +19,19 @@ import { ColorHelper } from '../common/color.helper';
   template: `
     <ngx-charts-chart
       [view]="[width, height]"
-      [showLegend]="false">
+      [showLegend]="false"
+      [animations]="animations">
       <svg:g [attr.transform]="transform" class="tree-map chart">
         <svg:g ngx-charts-tree-map-cell-series
           [colors]="colors"
           [data]="data"
           [dims]="dims"
           [tooltipDisabled]="tooltipDisabled"
+          [tooltipTemplate]="tooltipTemplate"
           [valueFormatting]="valueFormatting"
           [labelFormatting]="labelFormatting"
           [gradient]="gradient"
+          [animations]="animations"
           (select)="onClick($event)"
         />
       </svg:g>
@@ -45,6 +50,8 @@ export class TreeMapComponent extends BaseChartComponent {
   @Input() gradient: boolean = false;
 
   @Output() select = new EventEmitter();
+
+  @ContentChild('tooltipTemplate') tooltipTemplate: TemplateRef<any>;
 
   dims: any;
   domain: any;

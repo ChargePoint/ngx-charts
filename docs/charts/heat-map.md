@@ -10,6 +10,7 @@
 | view                | number[]           |               | the dimensions of the chart [width, height]. If left undefined, the chart will fit to the parent container size |
 | results             | object[]           |               | the chart data                                                                                                  |
 | scheme              | object             |               | the color scheme of the chart                                                                                   |
+| animations          | boolean            | true          | enable animations                                                                                               |
 | legend              | boolean            | false         | show or hide the legend                                                                                         |
 | legendTitle         | string             | 'Legend'      | the legend title                                                                                                |
 | xAxis               | boolean            | false         | show or hide the x axis                                                                                         |
@@ -24,6 +25,7 @@
 | innerPadding        | number or number[] | 8             | the inner padding in px                                                                                         |
 | tooltipDisabled     | boolean            | false         | show or hide the tooltip                                                                                        |
 | tooltipText         | function           | (see source)  | the HTML text to display in the tooltip                                                                         |
+| tooltipTemplate     | TemplateRef        |               | a custom ng-template to be displayed inside the tooltip                                                         |
 
 # Outputs
 

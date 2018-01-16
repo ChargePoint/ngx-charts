@@ -1,5 +1,66 @@
 # Changelog
 
+## 7.0.1
+- Fix: Export polyfills to fix AoT build issue with Angular 5 (#644)
+
+## 7.0.0
+- Breaking: Added support for angular 5 (#633)
+- Bug: Fixed 'ReferenceError: SVGElement is not defined' exception when using with angular universal (#587)
+- Bug: Fixed NaN issue on Advanced Pie Chart (#597)
+- Bug: Changed onDeactivate in the gauge component to emit the correct value instead of the event value from the global scope (#613)
+
+## 6.1.0
+- Feature: Added inputs to control minimum and maximum values on the axes (#582, #359)
+- Feature: Added input to enable/disable animations (#565)
+- Feature: Added designatedTotal Input for Pie Grid (#554)
+- Enhancement: Don't transform text to uppercase in legends and labels (#578)
+- Enhancement: Changed legends and label colors (#578)
+- Enhancement: Increased font size in advanced legend and number cards subtext (#578)
+- Enhancement: Hide legend title when title is missing (#578)
+- Enhancement: Added x-axis value to the context of a bubble chart tooltip (#530)
+- Bug: Removed path from SVG refs to fix gradients not working when URL has queryString (#584) 
+- Bug: Fixed bug where value arc animation on gauge chart would start from 0 on update (#563)
+- Bug: Removed date conversion for name-value at series-tooltip (#544)
+- Bug: Added null check for rootComponents in injection servoce (#574)
+- Bug: Fixed issue where the tooltip would not appear for certain points (#501)
+- Bug: Fixed issue where pie chart colors would not update on color changes (#551)
+- Bug: Added polyfill for SVGElement.prototype.contains (#386)
+- Bug: Renamed ngOutletContext (deprecated) to ngTemplateOutletContext (#535)
+- Docs: Added custom chart page
+
+## 6.0.1
+- Bug: Fixed line chart stroke color
+- Bug: Fixed timeline width and alignment
+- Bug: Fixed truncation of legend text (#487)
+- Chore: Removed patch numbers from peerDependencies (#478)
+
+## 6.0.0
+- Breaking: Removed `showSeriesOnHover` option of line-chart
+- Refactor: Improved performance of line and area chart tooltips (#463)
+- Enhancement: Added `roundEdges` input property to bar charts (#408)
+- Enhancement: Tooltip elements are not created if tooltips are disabled (#415)
+- Enhancement: Added the option to define reference lines in line charts (#422)
+- Enhancement: Improved animations
+- Bug: Fixed timeline select issue (#425)
+- Chore: Upgraded angular to 4.2.5
+- Demo: Added timeline filter bar chart demo
+- Demo: Added Combo chart (bar and line) demo (#432)
+
+## 5.3.1
+- Bug: Fix bug where the axis component would not emit a dimensionsChanged event in some cases
+
+## 5.3.0
+- Feature: Added option to pass custom ng-templates for tooltips to all charts
+- Enhancement: Added 'label' input to advanced pie chart component
+- Enhancement: Exposed xOrient and yOrient properties on axis components
+- Enhancement: Set default dimensions if width or height are undefined or 0
+- Enhancement: Set a default color scheme
+- Bug: Fixed bubble chart overriding the view input
+- Bug: Fixed linear color scheme when there are less than 3 colors
+- Bug: Fixed gradient not applying to straight lines
+- Demo: Added sparkline custom demo chart
+- Demo: Added interactive treemap demo chart
+
 ## 5.2.1
 - Bug: Remove RGBColor type from color-util file (#394)
 
@@ -8,7 +69,7 @@
 - Enhancement: Disable pointer if no click events are attached to number cards (#378)
 - Enhancement: Added gradiant to tree map chart (#382)
 - Enhancement: Added support for inverted colors from rgba values in number cards (#366)
-- Enhancement: Added value and albel formatting to tree map (#383)
+- Enhancement: Added value and label formatting to tree map (#383)
 - Refactor: loremess restrictive angular dependency versioning (#358)
 - Bug: Fixed types in gauge chart (#364)
 - Bug: Fixed axis and tooltips on bubble chart (#352)

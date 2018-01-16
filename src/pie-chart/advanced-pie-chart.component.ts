@@ -4,7 +4,9 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
-  ViewEncapsulation
+  ViewEncapsulation,
+  ContentChild,
+  TemplateRef
 } from '@angular/core';
 
 import { calculateViewDimensions, ViewDimensions } from '../common/view-dimensions.helper';
@@ -22,7 +24,8 @@ import { BaseChartComponent } from '../common/base-chart.component';
         [style.height.px]="dims.height">
         <ngx-charts-chart
           [view]="[width, height]"
-          [showLegend]="false">
+          [showLegend]="false"
+          [animations]="animations">
           <svg:g
             [attr.transform]="transform"
             class="pie chart">
@@ -34,8 +37,10 @@ import { BaseChartComponent } from '../common/base-chart.component';
               [outerRadius]="outerRadius"
               [gradient]="gradient"
               [tooltipDisabled]="tooltipDisabled"
+              [tooltipTemplate]="tooltipTemplate"
               [tooltipText]="tooltipText"
-              (select)="onClick($event)">
+              (select)="onClick($event)"
+              [animations]="animations">
             </svg:g>
           </svg:g>
         </ngx-charts-chart>
@@ -48,6 +53,8 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [data]="results"
           [colors]="colors"
           [width]="width - dims.width - margin[1]"
+          [label]="label"
+          [animations]="animations"
           (select)="onClick($event)"
           (activate)="onActivate($event)"
           (deactivate)="onDeactivate($event)">
@@ -68,9 +75,12 @@ export class AdvancedPieChartComponent extends BaseChartComponent {
   @Input() activeEntries: any[] = [];
   @Input() tooltipDisabled: boolean = false;
   @Input() tooltipText: any;
+  @Input() label: string = 'Total';
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
+
+  @ContentChild('tooltipTemplate') tooltipTemplate: TemplateRef<any>;
 
   data: any;
   dims: ViewDimensions;
