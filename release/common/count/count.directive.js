@@ -74,7 +74,7 @@ var CountUpDirective = /** @class */ (function () {
         var _this = this;
         cancelAnimationFrame(this.animationReq);
         var valueFormatting = this.valueFormatting ||
-            (function (data) { return "" + _this.countPrefix + data.value.toLocaleString() + _this.countSuffix; });
+            (function (data) { return "xxx" + _this.countPrefix + data.value.toLocaleString() + _this.countSuffix; });
         var callback = function (_a) {
             var value = _a.value, progress = _a.progress, finished = _a.finished;
             _this.value = valueFormatting({ value: value });
