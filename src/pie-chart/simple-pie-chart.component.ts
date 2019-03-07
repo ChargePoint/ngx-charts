@@ -32,7 +32,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
           x="0"
           y="5"
           text-anchor="middle">
-          {{ totalLabel }}
+          YYY {{ totalLabel }}
         </svg:text>
         <svg:text
           class="label percent-label"
