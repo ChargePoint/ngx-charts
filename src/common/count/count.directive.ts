@@ -81,7 +81,7 @@ export class CountUpDirective implements OnDestroy {
     cancelAnimationFrame(this.animationReq);
 
     const valueFormatting = this.valueFormatting ||
-      (data => `XXXX ${this.countPrefix}${data.value.toLocaleString()}${this.countSuffix}`);
+      (data => `PAT: ${this.countPrefix}${data.value}${this.countSuffix}`);
 
     const callback = ({ value, progress, finished }) => {
       this.value = valueFormatting({value});
