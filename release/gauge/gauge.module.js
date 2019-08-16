@@ -15,7 +15,6 @@ import { PowerGaugeComponent } from './power-gauge.component';
 import { PowerGaugeAxisComponent } from './power-gauge-axis.component';
 import { PieChartModule } from '../pie-chart/pie-chart.module';
 import { BarChartModule } from '../bar-chart/bar-chart.module';
-export { GaugeComponent, GaugeArcComponent, GaugeAxisComponent, LinearGaugeComponent };
 var GaugeModule = /** @class */ (function () {
     function GaugeModule() {
     }

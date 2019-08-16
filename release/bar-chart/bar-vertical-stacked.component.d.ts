@@ -19,8 +19,12 @@ export declare class BarVerticalStackedComponent extends BaseChartComponent {
     xAxisTickFormatting: any;
     yAxisTickFormatting: any;
     barPadding: string | number;
+    xAxisTicks: any[];
+    yAxisTicks: any[];
     roundDomains: boolean;
     yScaleMax: number;
+    showDataLabel: boolean;
+    dataLabelFormatting: any;
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;
     tooltipTemplate: TemplateRef<any>;
@@ -37,12 +41,14 @@ export declare class BarVerticalStackedComponent extends BaseChartComponent {
     xAxisHeight: number;
     yAxisWidth: number;
     legendOptions: any;
+    dataLabelMaxHeight: any;
     update(): void;
     getGroupDomain(): any[];
     getInnerDomain(): any[];
     getValueDomain(): number[];
     getXScale(): any;
     getYScale(): any;
+    onDataLabelMaxHeightChanged(event: any, groupIndex: any): void;
     groupTransform(group: any): string;
     onClick(data: any, group?: any): void;
     trackBy(index: any, item: any): any;

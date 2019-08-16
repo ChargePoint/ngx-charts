@@ -29,6 +29,7 @@ import { XAxisTicksComponent } from './x-axis-ticks.component';
         [showGridLines]="showGridLines"
         [gridLineHeight]="dims.height"
         [width]="dims.width"
+        [tickValues]="ticks"
         (dimensionsChanged)="emitTicksHeight($event)"
       />
       <svg:g ngx-charts-axis-label
@@ -52,10 +53,12 @@ export class XAxisComponent implements OnChanges {
   @Input() showGridLines = false;
   @Input() showLabel;
   @Input() labelText;
+  @Input() ticks: any[];
   @Input() xAxisTickInterval;
   @Input() xAxisTickLabels: string[];
   @Input() xAxisTickCount: any;
   @Input() xOrient: string = 'bottom';
+  @Input() xAxisOffset: number = 0;
 
   @Output() dimensionsChanged = new EventEmitter();
 
@@ -68,7 +71,7 @@ export class XAxisComponent implements OnChanges {
   stroke: string = 'stroke';
   tickStroke: string = '#ccc';
   strokeWidth: string = 'none';
-  xAxisOffset: number = 5;
+  padding: number = 5;
 
   @ViewChild(XAxisTicksComponent) ticksComponent: XAxisTicksComponent;
 
@@ -77,7 +80,7 @@ export class XAxisComponent implements OnChanges {
   }
 
   update(): void {
-    this.transform = `translate(0,${this.xAxisOffset + this.dims.height})`;
+    this.transform = `translate(0,${this.xAxisOffset + this.padding + this.dims.height})`;
 
     if (typeof this.xAxisTickCount !== 'undefined') {
       this.tickArguments = [this.xAxisTickCount];
@@ -88,7 +91,7 @@ export class XAxisComponent implements OnChanges {
     const newLabelOffset = height + 25 + 5;
     if (newLabelOffset !== this.labelOffset) {
       this.labelOffset = newLabelOffset;
-      setTimeout(() => {
+      setTimeout(() => {        
         this.dimensionsChanged.emit({height});
       }, 0);
     }

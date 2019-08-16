@@ -17,7 +17,7 @@ import { BarVerticalNormalizedComponent } from './bar-vertical-normalized.compon
 import { BarVerticalStackedComponent } from './bar-vertical-stacked.component';
 import { SeriesHorizontal } from './series-horizontal.component';
 import { SeriesVerticalComponent } from './series-vertical.component';
-export { BarComponent, BarHorizontalComponent, BarHorizontal2DComponent, BarHorizontalNormalizedComponent, BarHorizontalStackedComponent, BarVerticalComponent, BarVertical2DComponent, BarVerticalNormalizedComponent, BarVerticalStackedComponent, SeriesHorizontal, SeriesVerticalComponent };
+import { BarLabelComponent } from './bar-label.component';
 var BarChartModule = /** @class */ (function () {
     function BarChartModule() {
     }
@@ -34,6 +34,7 @@ var BarChartModule = /** @class */ (function () {
                 BarVertical2DComponent,
                 BarVerticalNormalizedComponent,
                 BarVerticalStackedComponent,
+                BarLabelComponent,
                 SeriesHorizontal,
                 SeriesVerticalComponent
             ],
@@ -47,6 +48,7 @@ var BarChartModule = /** @class */ (function () {
                 BarVertical2DComponent,
                 BarVerticalNormalizedComponent,
                 BarVerticalStackedComponent,
+                BarLabelComponent,
                 SeriesHorizontal,
                 SeriesVerticalComponent
             ]

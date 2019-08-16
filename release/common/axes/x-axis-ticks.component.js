@@ -21,6 +21,7 @@ var XAxisTicksComponent = /** @class */ (function () {
         this.innerTickSize = 6;
         this.outerTickSize = 6;
         this.tickPadding = 3;
+        // tickValues: any;
         this.textAnchor = 'middle';
         this.maxTicksLength = 0;
         this.maxAllowedLength = 16;
@@ -82,7 +83,7 @@ var XAxisTicksComponent = /** @class */ (function () {
         }
         var angle = 0;
         for (var i = 0; i < ticks.length; i++) {
-            var tick = ticks[i].toString();
+            var tick = this.tickFormat(ticks[i]).toString();
             if (tick.length > this.maxTicksLength) {
                 this.maxTicksLength = tick.length;
             }
@@ -136,6 +137,10 @@ var XAxisTicksComponent = /** @class */ (function () {
         Input(),
         __metadata("design:type", Object)
     ], XAxisTicksComponent.prototype, "tickArguments", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], XAxisTicksComponent.prototype, "tickValues", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Object)

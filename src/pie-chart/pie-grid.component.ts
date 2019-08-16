@@ -77,7 +77,7 @@ import { formatLabel } from '../common/label.helper';
             text-anchor="middle"
             ngx-charts-count-up
             [countTo]="series.total"
-            [countPrefix]="'Total: '">
+            [countPrefix]="label + ': '">
           </svg:text>
           <svg:text *ngIf="!animations"
             class="label"
@@ -85,7 +85,7 @@ import { formatLabel } from '../common/label.helper';
             x="0"
             [attr.y]="series.outerRadius"
             text-anchor="middle">
-            Total: {{series.total.toLocaleString()}}
+            {{label}}: {{series.total.toLocaleString()}}
           </svg:text>
         </svg:g>
       </svg:g>
@@ -102,7 +102,9 @@ export class PieGridComponent extends BaseChartComponent {
   @Input() designatedTotal: number;
   @Input() tooltipDisabled: boolean = false;
   @Input() tooltipText: (o: any) => any;
-  
+  @Input() label: string = 'Total';
+  @Input() minWidth: number = 150;
+
   dims: ViewDimensions;
   data: any[];
   transform: string;
@@ -124,7 +126,7 @@ export class PieGridComponent extends BaseChartComponent {
 
     this.domain = this.getDomain();
 
-    this.data = gridLayout(this.dims, this.results, 150, this.designatedTotal);
+    this.data = gridLayout(this.dims, this.results, this.minWidth, this.designatedTotal);
     this.transform = `translate(${this.margin[3]} , ${this.margin[0]})`;
 
     this.series = this.getSeries();
@@ -133,7 +135,7 @@ export class PieGridComponent extends BaseChartComponent {
     this.tooltipText = this.tooltipText || this.defaultTooltipText;
   }
 
-  defaultTooltipText({data}): string {
+  defaultTooltipText({ data }): string {
     const label = trimLabel(formatLabel(data.name));
     const val = data.value.toLocaleString();
     return `

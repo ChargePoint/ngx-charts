@@ -21,9 +21,13 @@ export declare class BarVertical2DComponent extends BaseChartComponent {
     yAxisTickFormatting: any;
     groupPadding: string | number;
     barPadding: string | number;
+    xAxisTicks: any[];
+    yAxisTicks: any[];
     roundDomains: boolean;
     roundEdges: boolean;
     yScaleMax: number;
+    showDataLabel: boolean;
+    dataLabelFormatting: any;
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;
     tooltipTemplate: TemplateRef<any>;
@@ -40,7 +44,9 @@ export declare class BarVertical2DComponent extends BaseChartComponent {
     xAxisHeight: number;
     yAxisWidth: number;
     legendOptions: any;
+    dataLabelMaxHeight: any;
     update(): void;
+    onDataLabelMaxHeightChanged(event: any, groupIndex: any): void;
     getGroupScale(): any;
     getInnerScale(): any;
     getValueScale(): any;

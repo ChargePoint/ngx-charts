@@ -28,6 +28,7 @@
         [roundDomains]="roundDomains"
         [roundEdges]="roundEdges"
         [yScaleMax]="yScaleMax"
+        [showDataLabel]="showDataLabel"
         (select)="select($event)"
         (legendLabelClick)="onLegendLabelClick($event)">
       </ngx-charts-bar-vertical>
@@ -54,6 +55,7 @@
         [roundDomains]="roundDomains"
         [roundEdges]="roundEdges"
         [xScaleMax]="xScaleMax"
+        [showDataLabel]="showDataLabel"
         (legendLabelClick)="onLegendLabelClick($event)"
         (select)="select($event)">
       </ngx-charts-bar-horizontal>
@@ -82,6 +84,7 @@
         [roundDomains]="roundDomains"
         [roundEdges]="roundEdges"
         [yScaleMax]="yScaleMax"
+        [showDataLabel]="showDataLabel"
         (select)="select($event)">
       </ngx-charts-bar-vertical-2d>
       <ngx-charts-bar-horizontal-2d
@@ -109,6 +112,7 @@
         [roundDomains]="roundDomains"
         [roundEdges]="roundEdges"
         [xScaleMax]="xScaleMax"
+        [showDataLabel]="showDataLabel"
         (select)="select($event)">
       </ngx-charts-bar-horizontal-2d>
       <ngx-charts-bar-vertical-stacked
@@ -134,6 +138,7 @@
         [barPadding]="barPadding"
         [roundDomains]="roundDomains"
         [yScaleMax]="yScaleMax"
+        [showDataLabel]="showDataLabel"
         (select)="select($event)">
       </ngx-charts-bar-vertical-stacked>
       <ngx-charts-bar-horizontal-stacked
@@ -158,6 +163,7 @@
         [showGridLines]="showGridLines"
         [barPadding]="barPadding"
         [roundDomains]="roundDomains"
+        [showDataLabel]="showDataLabel"
         [xScaleMax]="xScaleMax"
         (select)="select($event)">
       </ngx-charts-bar-horizontal-stacked>
@@ -226,6 +232,7 @@
         [gradient]="gradient"
         [tooltipDisabled]="tooltipDisabled"
         [tooltipText]="pieTooltipText"
+        (dblclick)="dblclick($event)"
         (select)="select($event)">
       </ngx-charts-pie-chart>
       <ngx-charts-simple-pie-chart
@@ -244,6 +251,7 @@
         [view]="view"
         [scheme]="colorScheme"
         [results]="single"
+        [valueFormatting]="valueFormatting"
         [animations]="animations"
         (legendLabelClick)="onLegendLabelClick($event)"
         [gradient]="gradient"
@@ -477,6 +485,8 @@
       <ngx-charts-heat-map
         *ngIf="chartType === 'heat-map'"
         class="chart-container"
+        [min]="heatmapMin"
+        [max]="heatmapMax"
         [view]="view"
         [scheme]="colorScheme"
         [results]="multi"
@@ -801,7 +811,58 @@
         (onFilter)="onFilter($event)">
       </ngx-charts-timeline-filter-bar-chart>
     </div>
-  </div>
+    <ngx-charts-bar-vertical-stacked
+      *ngIf="chartType === 'bar-vertical-stacked-negative'"
+      class="chart-container"
+      [view]="view"
+      [scheme]="colorScheme"
+      [schemeType]="schemeType"
+      [results]="fiscalYearReport"
+      [animations]="animations"
+      [gradient]="gradient"
+      [tooltipDisabled]="tooltipDisabled"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [legendTitle]="legendTitle"
+      (legendLabelClick)="onLegendLabelClick($event)"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="'Fiscal Year Report'"
+      [showGridLines]="showGridLines"
+      [barPadding]="barPadding"
+      [roundDomains]="roundDomains"
+      [yScaleMax]="yScaleMax"
+      [showDataLabel]="showDataLabel"
+      (select)="select($event)">
+    </ngx-charts-bar-vertical-stacked>
+    <ngx-charts-bar-horizontal-stacked
+      *ngIf="chartType === 'bar-horizontal-stacked-negative'"
+      class="chart-container"
+      [view]="view"
+      [scheme]="colorScheme"
+      [schemeType]="schemeType"
+      [results]="fiscalYearReport"
+      [animations]="animations"
+      [gradient]="gradient"
+      [tooltipDisabled]="tooltipDisabled"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [legendTitle]="legendTitle"
+      (legendLabelClick)="onLegendLabelClick($event)"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="'Fiscal Year Report'"
+      [showGridLines]="showGridLines"
+      [barPadding]="barPadding"
+      [roundDomains]="roundDomains"
+      [showDataLabel]="showDataLabel"
+      (select)="select($event)">
+    </ngx-charts-bar-horizontal-stacked>
+ </div>
   <div class="sidebar">
     <h1>
       Ngx-<strong>Charts</strong>
@@ -839,6 +900,7 @@
     <div [hidden]="!dataVisable" style="margin-left: 10px;">
       <pre *ngIf="chart.inputFormat === 'singleSeries'">{{single | json}}</pre>
       <pre *ngIf="chart.inputFormat === 'multiSeries' && !linearScale">{{multi | json}}</pre>
+      <pre *ngIf="chart.inputFormat === 'multiSeriesNegative' && !linearScale">{{fiscalYearReport | json}}</pre>
       <pre *ngIf="chart.inputFormat === 'multiSeries' && linearScale && (!range)">{{dateData | json}}</pre>
       <pre *ngIf="chart.inputFormat === 'multiSeries' && linearScale && range">{{dateDataWithRange | json}}</pre>
       <pre *ngIf="chart.inputFormat === 'bubble'">{{bubble | json}}</pre>
@@ -925,7 +987,7 @@
           Animations
         </label> <br />
       </div>
-      
+
       <div *ngIf="chart.options.includes('showXAxis')">
         <label>
           <input type="checkbox" [checked]="showXAxis" (change)="showXAxis = $event.target.checked">
@@ -972,6 +1034,12 @@
         <label>
           <input type="checkbox" [checked]="showLegend" (change)="showLegend = $event.target.checked">
           Show Legend
+        </label> <br />
+      </div>
+      <div *ngIf="chart.options.includes('showDataLabel')">
+        <label>
+          <input type="checkbox" [checked]="showDataLabel" (change)="showDataLabel = $event.target.checked">
+          Show Data Label
         </label> <br />
       </div>
       <div *ngIf="chart.options.includes('roundEdges')">
@@ -1065,13 +1133,21 @@
           </option>
         </select>
       </div>
-      <div *ngIf="chart.options.includes('min')">
+      <div *ngIf="chart.options.includes('min') && chart.name!='Heat Map'">
         <label>Min value:</label><br />
         <input type="number" [(ngModel)]="gaugeMin"><br />
       </div>
-      <div *ngIf="chart.options.includes('max')">
+      <div *ngIf="chart.options.includes('max')  && chart.name!='Heat Map'">
         <label>Max value:</label><br />
         <input type="number" [(ngModel)]="gaugeMax"><br />
+      </div>
+      <div *ngIf="chart.options.includes('min') && chart.name=='Heat Map'">
+        <label>Min value:</label><br />
+        <input type="number" [(ngModel)]="heatmapMin"><br />
+      </div>
+      <div *ngIf="chart.options.includes('max')  && chart.name=='Heat Map'">
+        <label>Max value:</label><br />
+        <input type="number" [(ngModel)]="heatmapMax"><br />
       </div>
       <div *ngIf="chart.options.includes('innerPadding')">
         <label>Inner padding value:</label><br />
@@ -1148,11 +1224,11 @@
             [inputType]="'datetime'"
             label="Minimum X-Scale value"
             [(ngModel)]="xScaleMin">
-          </ngx-date-time>        
+          </ngx-date-time>
         </div>
         <div *ngIf="chartType === 'bubble-chart'">
           <label>Minimum X-Scale value</label><br />
-          <input type="number" [(ngModel)]="xScaleMin"><br />    
+          <input type="number" [(ngModel)]="xScaleMin"><br />
         </div>
       </div>
 
@@ -1162,11 +1238,11 @@
             [inputType]="'datetime'"
             label="Maximum X-Scale value"
             [(ngModel)]="xScaleMax">
-          </ngx-date-time>    
+          </ngx-date-time>
         </div>
         <div *ngIf="chartType.startsWith('bar-horizontal') || chartType === 'bubble-chart'">
           <label>Maximum X-Scale value</label><br />
-          <input type="number" [(ngModel)]="xScaleMax"><br />    
+          <input type="number" [(ngModel)]="xScaleMax"><br />
         </div>
       </div>
 

@@ -27,9 +27,11 @@ import { BaseChartComponent } from '../common/base-chart.component';
       <svg:g [attr.transform]="translation" class="pie-chart chart">
         <svg:g ngx-charts-pie-series
           [colors]="colors"
+          [series]="data"
           [showLabels]="labels"
           [labelFormatting]="labelFormatting"
-          [series]="data"
+          [trimLabels]="trimLabels"
+          [maxLabelLength]="maxLabelLength"
           [activeEntries]="activeEntries"
           [innerRadius]="innerRadius"
           [outerRadius]="outerRadius"
@@ -39,6 +41,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [tooltipDisabled]="tooltipDisabled"
           [tooltipTemplate]="tooltipTemplate"
           [tooltipText]="tooltipText"
+          (dblclick)="dblclick.emit($event)"
           (select)="onClick($event)"
           (activate)="onActivate($event)"
           (deactivate)="onDeactivate($event)"
@@ -65,8 +68,11 @@ export class PieChartComponent extends BaseChartComponent {
   @Input() activeEntries: any[] = [];
   @Input() tooltipDisabled: boolean = false;
   @Input() labelFormatting: any;
+  @Input() trimLabels: boolean = true;
+  @Input() maxLabelLength: number = 10;
   @Input() tooltipText: any;
 
+  @Output() dblclick = new EventEmitter();
   @Output() select = new EventEmitter();
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();

@@ -27,9 +27,14 @@ export declare class BarVerticalComponent extends BaseChartComponent {
     yAxisTickFormatting: any;
     maxTicks: number;
     barPadding: string | number;
+    xAxisTicks: any[];
+    yAxisTicks: any[];
     roundDomains: boolean;
     roundEdges: boolean;
     yScaleMax: number;
+    yScaleMin: number;
+    showDataLabel: boolean;
+    dataLabelFormatting: any;
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;
     tooltipTemplate: TemplateRef<any>;
@@ -45,6 +50,7 @@ export declare class BarVerticalComponent extends BaseChartComponent {
     xAxisHeight: number;
     yAxisWidth: number;
     legendOptions: any;
+    dataLabelMaxHeight: any;
     update(): void;
     getXScale(): any;
     getYScale(): any;
@@ -64,6 +70,7 @@ export declare class BarVerticalComponent extends BaseChartComponent {
     updateXAxisHeight({height}: {
         height: any;
     }): void;
+    onDataLabelMaxHeightChanged(event: any): void;
     onActivate(item: any): void;
     onDeactivate(item: any): void;
     xAxisLineTransform(): string;

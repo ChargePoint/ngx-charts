@@ -161,7 +161,7 @@ var YAxisTicksComponent = /** @class */ (function () {
     ], YAxisTicksComponent.prototype, "tickArguments", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", Object)
+        __metadata("design:type", Array)
     ], YAxisTicksComponent.prototype, "tickValues", void 0);
     __decorate([
         Input(),

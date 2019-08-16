@@ -56,6 +56,7 @@ export class XAxisTicksComponent implements OnChanges, AfterViewInit {
   @Input() scale;
   @Input() orient;
   @Input() tickArguments = [5];
+  @Input() tickValues: any[];
   @Input() tickStroke = '#ccc';
   @Input() tickFormatting;
   @Input() showTicks: boolean[];
@@ -71,7 +72,7 @@ export class XAxisTicksComponent implements OnChanges, AfterViewInit {
   innerTickSize: number = 6;
   outerTickSize: number = 6;
   tickPadding: number = 3;
-  tickValues: any;
+  // tickValues: any;
   textAnchor: string = 'middle';
   maxTicksLength: number = 0;
   maxAllowedLength: number = 16;
@@ -147,7 +148,7 @@ export class XAxisTicksComponent implements OnChanges, AfterViewInit {
 
     let angle = 0;
     for (let i = 0; i < ticks.length; i++) {
-      const tick = ticks[i].toString();
+      const tick = this.tickFormat(ticks[i]).toString();
       if (tick.length > this.maxTicksLength) {
         this.maxTicksLength = tick.length;
       }

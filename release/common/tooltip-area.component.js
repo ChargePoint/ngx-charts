@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component, Input, Output, EventEmitter, ViewChild, Renderer, ChangeDetectionStrategy, TemplateRef, } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
+import { MouseEvent } from '../events';
 var TooltipArea = /** @class */ (function () {
     function TooltipArea(renderer) {
         this.renderer = renderer;
@@ -58,7 +59,7 @@ var TooltipArea = /** @class */ (function () {
         return results;
     };
     TooltipArea.prototype.mouseMove = function (event) {
-        var xPos = event.offsetX - this.dims.xOffset;
+        var xPos = event.pageX - event.target.getBoundingClientRect().left;
         var closestIndex = this.findClosestPointIndex(xPos);
         var closestPoint = this.xSet[closestIndex];
         this.anchorPos = this.xScale(closestPoint);

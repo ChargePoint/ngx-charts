@@ -9,7 +9,11 @@ import {
 import { easeElastic } from 'd3-ease';
 import { select } from 'd3-selection';
 import { curveMonotoneX, line } from 'd3-shape';
-import { ViewDimensions } from '../common/view-dimensions.helper';
+export interface ViewDimensions {
+  width: number;
+  height: number;
+  xOffset: number;
+}
 
 @Component({
   selector: 'g[ngx-charts-power-gauge-axis]',

@@ -20,7 +20,7 @@ import {
   transition
 } from '@angular/animations';
 
-import { 
+import {
   NgxChartsModule, BaseChartComponent, LineComponent, LineSeriesComponent,
   calculateViewDimensions, ViewDimensions, ColorHelper
  } from '../../src';

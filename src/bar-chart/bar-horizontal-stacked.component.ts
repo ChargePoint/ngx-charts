@@ -42,6 +42,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [showLabel]="showXAxisLabel"
           [labelText]="xAxisLabel"
           [tickFormatting]="xAxisTickFormatting"
+          [ticks]="xAxisTicks"
           (dimensionsChanged)="updateXAxisHeight($event)">
         </svg:g>
         <svg:g ngx-charts-y-axis
@@ -51,10 +52,12 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [showLabel]="showYAxisLabel"
           [labelText]="yAxisLabel"
           [tickFormatting]="yAxisTickFormatting"
+          [ticks]="yAxisTicks"
+          [yAxisOffset]="dataLabelMaxWidth.negative"
           (dimensionsChanged)="updateYAxisWidth($event)">
         </svg:g>
         <svg:g
-          *ngFor="let group of results; trackBy:trackBy"
+          *ngFor="let group of results; let index = index; trackBy:trackBy"
           [@animationState]="'active'"
           [attr.transform]="groupTransform(group)">
           <svg:g ngx-charts-series-horizontal
@@ -70,9 +73,12 @@ import { BaseChartComponent } from '../common/base-chart.component';
             [tooltipTemplate]="tooltipTemplate"
             [seriesName]="group.name"
             [animations]="animations"
+            [showDataLabel]="showDataLabel"
+            [dataLabelFormatting]="dataLabelFormatting"
             (select)="onClick($event, group)"
             (activate)="onActivate($event, group)"
             (deactivate)="onDeactivate($event, group)"
+            (dataLabelWidthChanged)="onDataLabelMaxWidthChanged($event, index)"
           />
         </svg:g>
       </svg:g>
@@ -111,8 +117,12 @@ export class BarHorizontalStackedComponent extends BaseChartComponent {
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
   @Input() barPadding: string | number  = 8;
+  @Input() xAxisTicks: any[];
+  @Input() yAxisTicks: any[];
   @Input() roundDomains: boolean = false;
   @Input() xScaleMax: number;
+  @Input() showDataLabel: boolean = false;
+  @Input() dataLabelFormatting: any;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
@@ -131,9 +141,16 @@ export class BarHorizontalStackedComponent extends BaseChartComponent {
   xAxisHeight: number = 0;
   yAxisWidth: number = 0;
   legendOptions: any;
+  dataLabelMaxWidth: any = {negative: 0, positive: 0};
 
   update(): void {
     super.update();
+
+    if (!this.showDataLabel) {
+      this.dataLabelMaxWidth = {negative: 0, positive: 0};          
+    }
+
+    this.margin = [10, 20 + this.dataLabelMaxWidth.positive, 10, 20 + this.dataLabelMaxWidth.negative]; 
 
     this.dims = calculateViewDimensions({
       width: this.width,
@@ -192,15 +209,25 @@ export class BarHorizontalStackedComponent extends BaseChartComponent {
 
   getValueDomain(): any[] {
     const domain = [];
-
+    let smallest = 0;
+    let biggest = 0;
     for (const group of this.results) {
-      let sum = 0;
+      let smallestSum = 0;
+      let biggestSum = 0;
       for (const d of group.series) {
-        sum += d.value;
+        if (d.value < 0) {
+          smallestSum += d.value;
+        } else {
+          biggestSum += d.value;
+        }
+        smallest = d.value < smallest ? d.value : smallest;
+        biggest = d.value > biggest ? d.value : biggest;
       }
-
-      domain.push(sum);
+      domain.push(smallestSum);
+      domain.push(biggestSum);
     }
+    domain.push(smallest);
+    domain.push(biggest);
 
     const min = Math.min(0, ...domain);
     const max = this.xScaleMax
@@ -283,6 +310,17 @@ export class BarHorizontalStackedComponent extends BaseChartComponent {
   updateXAxisHeight({ height }): void {
     this.xAxisHeight = height;
     this.update();
+  }
+
+  onDataLabelMaxWidthChanged(event, groupIndex) {                
+    if (event.size.negative)  {
+      this.dataLabelMaxWidth.negative = Math.max(this.dataLabelMaxWidth.negative, event.size.width);
+    } else {
+      this.dataLabelMaxWidth.positive = Math.max(this.dataLabelMaxWidth.positive, event.size.width);
+    }  
+    if (groupIndex === (this.results.length - 1)) {
+      setTimeout(() => this.update());
+    }        
   }
 
   onActivate(event, group?) {
