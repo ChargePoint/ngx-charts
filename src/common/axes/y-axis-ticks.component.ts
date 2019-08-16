@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { trimLabel } from '../trim-label.helper';
 import { reduceTicks } from './ticks.helper';
+import { roundedRect } from '../../common/shape.helper';
 
 @Component({
   selector: 'g[ngx-charts-y-axis-ticks]',
@@ -31,15 +32,45 @@ import { reduceTicks } from './ticks.helper';
         </svg:text>
       </svg:g>
     </svg:g>
+
+    <svg:path *ngIf="referenceLineLength > 1 && refMax && refMin && showRefLines"
+      class="reference-area"
+      [attr.d]="referenceAreaPath"
+      [attr.transform]="gridLineTransform()"
+    />
     <svg:g *ngFor="let tick of ticks"
       [attr.transform]="transform(tick)">
       <svg:g
         *ngIf="showGridLines"
         [attr.transform]="gridLineTransform()">
-        <svg:line
+        <svg:line *ngIf="orient === 'left'"
           class="gridline-path gridline-path-horizontal"
           x1="0"
           [attr.x2]="gridLineWidth" />
+        <svg:line *ngIf="orient === 'right'"
+          class="gridline-path gridline-path-horizontal"
+          x1="0"
+          [attr.x2]="-gridLineWidth" />
+      </svg:g>
+    </svg:g>
+
+    <svg:g *ngFor="let refLine of referenceLines">
+      <svg:g *ngIf="showRefLines" [attr.transform]="transform(refLine.value)">
+        <svg:line class="refline-path gridline-path-horizontal"
+          x1="0"
+          [attr.x2]="gridLineWidth"
+          [attr.transform]="gridLineTransform()"/>
+        <svg:g *ngIf="showRefLabels">
+          <title>{{trimLabel(tickFormat(refLine.value))}}</title>
+          <svg:text
+            class="refline-label"
+            [attr.dy]="dy"
+            [attr.y]="-6"
+            [attr.x]="gridLineWidth"
+            [attr.text-anchor]="textAnchor" >
+            {{refLine.name}}
+          </svg:text>
+        </svg:g>
       </svg:g>
     </svg:g>
   `,
@@ -50,12 +81,15 @@ export class YAxisTicksComponent implements OnChanges, AfterViewInit {
   @Input() scale;
   @Input() orient;
   @Input() tickArguments = [5];
-  @Input() tickValues;
+  @Input() tickValues: any[];
   @Input() tickStroke = '#ccc';
   @Input() tickFormatting;
   @Input() showGridLines = false;
   @Input() gridLineWidth;
   @Input() height;
+  @Input() referenceLines;
+  @Input() showRefLabels: boolean = false;
+  @Input() showRefLines: boolean = false;
 
   @Output() dimensionsChanged = new EventEmitter();
 
@@ -77,6 +111,10 @@ export class YAxisTicksComponent implements OnChanges, AfterViewInit {
   outerTickSize: number = 6;
   rotateLabels: boolean = false;
   trimLabel: any;
+  refMax: number;
+  refMin: number;
+  referenceLineLength: number = 0;
+  referenceAreaPath: string;
 
   @ViewChild('ticksel') ticksElement: ElementRef;
 
@@ -105,7 +143,6 @@ export class YAxisTicksComponent implements OnChanges, AfterViewInit {
 
   update(): void {
     let scale;
-
     const sign = this.orient === 'top' || this.orient === 'right' ? -1 : 1;
     this.tickSpacing = Math.max(this.innerTickSize, 0) + this.tickPadding;
 
@@ -128,6 +165,10 @@ export class YAxisTicksComponent implements OnChanges, AfterViewInit {
     this.adjustedScale = scale.bandwidth ? function(d) {
       return scale(d) + scale.bandwidth() * 0.5;
     } : scale;
+
+    if (this.showRefLines && this.referenceLines) {
+      this.setReferencelines();
+    }
 
     switch (this.orient) {
       case 'top':
@@ -168,21 +209,33 @@ export class YAxisTicksComponent implements OnChanges, AfterViewInit {
         break;
       default:
     }
-
     setTimeout(() => this.updateDims());
   }
 
+  setReferencelines(): void {
+    this.refMin = this.adjustedScale(Math.min.apply(null, this.referenceLines.map(item => item.value)));
+    this.refMax = this.adjustedScale(Math.max.apply(null, this.referenceLines.map(item => item.value)));
+    this.referenceLineLength = this.referenceLines.length;
+
+    this.referenceAreaPath = roundedRect(0, this.refMax, this.gridLineWidth, this.refMin - this.refMax,
+      0, [false, false, false, false]);
+  }
+
   getTicks(): any {
+    let ticks;
     const maxTicks = this.getMaxTicks(20);
     const maxScaleTicks = this.getMaxTicks(50);
 
     if (this.tickValues) {
-      return this.tickValues;
+      ticks = this.tickValues;
+    } else if (this.scale.ticks) {
+      ticks = this.scale.ticks.apply(this.scale, [maxScaleTicks]);
+    } else {
+      ticks = this.scale.domain();
+      ticks = reduceTicks(ticks, maxTicks);
     }
-    if (this.scale.ticks) {
-      return this.scale.ticks.call(this.scale, maxScaleTicks);
-    }
-    return reduceTicks(this.scale.domain(), maxTicks);
+
+    return ticks;
   }
 
   getMaxTicks(tickHeight: number): number {

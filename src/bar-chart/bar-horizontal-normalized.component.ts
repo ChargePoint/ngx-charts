@@ -4,11 +4,12 @@ import {
   Output,
   ViewEncapsulation,
   EventEmitter,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ContentChild,
+  TemplateRef
 } from '@angular/core';
 import {
   trigger,
-  state,
   style,
   animate,
   transition
@@ -28,6 +29,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
       [showLegend]="legend"
       [legendOptions]="legendOptions"
       [activeEntries]="activeEntries"
+      [animations]="animations"
       (legendLabelActivate)="onActivate($event)"
       (legendLabelDeactivate)="onDeactivate($event)"
       (legendLabelClick)="onClick($event)">
@@ -40,6 +42,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [showLabel]="showXAxisLabel"
           [labelText]="xAxisLabel"
           [tickFormatting]="xAxisTickFormatting"
+          [ticks]="xAxisTicks"
           (dimensionsChanged)="updateXAxisHeight($event)">
         </svg:g>
         <svg:g ngx-charts-y-axis
@@ -49,6 +52,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [showLabel]="showYAxisLabel"
           [labelText]="yAxisLabel"
           [tickFormatting]="yAxisTickFormatting"
+          [ticks]="yAxisTicks"
           (dimensionsChanged)="updateYAxisWidth($event)">
         </svg:g>
         <svg:g
@@ -65,7 +69,9 @@ import { BaseChartComponent } from '../common/base-chart.component';
             [dims]="dims"
             [gradient]="gradient"
             [tooltipDisabled]="tooltipDisabled"
+            [tooltipTemplate]="tooltipTemplate"
             [seriesName]="group.name"
+            [animations]="animations"
             (select)="onClick($event, group)"
             (activate)="onActivate($event, group)"
             (deactivate)="onDeactivate($event, group)"
@@ -79,7 +85,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
   encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('animationState', [
-      transition('* => void', [
+      transition(':leave', [
         style({
           opacity: 1,
           transform: '*',
@@ -93,6 +99,7 @@ export class BarHorizontalNormalizedComponent extends BaseChartComponent {
 
   @Input() legend = false;
   @Input() legendTitle: string = 'Legend';
+  @Input() legendPosition: string = 'right';
   @Input() xAxis;
   @Input() yAxis;
   @Input() showXAxisLabel;
@@ -107,10 +114,14 @@ export class BarHorizontalNormalizedComponent extends BaseChartComponent {
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
   @Input() barPadding: string | number  = 8;
+  @Input() xAxisTicks: any[];
+  @Input() yAxisTicks: any[];
   @Input() roundDomains: boolean = false;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
+
+  @ContentChild('tooltipTemplate') tooltipTemplate: TemplateRef<any>;
 
   dims: ViewDimensions;
   groupDomain: any[];
@@ -139,7 +150,8 @@ export class BarHorizontalNormalizedComponent extends BaseChartComponent {
       showXLabel: this.showXAxisLabel,
       showYLabel: this.showYAxisLabel,
       showLegend: this.legend,
-      legendType: this.schemeType
+      legendType: this.schemeType,
+      legendPosition: this.legendPosition
     });
 
     this.formatDates();
@@ -239,7 +251,8 @@ export class BarHorizontalNormalizedComponent extends BaseChartComponent {
       scaleType: this.schemeType,
       colors: undefined,
       domain: [],
-      title: undefined
+      title: undefined,
+      position: this.legendPosition
     };
     if (opts.scaleType === 'ordinal') {
       opts.domain = this.innerDomain;

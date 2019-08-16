@@ -27,36 +27,6 @@ app {
   height: 100%;
 }
 
-button {
-  display: inline-block;
-  font-weight: 500;
-  font-size: 0.9vw;
-  background: #479eff;
-  color: #fff;
-  height: 30px;
-  text-align: center;
-  line-height: 30px;
-  text-transform: uppercase;
-  padding: 0 15px;
-  border-radius: 1px;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  border: none;
-  outline: none;
-
-  &:hover {
-    outline: none;
-    background: #1483ff;
-  }
-
-  &:focus,
-  &:active {
-    outline: none;
-    background: #097dff;
-  }
-}
-
 .arrow-down {
   width: 0;
   height: 0;
@@ -205,7 +175,7 @@ main {
    */
   $color-text-dark: #72809b;
   $color-text-med-dark: #919db5;
-  $color-text-med: #a8b2c7;
+  $color-text-med: #A0AABE;
   $color-text-med-light: #d9dce1;
   $color-text-light: #f0f1f6;
   $color-text-lighter: #fff;
@@ -224,6 +194,14 @@ main {
 
     .gridline-path {
       stroke: $color-bg-med;
+    }
+
+    .refline-path {
+      stroke: $color-bg-light;
+    }
+
+    .reference-area {
+      fill: #fff;
     }
 
     .grid-panel {

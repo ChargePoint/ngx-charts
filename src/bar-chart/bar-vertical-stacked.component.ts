@@ -4,11 +4,12 @@ import {
   Output,
   EventEmitter,
   ViewEncapsulation,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ContentChild,
+  TemplateRef
 } from '@angular/core';
 import {
   trigger,
-  state,
   style,
   animate,
   transition
@@ -27,6 +28,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
       [showLegend]="legend"
       [legendOptions]="legendOptions"
       [activeEntries]="activeEntries"
+      [animations]="animations"
       (legendLabelActivate)="onActivate($event)"
       (legendLabelDeactivate)="onDeactivate($event)"
       (legendLabelClick)="onClick($event)">
@@ -38,6 +40,8 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [showLabel]="showXAxisLabel"
           [labelText]="xAxisLabel"
           [tickFormatting]="xAxisTickFormatting"
+          [ticks]="xAxisTicks"
+          [xAxisOffset]="dataLabelMaxHeight.negative"
           (dimensionsChanged)="updateXAxisHeight($event)">
         </svg:g>
         <svg:g ngx-charts-y-axis
@@ -48,10 +52,11 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [showLabel]="showYAxisLabel"
           [labelText]="yAxisLabel"
           [tickFormatting]="yAxisTickFormatting"
+          [ticks]="yAxisTicks"
           (dimensionsChanged)="updateYAxisWidth($event)">
         </svg:g>
         <svg:g
-          *ngFor="let group of results; trackBy:trackBy"
+          *ngFor="let group of results; let index = index; trackBy:trackBy"
           [@animationState]="'active'"
           [attr.transform]="groupTransform(group)">
           <svg:g ngx-charts-series-vertical
@@ -64,10 +69,15 @@ import { BaseChartComponent } from '../common/base-chart.component';
             [dims]="dims"
             [gradient]="gradient"
             [tooltipDisabled]="tooltipDisabled"
+            [tooltipTemplate]="tooltipTemplate"
+            [showDataLabel]="showDataLabel"
+            [dataLabelFormatting]="dataLabelFormatting"
             [seriesName]="group.name"
+            [animations]="animations"
             (select)="onClick($event, group)"
             (activate)="onActivate($event, group)"
             (deactivate)="onDeactivate($event, group)"
+            (dataLabelHeightChanged)="onDataLabelMaxHeightChanged($event, index)"
           />
         </svg:g>
       </svg:g>
@@ -78,7 +88,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('animationState', [
-      transition('* => void', [
+      transition(':leave', [
         style({
           opacity: 1,
           transform: '*',
@@ -92,6 +102,7 @@ export class BarVerticalStackedComponent extends BaseChartComponent {
 
   @Input() legend = false;
   @Input() legendTitle: string = 'Legend';
+  @Input() legendPosition: string = 'right';
   @Input() xAxis;
   @Input() yAxis;
   @Input() showXAxisLabel;
@@ -106,10 +117,17 @@ export class BarVerticalStackedComponent extends BaseChartComponent {
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
   @Input() barPadding: string | number  = 8;
+  @Input() xAxisTicks: any[];
+  @Input() yAxisTicks: any[];
   @Input() roundDomains: boolean = false;
+  @Input() yScaleMax: number;
+  @Input() showDataLabel: boolean = false;
+  @Input() dataLabelFormatting: any;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
+
+  @ContentChild('tooltipTemplate') tooltipTemplate: TemplateRef<any>;
 
   dims: ViewDimensions;
   groupDomain: any[];
@@ -124,9 +142,15 @@ export class BarVerticalStackedComponent extends BaseChartComponent {
   xAxisHeight: number = 0;
   yAxisWidth: number = 0;
   legendOptions: any;
+  dataLabelMaxHeight: any = {negative: 0, positive: 0};
 
   update(): void {
     super.update();
+
+    if (!this.showDataLabel) {
+      this.dataLabelMaxHeight = {negative: 0, positive: 0};          
+    }
+    this.margin = [10 + this.dataLabelMaxHeight.positive, 20, 10 + this.dataLabelMaxHeight.negative, 20]; 
 
     this.dims = calculateViewDimensions({
       width: this.width,
@@ -139,8 +163,13 @@ export class BarVerticalStackedComponent extends BaseChartComponent {
       showXLabel: this.showXAxisLabel,
       showYLabel: this.showYAxisLabel,
       showLegend: this.legend,
-      legendType: this.schemeType
+      legendType: this.schemeType,
+      legendPosition: this.legendPosition
     });
+
+    if (this.showDataLabel) {
+      this.dims.height -= this.dataLabelMaxHeight.negative;    
+    }
 
     this.formatDates();
 
@@ -154,7 +183,7 @@ export class BarVerticalStackedComponent extends BaseChartComponent {
     this.setColors();
     this.legendOptions = this.getLegendOptions();
 
-    this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] })`;
+    this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] + this.dataLabelMaxHeight.negative})`;
   }
 
   getGroupDomain() {
@@ -164,7 +193,6 @@ export class BarVerticalStackedComponent extends BaseChartComponent {
         domain.push(group.name);
       }
     }
-
     return domain;
   }
 
@@ -177,23 +205,35 @@ export class BarVerticalStackedComponent extends BaseChartComponent {
         }
       }
     }
-
     return domain;
   }
 
   getValueDomain() {
     const domain = [];
+    let smallest = 0;
+    let biggest = 0;
     for (const group of this.results) {
-      let sum = 0;
+      let smallestSum = 0;
+      let biggestSum = 0;
       for (const d of group.series) {
-        sum += d.value;
+        if (d.value < 0) {
+          smallestSum += d.value;
+        } else {
+          biggestSum += d.value;
+        }
+        smallest = d.value < smallest ? d.value : smallest;
+        biggest = d.value > biggest ? d.value : biggest;
       }
-
-      domain.push(sum);
+      domain.push(smallestSum);
+      domain.push(biggestSum);
     }
+    domain.push(smallest);
+    domain.push(biggest);
 
     const min = Math.min(0, ...domain);
-    const max = Math.max(...domain);
+    const max = this.yScaleMax
+      ? Math.max(this.yScaleMax, ...domain)
+      : Math.max(...domain);
     return [min, max];
   }
 
@@ -215,6 +255,17 @@ export class BarVerticalStackedComponent extends BaseChartComponent {
       .range([this.dims.height, 0])
       .domain(this.valueDomain);
     return this.roundDomains ? scale.nice() : scale;
+  }
+
+  onDataLabelMaxHeightChanged(event, groupIndex) {                   
+    if (event.size.negative)  {
+      this.dataLabelMaxHeight.negative = Math.max(this.dataLabelMaxHeight.negative, event.size.height);
+    } else {
+      this.dataLabelMaxHeight.positive = Math.max(this.dataLabelMaxHeight.positive, event.size.height);              
+    }  
+    if (groupIndex === (this.results.length - 1)) {
+      setTimeout(() => this.update());
+    }
   }
 
   groupTransform(group) {
@@ -249,7 +300,8 @@ export class BarVerticalStackedComponent extends BaseChartComponent {
       scaleType: this.schemeType,
       colors: undefined,
       domain: [],
-      title: undefined
+      title: undefined,
+      position: this.legendPosition
     };
     if (opts.scaleType === 'ordinal') {
       opts.domain = this.innerDomain;

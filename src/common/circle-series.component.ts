@@ -5,42 +5,42 @@ import {
   SimpleChanges,
   EventEmitter,
   OnChanges,
+  OnInit,
   ChangeDetectionStrategy,
+  TemplateRef
 } from '@angular/core';
 import {
   trigger,
-  state,
   style,
   animate,
   transition
 } from '@angular/animations';
-import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { formatLabel } from '../common/label.helper';
 import { id } from '../utils/id';
+import { ColorHelper } from '../common/color.helper';
 
 @Component({
   selector: 'g[ngx-charts-circle-series]',
   template: `
-    <svg:g *ngFor="let circle of circles">
+    <svg:g *ngIf="circle">
       <defs>
         <svg:g ngx-charts-svg-linear-gradient
           orientation="vertical"
-          [name]="circle.gradientId"
+          [name]="gradientId"
           [stops]="circle.gradientStops"
         />
       </defs>
       <svg:rect
-        *ngIf="circle.barVisible && type === 'standard'"
+        *ngIf="barVisible && type === 'standard'"
         [@animationState]="'active'"
         [attr.x]="circle.cx - circle.radius"
         [attr.y]="circle.cy"
         [attr.width]="circle.radius * 2"
         [attr.height]="circle.height"
-        [attr.fill]="circle.gradientFill"
+        [attr.fill]="gradientFill"
         class="tooltip-bar"
       />
       <svg:g ngx-charts-circle
-        *ngIf="isVisible(circle)"
         class="circle"
         [cx]="circle.cx"
         [cy]="circle.cy"
@@ -51,20 +51,22 @@ import { id } from '../utils/id';
         [data]="circle.value"
         [classNames]="circle.classNames"
         (select)="onClick($event, circle.label)"
-        (activate)="activateCircle(circle)"
-        (deactivate)="deactivateCircle(circle)"
+        (activate)="activateCircle()"
+        (deactivate)="deactivateCircle()"
         ngx-tooltip
         [tooltipDisabled]="tooltipDisabled"
         [tooltipPlacement]="'top'"
         [tooltipType]="'tooltip'"
-        [tooltipTitle]="getTooltipText(circle)"
+        [tooltipTitle]="tooltipTemplate ? undefined : getTooltipText(circle)"
+        [tooltipTemplate]="tooltipTemplate"
+        [tooltipContext]="circle.data"
       />
     </svg:g>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('animationState', [
-      transition('void => *', [
+      transition(':enter', [
         style({
           opacity: 0,
         }),
@@ -73,26 +75,32 @@ import { id } from '../utils/id';
     ])
   ]
 })
-export class CircleSeriesComponent implements OnChanges {
+export class CircleSeriesComponent implements OnChanges, OnInit {
 
   @Input() data;
   @Input() type = 'standard';
   @Input() xScale;
   @Input() yScale;
-  @Input() colors;
+  @Input() colors: ColorHelper;
   @Input() scaleType;
   @Input() visibleValue;
   @Input() activeEntries: any[];
   @Input() tooltipDisabled: boolean = false;
+  @Input() tooltipTemplate: TemplateRef<any>;
 
   @Output() select = new EventEmitter();
   @Output() activate = new EventEmitter();
   @Output() deactivate = new EventEmitter();
 
   areaPath: any;
-  circles: any[];
+  circle: any; // active circle
+  barVisible: boolean = false;
+  gradientId: string;
+  gradientFill: string;
 
-  constructor(private location: LocationStrategy) {
+  ngOnInit() {
+    this.gradientId = 'grad' + id().toString();
+    this.gradientFill = `url(#${this.gradientId})`;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -100,75 +108,78 @@ export class CircleSeriesComponent implements OnChanges {
   }
 
   update(): void {
-    this.circles = this.getCircles();
+    this.circle = this.getActiveCircle();
   }
 
-  getCircles(): any[] {
+  getActiveCircle(): {} {
+    const indexActiveDataPoint = this.data.series.findIndex((d) => {
+      const label = d.name;
+      return label && this.visibleValue && label.toString() === this.visibleValue.toString() && d.value !== undefined;
+    });
+
+    if (indexActiveDataPoint === -1) {
+      // No valid point is 'active/hovered over' at this moment.
+      return undefined;
+    }
+
+    return this.mapDataPointToCircle(this.data.series[indexActiveDataPoint], indexActiveDataPoint);
+  }
+
+  mapDataPointToCircle(d: any, i: number): any {
     const seriesName = this.data.name;
 
-    const pageUrl = this.location instanceof PathLocationStrategy
-      ? this.location.path()
-      : '';
+    const value = d.value;
+    const label = d.name;
+    const tooltipLabel = formatLabel(label);
 
-    return this.data.series.map((d, i) => {
-      const value = d.value;
-      const label = d.name;
-      const tooltipLabel = formatLabel(label);
+    let cx;
+    if (this.scaleType === 'time') {
+      cx = this.xScale(label);
+    } else if (this.scaleType === 'linear') {
+      cx = this.xScale(Number(label));
+    } else {
+      cx = this.xScale(label);
+    }
 
-      if (value) {
-        let cx;
-        if (this.scaleType === 'time') {
-          cx = this.xScale(label);
-        } else if (this.scaleType === 'linear') {
-          cx = this.xScale(Number(label));
-        } else {
-          cx = this.xScale(label);
-        }
+    const cy = this.yScale(this.type === 'standard' ? value : d.d1);
+    const radius = 5;
+    const height = this.yScale.range()[0] - cy;
+    const opacity = 1;
 
-        const cy = this.yScale(this.type === 'standard' ? value : d.d1);
-        const radius = 5;
-        const height = this.yScale.range()[0] - cy;
-
-        let opacity = 0;
-        if (label && this.visibleValue && label.toString() === this.visibleValue.toString()) {
-          opacity = 1;
-        }
-
-        const gradientId = 'grad' + id().toString();
-        const gradientFill = `url(${pageUrl}#${gradientId})`;
-
-        let color;
-        if (this.colors.scaleType === 'linear') {
-          if (this.type === 'standard') {
-            color = this.colors.getColor(value);
-          } else {
-            color = this.colors.getColor(d.d1);
-          }
-        } else {
-          color = this.colors.getColor(seriesName);
-        }
-
-        return {
-          classNames: [`circle-data-${i}`],
-          value,
-          label,
-          cx,
-          cy,
-          radius,
-          height,
-          tooltipLabel,
-          color,
-          opacity,
-          seriesName,
-          barVisible: false,
-          gradientId,
-          gradientFill,
-          gradientStops: this.getGradientStops(color),
-          min: d.min,
-          max: d.max
-        };
+    let color;
+    if (this.colors.scaleType === 'linear') {
+      if (this.type === 'standard') {
+        color = this.colors.getColor(value);
+      } else {
+        color = this.colors.getColor(d.d1);
       }
-    }).filter((circle) => circle !== undefined);
+    } else {
+      color = this.colors.getColor(seriesName);
+    }
+
+    const data = {
+      series: seriesName,
+      value,
+      name: label
+    };
+
+    return {
+      classNames: [`circle-data-${i}`],
+      value,
+      label,
+      data,
+      cx,
+      cy,
+      radius,
+      height,
+      tooltipLabel,
+      color,
+      opacity,
+      seriesName,
+      gradientStops: this.getGradientStops(color),
+      min: d.min,
+      max: d.max
+    };
   }
 
   getTooltipText({ tooltipLabel, value, seriesName, min, max}): string {
@@ -231,21 +242,14 @@ export class CircleSeriesComponent implements OnChanges {
     return item !== undefined;
   }
 
-  isVisible(circle): boolean {
-    if (this.activeEntries.length > 0) {
-      return this.isActive({name: circle.seriesName});
-    }
-
-    return circle.opacity !== 0;
-  }
-
-  activateCircle(circle): void {
-    circle.barVisible = true;
+  activateCircle(): void {
+    this.barVisible = true;
     this.activate.emit({name: this.data.name});
   }
 
-  deactivateCircle(circle): void {
-    circle.barVisible = false;
+  deactivateCircle(): void {
+    this.barVisible = false;
+    this.circle.opacity = 0;
     this.deactivate.emit({name: this.data.name});
   }
 

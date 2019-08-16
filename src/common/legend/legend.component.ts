@@ -1,19 +1,19 @@
 import {
   Component, Input, ChangeDetectionStrategy, Output, EventEmitter,
-  SimpleChanges, OnChanges, ChangeDetectorRef, NgZone, ViewEncapsulation
+  SimpleChanges, OnChanges, ChangeDetectorRef, ViewEncapsulation
  } from '@angular/core';
- import { formatLabel } from '../label.helper';
+import { formatLabel } from '../label.helper';
 
 @Component({
   selector: 'ngx-charts-legend',
   template: `
     <div [style.width.px]="width">
-      <header class="legend-title">
-        <span class="legend-icon icon-eye"></span>
+      <header class="legend-title" *ngIf="title?.length > 0">
         <span class="legend-title-text">{{title}}</span>
       </header>
       <div class="legend-wrap">
         <ul class="legend-labels"
+            [class.horizontal-legend]="horizontal"
           [style.max-height.px]="height - 45">
           <li
             *ngFor="let entry of legendEntries; trackBy: trackBy"
@@ -44,6 +44,7 @@ export class LegendComponent implements OnChanges {
   @Input() height;
   @Input() width;
   @Input() activeEntries;
+  @Input() horizontal = false;
 
   @Output() labelClick: EventEmitter<any> = new EventEmitter();
   @Output() labelActivate: EventEmitter<any> = new EventEmitter();
@@ -51,7 +52,7 @@ export class LegendComponent implements OnChanges {
 
   legendEntries: any[] = [];
 
-  constructor(private cd: ChangeDetectorRef, private zone: NgZone) { }
+  constructor(private cd: ChangeDetectorRef) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.update();

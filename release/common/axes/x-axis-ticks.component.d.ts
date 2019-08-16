@@ -3,6 +3,7 @@ export declare class XAxisTicksComponent implements OnChanges, AfterViewInit {
     scale: any;
     orient: any;
     tickArguments: number[];
+    tickValues: any[];
     tickStroke: string;
     tickFormatting: any;
     showTicks: boolean[];

@@ -1,4 +1,4 @@
-import { EventEmitter, ViewContainerRef, ElementRef, Renderer, OnDestroy, NgZone } from '@angular/core';
+import { EventEmitter, ViewContainerRef, Renderer2, OnDestroy } from '@angular/core';
 import { PlacementTypes } from './position';
 import { StyleTypes } from './style.type';
 import { AlignmentTypes } from './alignment.type';
@@ -8,8 +8,6 @@ export declare class TooltipDirective implements OnDestroy {
     private tooltipService;
     private viewContainerRef;
     private renderer;
-    private element;
-    private zone;
     tooltipCssClass: string;
     tooltipTitle: string;
     tooltipAppendToBody: boolean;
@@ -26,6 +24,7 @@ export declare class TooltipDirective implements OnDestroy {
     tooltipTemplate: any;
     tooltipShowEvent: ShowTypes;
     tooltipContext: any;
+    tooltipImmediateExit: boolean;
     show: EventEmitter<{}>;
     hide: EventEmitter<{}>;
     private readonly listensForFocus;
@@ -35,7 +34,7 @@ export declare class TooltipDirective implements OnDestroy {
     private mouseLeaveContentEvent;
     private mouseEnterContentEvent;
     private documentClickEvent;
-    constructor(tooltipService: TooltipService, viewContainerRef: ViewContainerRef, renderer: Renderer, element: ElementRef, zone: NgZone);
+    constructor(tooltipService: TooltipService, viewContainerRef: ViewContainerRef, renderer: Renderer2);
     ngOnDestroy(): void;
     onFocus(): void;
     onBlur(): void;
@@ -45,5 +44,5 @@ export declare class TooltipDirective implements OnDestroy {
     showTooltip(immediate?: boolean): void;
     addHideListeners(tooltip: any): void;
     hideTooltip(immediate?: boolean): void;
-    private createBoundOptions();
+    private createBoundOptions;
 }

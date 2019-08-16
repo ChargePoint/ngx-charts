@@ -1,10 +1,11 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, TemplateRef } from '@angular/core';
 import { ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 import { BaseChartComponent } from '../common/base-chart.component';
 export declare class BarVerticalStackedComponent extends BaseChartComponent {
     legend: boolean;
     legendTitle: string;
+    legendPosition: string;
     xAxis: any;
     yAxis: any;
     showXAxisLabel: any;
@@ -18,10 +19,20 @@ export declare class BarVerticalStackedComponent extends BaseChartComponent {
     schemeType: string;
     xAxisTickFormatting: any;
     yAxisTickFormatting: any;
+<<<<<<< HEAD
     barPadding: string | number;
+=======
+    xAxisTicks: any[];
+    yAxisTicks: any[];
+    barPadding: number;
+>>>>>>> tags/10.0.0
     roundDomains: boolean;
+    yScaleMax: number;
+    showDataLabel: boolean;
+    dataLabelFormatting: any;
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;
+    tooltipTemplate: TemplateRef<any>;
     dims: ViewDimensions;
     groupDomain: any[];
     innerDomain: any[];
@@ -35,12 +46,14 @@ export declare class BarVerticalStackedComponent extends BaseChartComponent {
     xAxisHeight: number;
     yAxisWidth: number;
     legendOptions: any;
+    dataLabelMaxHeight: any;
     update(): void;
     getGroupDomain(): any[];
     getInnerDomain(): any[];
     getValueDomain(): number[];
     getXScale(): any;
     getYScale(): any;
+    onDataLabelMaxHeightChanged(event: any, groupIndex: any): void;
     groupTransform(group: any): string;
     onClick(data: any, group?: any): void;
     trackBy(index: any, item: any): any;
@@ -50,11 +63,12 @@ export declare class BarVerticalStackedComponent extends BaseChartComponent {
         colors: any;
         domain: any[];
         title: any;
+        position: string;
     };
-    updateYAxisWidth({width}: {
+    updateYAxisWidth({ width }: {
         width: any;
     }): void;
-    updateXAxisHeight({height}: {
+    updateXAxisHeight({ height }: {
         height: any;
     }): void;
     onActivate(event: any, group?: any): void;

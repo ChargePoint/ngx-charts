@@ -1,13 +1,15 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, TemplateRef } from '@angular/core';
 import { ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 import { BaseChartComponent } from '../common/base-chart.component';
 export declare class AreaChartComponent extends BaseChartComponent {
     legend: any;
     legendTitle: string;
+    legendPosition: string;
     state: any;
     xAxis: any;
     yAxis: any;
+    baseValue: any;
     autoScale: any;
     showXAxisLabel: any;
     showYAxisLabel: any;
@@ -21,10 +23,18 @@ export declare class AreaChartComponent extends BaseChartComponent {
     schemeType: string;
     xAxisTickFormatting: any;
     yAxisTickFormatting: any;
+    xAxisTicks: any[];
+    yAxisTicks: any[];
     roundDomains: boolean;
     tooltipDisabled: boolean;
+    xScaleMin: any;
+    xScaleMax: any;
+    yScaleMin: number;
+    yScaleMax: number;
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;
+    tooltipTemplate: TemplateRef<any>;
+    seriesTooltipTemplate: TemplateRef<any>;
     dims: ViewDimensions;
     xSet: any;
     xDomain: any;
@@ -71,11 +81,12 @@ export declare class AreaChartComponent extends BaseChartComponent {
         colors: any;
         domain: any[];
         title: any;
+        position: string;
     };
-    updateYAxisWidth({width}: {
+    updateYAxisWidth({ width }: {
         width: any;
     }): void;
-    updateXAxisHeight({height}: {
+    updateXAxisHeight({ height }: {
         height: any;
     }): void;
     onActivate(item: any): void;

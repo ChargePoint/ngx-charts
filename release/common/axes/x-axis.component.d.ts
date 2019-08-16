@@ -8,10 +8,15 @@ export declare class XAxisComponent implements OnChanges {
     showGridLines: boolean;
     showLabel: any;
     labelText: any;
+    ticks: any[];
     xAxisTickInterval: any;
     xAxisTickLabels: string[];
     xAxisTickCount: any;
     xOrient: string;
+<<<<<<< HEAD
+=======
+    xAxisOffset: number;
+>>>>>>> tags/10.0.0
     dimensionsChanged: EventEmitter<{}>;
     xAxisClassName: string;
     tickArguments: any;
@@ -21,11 +26,11 @@ export declare class XAxisComponent implements OnChanges {
     stroke: string;
     tickStroke: string;
     strokeWidth: string;
-    xAxisOffset: number;
+    padding: number;
     ticksComponent: XAxisTicksComponent;
     ngOnChanges(changes: SimpleChanges): void;
     update(): void;
-    emitTicksHeight({height}: {
+    emitTicksHeight({ height }: {
         height: any;
     }): void;
 }

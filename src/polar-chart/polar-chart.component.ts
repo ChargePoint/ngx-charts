@@ -4,21 +4,24 @@ import {
   Output,
   EventEmitter,
   ViewEncapsulation,
-  HostListener,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ContentChild,
+  TemplateRef
 } from '@angular/core';
-import { PathLocationStrategy } from '@angular/common';
+import {
+  trigger,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
 import { scaleLinear, scaleTime, scalePoint } from 'd3-scale';
-import { curveLinear, curveLinearClosed, curveCardinalClosed } from 'd3-shape';
+import { curveCardinalClosed } from 'd3-shape';
 
 import { calculateViewDimensions, ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 import { BaseChartComponent } from '../common/base-chart.component';
-import { PieLabelComponent } from '../pie-chart/pie-label.component';
-
-import { id } from '../utils/id';
-import { isDate, isNumber } from '../utils/types';
-import { reduceTicks } from '../common/axes/ticks.helper';
+import { getScaleType } from '../common/domain.helper';
+import { isDate } from '../utils/types';
 
 const twoPI = 2 * Math.PI;
 
@@ -30,6 +33,7 @@ const twoPI = 2 * Math.PI;
       [showLegend]="legend"
       [legendOptions]="legendOptions"
       [activeEntries]="activeEntries"
+      [animations]="animations"
       (legendLabelClick)="onClick($event)"
       (legendLabelActivate)="onActivate($event)"
       (legendLabelDeactivate)="onDeactivate($event)">
@@ -54,7 +58,10 @@ const twoPI = 2 * Math.PI;
               [label]="tick.label"
               [max]="outerRadius"
               [value]="showGridLines ? 1 : outerRadius"
-              [explodeSlices]="true">
+              [explodeSlices]="true"
+              [animations]="animations"
+              [labelTrim]="labelTrim"
+              [labelTrimSize]="labelTrimSize">
             </svg:g>
           </svg:g>
         </svg:g>
@@ -78,7 +85,7 @@ const twoPI = 2 * Math.PI;
           [width]="dims.width">
         </svg:g>
         <svg:g [attr.transform]="transformPlot">
-          <svg:g *ngFor="let series of results; trackBy: series?.name">
+          <svg:g *ngFor="let series of results; trackBy:trackBy" [@animationState]="'active'">
             <svg:g ngx-charts-polar-series
               [gradient]="gradient"
               [xScale]="xScale"
@@ -89,7 +96,9 @@ const twoPI = 2 * Math.PI;
               [scaleType]="scaleType"
               [curve]="curve"
               [rangeFillOpacity]="rangeFillOpacity"
+              [animations]="animations"
               [tooltipDisabled]="tooltipDisabled"
+              [tooltipTemplate]="tooltipTemplate"
             />
           </svg:g>
         </svg:g>
@@ -102,11 +111,24 @@ const twoPI = 2 * Math.PI;
     './polar-chart.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('animationState', [
+      transition(':leave', [
+        style({
+          opacity: 1,
+        }),
+        animate(500, style({
+          opacity: 0
+        }))
+      ])
+    ])
+  ]
 })
 export class PolarChartComponent extends BaseChartComponent {
 
   @Input() legend: boolean;
   @Input() legendTitle: string = 'Legend';
+  @Input() legendPosition: string = 'right';
   @Input() xAxis: boolean;
   @Input() yAxis: boolean;
   @Input() showXAxisLabel: boolean;
@@ -125,9 +147,14 @@ export class PolarChartComponent extends BaseChartComponent {
   @Input() tooltipDisabled: boolean = false;
   @Input() showSeriesOnHover: boolean = true;
   @Input() gradient: boolean = false;
+  @Input() yAxisMinScale: number = 0;
+  @Input() labelTrim: boolean = true;
+  @Input() labelTrimSize: number = 10;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
+
+  @ContentChild('tooltipTemplate') tooltipTemplate: TemplateRef<any>;
 
   dims: ViewDimensions;
   yAxisDims: ViewDimensions;
@@ -137,7 +164,7 @@ export class PolarChartComponent extends BaseChartComponent {
   seriesDomain: any;
   yScale: any;  // -> rScale
   xScale: any;  // -> tScale
-  yAxisScale; any; // -> yScale
+  yAxisScale: any; // -> yScale
   colors: ColorHelper;
   scaleType: string;
   transform: string;
@@ -177,7 +204,8 @@ export class PolarChartComponent extends BaseChartComponent {
       showXLabel: this.showXAxisLabel,
       showYLabel: this.showYAxisLabel,
       showLegend: this.legend,
-      legendType: this.schemeType
+      legendType: this.schemeType,
+      legendPosition: this.legendPosition
     });
 
     const halfWidth = ~~(this.dims.width / 2);
@@ -200,7 +228,7 @@ export class PolarChartComponent extends BaseChartComponent {
 
   setScales() {
     const xValues = this.getXValues();
-    this.scaleType = this.getScaleType(xValues);
+    this.scaleType = getScaleType(xValues);
     this.xDomain = this.filteredDomain || this.getXDomain(xValues);
 
     this.yDomain = this.getYDomain();
@@ -276,7 +304,7 @@ export class PolarChartComponent extends BaseChartComponent {
   getXValues(): any[] {
     const values = [];
     for (const results of this.results) {
-      for (const d of results.series){
+      for (const d of results.series) {
         if (!values.includes(d.name)) {
           values.push(d.name);
         }
@@ -303,7 +331,7 @@ export class PolarChartComponent extends BaseChartComponent {
     const domain = [];
 
     for (const results of this.results) {
-      for (const d of results.series){
+      for (const d of results.series) {
         if (domain.indexOf(d.value) < 0) {
           domain.push(d.value);
         }
@@ -324,7 +352,7 @@ export class PolarChartComponent extends BaseChartComponent {
 
   getYDomain(domain = this.getYValues()): any[] {
     let min = Math.min(...domain);
-    const max = Math.max(...domain);
+    const max = Math.max(this.yAxisMinScale, ...domain);
 
     min = Math.max(0, min);
     if (!this.autoScale) {
@@ -365,25 +393,6 @@ export class PolarChartComponent extends BaseChartComponent {
     return this.roundDomains ? scale.nice() : scale;
   }
 
-  getScaleType(values): string {
-    let date = true;
-    let num = true;
-
-    for (const value of values) {
-      if (!isDate(value)) {
-        date = false;
-      }
-
-      if (!isNumber(value)) {
-        num = false;
-      }
-    }
-
-    if (date) return 'time';
-    if (num) return 'linear';
-    return 'ordinal';
-  }
-
   onClick(data, series?): void {
     if (series) {
       data.series = series.name;
@@ -405,14 +414,16 @@ export class PolarChartComponent extends BaseChartComponent {
         scaleType: this.schemeType,
         colors: this.colors,
         domain: this.seriesDomain,
-        title: this.legendTitle
+        title: this.legendTitle,
+        position: this.legendPosition
       };
     }
     return {
       scaleType: this.schemeType,
       colors: this.colors.scale,
       domain: this.yDomain,
-      title: undefined
+      title: undefined,
+      position: this.legendPosition
     };
   }
 
@@ -454,5 +465,9 @@ export class PolarChartComponent extends BaseChartComponent {
       this.deactivate.emit({ value: entry, entries: [] });
     }
     this.activeEntries = [];
+  }
+
+  trackBy(index, item) {
+    return item.name;
   }
 }

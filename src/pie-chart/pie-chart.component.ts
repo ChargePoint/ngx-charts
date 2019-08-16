@@ -4,7 +4,9 @@ import {
   Output,
   ViewEncapsulation,
   EventEmitter,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ContentChild,
+  TemplateRef
 } from '@angular/core';
 import { calculateViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
@@ -18,22 +20,28 @@ import { BaseChartComponent } from '../common/base-chart.component';
       [showLegend]="legend"
       [legendOptions]="legendOptions"
       [activeEntries]="activeEntries"
+      [animations]="animations"
       (legendLabelActivate)="onActivate($event)"
       (legendLabelDeactivate)="onDeactivate($event)"
       (legendLabelClick)="onClick($event)">
       <svg:g [attr.transform]="translation" class="pie-chart chart">
         <svg:g ngx-charts-pie-series
           [colors]="colors"
+          [series]="data"
           [showLabels]="labels"
           [labelFormatting]="labelFormatting"
-          [series]="data"
+          [trimLabels]="trimLabels"
+          [maxLabelLength]="maxLabelLength"
           [activeEntries]="activeEntries"
           [innerRadius]="innerRadius"
           [outerRadius]="outerRadius"
           [explodeSlices]="explodeSlices"
           [gradient]="gradient"
+          [animations]="animations"
           [tooltipDisabled]="tooltipDisabled"
+          [tooltipTemplate]="tooltipTemplate"
           [tooltipText]="tooltipText"
+          (dblclick)="dblclick.emit($event)"
           (select)="onClick($event)"
           (activate)="onActivate($event)"
           (deactivate)="onDeactivate($event)"
@@ -53,6 +61,7 @@ export class PieChartComponent extends BaseChartComponent {
   @Input() labels = false;
   @Input() legend = false;
   @Input() legendTitle: string = 'Legend';
+  @Input() legendPosition: string = 'right';
   @Input() explodeSlices = false;
   @Input() doughnut = false;
   @Input() arcWidth = 0.25;
@@ -60,11 +69,16 @@ export class PieChartComponent extends BaseChartComponent {
   @Input() activeEntries: any[] = [];
   @Input() tooltipDisabled: boolean = false;
   @Input() labelFormatting: any;
+  @Input() trimLabels: boolean = true;
+  @Input() maxLabelLength: number = 10;
   @Input() tooltipText: any;
 
+  @Output() dblclick = new EventEmitter();
   @Output() select = new EventEmitter();
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
+
+  @ContentChild('tooltipTemplate') tooltipTemplate: TemplateRef<any>;
 
   translation: string;
   outerRadius: number;
@@ -88,6 +102,7 @@ export class PieChartComponent extends BaseChartComponent {
       height: this.height,
       margins: this.margin,
       showLegend: this.legend,
+      legendPosition: this.legendPosition
     });
 
     const xOffset = this.margin[3] + this.dims.width / 2;
@@ -148,7 +163,8 @@ export class PieChartComponent extends BaseChartComponent {
       scaleType: 'ordinal',
       domain: this.domain,
       colors: this.colors,
-      title: this.legendTitle
+      title: this.legendTitle,
+      position: this.legendPosition
     };
   }
 

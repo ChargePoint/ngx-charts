@@ -3,6 +3,7 @@ export declare class AreaSeriesComponent implements OnChanges {
     data: any;
     xScale: any;
     yScale: any;
+    baseValue: any;
     colors: any;
     scaleType: any;
     stacked: boolean;
@@ -10,6 +11,7 @@ export declare class AreaSeriesComponent implements OnChanges {
     gradient: any;
     curve: any;
     activeEntries: any[];
+    animations: boolean;
     select: EventEmitter<{}>;
     opacity: number;
     path: string;

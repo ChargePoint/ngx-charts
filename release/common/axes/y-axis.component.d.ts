@@ -4,27 +4,39 @@ export declare class YAxisComponent implements OnChanges {
     yScale: any;
     dims: any;
     tickFormatting: any;
+    ticks: any[];
     showGridLines: boolean;
     showLabel: any;
     labelText: any;
     yAxisTickInterval: any;
     yAxisTickCount: any;
     yOrient: string;
+<<<<<<< HEAD
+=======
+    referenceLines: any;
+    showRefLines: any;
+    showRefLabels: any;
+    yAxisOffset: number;
+>>>>>>> tags/10.0.0
     dimensionsChanged: EventEmitter<{}>;
     yAxisClassName: string;
     tickArguments: any;
     offset: any;
     transform: any;
+<<<<<<< HEAD
     yAxisOffset: number;
+=======
+>>>>>>> tags/10.0.0
     labelOffset: number;
     fill: string;
     stroke: string;
     tickStroke: string;
     strokeWidth: number;
+    padding: number;
     ticksComponent: YAxisTicksComponent;
     ngOnChanges(changes: SimpleChanges): void;
     update(): void;
-    emitTicksWidth({width}: {
+    emitTicksWidth({ width }: {
         width: any;
     }): void;
 }

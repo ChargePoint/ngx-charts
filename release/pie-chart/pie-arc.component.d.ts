@@ -1,7 +1,5 @@
 import { EventEmitter, ElementRef, SimpleChanges, OnChanges } from '@angular/core';
-import { LocationStrategy } from '@angular/common';
 export declare class PieArcComponent implements OnChanges {
-    private location;
     fill: any;
     startAngle: number;
     endAngle: number;
@@ -19,6 +17,7 @@ export declare class PieArcComponent implements OnChanges {
     select: EventEmitter<{}>;
     activate: EventEmitter<{}>;
     deactivate: EventEmitter<{}>;
+    dblclick: EventEmitter<{}>;
     element: HTMLElement;
     path: any;
     startOpacity: number;
@@ -26,11 +25,15 @@ export declare class PieArcComponent implements OnChanges {
     linearGradientId: string;
     gradientFill: string;
     initialized: boolean;
-    constructor(element: ElementRef, location: LocationStrategy);
+    private _timeout;
+    constructor(element: ElementRef);
     ngOnChanges(changes: SimpleChanges): void;
+    getGradient(): any;
+    getPointerEvents(): "auto" | "none";
     update(): void;
     calculateArc(): any;
     loadAnimation(): void;
     updateAnimation(): void;
     onClick(): void;
+    onDblClick(event: MouseEvent): void;
 }

@@ -5,7 +5,6 @@ import {
   SimpleChanges,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { area, line } from 'd3-shape';
 import { id } from '../utils/id';
 import { sortLinear, sortByTime, sortByDomain } from '../utils/sort';
@@ -32,16 +31,19 @@ import { sortLinear, sortByTime, sortByDomain } from '../utils/sort';
         [stops]="areaGradientStops"
         [class.active]="isActive(data)"
         [class.inactive]="isInactive(data)"
+        [animations]="animations"
       />
       <svg:g ngx-charts-line
         class="line-series"
         [data]="data"
         [path]="path"
-        [stroke]="hasGradient ? gradientUrl : colors.getColor(data.name)"
+        [stroke]="stroke"
+        [animations]="animations"
         [class.active]="isActive(data)"
         [class.inactive]="isInactive(data)"
       />
      <svg:g ngx-charts-area
+        *ngIf="hasRange"
         class="line-series-range"
         [data]="data"
         [path]="outerPath"
@@ -49,6 +51,7 @@ import { sortLinear, sortByTime, sortByDomain } from '../utils/sort';
         [class.active]="isActive(data)"
         [class.inactive]="isInactive(data)"
         [opacity]="rangeFillOpacity"
+        [animations]="animations"
       />
     </svg:g>
   `,
@@ -64,6 +67,8 @@ export class LineSeriesComponent implements OnChanges {
   @Input() curve: any;
   @Input() activeEntries: any[];
   @Input() rangeFillOpacity: number;
+  @Input() hasRange: boolean;
+  @Input() animations: boolean = true;
 
   path: string;
   outerPath: string;
@@ -73,9 +78,7 @@ export class LineSeriesComponent implements OnChanges {
   hasGradient: boolean;
   gradientStops: any[];
   areaGradientStops: any[];
-
-  constructor(private location: LocationStrategy) {
-  }
+  stroke: any;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.update();
@@ -84,15 +87,30 @@ export class LineSeriesComponent implements OnChanges {
   update(): void {
     this.updateGradients();
 
-    const line = this.getLineGenerator();
-    const area = this.getAreaGenerator();
-    const range = this.getRangeGenerator();
-
     const data = this.sortData(this.data.series);
 
-    this.path = line(data) || '';
-    this.outerPath = range(data) || '';
-    this.areaPath = area(data) || '';
+    const lineGen = this.getLineGenerator();
+    this.path = lineGen(data) || '';
+
+    const areaGen = this.getAreaGenerator();
+    this.areaPath = areaGen(data) || '';
+
+    if (this.hasRange) {
+      const range = this.getRangeGenerator();
+      this.outerPath = range(data) || '';
+    }
+
+    if (this.hasGradient) {
+      this.stroke = this.gradientUrl;
+      const values = this.data.series.map(d => d.value);
+      const max = Math.max(...values);
+      const min = Math.min(...values);
+      if (max === min) {
+        this.stroke = this.colors.getColor(max);
+      }
+    } else {
+      this.stroke = this.colors.getColor(this.data.name);
+    }
   }
 
   getLineGenerator(): any {
@@ -160,13 +178,8 @@ export class LineSeriesComponent implements OnChanges {
   updateGradients() {
     if (this.colors.scaleType === 'linear') {
       this.hasGradient = true;
-
-      const pageUrl = this.location instanceof PathLocationStrategy
-        ? this.location.path()
-        : '';
-
       this.gradientId = 'grad' + id().toString();
-      this.gradientUrl = `url(${pageUrl}#${this.gradientId})`;
+      this.gradientUrl = `url(#${this.gradientId})`;
       const values = this.data.series.map(d => d.value);
       const max = Math.max(...values);
       const min = Math.min(...values);

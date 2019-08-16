@@ -1,10 +1,11 @@
-import { ElementRef, AfterViewInit, EventEmitter } from '@angular/core';
+import { ElementRef, AfterViewInit, EventEmitter, TemplateRef } from '@angular/core';
 import { BaseChartComponent } from '../common/base-chart.component';
 import { ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 export declare class GaugeComponent extends BaseChartComponent implements AfterViewInit {
     legend: boolean;
     legendTitle: string;
+    legendPosition: string;
     min: number;
     max: number;
     textValue: string;
@@ -22,6 +23,7 @@ export declare class GaugeComponent extends BaseChartComponent implements AfterV
     margin: any[];
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;
+    tooltipTemplate: TemplateRef<any>;
     textEl: ElementRef;
     dims: ViewDimensions;
     domain: any[];
@@ -52,4 +54,5 @@ export declare class GaugeComponent extends BaseChartComponent implements AfterV
     onActivate(item: any): void;
     onDeactivate(item: any): void;
     isActive(entry: any): boolean;
+    trackBy(index: any, item: any): string;
 }

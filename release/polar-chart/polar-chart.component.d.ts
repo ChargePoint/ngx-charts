@@ -1,10 +1,11 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, TemplateRef } from '@angular/core';
 import { ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 import { BaseChartComponent } from '../common/base-chart.component';
 export declare class PolarChartComponent extends BaseChartComponent {
     legend: boolean;
     legendTitle: string;
+    legendPosition: string;
     xAxis: boolean;
     yAxis: boolean;
     showXAxisLabel: boolean;
@@ -23,8 +24,12 @@ export declare class PolarChartComponent extends BaseChartComponent {
     tooltipDisabled: boolean;
     showSeriesOnHover: boolean;
     gradient: boolean;
+    yAxisMinScale: number;
+    labelTrim: boolean;
+    labelTrimSize: number;
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;
+    tooltipTemplate: TemplateRef<any>;
     dims: ViewDimensions;
     yAxisDims: ViewDimensions;
     labelOffset: number;
@@ -34,7 +39,6 @@ export declare class PolarChartComponent extends BaseChartComponent {
     yScale: any;
     xScale: any;
     yAxisScale: any;
-    any: any;
     colors: ColorHelper;
     scaleType: string;
     transform: string;
@@ -61,7 +65,6 @@ export declare class PolarChartComponent extends BaseChartComponent {
     getSeriesDomain(): any[];
     getXScale(domain: any, width: any): any;
     getYScale(domain: any, height: any): any;
-    getScaleType(values: any): string;
     onClick(data: any, series?: any): void;
     setColors(): void;
     getLegendOptions(): {
@@ -69,19 +72,22 @@ export declare class PolarChartComponent extends BaseChartComponent {
         colors: ColorHelper;
         domain: any;
         title: string;
+        position: string;
     } | {
         scaleType: string;
         colors: any;
         domain: any;
         title: any;
+        position: string;
     };
-    updateYAxisWidth({width}: {
+    updateYAxisWidth({ width }: {
         width: any;
     }): void;
-    updateXAxisHeight({height}: {
+    updateXAxisHeight({ height }: {
         height: any;
     }): void;
     onActivate(item: any): void;
     onDeactivate(item: any): void;
     deactivateAll(): void;
+    trackBy(index: any, item: any): any;
 }

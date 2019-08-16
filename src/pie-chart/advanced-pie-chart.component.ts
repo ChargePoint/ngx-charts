@@ -1,9 +1,11 @@
 import {
+  ChangeDetectionStrategy,
   Component,
+  ContentChild,
+  EventEmitter,
   Input,
   Output,
-  EventEmitter,
-  ChangeDetectionStrategy,
+  TemplateRef,
   ViewEncapsulation
 } from '@angular/core';
 
@@ -22,7 +24,8 @@ import { BaseChartComponent } from '../common/base-chart.component';
         [style.height.px]="dims.height">
         <ngx-charts-chart
           [view]="[width, height]"
-          [showLegend]="false">
+          [showLegend]="false"
+          [animations]="animations">
           <svg:g
             [attr.transform]="transform"
             class="pie chart">
@@ -34,8 +37,10 @@ import { BaseChartComponent } from '../common/base-chart.component';
               [outerRadius]="outerRadius"
               [gradient]="gradient"
               [tooltipDisabled]="tooltipDisabled"
+              [tooltipTemplate]="tooltipTemplate"
               [tooltipText]="tooltipText"
-              (select)="onClick($event)">
+              (select)="onClick($event)"
+              [animations]="animations">
             </svg:g>
           </svg:g>
         </ngx-charts-chart>
@@ -48,6 +53,11 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [data]="results"
           [colors]="colors"
           [width]="width - dims.width - margin[1]"
+          [label]="label"
+          [animations]="animations"
+          [valueFormatting]="valueFormatting"
+          [labelFormatting]="nameFormatting"
+          [percentageFormatting]="percentageFormatting"
           (select)="onClick($event)"
           (activate)="onActivate($event)"
           (deactivate)="onDeactivate($event)">
@@ -55,22 +65,21 @@ import { BaseChartComponent } from '../common/base-chart.component';
       </div>
     </div>
   `,
-  styleUrls: [
-    '../common/base-chart.component.scss',
-    './advanced-pie-chart.component.scss'
-  ],
+  styleUrls: ['../common/base-chart.component.scss', './advanced-pie-chart.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdvancedPieChartComponent extends BaseChartComponent {
-
   @Input() gradient: boolean;
   @Input() activeEntries: any[] = [];
   @Input() tooltipDisabled: boolean = false;
   @Input() tooltipText: any;
+  @Input() label: string = 'Total';
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
+
+  @ContentChild('tooltipTemplate') tooltipTemplate: TemplateRef<any>;
 
   data: any;
   dims: ViewDimensions;
@@ -82,11 +91,15 @@ export class AdvancedPieChartComponent extends BaseChartComponent {
   legendWidth: number;
   margin = [20, 20, 20, 20];
 
+  @Input() valueFormatting: (value: number) => any;
+  @Input() nameFormatting: (value: string) => any;
+  @Input() percentageFormatting: (value: number) => any;
+
   update(): void {
     super.update();
 
     this.dims = calculateViewDimensions({
-      width: this.width * 4 / 12.0,
+      width: (this.width * 4) / 12.0,
       height: this.height,
       margins: this.margin
     });
@@ -117,8 +130,8 @@ export class AdvancedPieChartComponent extends BaseChartComponent {
   }
 
   onActivate(event): void {
-    if(this.activeEntries.indexOf(event) > -1) return;
-    this.activeEntries = [ event, ...this.activeEntries ];
+    if (this.activeEntries.indexOf(event) > -1) return;
+    this.activeEntries = [event, ...this.activeEntries];
     this.activate.emit({ value: event, entries: this.activeEntries });
   }
 
@@ -130,5 +143,4 @@ export class AdvancedPieChartComponent extends BaseChartComponent {
 
     this.deactivate.emit({ value: event, entries: this.activeEntries });
   }
-
 }

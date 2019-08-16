@@ -1,8 +1,4 @@
-import {
-  Component, Input, Output, EventEmitter, ElementRef,
-  OnChanges, SimpleChanges, ChangeDetectionStrategy
-} from '@angular/core';
-import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Component, Input, Output, EventEmitter, ElementRef, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { select } from 'd3-selection';
 
 import { invertColor } from '../utils/color-utils';
@@ -24,6 +20,8 @@ import { id } from '../utils/id';
         [attr.fill]="gradient ? gradientUrl : fill"
         [attr.width]="width"
         [attr.height]="height"
+        [attr.x]="x"
+        [attr.y]="y"
         [style.cursor]="'pointer'"
         class="cell"
         (click)="onClick()"
@@ -43,11 +41,15 @@ import { id } from '../utils/id';
           <xhtml:span class="treemap-label" [innerHTML]="formattedLabel">
           </xhtml:span>
           <xhtml:br />
-          <xhtml:span 
+          <xhtml:span *ngIf="animations"
             class="treemap-val" 
             ngx-charts-count-up 
             [countTo]="value"
             [valueFormatting]="valueFormatting">
+          </xhtml:span>
+          <xhtml:span *ngIf="!animations"
+            class="treemap-val">
+            {{formattedValue}}
           </xhtml:span>
         </xhtml:p>
       </svg:foreignObject>
@@ -56,7 +58,6 @@ import { id } from '../utils/id';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TreeMapCellComponent implements OnChanges {
-
   @Input() data;
   @Input() fill;
   @Input() x;
@@ -69,6 +70,7 @@ export class TreeMapCellComponent implements OnChanges {
   @Input() valueFormatting: any;
   @Input() labelFormatting: any;
   @Input() gradient: boolean = false;
+  @Input() animations: boolean = true;
 
   @Output() select = new EventEmitter();
 
@@ -79,17 +81,17 @@ export class TreeMapCellComponent implements OnChanges {
   element: HTMLElement;
   transform: string;
   formattedLabel: string;
+  formattedValue: string;
   initialized: boolean = false;
 
-  constructor(element: ElementRef, private location: LocationStrategy) {
+  constructor(element: ElementRef) {
     this.element = element.nativeElement;
   }
 
-  ngOnChanges(/* changes: SimpleChanges */): void {
+  ngOnChanges(): void {
     this.update();
 
-    const hasValue = this.data && typeof this.data.value !== 'undefined';
-    this.valueFormatting = this.valueFormatting || (cell => cell.value.toLocaleString());
+    this.valueFormatting = this.valueFormatting || (value => value.toLocaleString());
     const labelFormatting = this.labelFormatting || (cell => trimLabel(cell.label, 55));
 
     const cellData = {
@@ -98,14 +100,11 @@ export class TreeMapCellComponent implements OnChanges {
       value: this.value
     };
 
+    this.formattedValue = this.valueFormatting(cellData.value);
     this.formattedLabel = labelFormatting(cellData);
 
-    const pageUrl = this.location instanceof PathLocationStrategy
-      ? this.location.path()
-      : '';
-  
     this.gradientId = 'grad' + id().toString();
-    this.gradientUrl = `url(${pageUrl}#${this.gradientId})`;
+    this.gradientUrl = `url(#${this.gradientId})`;
     this.gradientStops = this.getGradientStops();
   }
 
@@ -113,7 +112,9 @@ export class TreeMapCellComponent implements OnChanges {
     if (this.initialized) {
       this.animateToCurrentForm();
     } else {
-      this.loadAnimation();
+      if (this.animations) {
+        this.loadAnimation();
+      }
       this.initialized = true;
     }
   }
@@ -136,12 +137,23 @@ export class TreeMapCellComponent implements OnChanges {
   animateToCurrentForm(): void {
     const node = select(this.element).select('.cell');
 
-    node.transition().duration(750)
-      .attr('opacity', 1)
-      .attr('x', this.x)
-      .attr('y', this.y)
-      .attr('width', this.width)
-      .attr('height', this.height);
+    if (this.animations) {
+      node
+        .transition()
+        .duration(750)
+        .attr('opacity', 1)
+        .attr('x', this.x)
+        .attr('y', this.y)
+        .attr('width', this.width)
+        .attr('height', this.height);
+    } else {
+      node
+        .attr('opacity', 1)
+        .attr('x', this.x)
+        .attr('y', this.y)
+        .attr('width', this.width)
+        .attr('height', this.height);
+    }
   }
 
   onClick(): void {
@@ -162,7 +174,7 @@ export class TreeMapCellComponent implements OnChanges {
         offset: 100,
         color: this.fill,
         opacity: 1
-    }];
+      }
+    ];
   }
-
 }

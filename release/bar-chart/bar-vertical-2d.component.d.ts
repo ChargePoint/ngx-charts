@@ -1,10 +1,11 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, TemplateRef } from '@angular/core';
 import { ViewDimensions } from '../common/view-dimensions.helper';
 import { ColorHelper } from '../common/color.helper';
 import { BaseChartComponent } from '../common/base-chart.component';
 export declare class BarVertical2DComponent extends BaseChartComponent {
     legend: boolean;
     legendTitle: string;
+    legendPosition: string;
     xAxis: any;
     yAxis: any;
     showXAxisLabel: any;
@@ -19,11 +20,23 @@ export declare class BarVertical2DComponent extends BaseChartComponent {
     schemeType: string;
     xAxisTickFormatting: any;
     yAxisTickFormatting: any;
+<<<<<<< HEAD
     groupPadding: string | number;
     barPadding: string | number;
+=======
+    xAxisTicks: any[];
+    yAxisTicks: any[];
+    groupPadding: number;
+    barPadding: number;
+>>>>>>> tags/10.0.0
     roundDomains: boolean;
+    roundEdges: boolean;
+    yScaleMax: number;
+    showDataLabel: boolean;
+    dataLabelFormatting: any;
     activate: EventEmitter<any>;
     deactivate: EventEmitter<any>;
+    tooltipTemplate: TemplateRef<any>;
     dims: ViewDimensions;
     groupDomain: any[];
     innerDomain: any[];
@@ -37,7 +50,9 @@ export declare class BarVertical2DComponent extends BaseChartComponent {
     xAxisHeight: number;
     yAxisWidth: number;
     legendOptions: any;
+    dataLabelMaxHeight: any;
     update(): void;
+    onDataLabelMaxHeightChanged(event: any, groupIndex: any): void;
     getGroupScale(): any;
     getInnerScale(): any;
     getValueScale(): any;
@@ -53,11 +68,12 @@ export declare class BarVertical2DComponent extends BaseChartComponent {
         colors: any;
         domain: any[];
         title: any;
+        position: string;
     };
-    updateYAxisWidth({width}: {
+    updateYAxisWidth({ width }: {
         width: any;
     }): void;
-    updateXAxisHeight({height}: {
+    updateXAxisHeight({ height }: {
         height: any;
     }): void;
     onActivate(event: any, group?: any): void;
