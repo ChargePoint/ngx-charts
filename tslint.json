@@ -4,7 +4,8 @@
   ],
   "extends": "tslint-config-swimlane/base",
   "rules": {
-    "no-unused-variable": true
+    "no-unused-variable": false,
+    "radix": false
   },
   "import-blacklist": [true, "rxjs", "rxjs/operators"]
 }

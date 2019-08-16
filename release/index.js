@@ -12,7 +12,7 @@
 		exports["ngx-charts"] = factory(require("@angular/animations"), require("@angular/common"), require("@angular/core"), require("@angular/platform-browser"), require("d3-array"), require("d3-brush"), require("d3-color"), require("d3-force"), require("d3-format"), require("d3-hierarchy"), require("d3-interpolate"), require("d3-scale"), require("d3-selection"), require("d3-shape"), require("d3-time-format"));
 	else
 		root["ngx-charts"] = factory(root["@angular/animations"], root["@angular/common"], root["@angular/core"], root["@angular/platform-browser"], root["d3-array"], root["d3-brush"], root["d3-color"], root["d3-force"], root["d3-format"], root["d3-hierarchy"], root["d3-interpolate"], root["d3-scale"], root["d3-selection"], root["d3-shape"], root["d3-time-format"]);
-})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE__angular_animations__, __WEBPACK_EXTERNAL_MODULE__angular_common__, __WEBPACK_EXTERNAL_MODULE__angular_core__, __WEBPACK_EXTERNAL_MODULE__angular_platform_browser__, __WEBPACK_EXTERNAL_MODULE_d3_array__, __WEBPACK_EXTERNAL_MODULE_d3_brush__, __WEBPACK_EXTERNAL_MODULE_d3_color__, __WEBPACK_EXTERNAL_MODULE_d3_force__, __WEBPACK_EXTERNAL_MODULE_d3_format__, __WEBPACK_EXTERNAL_MODULE_d3_hierarchy__, __WEBPACK_EXTERNAL_MODULE_d3_interpolate__, __WEBPACK_EXTERNAL_MODULE_d3_scale__, __WEBPACK_EXTERNAL_MODULE_d3_selection__, __WEBPACK_EXTERNAL_MODULE_d3_shape__, __WEBPACK_EXTERNAL_MODULE_d3_time_format__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE__angular_animations__, __WEBPACK_EXTERNAL_MODULE__angular_common__, __WEBPACK_EXTERNAL_MODULE__angular_core__, __WEBPACK_EXTERNAL_MODULE__angular_platform_browser__, __WEBPACK_EXTERNAL_MODULE_d3_array__, __WEBPACK_EXTERNAL_MODULE_d3_brush__, __WEBPACK_EXTERNAL_MODULE_d3_color__, __WEBPACK_EXTERNAL_MODULE_d3_force__, __WEBPACK_EXTERNAL_MODULE_d3_format__, __WEBPACK_EXTERNAL_MODULE_d3_hierarchy__, __WEBPACK_EXTERNAL_MODULE_d3_interpolate__, __WEBPACK_EXTERNAL_MODULE_d3_scale__, __WEBPACK_EXTERNAL_MODULE_d3_selection__, __WEBPACK_EXTERNAL_MODULE_d3_shape__, __WEBPACK_EXTERNAL_MODULE_d3_time_format__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -403,80 +403,6 @@ function toComment(sourceMap) {
 
 /***/ }),
 
-/***/ "./node_modules/d3-ease/index.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_linear__ = __webpack_require__("./node_modules/d3-ease/src/linear.js");
-/* unused harmony reexport easeLinear */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_quad__ = __webpack_require__("./node_modules/d3-ease/src/quad.js");
-/* unused harmony reexport easeQuad */
-/* unused harmony reexport easeQuadIn */
-/* unused harmony reexport easeQuadOut */
-/* unused harmony reexport easeQuadInOut */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_cubic__ = __webpack_require__("./node_modules/d3-ease/src/cubic.js");
-/* unused harmony reexport easeCubic */
-/* unused harmony reexport easeCubicIn */
-/* unused harmony reexport easeCubicOut */
-/* unused harmony reexport easeCubicInOut */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_poly__ = __webpack_require__("./node_modules/d3-ease/src/poly.js");
-/* unused harmony reexport easePoly */
-/* unused harmony reexport easePolyIn */
-/* unused harmony reexport easePolyOut */
-/* unused harmony reexport easePolyInOut */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_sin__ = __webpack_require__("./node_modules/d3-ease/src/sin.js");
-/* unused harmony reexport easeSin */
-/* unused harmony reexport easeSinIn */
-/* unused harmony reexport easeSinOut */
-/* unused harmony reexport easeSinInOut */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_exp__ = __webpack_require__("./node_modules/d3-ease/src/exp.js");
-/* unused harmony reexport easeExp */
-/* unused harmony reexport easeExpIn */
-/* unused harmony reexport easeExpOut */
-/* unused harmony reexport easeExpInOut */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__src_circle__ = __webpack_require__("./node_modules/d3-ease/src/circle.js");
-/* unused harmony reexport easeCircle */
-/* unused harmony reexport easeCircleIn */
-/* unused harmony reexport easeCircleOut */
-/* unused harmony reexport easeCircleInOut */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__src_bounce__ = __webpack_require__("./node_modules/d3-ease/src/bounce.js");
-/* unused harmony reexport easeBounce */
-/* unused harmony reexport easeBounceIn */
-/* unused harmony reexport easeBounceOut */
-/* unused harmony reexport easeBounceInOut */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__src_back__ = __webpack_require__("./node_modules/d3-ease/src/back.js");
-/* unused harmony reexport easeBack */
-/* unused harmony reexport easeBackIn */
-/* unused harmony reexport easeBackOut */
-/* unused harmony reexport easeBackInOut */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src_elastic__ = __webpack_require__("./node_modules/d3-ease/src/elastic.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_9__src_elastic__["a"]; });
-/* unused harmony reexport easeElasticIn */
-/* unused harmony reexport easeElasticOut */
-/* unused harmony reexport easeElasticInOut */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/***/ }),
-
 /***/ "./node_modules/d3-ease/src/back.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -675,6 +601,80 @@ function expOut(t) {
 function expInOut(t) {
   return ((t *= 2) <= 1 ? Math.pow(2, 10 * t - 10) : 2 - Math.pow(2, 10 - 10 * t)) / 2;
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/d3-ease/src/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__linear__ = __webpack_require__("./node_modules/d3-ease/src/linear.js");
+/* unused harmony reexport easeLinear */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__quad__ = __webpack_require__("./node_modules/d3-ease/src/quad.js");
+/* unused harmony reexport easeQuad */
+/* unused harmony reexport easeQuadIn */
+/* unused harmony reexport easeQuadOut */
+/* unused harmony reexport easeQuadInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__cubic__ = __webpack_require__("./node_modules/d3-ease/src/cubic.js");
+/* unused harmony reexport easeCubic */
+/* unused harmony reexport easeCubicIn */
+/* unused harmony reexport easeCubicOut */
+/* unused harmony reexport easeCubicInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__poly__ = __webpack_require__("./node_modules/d3-ease/src/poly.js");
+/* unused harmony reexport easePoly */
+/* unused harmony reexport easePolyIn */
+/* unused harmony reexport easePolyOut */
+/* unused harmony reexport easePolyInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__sin__ = __webpack_require__("./node_modules/d3-ease/src/sin.js");
+/* unused harmony reexport easeSin */
+/* unused harmony reexport easeSinIn */
+/* unused harmony reexport easeSinOut */
+/* unused harmony reexport easeSinInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__exp__ = __webpack_require__("./node_modules/d3-ease/src/exp.js");
+/* unused harmony reexport easeExp */
+/* unused harmony reexport easeExpIn */
+/* unused harmony reexport easeExpOut */
+/* unused harmony reexport easeExpInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__circle__ = __webpack_require__("./node_modules/d3-ease/src/circle.js");
+/* unused harmony reexport easeCircle */
+/* unused harmony reexport easeCircleIn */
+/* unused harmony reexport easeCircleOut */
+/* unused harmony reexport easeCircleInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__bounce__ = __webpack_require__("./node_modules/d3-ease/src/bounce.js");
+/* unused harmony reexport easeBounce */
+/* unused harmony reexport easeBounceIn */
+/* unused harmony reexport easeBounceOut */
+/* unused harmony reexport easeBounceInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__back__ = __webpack_require__("./node_modules/d3-ease/src/back.js");
+/* unused harmony reexport easeBack */
+/* unused harmony reexport easeBackIn */
+/* unused harmony reexport easeBackOut */
+/* unused harmony reexport easeBackInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__elastic__ = __webpack_require__("./node_modules/d3-ease/src/elastic.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_9__elastic__["a"]; });
+/* unused harmony reexport easeElasticIn */
+/* unused harmony reexport easeElasticOut */
+/* unused harmony reexport easeElasticInOut */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /***/ }),
@@ -1019,7 +1019,7 @@ var Observable = (function () {
             }, reject, resolve);
         });
     };
-    Observable.prototype._subscribe = function (subscriber) {
+    /** @deprecated internal use only */ Observable.prototype._subscribe = function (subscriber) {
         return this.source.subscribe(subscriber);
     };
     /**
@@ -1219,10 +1219,13 @@ var Subscriber = (function (_super) {
                     break;
                 }
                 if (typeof destinationOrNext === 'object') {
-                    if (destinationOrNext instanceof Subscriber) {
-                        this.syncErrorThrowable = destinationOrNext.syncErrorThrowable;
-                        this.destination = destinationOrNext;
-                        this.destination.add(this);
+                    // HACK(benlesh): To resolve an issue where Node users may have multiple
+                    // copies of rxjs in their node_modules directory.
+                    if (isTrustedSubscriber(destinationOrNext)) {
+                        var trustedSubscriber = destinationOrNext[rxSubscriber_1.rxSubscriber]();
+                        this.syncErrorThrowable = trustedSubscriber.syncErrorThrowable;
+                        this.destination = trustedSubscriber;
+                        trustedSubscriber.add(this);
                     }
                     else {
                         this.syncErrorThrowable = true;
@@ -1308,7 +1311,7 @@ var Subscriber = (function (_super) {
         this.destination.complete();
         this.unsubscribe();
     };
-    Subscriber.prototype._unsubscribeAndRecycle = function () {
+    /** @deprecated internal use only */ Subscriber.prototype._unsubscribeAndRecycle = function () {
         var _a = this, _parent = _a._parent, _parents = _a._parents;
         this._parent = null;
         this._parents = null;
@@ -1429,7 +1432,7 @@ var SafeSubscriber = (function (_super) {
         }
         return false;
     };
-    SafeSubscriber.prototype._unsubscribe = function () {
+    /** @deprecated internal use only */ SafeSubscriber.prototype._unsubscribe = function () {
         var _parentSubscriber = this._parentSubscriber;
         this._context = null;
         this._parentSubscriber = null;
@@ -1437,6 +1440,9 @@ var SafeSubscriber = (function (_super) {
     };
     return SafeSubscriber;
 }(Subscriber));
+function isTrustedSubscriber(obj) {
+    return obj instanceof Subscriber || ('syncErrorThrowable' in obj && obj[rxSubscriber_1.rxSubscriber]);
+}
 //# sourceMappingURL=Subscriber.js.map
 
 /***/ }),
@@ -1820,7 +1826,7 @@ var FromEventObservable = (function (_super) {
         else if (isEventTarget(sourceObj)) {
             var source_1 = sourceObj;
             sourceObj.addEventListener(eventName, handler, options);
-            unsubscribe = function () { return source_1.removeEventListener(eventName, handler); };
+            unsubscribe = function () { return source_1.removeEventListener(eventName, handler, options); };
         }
         else if (isJQueryStyleEventEmitter(sourceObj)) {
             var source_2 = sourceObj;
@@ -1837,7 +1843,7 @@ var FromEventObservable = (function (_super) {
         }
         subscriber.add(new Subscription_1.Subscription(unsubscribe));
     };
-    FromEventObservable.prototype._subscribe = function (subscriber) {
+    /** @deprecated internal use only */ FromEventObservable.prototype._subscribe = function (subscriber) {
         var sourceObj = this.sourceObj;
         var eventName = this.eventName;
         var options = this.options;
@@ -2071,8 +2077,8 @@ var AsyncAction = (function (_super) {
     function AsyncAction(scheduler, work) {
         _super.call(this, scheduler, work);
         this.scheduler = scheduler;
-        this.work = work;
         this.pending = false;
+        this.work = work;
     }
     AsyncAction.prototype.schedule = function (state, delay) {
         if (delay === void 0) { delay = 0; }
@@ -2174,7 +2180,7 @@ var AsyncAction = (function (_super) {
             return errorValue;
         }
     };
-    AsyncAction.prototype._unsubscribe = function () {
+    /** @deprecated internal use only */ AsyncAction.prototype._unsubscribe = function () {
         var id = this.id;
         var scheduler = this.scheduler;
         var actions = scheduler.actions;
@@ -14719,7 +14725,7 @@ var LinearGaugeComponent = /** @class */ (function (_super) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PowerGaugeAxisComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("@angular/core");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_d3_ease__ = __webpack_require__("./node_modules/d3-ease/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_d3_ease__ = __webpack_require__("./node_modules/d3-ease/src/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_d3_selection__ = __webpack_require__("d3-selection");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_d3_selection___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_d3_selection__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_d3_shape__ = __webpack_require__("d3-shape");
@@ -17621,7 +17627,7 @@ var AdvancedPieChartComponent = /** @class */ (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pie_grid_component__ = __webpack_require__("./src/pie-chart/pie-grid.component.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pie_series_component__ = __webpack_require__("./src/pie-chart/pie-series.component.ts");
-/* unused harmony namespace reexport */
+/* inactive harmony reexport namespace */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pie_label_component__ = __webpack_require__("./src/pie-chart/pie-label.component.ts");
 /* unused harmony namespace reexport */
 /* unused harmony namespace reexport */
