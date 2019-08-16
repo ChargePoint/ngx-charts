@@ -150,6 +150,10 @@ var XAxisTicksComponent = /** @class */ (function () {
     ], XAxisTicksComponent.prototype, "tickFormatting", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Array)
+    ], XAxisTicksComponent.prototype, "showTicks", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Object)
     ], XAxisTicksComponent.prototype, "showGridLines", void 0);
     __decorate([
@@ -161,6 +165,10 @@ var XAxisTicksComponent = /** @class */ (function () {
         __metadata("design:type", Object)
     ], XAxisTicksComponent.prototype, "width", void 0);
     __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], XAxisTicksComponent.prototype, "tickLabels", void 0);
+    __decorate([
         Output(),
         __metadata("design:type", Object)
     ], XAxisTicksComponent.prototype, "dimensionsChanged", void 0);
@@ -171,7 +179,7 @@ var XAxisTicksComponent = /** @class */ (function () {
     XAxisTicksComponent = __decorate([
         Component({
             selector: 'g[ngx-charts-x-axis-ticks]',
-            template: "\n    <svg:g #ticksel>\n      <svg:g *ngFor=\"let tick of ticks\" class=\"tick\"\n        [attr.transform]=\"tickTransform(tick)\">\n        <title>{{tickFormat(tick)}}</title>\n        <svg:text\n          stroke-width=\"0.01\"\n          [attr.text-anchor]=\"textAnchor\"\n          [attr.transform]=\"textTransform\"\n          [style.font-size]=\"'12px'\">\n          {{trimLabel(tickFormat(tick))}}\n        </svg:text>\n      </svg:g>\n    </svg:g>\n\n    <svg:g *ngFor=\"let tick of ticks\"\n      [attr.transform]=\"tickTransform(tick)\">\n      <svg:g *ngIf=\"showGridLines\"\n        [attr.transform]=\"gridLineTransform()\">\n        <svg:line\n          class=\"gridline-path gridline-path-vertical\"\n          [attr.y1]=\"-gridLineHeight\"\n          y2=\"0\" />\n      </svg:g>\n    </svg:g>\n  ",
+            template: "\n    <svg:g #ticksel>\n      <svg:g *ngFor=\"let tick of ticks;let i = index\" class=\"tick\"\n        [attr.transform]=\"tickTransform(tick)\">\n        <title>{{tickFormat(tick)}}</title>\n        <svg:text\n          stroke-width=\"0.01\"\n          [attr.text-anchor]=\"textAnchor\"\n          [attr.transform]=\"textTransform\"\n          [style.font-size]=\"'12px'\" *ngIf=\"!showTicks || showTicks[i]\">\n          {{trimLabel(tickFormat(tick))}}\n          <tspan *ngIf=\"tickLabels && tickLabels[i]\" x=\"0\" dy=\"15\" class=\"stick\">{{tickLabels[i]}}</tspan>\n        </svg:text>\n        <svg:text\n          stroke-width=\"0.01\"\n          [attr.text-anchor]=\"textAnchor\"\n          [attr.transform]=\"textTransform\"\n          [style.font-size]=\"'12px'\" *ngIf=\"showTicks && !showTicks[i]\">\n          <tspan *ngIf=\"tickLabels && tickLabels[i]\" x=\"0\" dy=\"15\" class=\"stick\">{{tickLabels[i]}}</tspan>\n        </svg:text>\n      </svg:g>\n    </svg:g>\n\n    <svg:g *ngFor=\"let tick of ticks\"\n      [attr.transform]=\"tickTransform(tick)\">\n      <svg:g *ngIf=\"showGridLines\"\n        [attr.transform]=\"gridLineTransform()\">\n        <svg:line\n          class=\"gridline-path gridline-path-vertical\"\n          [attr.y1]=\"-gridLineHeight\"\n          y2=\"0\" />\n      </svg:g>\n    </svg:g>\n  ",
             changeDetection: ChangeDetectionStrategy.OnPush
         }),
         __metadata("design:paramtypes", [])
@@ -179,30 +187,4 @@ var XAxisTicksComponent = /** @class */ (function () {
     return XAxisTicksComponent;
 }());
 export { XAxisTicksComponent };
-<<<<<<< HEAD
-XAxisTicksComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'g[ngx-charts-x-axis-ticks]',
-                template: "\n    <svg:g #ticksel>\n      <svg:g *ngFor=\"let tick of ticks;let i = index\" class=\"tick\"\n        [attr.transform]=\"tickTransform(tick)\">\n        <title>{{tickFormat(tick)}}</title>\n        <svg:text\n          stroke-width=\"0.01\"\n          [attr.text-anchor]=\"textAnchor\"\n          [attr.transform]=\"textTransform\"\n          [style.font-size]=\"'12px'\" *ngIf=\"!showTicks || showTicks[i]\">\n          {{trimLabel(tickFormat(tick))}}\n          <tspan *ngIf=\"tickLabels && tickLabels[i]\" x=\"0\" dy=\"15\" class=\"stick\">{{tickLabels[i]}}</tspan>\n        </svg:text>\n        <svg:text\n          stroke-width=\"0.01\"\n          [attr.text-anchor]=\"textAnchor\"\n          [attr.transform]=\"textTransform\"\n          [style.font-size]=\"'12px'\" *ngIf=\"showTicks && !showTicks[i]\">\n          <tspan *ngIf=\"tickLabels && tickLabels[i]\" x=\"0\" dy=\"15\" class=\"stick\">{{tickLabels[i]}}</tspan>\n        </svg:text>\n      </svg:g>\n    </svg:g>\n\n    <svg:g *ngFor=\"let tick of ticks\"\n      [attr.transform]=\"tickTransform(tick)\">\n      <svg:g *ngIf=\"showGridLines\"\n        [attr.transform]=\"gridLineTransform()\">\n        <svg:line\n          class=\"gridline-path gridline-path-vertical\"\n          [attr.y1]=\"-gridLineHeight\"\n          y2=\"0\" />\n      </svg:g>\n    </svg:g>\n  ",
-                changeDetection: ChangeDetectionStrategy.OnPush
-            },] },
-];
-/** @nocollapse */
-XAxisTicksComponent.ctorParameters = function () { return []; };
-XAxisTicksComponent.propDecorators = {
-    'scale': [{ type: Input },],
-    'orient': [{ type: Input },],
-    'tickArguments': [{ type: Input },],
-    'tickStroke': [{ type: Input },],
-    'tickFormatting': [{ type: Input },],
-    'showTicks': [{ type: Input },],
-    'showGridLines': [{ type: Input },],
-    'gridLineHeight': [{ type: Input },],
-    'width': [{ type: Input },],
-    'tickLabels': [{ type: Input },],
-    'dimensionsChanged': [{ type: Output },],
-    'ticksElement': [{ type: ViewChild, args: ['ticksel',] },],
-};
-=======
->>>>>>> tags/10.0.0
 //# sourceMappingURL=x-axis-ticks.component.js.map

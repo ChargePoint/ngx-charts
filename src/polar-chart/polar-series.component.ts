@@ -6,7 +6,7 @@ import {
   ChangeDetectionStrategy,
   TemplateRef
 } from '@angular/core';
-import { radialLine } from 'd3-shape';
+import { lineRadial } from 'd3-shape';
 
 import { id } from '../utils/id';
 import { sortLinear, sortByTime, sortByDomain } from '../utils/sort';
@@ -149,7 +149,7 @@ export class PolarSeriesComponent implements OnChanges {
   }
 
   getLineGenerator(): any {
-    return radialLine<any>()
+    return lineRadial<any>()
       .angle(d => this.getAngle(d))
       .radius(d => this.getRadius(d))
       .curve(this.curve);

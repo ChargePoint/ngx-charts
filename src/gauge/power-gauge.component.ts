@@ -5,8 +5,6 @@ import {
   ViewChild,
   AfterViewInit,
   ChangeDetectionStrategy,
-  Output,
-  EventEmitter,
   ViewEncapsulation
 } from '@angular/core';
 

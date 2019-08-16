@@ -7,6 +7,6 @@ if (typeof (window) !== 'undefined') {
 else if (typeof (global) !== 'undefined') {
     root = global;
 }
-/* tslint:disable:variable-name */
+// tslint:disable-next-line:variable-name
 export var MouseEvent = root.MouseEvent;
 //# sourceMappingURL=events.js.map

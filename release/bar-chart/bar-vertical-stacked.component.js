@@ -306,16 +306,16 @@ var BarVerticalStackedComponent = /** @class */ (function (_super) {
     ], BarVerticalStackedComponent.prototype, "yAxisTickFormatting", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Object)
+    ], BarVerticalStackedComponent.prototype, "barPadding", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Array)
     ], BarVerticalStackedComponent.prototype, "xAxisTicks", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Array)
     ], BarVerticalStackedComponent.prototype, "yAxisTicks", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Object)
-    ], BarVerticalStackedComponent.prototype, "barPadding", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)

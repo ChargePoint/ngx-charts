@@ -259,16 +259,16 @@ var BarHorizontalNormalizedComponent = /** @class */ (function (_super) {
     ], BarHorizontalNormalizedComponent.prototype, "yAxisTickFormatting", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Object)
+    ], BarHorizontalNormalizedComponent.prototype, "barPadding", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Array)
     ], BarHorizontalNormalizedComponent.prototype, "xAxisTicks", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Array)
     ], BarHorizontalNormalizedComponent.prototype, "yAxisTicks", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Object)
-    ], BarHorizontalNormalizedComponent.prototype, "barPadding", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)

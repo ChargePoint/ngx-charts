@@ -13,16 +13,10 @@ var XAxisComponent = /** @class */ (function () {
     function XAxisComponent() {
         this.showGridLines = false;
         this.xOrient = 'bottom';
-<<<<<<< HEAD
-        this.dimensionsChanged = new EventEmitter();
-        this.xAxisClassName = 'x axis';
-        this.labelOffset = 80;
-=======
         this.xAxisOffset = 0;
         this.dimensionsChanged = new EventEmitter();
         this.xAxisClassName = 'x axis';
         this.labelOffset = 0;
->>>>>>> tags/10.0.0
         this.fill = 'none';
         this.stroke = 'stroke';
         this.tickStroke = '#ccc';
@@ -63,6 +57,10 @@ var XAxisComponent = /** @class */ (function () {
     ], XAxisComponent.prototype, "tickFormatting", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Array)
+    ], XAxisComponent.prototype, "showTicks", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Object)
     ], XAxisComponent.prototype, "showGridLines", void 0);
     __decorate([
@@ -81,6 +79,10 @@ var XAxisComponent = /** @class */ (function () {
         Input(),
         __metadata("design:type", Object)
     ], XAxisComponent.prototype, "xAxisTickInterval", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], XAxisComponent.prototype, "xAxisTickLabels", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -104,38 +106,11 @@ var XAxisComponent = /** @class */ (function () {
     XAxisComponent = __decorate([
         Component({
             selector: 'g[ngx-charts-x-axis]',
-            template: "\n    <svg:g\n      [attr.class]=\"xAxisClassName\"\n      [attr.transform]=\"transform\">\n      <svg:g ngx-charts-x-axis-ticks\n        *ngIf=\"xScale\"\n        [tickFormatting]=\"tickFormatting\"\n        [tickArguments]=\"tickArguments\"\n        [tickStroke]=\"tickStroke\"\n        [scale]=\"xScale\"\n        [orient]=\"xOrient\"\n        [showGridLines]=\"showGridLines\"\n        [gridLineHeight]=\"dims.height\"\n        [width]=\"dims.width\"\n        [tickValues]=\"ticks\"\n        (dimensionsChanged)=\"emitTicksHeight($event)\"\n      />\n      <svg:g ngx-charts-axis-label\n        *ngIf=\"showLabel\"\n        [label]=\"labelText\"\n        [offset]=\"labelOffset\"\n        [orient]=\"'bottom'\"\n        [height]=\"dims.height\"\n        [width]=\"dims.width\">\n      </svg:g>\n    </svg:g>\n  ",
+            template: "\n    <svg:g\n      [attr.class]=\"xAxisClassName\"\n      [attr.transform]=\"transform\">\n      <svg:g ngx-charts-x-axis-ticks\n        *ngIf=\"xScale\"\n        [tickFormatting]=\"tickFormatting\"\n        [tickArguments]=\"tickArguments\"\n        [tickStroke]=\"tickStroke\"\n        [tickLabels]=\"xAxisTickLabels\"\n        [showTicks]=\"showTicks\"\n        [scale]=\"xScale\"\n        [orient]=\"xOrient\"\n        [showGridLines]=\"showGridLines\"\n        [gridLineHeight]=\"dims.height\"\n        [width]=\"dims.width\"\n        [tickValues]=\"ticks\"\n        (dimensionsChanged)=\"emitTicksHeight($event)\"\n      />\n      <svg:g ngx-charts-axis-label\n        *ngIf=\"showLabel\"\n        [label]=\"labelText\"\n        [offset]=\"labelOffset\"\n        [orient]=\"'bottom'\"\n        [height]=\"dims.height\"\n        [width]=\"dims.width\">\n      </svg:g>\n    </svg:g>\n  ",
             changeDetection: ChangeDetectionStrategy.OnPush
         })
     ], XAxisComponent);
     return XAxisComponent;
 }());
 export { XAxisComponent };
-<<<<<<< HEAD
-XAxisComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'g[ngx-charts-x-axis]',
-                template: "\n    <svg:g\n      [attr.class]=\"xAxisClassName\"\n      [attr.transform]=\"transform\">\n      <svg:g ngx-charts-x-axis-ticks\n        *ngIf=\"xScale\"\n        [tickFormatting]=\"tickFormatting\"\n        [tickArguments]=\"tickArguments\"\n        [tickStroke]=\"tickStroke\"\n        [tickLabels]=\"xAxisTickLabels\"\n        [showTicks]=\"showTicks\"\n        [scale]=\"xScale\"\n        [orient]=\"xOrient\"\n        [showGridLines]=\"showGridLines\"\n        [gridLineHeight]=\"dims.height\"\n        [width]=\"dims.width\"\n        (dimensionsChanged)=\"emitTicksHeight($event)\"\n      />\n      <svg:g ngx-charts-axis-label\n        *ngIf=\"showLabel\"\n        [label]=\"labelText\"\n        [offset]=\"labelOffset\"\n        [orient]=\"'bottom'\"\n        [height]=\"dims.height\"\n        [width]=\"dims.width\">\n      </svg:g>\n    </svg:g>\n  ",
-                changeDetection: ChangeDetectionStrategy.OnPush
-            },] },
-];
-/** @nocollapse */
-XAxisComponent.ctorParameters = function () { return []; };
-XAxisComponent.propDecorators = {
-    'xScale': [{ type: Input },],
-    'dims': [{ type: Input },],
-    'tickFormatting': [{ type: Input },],
-    'showTicks': [{ type: Input },],
-    'showGridLines': [{ type: Input },],
-    'showLabel': [{ type: Input },],
-    'labelText': [{ type: Input },],
-    'xAxisTickInterval': [{ type: Input },],
-    'xAxisTickLabels': [{ type: Input },],
-    'xAxisTickCount': [{ type: Input },],
-    'xOrient': [{ type: Input },],
-    'dimensionsChanged': [{ type: Output },],
-    'ticksComponent': [{ type: ViewChild, args: [XAxisTicksComponent,] },],
-};
-=======
->>>>>>> tags/10.0.0
 //# sourceMappingURL=x-axis.component.js.map

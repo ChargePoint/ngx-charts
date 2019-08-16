@@ -382,41 +382,4 @@ var BubbleChartComponent = /** @class */ (function (_super) {
     return BubbleChartComponent;
 }(BaseChartComponent));
 export { BubbleChartComponent };
-<<<<<<< HEAD
-BubbleChartComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'ngx-charts-bubble-chart',
-                template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"legend\"\n      [activeEntries]=\"activeEntries\"\n      [legendOptions]=\"legendOptions\"\n      (legendLabelClick)=\"onClick($event)\"\n      (legendLabelActivate)=\"onActivate($event)\"\n      (legendLabelDeactivate)=\"onDeactivate($event)\">\n      <svg:defs>\n        <svg:clipPath>\n          <svg:rect\n            [attr.width]=\"dims.width + 10\"\n            [attr.height]=\"dims.height + 10\"\n            [attr.transform]=\"'translate(-5, -5)'\"/>\n        </svg:clipPath>\n      </svg:defs>\n      <svg:g [attr.transform]=\"transform\" class=\"bubble-chart chart\">\n        <svg:g ngx-charts-x-axis\n          *ngIf=\"xAxis\"\n          [showGridLines]=\"showGridLines\"\n          [dims]=\"dims\"\n          [xScale]=\"xScale\"\n          [showLabel]=\"showXAxisLabel\"\n          [labelText]=\"xAxisLabel\"\n          [tickFormatting]=\"xAxisTickFormatting\"\n          (dimensionsChanged)=\"updateXAxisHeight($event)\"/>\n        <svg:g ngx-charts-y-axis\n          *ngIf=\"yAxis\"\n          [showGridLines]=\"showGridLines\"\n          [yScale]=\"yScale\"\n          [dims]=\"dims\"\n          [showLabel]=\"showYAxisLabel\"\n          [labelText]=\"yAxisLabel\"\n          [tickFormatting]=\"yAxisTickFormatting\"\n          (dimensionsChanged)=\"updateYAxisWidth($event)\"/>\n        <svg:rect\n          class=\"bubble-chart-area\"\n          x=\"0\"\n          y=\"0\"\n          [attr.width]=\"dims.width\"\n          [attr.height]=\"dims.height\"\n          style=\"fill: rgb(255, 0, 0); opacity: 0; cursor: 'auto';\"\n          (mouseenter)=\"deactivateAll()\"\n        />\n        <svg:g *ngFor=\"let series of data\">\n          <svg:g ngx-charts-bubble-series\n            [xScale]=\"xScale\"\n            [yScale]=\"yScale\"\n            [rScale]=\"rScale\"\n            [xScaleType]=\"xScaleType\"\n            [yScaleType]=\"yScaleType\"\n            [xAxisLabel]=\"xAxisLabel\"\n            [yAxisLabel]=\"yAxisLabel\"\n            [colors]=\"colors\"\n            [data]=\"series\"\n            [activeEntries]=\"activeEntries\"\n            [tooltipDisabled]=\"tooltipDisabled\"\n            (select)=\"onClick($event, series)\"\n            (activate)=\"onActivate($event)\"\n            (deactivate)=\"onDeactivate($event)\" />\n        </svg:g>\n      </svg:g>\n    </ngx-charts-chart>",
-                styleUrls: ['../common/base-chart.component.css'],
-                changeDetection: ChangeDetectionStrategy.OnPush,
-                encapsulation: ViewEncapsulation.None
-            },] },
-];
-/** @nocollapse */
-BubbleChartComponent.ctorParameters = function () { return []; };
-BubbleChartComponent.propDecorators = {
-    'showGridLines': [{ type: Input },],
-    'legend': [{ type: Input },],
-    'legendTitle': [{ type: Input },],
-    'xAxis': [{ type: Input },],
-    'yAxis': [{ type: Input },],
-    'showXAxisLabel': [{ type: Input },],
-    'showYAxisLabel': [{ type: Input },],
-    'xAxisLabel': [{ type: Input },],
-    'yAxisLabel': [{ type: Input },],
-    'xAxisTickFormatting': [{ type: Input },],
-    'yAxisTickFormatting': [{ type: Input },],
-    'roundDomains': [{ type: Input },],
-    'maxRadius': [{ type: Input },],
-    'minRadius': [{ type: Input },],
-    'autoScale': [{ type: Input },],
-    'schemeType': [{ type: Input },],
-    'legendPosition': [{ type: Input },],
-    'tooltipDisabled': [{ type: Input },],
-    'activate': [{ type: Output },],
-    'deactivate': [{ type: Output },],
-    'hideCircles': [{ type: HostListener, args: ['mouseleave',] },],
-};
-=======
->>>>>>> tags/10.0.0
 //# sourceMappingURL=bubble-chart.component.js.map

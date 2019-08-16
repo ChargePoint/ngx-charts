@@ -303,16 +303,16 @@ var BarHorizontalStackedComponent = /** @class */ (function (_super) {
     ], BarHorizontalStackedComponent.prototype, "yAxisTickFormatting", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Object)
+    ], BarHorizontalStackedComponent.prototype, "barPadding", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Array)
     ], BarHorizontalStackedComponent.prototype, "xAxisTicks", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Array)
     ], BarHorizontalStackedComponent.prototype, "yAxisTicks", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Object)
-    ], BarHorizontalStackedComponent.prototype, "barPadding", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)

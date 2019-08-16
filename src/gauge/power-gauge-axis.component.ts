@@ -1,3 +1,4 @@
+
 import {
   Component,
   Input,
@@ -9,7 +10,11 @@ import {
 import { easeElastic } from 'd3-ease';
 import { select } from 'd3-selection';
 import { curveMonotoneX, line } from 'd3-shape';
-import { ViewDimensions } from '../common/view-dimensions.helper';
+export interface ViewDimensions {
+  width: number;
+  height: number;
+  xOffset: number;
+}
 
 @Component({
   selector: 'g[ngx-charts-power-gauge-axis]',
@@ -118,7 +123,7 @@ export class PowerGaugeAxisComponent implements OnChanges {
   }
 
   getTicks(): any {
-    const bigTickSegment = this.angleSpan / this.bigSegments.length;
+     // const bigTickSegment = this.angleSpan / this.bigSegments.length;
     const tickLength = this.outerRadius - this.innerRadius;
     const ticks = [];
 
@@ -130,7 +135,7 @@ export class PowerGaugeAxisComponent implements OnChanges {
 
     for (let i = 0; i < this.bigSegments.length; i++) {
       bigSegment = this.bigSegments[i];
-      const { data, endAngle, textAnchor } = bigSegment;
+      const { data, endAngle } = bigSegment;
       let text = data.value;
       if (this.tickFormatting) {
         text = this.tickFormatting(text);

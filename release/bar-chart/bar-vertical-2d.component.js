@@ -316,20 +316,20 @@ var BarVertical2DComponent = /** @class */ (function (_super) {
     ], BarVertical2DComponent.prototype, "yAxisTickFormatting", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", Array)
-    ], BarVertical2DComponent.prototype, "xAxisTicks", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Array)
-    ], BarVertical2DComponent.prototype, "yAxisTicks", void 0);
-    __decorate([
-        Input(),
         __metadata("design:type", Object)
     ], BarVertical2DComponent.prototype, "groupPadding", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Object)
     ], BarVertical2DComponent.prototype, "barPadding", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], BarVertical2DComponent.prototype, "xAxisTicks", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], BarVertical2DComponent.prototype, "yAxisTicks", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)

@@ -1,5 +1,9 @@
 import { OnChanges, NgZone } from '@angular/core';
-import { ViewDimensions } from '../common/view-dimensions.helper';
+export interface ViewDimensions {
+    width: number;
+    height: number;
+    xOffset: number;
+}
 export declare class PowerGaugeAxisComponent implements OnChanges {
     private zone;
     bigSegments: any;

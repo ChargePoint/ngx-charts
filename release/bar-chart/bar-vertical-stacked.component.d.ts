@@ -19,13 +19,9 @@ export declare class BarVerticalStackedComponent extends BaseChartComponent {
     schemeType: string;
     xAxisTickFormatting: any;
     yAxisTickFormatting: any;
-<<<<<<< HEAD
     barPadding: string | number;
-=======
     xAxisTicks: any[];
     yAxisTicks: any[];
-    barPadding: number;
->>>>>>> tags/10.0.0
     roundDomains: boolean;
     yScaleMax: number;
     showDataLabel: boolean;

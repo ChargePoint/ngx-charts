@@ -1,8 +1,17 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 import { Component, Input, ChangeDetectionStrategy, NgZone } from '@angular/core';
 import { easeElastic } from 'd3-ease';
 import { select } from 'd3-selection';
 import { curveMonotoneX, line } from 'd3-shape';
-var PowerGaugeAxisComponent = (function () {
+var PowerGaugeAxisComponent = /** @class */ (function () {
     function PowerGaugeAxisComponent(zone) {
         this.zone = zone;
         this.pointerWidth = 13;
@@ -55,7 +64,7 @@ var PowerGaugeAxisComponent = (function () {
             .attr('transform', pointerRotate);
     };
     PowerGaugeAxisComponent.prototype.getTicks = function () {
-        var bigTickSegment = this.angleSpan / this.bigSegments.length;
+        // const bigTickSegment = this.angleSpan / this.bigSegments.length;
         var tickLength = this.outerRadius - this.innerRadius;
         var ticks = [];
         var startDistance = this.innerRadius;
@@ -64,7 +73,7 @@ var PowerGaugeAxisComponent = (function () {
         var bigSegment;
         for (var i = 0; i < this.bigSegments.length; i++) {
             bigSegment = this.bigSegments[i];
-            var data = bigSegment.data, endAngle = bigSegment.endAngle, textAnchor = bigSegment.textAnchor;
+            var data = bigSegment.data, endAngle = bigSegment.endAngle;
             var text = data.value;
             if (this.tickFormatting) {
                 text = this.tickFormatting(text);
@@ -103,31 +112,59 @@ var PowerGaugeAxisComponent = (function () {
         var lineGenerator = line().x(function (d) { return d.x; }).y(function (d) { return d.y; }).curve(curveMonotoneX);
         return lineGenerator(pointerLine);
     };
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], PowerGaugeAxisComponent.prototype, "bigSegments", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeAxisComponent.prototype, "startAngle", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeAxisComponent.prototype, "pointerAngle", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeAxisComponent.prototype, "angleSpan", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeAxisComponent.prototype, "outerRadius", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeAxisComponent.prototype, "innerRadius", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeAxisComponent.prototype, "cornerRadius", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], PowerGaugeAxisComponent.prototype, "tickFormatting", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], PowerGaugeAxisComponent.prototype, "dims", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], PowerGaugeAxisComponent.prototype, "pointerWidth", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], PowerGaugeAxisComponent.prototype, "pointerTailLength", void 0);
+    PowerGaugeAxisComponent = __decorate([
+        Component({
+            selector: 'g[ngx-charts-power-gauge-axis]',
+            template: "\n  <svg:g [attr.transform]=\"rotate\">\n    <svg:g *ngFor=\"let tick of ticks\"\n        class=\"gauge-tick gauge-tick-large\">\n        <svg:path [attr.d]=\"tick.line\" />\n    </svg:g>\n    <svg:g *ngFor=\"let tick of ticks\"\n        class=\"gauge-tick gauge-tick-large\">\n        <svg:text *ngIf=\"tick.label\"\n            [style.textAnchor]=\"tick.textAnchor\"\n            [attr.transform]=\"tick.labelTransform\"\n            alignment-baseline=\"central\">\n            {{tick.label}}\n        </svg:text>\n        <svg:text\n            [style.textAnchor]=\"tick.textAnchor\"\n            [attr.transform]=\"tick.textTransform\"\n            alignment-baseline=\"central\">\n            {{tick.text}}\n        </svg:text>\n    </svg:g>\n  </svg:g>\n  <svg:g [attr.transform]=\"'rotate(0)'\" class=\"pointer\">\n    <svg:g>\n      <svg:path\n        [attr.d]=\"getPointerPath()\"\n      />\n    </svg:g>\n  </svg:g>\n  ",
+            changeDetection: ChangeDetectionStrategy.OnPush
+        }),
+        __metadata("design:paramtypes", [NgZone])
+    ], PowerGaugeAxisComponent);
     return PowerGaugeAxisComponent;
 }());
 export { PowerGaugeAxisComponent };
-PowerGaugeAxisComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'g[ngx-charts-power-gauge-axis]',
-                template: "\n  <svg:g [attr.transform]=\"rotate\">\n    <svg:g *ngFor=\"let tick of ticks\"\n        class=\"gauge-tick gauge-tick-large\">\n        <svg:path [attr.d]=\"tick.line\" />\n    </svg:g>\n    <svg:g *ngFor=\"let tick of ticks\"\n        class=\"gauge-tick gauge-tick-large\">\n        <svg:text *ngIf=\"tick.label\"\n            [style.textAnchor]=\"tick.textAnchor\"\n            [attr.transform]=\"tick.labelTransform\"\n            alignment-baseline=\"central\">\n            {{tick.label}}\n        </svg:text>\n        <svg:text\n            [style.textAnchor]=\"tick.textAnchor\"\n            [attr.transform]=\"tick.textTransform\"\n            alignment-baseline=\"central\">\n            {{tick.text}}\n        </svg:text>\n    </svg:g>\n  </svg:g>\n  <svg:g [attr.transform]=\"'rotate(0)'\" class=\"pointer\">\n    <svg:g>\n      <svg:path\n        [attr.d]=\"getPointerPath()\"\n      />\n    </svg:g>\n  </svg:g>\n  ",
-                changeDetection: ChangeDetectionStrategy.OnPush
-            },] },
-];
-/** @nocollapse */
-PowerGaugeAxisComponent.ctorParameters = function () { return [
-    { type: NgZone, },
-]; };
-PowerGaugeAxisComponent.propDecorators = {
-    'bigSegments': [{ type: Input },],
-    'startAngle': [{ type: Input },],
-    'pointerAngle': [{ type: Input },],
-    'angleSpan': [{ type: Input },],
-    'outerRadius': [{ type: Input },],
-    'innerRadius': [{ type: Input },],
-    'cornerRadius': [{ type: Input },],
-    'tickFormatting': [{ type: Input },],
-    'dims': [{ type: Input },],
-    'pointerWidth': [{ type: Input },],
-    'pointerTailLength': [{ type: Input },],
-};
 //# sourceMappingURL=power-gauge-axis.component.js.map

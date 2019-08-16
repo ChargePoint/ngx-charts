@@ -26,14 +26,10 @@ export declare class BarVerticalComponent extends BaseChartComponent {
     xAxisTickFormatting: any;
     showTicks: boolean[];
     yAxisTickFormatting: any;
-<<<<<<< HEAD
     maxTicks: number;
     barPadding: string | number;
-=======
     xAxisTicks: any[];
     yAxisTicks: any[];
-    barPadding: number;
->>>>>>> tags/10.0.0
     roundDomains: boolean;
     roundEdges: boolean;
     yScaleMax: number;

@@ -21,6 +21,7 @@ const libs = [
   'd3-hierarchy',
   'd3-time',
   'd3-time-format',
+  'd3-ease',
   'rxjs',
   'rxjs/operators',
   'zone.js/dist/zone'

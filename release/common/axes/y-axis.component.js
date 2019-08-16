@@ -13,17 +13,10 @@ var YAxisComponent = /** @class */ (function () {
     function YAxisComponent() {
         this.showGridLines = false;
         this.yOrient = 'left';
-<<<<<<< HEAD
-        this.dimensionsChanged = new EventEmitter();
-        this.yAxisClassName = 'y axis';
-        this.yAxisOffset = -5;
-        this.labelOffset = 80;
-=======
         this.yAxisOffset = 0;
         this.dimensionsChanged = new EventEmitter();
         this.yAxisClassName = 'y axis';
         this.labelOffset = 15;
->>>>>>> tags/10.0.0
         this.fill = 'none';
         this.stroke = '#CCC';
         this.tickStroke = '#CCC';
@@ -137,29 +130,4 @@ var YAxisComponent = /** @class */ (function () {
     return YAxisComponent;
 }());
 export { YAxisComponent };
-<<<<<<< HEAD
-YAxisComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'g[ngx-charts-y-axis]',
-                template: "\n    <svg:g\n      [attr.class]=\"yAxisClassName\"\n      [attr.transform]=\"transform\">\n      <svg:g ngx-charts-y-axis-ticks\n        *ngIf=\"yScale\"\n        [tickFormatting]=\"tickFormatting\"\n        [tickArguments]=\"tickArguments\"\n        [tickStroke]=\"tickStroke\"\n        [scale]=\"yScale\"\n        [orient]=\"yOrient\"\n        [showGridLines]=\"showGridLines\"\n        [gridLineWidth]=\"dims.width\"\n        [height]=\"dims.height\"\n        (dimensionsChanged)=\"emitTicksWidth($event)\"\n      />\n      <svg:g ngx-charts-axis-label\n        *ngIf=\"showLabel\"\n        [label]=\"labelText\"\n        [offset]=\"labelOffset\"\n        [orient]=\"yOrient\"\n        [height]=\"dims.height\"\n        [width]=\"dims.width\">\n      </svg:g>\n    </svg:g>\n  ",
-                changeDetection: ChangeDetectionStrategy.OnPush
-            },] },
-];
-/** @nocollapse */
-YAxisComponent.ctorParameters = function () { return []; };
-YAxisComponent.propDecorators = {
-    'yScale': [{ type: Input },],
-    'dims': [{ type: Input },],
-    'tickFormatting': [{ type: Input },],
-    'showGridLines': [{ type: Input },],
-    'showLabel': [{ type: Input },],
-    'labelText': [{ type: Input },],
-    'yAxisTickInterval': [{ type: Input },],
-    'yAxisTickCount': [{ type: Input },],
-    'yOrient': [{ type: Input },],
-    'dimensionsChanged': [{ type: Output },],
-    'ticksComponent': [{ type: ViewChild, args: [YAxisTicksComponent,] },],
-};
-=======
->>>>>>> tags/10.0.0
 //# sourceMappingURL=y-axis.component.js.map

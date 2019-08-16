@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"version":3,"sources":["../../build/pie-chart/index.ts"],"names":[],"mappings":"AAAA,cAAc,gCAAgC,CAAC;AAC/C,cAAc,oBAAoB,CAAC;AACnC,cAAc,uBAAuB,CAAC;AACtC,cAAc,8BAA8B,CAAC;AAC7C,cAAc,qBAAqB,CAAC;AACpC,cAAc,sBAAsB,CAAC;AACrC,cAAc,wBAAwB,CAAC;AACvC,cAAc,uBAAuB,CAAC;AACtC,cAAc,wBAAwB,CAAC","file":"index.js","sourceRoot":""}
-=======
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../build/pie-chart/index.ts"],"names":[],"mappings":"AAAA,cAAc,oBAAoB,CAAC;AACnC,cAAc,gCAAgC,CAAC;AAC/C,cAAc,uBAAuB,CAAC;AACtC,cAAc,qBAAqB,CAAC;AACpC,cAAc,sBAAsB,CAAC;AACrC,cAAc,wBAAwB,CAAC;AACvC,cAAc,uBAAuB,CAAC"}
->>>>>>> tags/10.0.0
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../build/pie-chart/index.ts"],"names":[],"mappings":"AAAA,cAAc,gCAAgC,CAAC;AAC/C,cAAc,oBAAoB,CAAC;AACnC,cAAc,uBAAuB,CAAC;AACtC,cAAc,8BAA8B,CAAC;AAC7C,cAAc,qBAAqB,CAAC;AACpC,cAAc,sBAAsB,CAAC;AACrC,cAAc,wBAAwB,CAAC;AACvC,cAAc,uBAAuB,CAAC"}

@@ -65,13 +65,8 @@ var SeriesVerticalComponent = /** @class */ (function () {
                 x: 0,
                 y: 0,
             };
-<<<<<<< HEAD
-            if (_this.type.indexOf('standard') === 0) {
-                bar.height = Math.abs(_this.yScale(value) - _this.yScale(0));
-=======
             if (_this.type === 'standard') {
                 bar.height = Math.abs(_this.yScale(value) - _this.yScale(yScaleMin));
->>>>>>> tags/10.0.0
                 bar.x = _this.xScale(label);
                 if (value < 0) {
                     bar.y = _this.yScale(0);
@@ -130,15 +125,11 @@ var SeriesVerticalComponent = /** @class */ (function () {
                 bar.data.series = _this.seriesName;
                 bar.ariaLabel = _this.seriesName + ' ' + bar.ariaLabel;
             }
-<<<<<<< HEAD
             var tValue = value.toLocaleString();
             if (_this.tooltipFormatting) {
                 tValue = _this.tooltipFormatting(value);
             }
-            bar.tooltipText = "\n        <span class=\"tooltip-label\">" + tooltipLabel + "</span>\n        <span class=\"tooltip-val\">" + tValue + "</span>\n      ";
-=======
-            bar.tooltipText = _this.tooltipDisabled ? undefined : "\n        <span class=\"tooltip-label\">" + tooltipLabel + "</span>\n        <span class=\"tooltip-val\">" + value.toLocaleString() + "</span>\n      ";
->>>>>>> tags/10.0.0
+            bar.tooltipText = _this.tooltipDisabled ? undefined : "\n        <span class=\"tooltip-label\">" + tooltipLabel + "</span>\n        <span class=\"tooltip-val\">" + tValue + "</span>\n      ";
             return bar;
         });
         this.updateDataLabels();
@@ -223,6 +214,10 @@ var SeriesVerticalComponent = /** @class */ (function () {
     ], SeriesVerticalComponent.prototype, "colors", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Object)
+    ], SeriesVerticalComponent.prototype, "tooltipFormatting", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Boolean)
     ], SeriesVerticalComponent.prototype, "gradient", void 0);
     __decorate([
@@ -293,43 +288,4 @@ var SeriesVerticalComponent = /** @class */ (function () {
     return SeriesVerticalComponent;
 }());
 export { SeriesVerticalComponent };
-<<<<<<< HEAD
-SeriesVerticalComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'g[ngx-charts-series-vertical]',
-                template: "\n    <svg:g ngx-charts-bar *ngFor=\"let bar of bars; trackBy: trackBy\"\n      [@animationState]=\"'active'\"\n      [width]=\"bar.width\"\n      [height]=\"bar.height\"\n      [x]=\"bar.x\"\n      [y]=\"bar.y\"\n      [fill]=\"bar.color\"\n      [stops]=\"bar.gradientStops\"\n      [data]=\"bar.data\"\n      [orientation]=\"'vertical'\"\n      [roundEdges]=\"bar.roundEdges\"\n      [gradient]=\"gradient\"\n      [isActive]=\"isActive(bar.data)\"\n      (select)=\"onClick($event)\"\n      (activate)=\"activate.emit($event)\"\n      (deactivate)=\"deactivate.emit($event)\"\n      ngx-tooltip\n      [tooltipDisabled]=\"tooltipDisabled\"\n      [tooltipPlacement]=\"'top'\"\n      [tooltipType]=\"'tooltip'\"\n      [tooltipTitle]=\"bar.tooltipText\">\n    </svg:g>\n  ",
-                changeDetection: ChangeDetectionStrategy.OnPush,
-                animations: [
-                    trigger('animationState', [
-                        transition('* => void', [
-                            style({
-                                opacity: 1,
-                                transform: '*',
-                            }),
-                            animate(500, style({ opacity: 0, transform: 'scale(0)' }))
-                        ])
-                    ])
-                ]
-            },] },
-];
-/** @nocollapse */
-SeriesVerticalComponent.ctorParameters = function () { return []; };
-SeriesVerticalComponent.propDecorators = {
-    'dims': [{ type: Input },],
-    'type': [{ type: Input },],
-    'series': [{ type: Input },],
-    'xScale': [{ type: Input },],
-    'yScale': [{ type: Input },],
-    'colors': [{ type: Input },],
-    'tooltipDisabled': [{ type: Input },],
-    'tooltipFormatting': [{ type: Input },],
-    'gradient': [{ type: Input },],
-    'activeEntries': [{ type: Input },],
-    'seriesName': [{ type: Input },],
-    'select': [{ type: Output },],
-    'activate': [{ type: Output },],
-    'deactivate': [{ type: Output },],
-};
-=======
->>>>>>> tags/10.0.0
 //# sourceMappingURL=series-vertical.component.js.map

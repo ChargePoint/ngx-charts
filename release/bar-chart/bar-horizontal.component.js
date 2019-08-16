@@ -243,16 +243,16 @@ var BarHorizontalComponent = /** @class */ (function (_super) {
     ], BarHorizontalComponent.prototype, "yAxisTickFormatting", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Object)
+    ], BarHorizontalComponent.prototype, "barPadding", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Array)
     ], BarHorizontalComponent.prototype, "xAxisTicks", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Array)
     ], BarHorizontalComponent.prototype, "yAxisTicks", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Object)
-    ], BarHorizontalComponent.prototype, "barPadding", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)

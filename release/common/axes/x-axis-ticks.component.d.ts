@@ -17,7 +17,6 @@ export declare class XAxisTicksComponent implements OnChanges, AfterViewInit {
     innerTickSize: number;
     outerTickSize: number;
     tickPadding: number;
-    tickValues: any;
     textAnchor: string;
     maxTicksLength: number;
     maxAllowedLength: number;

@@ -11,22 +11,15 @@ export declare class YAxisComponent implements OnChanges {
     yAxisTickInterval: any;
     yAxisTickCount: any;
     yOrient: string;
-<<<<<<< HEAD
-=======
     referenceLines: any;
     showRefLines: any;
     showRefLabels: any;
     yAxisOffset: number;
->>>>>>> tags/10.0.0
     dimensionsChanged: EventEmitter<{}>;
     yAxisClassName: string;
     tickArguments: any;
     offset: any;
     transform: any;
-<<<<<<< HEAD
-    yAxisOffset: number;
-=======
->>>>>>> tags/10.0.0
     labelOffset: number;
     fill: string;
     stroke: string;

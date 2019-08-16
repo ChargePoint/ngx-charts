@@ -13,10 +13,7 @@ export declare class XAxisComponent implements OnChanges {
     xAxisTickLabels: string[];
     xAxisTickCount: any;
     xOrient: string;
-<<<<<<< HEAD
-=======
     xAxisOffset: number;
->>>>>>> tags/10.0.0
     dimensionsChanged: EventEmitter<{}>;
     xAxisClassName: string;
     tickArguments: any;

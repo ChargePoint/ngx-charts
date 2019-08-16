@@ -25,45 +25,23 @@ var GaugeModule = /** @class */ (function () {
                 LinearGaugeComponent,
                 GaugeComponent,
                 GaugeArcComponent,
-                GaugeAxisComponent
+                GaugeArcSeriesComponent,
+                GaugeAxisComponent,
+                PowerGaugeComponent,
+                PowerGaugeAxisComponent
             ],
             exports: [
                 LinearGaugeComponent,
                 GaugeComponent,
                 GaugeArcComponent,
-                GaugeAxisComponent
+                GaugeArcSeriesComponent,
+                GaugeAxisComponent,
+                PowerGaugeComponent,
+                PowerGaugeAxisComponent
             ]
         })
     ], GaugeModule);
     return GaugeModule;
 }());
 export { GaugeModule };
-<<<<<<< HEAD
-GaugeModule.decorators = [
-    { type: NgModule, args: [{
-                imports: [ChartCommonModule, PieChartModule, BarChartModule],
-                declarations: [
-                    LinearGaugeComponent,
-                    GaugeComponent,
-                    GaugeArcComponent,
-                    GaugeArcSeriesComponent,
-                    GaugeAxisComponent,
-                    PowerGaugeComponent,
-                    PowerGaugeAxisComponent
-                ],
-                exports: [
-                    LinearGaugeComponent,
-                    GaugeComponent,
-                    GaugeArcComponent,
-                    GaugeArcSeriesComponent,
-                    GaugeAxisComponent,
-                    PowerGaugeComponent,
-                    PowerGaugeAxisComponent
-                ]
-            },] },
-];
-/** @nocollapse */
-GaugeModule.ctorParameters = function () { return []; };
-=======
->>>>>>> tags/10.0.0
 //# sourceMappingURL=gauge.module.js.map

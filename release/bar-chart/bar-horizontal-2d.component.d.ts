@@ -19,10 +19,10 @@ export declare class BarHorizontal2DComponent extends BaseChartComponent {
     schemeType: string;
     xAxisTickFormatting: any;
     yAxisTickFormatting: any;
-    groupPadding: string;
-    barPadding: string | number;
     xAxisTicks: any[];
     yAxisTicks: any[];
+    groupPadding: string;
+    barPadding: string | number;
     roundDomains: boolean;
     roundEdges: boolean;
     xScaleMax: number;

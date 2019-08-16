@@ -68,11 +68,8 @@ var BarVerticalComponent = /** @class */ (function (_super) {
             showYLabel: this.showYAxisLabel,
             showLegend: this.legend,
             legendType: this.schemeType,
-<<<<<<< HEAD
-            yAxisLabel: this.yAxisLabel
-=======
+            yAxisLabel: this.yAxisLabel,
             legendPosition: this.legendPosition
->>>>>>> tags/10.0.0
         });
         if (this.showDataLabel) {
             this.dims.height -= this.dataLabelMaxHeight.negative;
@@ -81,7 +78,6 @@ var BarVerticalComponent = /** @class */ (function (_super) {
         this.yScale = this.getYScale();
         this.setColors();
         this.legendOptions = this.getLegendOptions();
-<<<<<<< HEAD
         if (this.yAxisTickRoundingLabel) {
             var offset = this.margin[3];
             if (!this.yAxisLabel) {
@@ -90,10 +86,7 @@ var BarVerticalComponent = /** @class */ (function (_super) {
             this.labelTransform = "translate(" + offset + " , 10)";
             this.margin[0] = 30;
         }
-        this.transform = "translate(" + this.dims.xOffset + " , " + this.margin[0] + ")";
-=======
         this.transform = "translate(" + this.dims.xOffset + " , " + (this.margin[0] + this.dataLabelMaxHeight.negative) + ")";
->>>>>>> tags/10.0.0
     };
     BarVerticalComponent.prototype.getXScale = function () {
         this.xDomain = this.getXDomain();
@@ -200,54 +193,9 @@ var BarVerticalComponent = /** @class */ (function (_super) {
         this.activeEntries = this.activeEntries.slice();
         this.deactivate.emit({ value: item, entries: this.activeEntries });
     };
-<<<<<<< HEAD
     BarVerticalComponent.prototype.xAxisLineTransform = function () {
         return "translate(0," + this.dims.height + ")";
     };
-    return BarVerticalComponent;
-}(BaseChartComponent));
-export { BarVerticalComponent };
-BarVerticalComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'ngx-charts-bar-vertical',
-                template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"legend\"\n      [legendOptions]=\"legendOptions\"\n      [activeEntries]=\"activeEntries\"\n      (legendLabelClick)=\"onClick($event)\"\n      (legendLabelActivate)=\"onActivate($event)\"\n      (legendLabelDeactivate)=\"onDeactivate($event)\">\n      <svg:text *ngIf=\"yAxisTickRoundingLabel\" class=\"tick-round-label\"\n          [style.textAnchor]=\"'start'\"\n          [style.alignment-baseline]=\"'baseline'\"\n          [attr.transform]=\"labelTransform\"\n          alignment-baseline=\"central\"\n          x=\"20\" dy=\"5\">\n          {{yAxisTickRoundingLabel}}\n      </svg:text>\n      <svg:g [attr.transform]=\"transform\" class=\"bar-chart chart\">\n        <svg:g ngx-charts-x-axis\n          *ngIf=\"xAxis\"\n          [xScale]=\"xScale\"\n          [dims]=\"dims\"\n          [showLabel]=\"showXAxisLabel\"\n          [labelText]=\"xAxisLabel\"\n          [tickFormatting]=\"xAxisTickFormatting\"\n          [xAxisTickLabels]=\"xAxisTickLabels\"\n          [showTicks]=\"showTicks\"\n          (dimensionsChanged)=\"updateXAxisHeight($event)\">\n        </svg:g>\n        <svg:g ngx-charts-y-axis\n          *ngIf=\"yAxis\"\n          [yScale]=\"yScale\"\n          [dims]=\"dims\"\n          [showGridLines]=\"showGridLines\"\n          [showLabel]=\"showYAxisLabel\"\n          [labelText]=\"yAxisLabel\"\n          [tickFormatting]=\"yAxisTickFormatting\"\n          [yAxisTickCount]=\"maxTicks\"\n          (dimensionsChanged)=\"updateYAxisWidth($event)\">\n        </svg:g>\n        <svg:g ngx-charts-series-vertical\n          [type]=\"type\"\n          [xScale]=\"xScale\"\n          [yScale]=\"yScale\"\n          [colors]=\"colors\"\n          [series]=\"results\"\n          [dims]=\"dims\"\n          [gradient]=\"gradient\"\n          [tooltipDisabled]=\"tooltipDisabled\"\n          [tooltipFormatting]=\"tooltipFormatting\"\n          [activeEntries]=\"activeEntries\"\n          (activate)=\"onActivate($event)\"\n          (deactivate)=\"onDeactivate($event)\"\n          (select)=\"onClick($event)\">\n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\">\n          <svg:line\n            class=\"gridline-path gridline-path-vertical\"\n            y1=\"0\"\n            [attr.y2]=\"dims.height\" />\n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\"\n          [attr.transform]=\"xAxisLineTransform()\">\n          <svg:line\n            class=\"gridline-path gridline-path-horizontal\"\n            x1=\"0\"\n            [attr.x2]=\"dims.width\" />\n        </svg:g>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
-                changeDetection: ChangeDetectionStrategy.OnPush,
-                styleUrls: ['../common/base-chart.component.css'],
-                encapsulation: ViewEncapsulation.None
-            },] },
-];
-/** @nocollapse */
-BarVerticalComponent.ctorParameters = function () { return []; };
-BarVerticalComponent.propDecorators = {
-    'legend': [{ type: Input },],
-    'legendTitle': [{ type: Input },],
-    'xAxis': [{ type: Input },],
-    'yAxis': [{ type: Input },],
-    'showXAxisLabel': [{ type: Input },],
-    'showYAxisLabel': [{ type: Input },],
-    'xAxisLabel': [{ type: Input },],
-    'xAxisTickLabels': [{ type: Input },],
-    'yAxisLabel': [{ type: Input },],
-    'yAxisTickRoundingLabel': [{ type: Input },],
-    'tooltipDisabled': [{ type: Input },],
-    'tooltipFormatting': [{ type: Input },],
-    'gradient': [{ type: Input },],
-    'showGridLines': [{ type: Input },],
-    'showBaseLines': [{ type: Input },],
-    'showAxisLines': [{ type: Input },],
-    'activeEntries': [{ type: Input },],
-    'schemeType': [{ type: Input },],
-    'type': [{ type: Input },],
-    'xAxisTickFormatting': [{ type: Input },],
-    'showTicks': [{ type: Input },],
-    'yAxisTickFormatting': [{ type: Input },],
-    'maxTicks': [{ type: Input },],
-    'barPadding': [{ type: Input },],
-    'roundDomains': [{ type: Input },],
-    'activate': [{ type: Output },],
-    'deactivate': [{ type: Output },],
-};
-=======
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -282,12 +230,24 @@ BarVerticalComponent.propDecorators = {
     ], BarVerticalComponent.prototype, "xAxisLabel", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Array)
+    ], BarVerticalComponent.prototype, "xAxisTickLabels", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Object)
     ], BarVerticalComponent.prototype, "yAxisLabel", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Object)
+    ], BarVerticalComponent.prototype, "yAxisTickRoundingLabel", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Boolean)
     ], BarVerticalComponent.prototype, "tooltipDisabled", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], BarVerticalComponent.prototype, "tooltipFormatting", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
@@ -298,6 +258,14 @@ BarVerticalComponent.propDecorators = {
     ], BarVerticalComponent.prototype, "showGridLines", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Boolean)
+    ], BarVerticalComponent.prototype, "showBaseLines", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], BarVerticalComponent.prototype, "showAxisLines", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Array)
     ], BarVerticalComponent.prototype, "activeEntries", void 0);
     __decorate([
@@ -306,12 +274,28 @@ BarVerticalComponent.propDecorators = {
     ], BarVerticalComponent.prototype, "schemeType", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", String)
+    ], BarVerticalComponent.prototype, "type", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Object)
     ], BarVerticalComponent.prototype, "xAxisTickFormatting", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Array)
+    ], BarVerticalComponent.prototype, "showTicks", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Object)
     ], BarVerticalComponent.prototype, "yAxisTickFormatting", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], BarVerticalComponent.prototype, "maxTicks", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], BarVerticalComponent.prototype, "barPadding", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Array)
@@ -320,10 +304,6 @@ BarVerticalComponent.propDecorators = {
         Input(),
         __metadata("design:type", Array)
     ], BarVerticalComponent.prototype, "yAxisTicks", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Object)
-    ], BarVerticalComponent.prototype, "barPadding", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
@@ -363,7 +343,7 @@ BarVerticalComponent.propDecorators = {
     BarVerticalComponent = __decorate([
         Component({
             selector: 'ngx-charts-bar-vertical',
-            template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"legend\"\n      [legendOptions]=\"legendOptions\"\n      [activeEntries]=\"activeEntries\"\n      [animations]=\"animations\"\n      (legendLabelClick)=\"onClick($event)\"\n      (legendLabelActivate)=\"onActivate($event)\"\n      (legendLabelDeactivate)=\"onDeactivate($event)\">\n      <svg:g [attr.transform]=\"transform\" class=\"bar-chart chart\">\n        <svg:g ngx-charts-x-axis\n          *ngIf=\"xAxis\"\n          [xScale]=\"xScale\"\n          [dims]=\"dims\"\n          [showLabel]=\"showXAxisLabel\"\n          [labelText]=\"xAxisLabel\"\n          [tickFormatting]=\"xAxisTickFormatting\"\n          [ticks]=\"xAxisTicks\"\n          [xAxisOffset]=\"dataLabelMaxHeight.negative\"\n          (dimensionsChanged)=\"updateXAxisHeight($event)\">\n        </svg:g>\n        <svg:g ngx-charts-y-axis\n          *ngIf=\"yAxis\"\n          [yScale]=\"yScale\"\n          [dims]=\"dims\"\n          [showGridLines]=\"showGridLines\"\n          [showLabel]=\"showYAxisLabel\"\n          [labelText]=\"yAxisLabel\"\n          [tickFormatting]=\"yAxisTickFormatting\"\n          [ticks]=\"yAxisTicks\"\n          (dimensionsChanged)=\"updateYAxisWidth($event)\">\n        </svg:g>\n        <svg:g ngx-charts-series-vertical\n          [xScale]=\"xScale\"\n          [yScale]=\"yScale\"\n          [colors]=\"colors\"\n          [series]=\"results\"\n          [dims]=\"dims\"\n          [gradient]=\"gradient\"\n          [tooltipDisabled]=\"tooltipDisabled\"\n          [tooltipTemplate]=\"tooltipTemplate\"\n          [showDataLabel]=\"showDataLabel\"\n          [dataLabelFormatting]=\"dataLabelFormatting\"\n          [activeEntries]=\"activeEntries\"\n          [roundEdges]=\"roundEdges\"\n          [animations]=\"animations\"\n          (activate)=\"onActivate($event)\"\n          (deactivate)=\"onDeactivate($event)\"\n          (select)=\"onClick($event)\"\n          (dataLabelHeightChanged)=\"onDataLabelMaxHeightChanged($event)\"\n          >          \n        </svg:g>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
+            template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"legend\"\n      [legendOptions]=\"legendOptions\"\n      [activeEntries]=\"activeEntries\"\n      [animations]=\"animations\"\n      (legendLabelClick)=\"onClick($event)\"\n      (legendLabelActivate)=\"onActivate($event)\"\n      (legendLabelDeactivate)=\"onDeactivate($event)\">\n      <svg:text *ngIf=\"yAxisTickRoundingLabel\" class=\"tick-round-label\"\n          [style.textAnchor]=\"'start'\"\n          [style.alignment-baseline]=\"'baseline'\"\n          [attr.transform]=\"labelTransform\"\n          alignment-baseline=\"central\"\n          x=\"20\" dy=\"5\">\n          {{yAxisTickRoundingLabel}}\n      </svg:text>\n      <svg:g [attr.transform]=\"transform\" class=\"bar-chart chart\">\n        <svg:g ngx-charts-x-axis\n          *ngIf=\"xAxis\"\n          [xScale]=\"xScale\"\n          [dims]=\"dims\"\n          [showLabel]=\"showXAxisLabel\"\n          [labelText]=\"xAxisLabel\"\n          [tickFormatting]=\"xAxisTickFormatting\"\n          [xAxisTickLabels]=\"xAxisTickLabels\"\n          [showTicks]=\"showTicks\"\n          [ticks]=\"xAxisTicks\"\n          [xAxisOffset]=\"dataLabelMaxHeight.negative\"\n          (dimensionsChanged)=\"updateXAxisHeight($event)\">\n        </svg:g>\n        <svg:g ngx-charts-y-axis\n          *ngIf=\"yAxis\"\n          [yScale]=\"yScale\"\n          [dims]=\"dims\"\n          [showGridLines]=\"showGridLines\"\n          [showLabel]=\"showYAxisLabel\"\n          [labelText]=\"yAxisLabel\"\n          [tickFormatting]=\"yAxisTickFormatting\"\n          [yAxisTickCount]=\"maxTicks\"\n          [ticks]=\"yAxisTicks\"\n          (dimensionsChanged)=\"updateYAxisWidth($event)\">\n        </svg:g>\n        <svg:g ngx-charts-series-vertical\n          [type]=\"type\"\n          [xScale]=\"xScale\"\n          [yScale]=\"yScale\"\n          [colors]=\"colors\"\n          [series]=\"results\"\n          [dims]=\"dims\"\n          [gradient]=\"gradient\"\n          [tooltipDisabled]=\"tooltipDisabled\"\n          [tooltipFormatting]=\"tooltipFormatting\"\n          [tooltipTemplate]=\"tooltipTemplate\"\n          [showDataLabel]=\"showDataLabel\"\n          [dataLabelFormatting]=\"dataLabelFormatting\"\n          [activeEntries]=\"activeEntries\"\n          [roundEdges]=\"roundEdges\"\n          [animations]=\"animations\"\n          (activate)=\"onActivate($event)\"\n          (deactivate)=\"onDeactivate($event)\"\n          (select)=\"onClick($event)\"\n          (dataLabelHeightChanged)=\"onDataLabelMaxHeightChanged($event)\"\n          >          \n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\">\n          <svg:line\n            class=\"gridline-path gridline-path-vertical\"\n            y1=\"0\"\n            [attr.y2]=\"dims.height\" />\n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\"\n          [attr.transform]=\"xAxisLineTransform()\">\n          <svg:line\n            class=\"gridline-path gridline-path-horizontal\"\n            x1=\"0\"\n            [attr.x2]=\"dims.width\" />\n        </svg:g>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
             changeDetection: ChangeDetectionStrategy.OnPush,
             styleUrls: ['../common/base-chart.component.css'],
             encapsulation: ViewEncapsulation.None
@@ -372,5 +352,4 @@ BarVerticalComponent.propDecorators = {
     return BarVerticalComponent;
 }(BaseChartComponent));
 export { BarVerticalComponent };
->>>>>>> tags/10.0.0
 //# sourceMappingURL=bar-vertical.component.js.map

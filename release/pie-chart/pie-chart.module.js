@@ -14,12 +14,7 @@ import { SimplePieChartComponent } from './simple-pie-chart.component';
 import { PieGridComponent } from './pie-grid.component';
 import { PieGridSeriesComponent } from './pie-grid-series.component';
 import { PieSeriesComponent } from './pie-series.component';
-<<<<<<< HEAD
-export { AdvancedPieChartComponent, PieLabelComponent, PieArcComponent, PieChartComponent, SimplePieChartComponent, PieGridComponent, PieGridSeriesComponent, PieSeriesComponent };
-var PieChartModule = (function () {
-=======
 var PieChartModule = /** @class */ (function () {
->>>>>>> tags/10.0.0
     function PieChartModule() {
     }
     PieChartModule = __decorate([
@@ -30,6 +25,7 @@ var PieChartModule = /** @class */ (function () {
                 PieLabelComponent,
                 PieArcComponent,
                 PieChartComponent,
+                SimplePieChartComponent,
                 PieGridComponent,
                 PieGridSeriesComponent,
                 PieSeriesComponent
@@ -39,6 +35,7 @@ var PieChartModule = /** @class */ (function () {
                 PieLabelComponent,
                 PieArcComponent,
                 PieChartComponent,
+                SimplePieChartComponent,
                 PieGridComponent,
                 PieGridSeriesComponent,
                 PieSeriesComponent
@@ -48,34 +45,4 @@ var PieChartModule = /** @class */ (function () {
     return PieChartModule;
 }());
 export { PieChartModule };
-<<<<<<< HEAD
-PieChartModule.decorators = [
-    { type: NgModule, args: [{
-                imports: [ChartCommonModule],
-                declarations: [
-                    AdvancedPieChartComponent,
-                    PieLabelComponent,
-                    PieArcComponent,
-                    PieChartComponent,
-                    SimplePieChartComponent,
-                    PieGridComponent,
-                    PieGridSeriesComponent,
-                    PieSeriesComponent
-                ],
-                exports: [
-                    AdvancedPieChartComponent,
-                    PieLabelComponent,
-                    PieArcComponent,
-                    PieChartComponent,
-                    SimplePieChartComponent,
-                    PieGridComponent,
-                    PieGridSeriesComponent,
-                    PieSeriesComponent
-                ]
-            },] },
-];
-/** @nocollapse */
-PieChartModule.ctorParameters = function () { return []; };
-=======
->>>>>>> tags/10.0.0
 //# sourceMappingURL=pie-chart.module.js.map

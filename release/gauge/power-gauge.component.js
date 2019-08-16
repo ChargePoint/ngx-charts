@@ -1,16 +1,33 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-import { Component, Input, ViewChild, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+import { Component, Input, ElementRef, ViewChild, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { BaseChartComponent } from '../common/base-chart.component';
 import { formatLabel } from '../common/label.helper';
 import { ColorHelper } from '../common/color.helper';
 import { calculateViewDimensions } from '../common/view-dimensions.helper';
 import { sortLinear } from '../utils/sort';
 import { scaleLinear } from 'd3-scale';
-var PowerGaugeComponent = (function (_super) {
+var PowerGaugeComponent = /** @class */ (function (_super) {
     __extends(PowerGaugeComponent, _super);
     function PowerGaugeComponent() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -176,35 +193,64 @@ var PowerGaugeComponent = (function (_super) {
         }
         return this.pointerValue.toString();
     };
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeComponent.prototype, "min", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeComponent.prototype, "max", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], PowerGaugeComponent.prototype, "units", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], PowerGaugeComponent.prototype, "results", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], PowerGaugeComponent.prototype, "axisPoints", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeComponent.prototype, "pointerValue", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], PowerGaugeComponent.prototype, "showAxis", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], PowerGaugeComponent.prototype, "axisTickFormatting", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], PowerGaugeComponent.prototype, "valueFormatting", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], PowerGaugeComponent.prototype, "margin", void 0);
+    __decorate([
+        ViewChild('textEl'),
+        __metadata("design:type", ElementRef)
+    ], PowerGaugeComponent.prototype, "textEl", void 0);
+    PowerGaugeComponent = __decorate([
+        Component({
+            selector: 'ngx-charts-power-gauge',
+            template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\">\n      <svg:g [attr.transform]=\"transform\" class=\"gauge chart\">\n        <svg:g ngx-charts-pie-arc\n            class=\"background-arc\"\n            [startAngle]=\"arcSet.backgroundArc.startAngle\"\n            [endAngle]=\"arcSet.backgroundArc.endAngle\"\n            [innerRadius]=\"innerRadius\"\n            [outerRadius]=\"outerRadius\"\n            [cornerRadius]=\"cornerRadius\"\n            [data]=\"arcSet.backgroundArc.data\"\n            [animate]=\"true\"\n            [class.active]=\"true\"\n            [pointerEvents]=\"true\"\n            ngx-tooltip\n            [tooltipDisabled]=\"false\"\n            [tooltipPlacement]=\"'top'\"\n            [tooltipType]=\"'tooltip'\"\n            [tooltipTitle]=\"tooltipText(arcSet.backgroundArc)\">\n        </svg:g>\n\n        <svg:g ngx-charts-gauge-arc-series\n          [bigSegments]=\"arcSet.valueArcs\"\n          [startAngle]=\"startAngle\"\n          [angleSpan]=\"angleSpan\"\n          [cornerRadius]=\"cornerRadius\"\n          [innerRadius]=\"innerRadius\"\n          [outerRadius]=\"outerRadius\"\n          [colors]=\"colors\">\n        </svg:g>\n\n        <svg:g ngx-charts-power-gauge-axis\n          [bigSegments]=\"axisValues\"\n          [startAngle]=\"startAngle\"\n          [pointerAngle]=\"pointerAngle\"\n          [angleSpan]=\"angleSpan\"\n          [cornerRadius]=\"cornerRadius\"\n          [innerRadius]=\"innerRadius\"\n          [outerRadius]=\"outerRadius\"\n          [tickFormatting]=\"axisTickFormatting\"\n          [dims]=\"dims\">\n        </svg:g>\n\n        <svg:text #textEl\n            [style.textAnchor]=\"'middle'\"\n            [attr.transform]=\"textTransform\"\n            alignment-baseline=\"central\">\n          <tspan x=\"0\" dy=\"1.5em\">{{displayValue}}\n            <tspan class=\"units\" *ngIf=\"units\">{{units}}</tspan>\n          </tspan>\n        </svg:text>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
+            styleUrls: [
+                '../common/base-chart.component.css',
+                './gauge.component.css',
+                './power-gauge.component.css'
+            ],
+            encapsulation: ViewEncapsulation.None,
+            changeDetection: ChangeDetectionStrategy.OnPush,
+        })
+    ], PowerGaugeComponent);
     return PowerGaugeComponent;
 }(BaseChartComponent));
 export { PowerGaugeComponent };
-PowerGaugeComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'ngx-charts-power-gauge',
-                template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\">\n      <svg:g [attr.transform]=\"transform\" class=\"gauge chart\">\n        <svg:g ngx-charts-pie-arc\n            class=\"background-arc\"\n            [startAngle]=\"arcSet.backgroundArc.startAngle\"\n            [endAngle]=\"arcSet.backgroundArc.endAngle\"\n            [innerRadius]=\"innerRadius\"\n            [outerRadius]=\"outerRadius\"\n            [cornerRadius]=\"cornerRadius\"\n            [data]=\"arcSet.backgroundArc.data\"\n            [animate]=\"true\"\n            [class.active]=\"true\"\n            [pointerEvents]=\"true\"\n            ngx-tooltip\n            [tooltipDisabled]=\"false\"\n            [tooltipPlacement]=\"'top'\"\n            [tooltipType]=\"'tooltip'\"\n            [tooltipTitle]=\"tooltipText(arcSet.backgroundArc)\">\n        </svg:g>\n\n        <svg:g ngx-charts-gauge-arc-series\n          [bigSegments]=\"arcSet.valueArcs\"\n          [startAngle]=\"startAngle\"\n          [angleSpan]=\"angleSpan\"\n          [cornerRadius]=\"cornerRadius\"\n          [innerRadius]=\"innerRadius\"\n          [outerRadius]=\"outerRadius\"\n          [colors]=\"colors\">\n        </svg:g>\n\n        <svg:g ngx-charts-power-gauge-axis\n          [bigSegments]=\"axisValues\"\n          [startAngle]=\"startAngle\"\n          [pointerAngle]=\"pointerAngle\"\n          [angleSpan]=\"angleSpan\"\n          [cornerRadius]=\"cornerRadius\"\n          [innerRadius]=\"innerRadius\"\n          [outerRadius]=\"outerRadius\"\n          [tickFormatting]=\"axisTickFormatting\"\n          [dims]=\"dims\">\n        </svg:g>\n\n        <svg:text #textEl\n            [style.textAnchor]=\"'middle'\"\n            [attr.transform]=\"textTransform\"\n            alignment-baseline=\"central\">\n          <tspan x=\"0\" dy=\"1.5em\">{{displayValue}}\n            <tspan class=\"units\" *ngIf=\"units\">{{units}}</tspan>\n          </tspan>\n        </svg:text>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
-                styleUrls: [
-                    '../common/base-chart.component.css',
-                    './gauge.component.css',
-                    './power-gauge.component.css'
-                ],
-                encapsulation: ViewEncapsulation.None,
-                changeDetection: ChangeDetectionStrategy.OnPush,
-            },] },
-];
-/** @nocollapse */
-PowerGaugeComponent.ctorParameters = function () { return []; };
-PowerGaugeComponent.propDecorators = {
-    'min': [{ type: Input },],
-    'max': [{ type: Input },],
-    'units': [{ type: Input },],
-    'results': [{ type: Input },],
-    'axisPoints': [{ type: Input },],
-    'pointerValue': [{ type: Input },],
-    'showAxis': [{ type: Input },],
-    'axisTickFormatting': [{ type: Input },],
-    'valueFormatting': [{ type: Input },],
-    'margin': [{ type: Input },],
-    'textEl': [{ type: ViewChild, args: ['textEl',] },],
-};
 //# sourceMappingURL=power-gauge.component.js.map

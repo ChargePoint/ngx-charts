@@ -124,8 +124,6 @@ export class BarHorizontal2DComponent extends BaseChartComponent {
   @Input() schemeType: string;
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
-  //@Input() groupPadding = '16';
-  //@Input() barPadding: string | number = 8;
   @Input() xAxisTicks: any[];
   @Input() yAxisTicks: any[];
   @Input() groupPadding = '16';

@@ -9,11 +9,12 @@ import { range, min, max } from 'd3-array';
 import { scaleBand, scaleLinear, scaleOrdinal, scaleQuantile, scaleTime, scalePoint } from 'd3-scale';
 import { brushX } from 'd3-brush';
 import { select, event } from 'd3-selection';
-import { curveLinear, area, line, curveCardinalClosed, radialLine, arc, pie } from 'd3-shape';
+import { curveLinear, area, line, curveCardinalClosed, lineRadial, arc, pie, curveMonotoneX } from 'd3-shape';
 import { forceCollide, forceLink, forceManyBody, forceSimulation, forceX, forceY } from 'd3-force';
 import { interpolate } from 'd3-interpolate';
 import { format } from 'd3-format';
 import { treemap, stratify } from 'd3-hierarchy';
+import { easeElastic } from 'd3-ease';
 import { timeFormat } from 'd3-time-format';
 
 /*! *****************************************************************************
@@ -2181,6 +2182,9 @@ var XAxisTicksComponent = /** @class */ (function () {
         setTimeout(function () { return _this.updateDims(); });
     };
     XAxisTicksComponent.prototype.getRotationAngle = function (ticks) {
+        if (this.showTicks) {
+            return 0;
+        }
         var angle = 0;
         for (var i = 0; i < ticks.length; i++) {
             var tick = this.tickFormat(ticks[i]).toString();
@@ -2252,6 +2256,10 @@ var XAxisTicksComponent = /** @class */ (function () {
     ], XAxisTicksComponent.prototype, "tickFormatting", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Array)
+    ], XAxisTicksComponent.prototype, "showTicks", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Object)
     ], XAxisTicksComponent.prototype, "showGridLines", void 0);
     __decorate([
@@ -2263,6 +2271,10 @@ var XAxisTicksComponent = /** @class */ (function () {
         __metadata("design:type", Object)
     ], XAxisTicksComponent.prototype, "width", void 0);
     __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], XAxisTicksComponent.prototype, "tickLabels", void 0);
+    __decorate([
         Output(),
         __metadata("design:type", Object)
     ], XAxisTicksComponent.prototype, "dimensionsChanged", void 0);
@@ -2273,7 +2285,7 @@ var XAxisTicksComponent = /** @class */ (function () {
     XAxisTicksComponent = __decorate([
         Component({
             selector: 'g[ngx-charts-x-axis-ticks]',
-            template: "\n    <svg:g #ticksel>\n      <svg:g *ngFor=\"let tick of ticks\" class=\"tick\"\n        [attr.transform]=\"tickTransform(tick)\">\n        <title>{{tickFormat(tick)}}</title>\n        <svg:text\n          stroke-width=\"0.01\"\n          [attr.text-anchor]=\"textAnchor\"\n          [attr.transform]=\"textTransform\"\n          [style.font-size]=\"'12px'\">\n          {{trimLabel(tickFormat(tick))}}\n        </svg:text>\n      </svg:g>\n    </svg:g>\n\n    <svg:g *ngFor=\"let tick of ticks\"\n      [attr.transform]=\"tickTransform(tick)\">\n      <svg:g *ngIf=\"showGridLines\"\n        [attr.transform]=\"gridLineTransform()\">\n        <svg:line\n          class=\"gridline-path gridline-path-vertical\"\n          [attr.y1]=\"-gridLineHeight\"\n          y2=\"0\" />\n      </svg:g>\n    </svg:g>\n  ",
+            template: "\n    <svg:g #ticksel>\n      <svg:g *ngFor=\"let tick of ticks;let i = index\" class=\"tick\"\n        [attr.transform]=\"tickTransform(tick)\">\n        <title>{{tickFormat(tick)}}</title>\n        <svg:text\n          stroke-width=\"0.01\"\n          [attr.text-anchor]=\"textAnchor\"\n          [attr.transform]=\"textTransform\"\n          [style.font-size]=\"'12px'\" *ngIf=\"!showTicks || showTicks[i]\">\n          {{trimLabel(tickFormat(tick))}}\n          <tspan *ngIf=\"tickLabels && tickLabels[i]\" x=\"0\" dy=\"15\" class=\"stick\">{{tickLabels[i]}}</tspan>\n        </svg:text>\n        <svg:text\n          stroke-width=\"0.01\"\n          [attr.text-anchor]=\"textAnchor\"\n          [attr.transform]=\"textTransform\"\n          [style.font-size]=\"'12px'\" *ngIf=\"showTicks && !showTicks[i]\">\n          <tspan *ngIf=\"tickLabels && tickLabels[i]\" x=\"0\" dy=\"15\" class=\"stick\">{{tickLabels[i]}}</tspan>\n        </svg:text>\n      </svg:g>\n    </svg:g>\n\n    <svg:g *ngFor=\"let tick of ticks\"\n      [attr.transform]=\"tickTransform(tick)\">\n      <svg:g *ngIf=\"showGridLines\"\n        [attr.transform]=\"gridLineTransform()\">\n        <svg:line\n          class=\"gridline-path gridline-path-vertical\"\n          [attr.y1]=\"-gridLineHeight\"\n          y2=\"0\" />\n      </svg:g>\n    </svg:g>\n  ",
             changeDetection: ChangeDetectionStrategy.OnPush
         }),
         __metadata("design:paramtypes", [])
@@ -2330,6 +2342,10 @@ var XAxisComponent = /** @class */ (function () {
     ], XAxisComponent.prototype, "tickFormatting", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Array)
+    ], XAxisComponent.prototype, "showTicks", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Object)
     ], XAxisComponent.prototype, "showGridLines", void 0);
     __decorate([
@@ -2348,6 +2364,10 @@ var XAxisComponent = /** @class */ (function () {
         Input(),
         __metadata("design:type", Object)
     ], XAxisComponent.prototype, "xAxisTickInterval", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], XAxisComponent.prototype, "xAxisTickLabels", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -2371,7 +2391,7 @@ var XAxisComponent = /** @class */ (function () {
     XAxisComponent = __decorate([
         Component({
             selector: 'g[ngx-charts-x-axis]',
-            template: "\n    <svg:g\n      [attr.class]=\"xAxisClassName\"\n      [attr.transform]=\"transform\">\n      <svg:g ngx-charts-x-axis-ticks\n        *ngIf=\"xScale\"\n        [tickFormatting]=\"tickFormatting\"\n        [tickArguments]=\"tickArguments\"\n        [tickStroke]=\"tickStroke\"\n        [scale]=\"xScale\"\n        [orient]=\"xOrient\"\n        [showGridLines]=\"showGridLines\"\n        [gridLineHeight]=\"dims.height\"\n        [width]=\"dims.width\"\n        [tickValues]=\"ticks\"\n        (dimensionsChanged)=\"emitTicksHeight($event)\"\n      />\n      <svg:g ngx-charts-axis-label\n        *ngIf=\"showLabel\"\n        [label]=\"labelText\"\n        [offset]=\"labelOffset\"\n        [orient]=\"'bottom'\"\n        [height]=\"dims.height\"\n        [width]=\"dims.width\">\n      </svg:g>\n    </svg:g>\n  ",
+            template: "\n    <svg:g\n      [attr.class]=\"xAxisClassName\"\n      [attr.transform]=\"transform\">\n      <svg:g ngx-charts-x-axis-ticks\n        *ngIf=\"xScale\"\n        [tickFormatting]=\"tickFormatting\"\n        [tickArguments]=\"tickArguments\"\n        [tickStroke]=\"tickStroke\"\n        [tickLabels]=\"xAxisTickLabels\"\n        [showTicks]=\"showTicks\"\n        [scale]=\"xScale\"\n        [orient]=\"xOrient\"\n        [showGridLines]=\"showGridLines\"\n        [gridLineHeight]=\"dims.height\"\n        [width]=\"dims.width\"\n        [tickValues]=\"ticks\"\n        (dimensionsChanged)=\"emitTicksHeight($event)\"\n      />\n      <svg:g ngx-charts-axis-label\n        *ngIf=\"showLabel\"\n        [label]=\"labelText\"\n        [offset]=\"labelOffset\"\n        [orient]=\"'bottom'\"\n        [height]=\"dims.height\"\n        [width]=\"dims.width\">\n      </svg:g>\n    </svg:g>\n  ",
             changeDetection: ChangeDetectionStrategy.OnPush
         })
     ], XAxisComponent);
@@ -2457,6 +2477,9 @@ var YAxisTicksComponent = /** @class */ (function () {
             this.width = width;
             this.dimensionsChanged.emit({ width: width });
             setTimeout(function () { return _this.updateDims(); });
+        }
+        else if (!width) {
+            this.dimensionsChanged.emit({ width: width });
         }
     };
     YAxisTicksComponent.prototype.update = function () {
@@ -3757,7 +3780,7 @@ if (typeof (window) !== 'undefined') {
 else if (typeof (global) !== 'undefined') {
     root = global;
 }
-/* tslint:disable:variable-name */
+// tslint:disable-next-line:variable-name
 var MouseEvent = root.MouseEvent;
 
 var TooltipArea = /** @class */ (function () {
@@ -4210,7 +4233,7 @@ var ChartCommonModule = /** @class */ (function () {
 }());
 
 function calculateViewDimensions(_a) {
-    var width = _a.width, height = _a.height, margins = _a.margins, _b = _a.showXAxis, showXAxis = _b === void 0 ? false : _b, _c = _a.showYAxis, showYAxis = _c === void 0 ? false : _c, _d = _a.xAxisHeight, xAxisHeight = _d === void 0 ? 0 : _d, _e = _a.yAxisWidth, yAxisWidth = _e === void 0 ? 0 : _e, _f = _a.showXLabel, showXLabel = _f === void 0 ? false : _f, _g = _a.showYLabel, showYLabel = _g === void 0 ? false : _g, _h = _a.showLegend, showLegend = _h === void 0 ? false : _h, _j = _a.legendType, legendType = _j === void 0 ? 'ordinal' : _j, _k = _a.legendPosition, legendPosition = _k === void 0 ? 'right' : _k, _l = _a.columns, columns = _l === void 0 ? 12 : _l;
+    var width = _a.width, height = _a.height, margins = _a.margins, _b = _a.showXAxis, showXAxis = _b === void 0 ? false : _b, _c = _a.showYAxis, showYAxis = _c === void 0 ? false : _c, _d = _a.xAxisHeight, xAxisHeight = _d === void 0 ? 0 : _d, _e = _a.yAxisWidth, yAxisWidth = _e === void 0 ? 0 : _e, _f = _a.showXLabel, showXLabel = _f === void 0 ? false : _f, _g = _a.showYLabel, showYLabel = _g === void 0 ? false : _g, _h = _a.showLegend, showLegend = _h === void 0 ? false : _h, _j = _a.legendType, legendType = _j === void 0 ? 'ordinal' : _j, _k = _a.legendPosition, legendPosition = _k === void 0 ? 'right' : _k, _l = _a.columns, columns = _l === void 0 ? 12 : _l, _m = _a.yAxisLabel, yAxisLabel = _m === void 0 ? true : _m;
     var xOffset = margins[3];
     var chartWidth = width;
     var chartHeight = height - margins[0] - margins[2];
@@ -4241,6 +4264,9 @@ function calculateViewDimensions(_a) {
         if (showYLabel) {
             // text height + spacing between axis label and tick labels
             var offset = 25 + 5;
+            if (!yAxisLabel) {
+                offset -= 20;
+            }
             chartWidth -= offset;
             xOffset += offset;
         }
@@ -6001,7 +6027,13 @@ var BarHorizontalComponent = /** @class */ (function (_super) {
     };
     BarHorizontalComponent.prototype.getYScale = function () {
         this.yDomain = this.getYDomain();
-        var spacing = this.yDomain.length / (this.dims.height / this.barPadding + 1);
+        var spacing = parseInt(this.barPadding.toString(), 10);
+        if (this.barPadding !== (spacing + '%')) {
+            spacing = this.yDomain.length / (this.dims.height / spacing + 1);
+        }
+        else {
+            spacing /= 100;
+        }
         return scaleBand()
             .rangeRound([0, this.dims.height])
             .paddingInner(spacing)
@@ -6157,16 +6189,16 @@ var BarHorizontalComponent = /** @class */ (function (_super) {
     ], BarHorizontalComponent.prototype, "yAxisTickFormatting", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Object)
+    ], BarHorizontalComponent.prototype, "barPadding", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Array)
     ], BarHorizontalComponent.prototype, "xAxisTicks", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Array)
     ], BarHorizontalComponent.prototype, "yAxisTicks", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Object)
-    ], BarHorizontalComponent.prototype, "barPadding", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
@@ -6225,7 +6257,7 @@ var BarHorizontal2DComponent = /** @class */ (function (_super) {
         _this.tooltipDisabled = false;
         _this.showGridLines = true;
         _this.activeEntries = [];
-        _this.groupPadding = 16;
+        _this.groupPadding = '16';
         _this.barPadding = 8;
         _this.roundDomains = false;
         _this.roundEdges = true;
@@ -6270,7 +6302,13 @@ var BarHorizontal2DComponent = /** @class */ (function (_super) {
         this.transform = "translate(" + this.dims.xOffset + " , " + this.margin[0] + ")";
     };
     BarHorizontal2DComponent.prototype.getGroupScale = function () {
-        var spacing = this.groupDomain.length / (this.dims.height / this.groupPadding + 1);
+        var spacing = parseInt(this.groupPadding.toString(), 10);
+        if (this.groupPadding !== (spacing + '%')) {
+            spacing = this.groupDomain.length / (this.dims.height / spacing + 1);
+        }
+        else {
+            spacing /= 100;
+        }
         return scaleBand()
             .rangeRound([0, this.dims.height])
             .paddingInner(spacing)
@@ -6279,7 +6317,13 @@ var BarHorizontal2DComponent = /** @class */ (function (_super) {
     };
     BarHorizontal2DComponent.prototype.getInnerScale = function () {
         var height = this.groupScale.bandwidth();
-        var spacing = this.innerDomain.length / (height / this.barPadding + 1);
+        var spacing = parseInt(this.barPadding.toString(), 10);
+        if (this.barPadding !== (spacing + '%')) {
+            spacing = this.innerDomain.length / (height / spacing + 1);
+        }
+        else {
+            spacing /= 100;
+        }
         return scaleBand()
             .rangeRound([0, height])
             .paddingInner(spacing)
@@ -6627,7 +6671,13 @@ var BarHorizontalNormalizedComponent = /** @class */ (function (_super) {
         return [0, 100];
     };
     BarHorizontalNormalizedComponent.prototype.getYScale = function () {
-        var spacing = this.groupDomain.length / (this.dims.height / this.barPadding + 1);
+        var spacing = parseInt(this.barPadding.toString(), 10);
+        if (this.barPadding !== (spacing + '%')) {
+            spacing = this.groupDomain.length / (this.dims.height / spacing + 1);
+        }
+        else {
+            spacing /= 100;
+        }
         return scaleBand()
             .rangeRound([0, this.dims.height])
             .paddingInner(spacing)
@@ -6783,16 +6833,16 @@ var BarHorizontalNormalizedComponent = /** @class */ (function (_super) {
     ], BarHorizontalNormalizedComponent.prototype, "yAxisTickFormatting", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Object)
+    ], BarHorizontalNormalizedComponent.prototype, "barPadding", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Array)
     ], BarHorizontalNormalizedComponent.prototype, "xAxisTicks", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Array)
     ], BarHorizontalNormalizedComponent.prototype, "yAxisTicks", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Object)
-    ], BarHorizontalNormalizedComponent.prototype, "barPadding", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
@@ -6936,7 +6986,13 @@ var BarHorizontalStackedComponent = /** @class */ (function (_super) {
         return [min$$1, max$$1];
     };
     BarHorizontalStackedComponent.prototype.getYScale = function () {
-        var spacing = this.groupDomain.length / (this.dims.height / this.barPadding + 1);
+        var spacing = parseInt(this.barPadding.toString(), 10);
+        if (this.barPadding !== (spacing + '%')) {
+            spacing = this.groupDomain.length / (this.dims.height / spacing + 1);
+        }
+        else {
+            spacing /= 100;
+        }
         return scaleBand()
             .rangeRound([0, this.dims.height])
             .paddingInner(spacing)
@@ -7104,16 +7160,16 @@ var BarHorizontalStackedComponent = /** @class */ (function (_super) {
     ], BarHorizontalStackedComponent.prototype, "yAxisTickFormatting", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Object)
+    ], BarHorizontalStackedComponent.prototype, "barPadding", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Array)
     ], BarHorizontalStackedComponent.prototype, "xAxisTicks", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Array)
     ], BarHorizontalStackedComponent.prototype, "yAxisTicks", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Object)
-    ], BarHorizontalStackedComponent.prototype, "barPadding", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
@@ -7174,7 +7230,10 @@ var BarVerticalComponent = /** @class */ (function (_super) {
         _this.legendPosition = 'right';
         _this.tooltipDisabled = false;
         _this.showGridLines = true;
+        _this.showBaseLines = true;
+        _this.showAxisLines = false;
         _this.activeEntries = [];
+        _this.type = 'standard';
         _this.barPadding = 8;
         _this.roundDomains = false;
         _this.roundEdges = true;
@@ -7205,6 +7264,7 @@ var BarVerticalComponent = /** @class */ (function (_super) {
             showYLabel: this.showYAxisLabel,
             showLegend: this.legend,
             legendType: this.schemeType,
+            yAxisLabel: this.yAxisLabel,
             legendPosition: this.legendPosition
         });
         if (this.showDataLabel) {
@@ -7214,15 +7274,30 @@ var BarVerticalComponent = /** @class */ (function (_super) {
         this.yScale = this.getYScale();
         this.setColors();
         this.legendOptions = this.getLegendOptions();
+        if (this.yAxisTickRoundingLabel) {
+            var offset = this.margin[3];
+            if (!this.yAxisLabel) {
+                offset -= 20;
+            }
+            this.labelTransform = "translate(" + offset + " , 10)";
+            this.margin[0] = 30;
+        }
         this.transform = "translate(" + this.dims.xOffset + " , " + (this.margin[0] + this.dataLabelMaxHeight.negative) + ")";
     };
     BarVerticalComponent.prototype.getXScale = function () {
         this.xDomain = this.getXDomain();
-        var spacing = this.xDomain.length / (this.dims.width / this.barPadding + 1);
-        return scaleBand()
+        var spacing = parseInt(this.barPadding.toString(), 10);
+        if (this.barPadding !== (spacing + '%')) {
+            spacing = this.xDomain.length / (this.dims.width / spacing + 1);
+        }
+        else {
+            spacing /= 100;
+        }
+        var scale = scaleBand()
             .rangeRound([0, this.dims.width])
             .paddingInner(spacing)
             .domain(this.xDomain);
+        return this.showBaseLines ? scale.paddingOuter(spacing / 2) : scale;
     };
     BarVerticalComponent.prototype.getYScale = function () {
         this.yDomain = this.getYDomain();
@@ -7314,6 +7389,9 @@ var BarVerticalComponent = /** @class */ (function (_super) {
         this.activeEntries = this.activeEntries.slice();
         this.deactivate.emit({ value: item, entries: this.activeEntries });
     };
+    BarVerticalComponent.prototype.xAxisLineTransform = function () {
+        return "translate(0," + this.dims.height + ")";
+    };
     var _a, _b, _c;
     __decorate([
         Input(),
@@ -7349,12 +7427,24 @@ var BarVerticalComponent = /** @class */ (function (_super) {
     ], BarVerticalComponent.prototype, "xAxisLabel", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Array)
+    ], BarVerticalComponent.prototype, "xAxisTickLabels", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Object)
     ], BarVerticalComponent.prototype, "yAxisLabel", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Object)
+    ], BarVerticalComponent.prototype, "yAxisTickRoundingLabel", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Boolean)
     ], BarVerticalComponent.prototype, "tooltipDisabled", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], BarVerticalComponent.prototype, "tooltipFormatting", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
@@ -7365,6 +7455,14 @@ var BarVerticalComponent = /** @class */ (function (_super) {
     ], BarVerticalComponent.prototype, "showGridLines", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Boolean)
+    ], BarVerticalComponent.prototype, "showBaseLines", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], BarVerticalComponent.prototype, "showAxisLines", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Array)
     ], BarVerticalComponent.prototype, "activeEntries", void 0);
     __decorate([
@@ -7373,12 +7471,28 @@ var BarVerticalComponent = /** @class */ (function (_super) {
     ], BarVerticalComponent.prototype, "schemeType", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", String)
+    ], BarVerticalComponent.prototype, "type", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Object)
     ], BarVerticalComponent.prototype, "xAxisTickFormatting", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Array)
+    ], BarVerticalComponent.prototype, "showTicks", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Object)
     ], BarVerticalComponent.prototype, "yAxisTickFormatting", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], BarVerticalComponent.prototype, "maxTicks", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], BarVerticalComponent.prototype, "barPadding", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Array)
@@ -7387,10 +7501,6 @@ var BarVerticalComponent = /** @class */ (function (_super) {
         Input(),
         __metadata("design:type", Array)
     ], BarVerticalComponent.prototype, "yAxisTicks", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Object)
-    ], BarVerticalComponent.prototype, "barPadding", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
@@ -7430,7 +7540,7 @@ var BarVerticalComponent = /** @class */ (function (_super) {
     BarVerticalComponent = __decorate([
         Component({
             selector: 'ngx-charts-bar-vertical',
-            template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"legend\"\n      [legendOptions]=\"legendOptions\"\n      [activeEntries]=\"activeEntries\"\n      [animations]=\"animations\"\n      (legendLabelClick)=\"onClick($event)\"\n      (legendLabelActivate)=\"onActivate($event)\"\n      (legendLabelDeactivate)=\"onDeactivate($event)\">\n      <svg:g [attr.transform]=\"transform\" class=\"bar-chart chart\">\n        <svg:g ngx-charts-x-axis\n          *ngIf=\"xAxis\"\n          [xScale]=\"xScale\"\n          [dims]=\"dims\"\n          [showLabel]=\"showXAxisLabel\"\n          [labelText]=\"xAxisLabel\"\n          [tickFormatting]=\"xAxisTickFormatting\"\n          [ticks]=\"xAxisTicks\"\n          [xAxisOffset]=\"dataLabelMaxHeight.negative\"\n          (dimensionsChanged)=\"updateXAxisHeight($event)\">\n        </svg:g>\n        <svg:g ngx-charts-y-axis\n          *ngIf=\"yAxis\"\n          [yScale]=\"yScale\"\n          [dims]=\"dims\"\n          [showGridLines]=\"showGridLines\"\n          [showLabel]=\"showYAxisLabel\"\n          [labelText]=\"yAxisLabel\"\n          [tickFormatting]=\"yAxisTickFormatting\"\n          [ticks]=\"yAxisTicks\"\n          (dimensionsChanged)=\"updateYAxisWidth($event)\">\n        </svg:g>\n        <svg:g ngx-charts-series-vertical\n          [xScale]=\"xScale\"\n          [yScale]=\"yScale\"\n          [colors]=\"colors\"\n          [series]=\"results\"\n          [dims]=\"dims\"\n          [gradient]=\"gradient\"\n          [tooltipDisabled]=\"tooltipDisabled\"\n          [tooltipTemplate]=\"tooltipTemplate\"\n          [showDataLabel]=\"showDataLabel\"\n          [dataLabelFormatting]=\"dataLabelFormatting\"\n          [activeEntries]=\"activeEntries\"\n          [roundEdges]=\"roundEdges\"\n          [animations]=\"animations\"\n          (activate)=\"onActivate($event)\"\n          (deactivate)=\"onDeactivate($event)\"\n          (select)=\"onClick($event)\"\n          (dataLabelHeightChanged)=\"onDataLabelMaxHeightChanged($event)\"\n          >          \n        </svg:g>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
+            template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"legend\"\n      [legendOptions]=\"legendOptions\"\n      [activeEntries]=\"activeEntries\"\n      [animations]=\"animations\"\n      (legendLabelClick)=\"onClick($event)\"\n      (legendLabelActivate)=\"onActivate($event)\"\n      (legendLabelDeactivate)=\"onDeactivate($event)\">\n      <svg:text *ngIf=\"yAxisTickRoundingLabel\" class=\"tick-round-label\"\n          [style.textAnchor]=\"'start'\"\n          [style.alignment-baseline]=\"'baseline'\"\n          [attr.transform]=\"labelTransform\"\n          alignment-baseline=\"central\"\n          x=\"20\" dy=\"5\">\n          {{yAxisTickRoundingLabel}}\n      </svg:text>\n      <svg:g [attr.transform]=\"transform\" class=\"bar-chart chart\">\n        <svg:g ngx-charts-x-axis\n          *ngIf=\"xAxis\"\n          [xScale]=\"xScale\"\n          [dims]=\"dims\"\n          [showLabel]=\"showXAxisLabel\"\n          [labelText]=\"xAxisLabel\"\n          [tickFormatting]=\"xAxisTickFormatting\"\n          [xAxisTickLabels]=\"xAxisTickLabels\"\n          [showTicks]=\"showTicks\"\n          [ticks]=\"xAxisTicks\"\n          [xAxisOffset]=\"dataLabelMaxHeight.negative\"\n          (dimensionsChanged)=\"updateXAxisHeight($event)\">\n        </svg:g>\n        <svg:g ngx-charts-y-axis\n          *ngIf=\"yAxis\"\n          [yScale]=\"yScale\"\n          [dims]=\"dims\"\n          [showGridLines]=\"showGridLines\"\n          [showLabel]=\"showYAxisLabel\"\n          [labelText]=\"yAxisLabel\"\n          [tickFormatting]=\"yAxisTickFormatting\"\n          [yAxisTickCount]=\"maxTicks\"\n          [ticks]=\"yAxisTicks\"\n          (dimensionsChanged)=\"updateYAxisWidth($event)\">\n        </svg:g>\n        <svg:g ngx-charts-series-vertical\n          [type]=\"type\"\n          [xScale]=\"xScale\"\n          [yScale]=\"yScale\"\n          [colors]=\"colors\"\n          [series]=\"results\"\n          [dims]=\"dims\"\n          [gradient]=\"gradient\"\n          [tooltipDisabled]=\"tooltipDisabled\"\n          [tooltipFormatting]=\"tooltipFormatting\"\n          [tooltipTemplate]=\"tooltipTemplate\"\n          [showDataLabel]=\"showDataLabel\"\n          [dataLabelFormatting]=\"dataLabelFormatting\"\n          [activeEntries]=\"activeEntries\"\n          [roundEdges]=\"roundEdges\"\n          [animations]=\"animations\"\n          (activate)=\"onActivate($event)\"\n          (deactivate)=\"onDeactivate($event)\"\n          (select)=\"onClick($event)\"\n          (dataLabelHeightChanged)=\"onDataLabelMaxHeightChanged($event)\"\n          >          \n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\">\n          <svg:line\n            class=\"gridline-path gridline-path-vertical\"\n            y1=\"0\"\n            [attr.y2]=\"dims.height\" />\n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\"\n          [attr.transform]=\"xAxisLineTransform()\">\n          <svg:line\n            class=\"gridline-path gridline-path-horizontal\"\n            x1=\"0\"\n            [attr.x2]=\"dims.width\" />\n        </svg:g>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
             changeDetection: ChangeDetectionStrategy.OnPush,
             styles: [".ngx-charts{float:left;overflow:visible}.ngx-charts .arc,.ngx-charts .bar,.ngx-charts .circle{cursor:pointer}.ngx-charts .arc.active,.ngx-charts .arc:hover,.ngx-charts .bar.active,.ngx-charts .bar:hover,.ngx-charts .card.active,.ngx-charts .card:hover,.ngx-charts .cell.active,.ngx-charts .cell:hover{opacity:.8;transition:opacity .1s ease-in-out}.ngx-charts .arc:focus,.ngx-charts .bar:focus,.ngx-charts .card:focus,.ngx-charts .cell:focus{outline:0}.ngx-charts g:focus{outline:0}.ngx-charts .area-series.inactive,.ngx-charts .line-series-range.inactive,.ngx-charts .line-series.inactive,.ngx-charts .polar-series-area.inactive,.ngx-charts .polar-series-path.inactive{transition:opacity .1s ease-in-out;opacity:.2}.ngx-charts .line-highlight{display:none}.ngx-charts .line-highlight.active{display:block}.ngx-charts .area{opacity:.6}.ngx-charts .circle:hover{cursor:pointer}.ngx-charts .label{font-size:12px;font-weight:400}.ngx-charts .tooltip-anchor{fill:#000}.ngx-charts .gridline-path{stroke:#ddd;stroke-width:1;fill:none}.ngx-charts .refline-path{stroke:#a8b2c7;stroke-width:1;stroke-dasharray:5;stroke-dashoffset:5}.ngx-charts .refline-label{font-size:9px}.ngx-charts .reference-area{fill-opacity:.05;fill:#000}.ngx-charts .gridline-path-dotted{stroke:#ddd;stroke-width:1;fill:none;stroke-dasharray:1,20;stroke-dashoffset:3}.ngx-charts .grid-panel rect{fill:none}.ngx-charts .grid-panel.odd rect{fill:rgba(0,0,0,.05)}"],
             encapsulation: ViewEncapsulation.None
@@ -7510,7 +7620,13 @@ var BarVertical2DComponent = /** @class */ (function (_super) {
         }
     };
     BarVertical2DComponent.prototype.getGroupScale = function () {
-        var spacing = this.groupDomain.length / (this.dims.height / this.groupPadding + 1);
+        var spacing = parseInt(this.groupPadding.toString(), 10);
+        if (this.groupPadding !== (spacing + '%')) {
+            spacing = this.groupDomain.length / (this.dims.height / spacing + 1);
+        }
+        else {
+            spacing /= 100;
+        }
         return scaleBand()
             .rangeRound([0, this.dims.width])
             .paddingInner(spacing)
@@ -7519,7 +7635,13 @@ var BarVertical2DComponent = /** @class */ (function (_super) {
     };
     BarVertical2DComponent.prototype.getInnerScale = function () {
         var width = this.groupScale.bandwidth();
-        var spacing = this.innerDomain.length / (width / this.barPadding + 1);
+        var spacing = parseInt(this.barPadding.toString(), 10);
+        if (this.barPadding !== (spacing + '%')) {
+            spacing = this.innerDomain.length / (width / spacing + 1);
+        }
+        else {
+            spacing /= 100;
+        }
         return scaleBand()
             .rangeRound([0, width])
             .paddingInner(spacing)
@@ -7718,20 +7840,20 @@ var BarVertical2DComponent = /** @class */ (function (_super) {
     ], BarVertical2DComponent.prototype, "yAxisTickFormatting", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", Array)
-    ], BarVertical2DComponent.prototype, "xAxisTicks", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Array)
-    ], BarVertical2DComponent.prototype, "yAxisTicks", void 0);
-    __decorate([
-        Input(),
         __metadata("design:type", Object)
     ], BarVertical2DComponent.prototype, "groupPadding", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Object)
     ], BarVertical2DComponent.prototype, "barPadding", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], BarVertical2DComponent.prototype, "xAxisTicks", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], BarVertical2DComponent.prototype, "yAxisTicks", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
@@ -7859,7 +7981,13 @@ var BarVerticalNormalizedComponent = /** @class */ (function (_super) {
         return [0, 100];
     };
     BarVerticalNormalizedComponent.prototype.getXScale = function () {
-        var spacing = this.groupDomain.length / (this.dims.width / this.barPadding + 1);
+        var spacing = parseInt(this.barPadding.toString(), 10);
+        if (this.barPadding !== (spacing + '%')) {
+            spacing = this.groupDomain.length / (this.dims.width / spacing + 1);
+        }
+        else {
+            spacing /= 100;
+        }
         return scaleBand()
             .rangeRound([0, this.dims.width])
             .paddingInner(spacing)
@@ -8015,16 +8143,16 @@ var BarVerticalNormalizedComponent = /** @class */ (function (_super) {
     ], BarVerticalNormalizedComponent.prototype, "yAxisTickFormatting", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Object)
+    ], BarVerticalNormalizedComponent.prototype, "barPadding", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Array)
     ], BarVerticalNormalizedComponent.prototype, "xAxisTicks", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Array)
     ], BarVerticalNormalizedComponent.prototype, "yAxisTicks", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Object)
-    ], BarVerticalNormalizedComponent.prototype, "barPadding", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
@@ -8171,7 +8299,13 @@ var BarVerticalStackedComponent = /** @class */ (function (_super) {
         return [min$$1, max$$1];
     };
     BarVerticalStackedComponent.prototype.getXScale = function () {
-        var spacing = this.groupDomain.length / (this.dims.width / this.barPadding + 1);
+        var spacing = parseInt(this.barPadding.toString(), 10);
+        if (this.barPadding !== (spacing + '%')) {
+            spacing = this.groupDomain.length / (this.dims.width / spacing + 1);
+        }
+        else {
+            spacing /= 100;
+        }
         return scaleBand()
             .rangeRound([0, this.dims.width])
             .paddingInner(spacing)
@@ -8339,16 +8473,16 @@ var BarVerticalStackedComponent = /** @class */ (function (_super) {
     ], BarVerticalStackedComponent.prototype, "yAxisTickFormatting", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Object)
+    ], BarVerticalStackedComponent.prototype, "barPadding", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Array)
     ], BarVerticalStackedComponent.prototype, "xAxisTicks", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Array)
     ], BarVerticalStackedComponent.prototype, "yAxisTicks", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Object)
-    ], BarVerticalStackedComponent.prototype, "barPadding", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
@@ -8498,7 +8632,7 @@ var SeriesVerticalComponent = /** @class */ (function () {
                 bar.color = _this.colors.getColor(label);
             }
             else {
-                if (_this.type === 'standard') {
+                if (_this.type.indexOf('standard') === 0) {
                     bar.color = _this.colors.getColor(value);
                     bar.gradientStops = _this.colors.getLinearGradientStops(value);
                 }
@@ -8515,7 +8649,11 @@ var SeriesVerticalComponent = /** @class */ (function () {
                 bar.data.series = _this.seriesName;
                 bar.ariaLabel = _this.seriesName + ' ' + bar.ariaLabel;
             }
-            bar.tooltipText = _this.tooltipDisabled ? undefined : "\n        <span class=\"tooltip-label\">" + tooltipLabel + "</span>\n        <span class=\"tooltip-val\">" + value.toLocaleString() + "</span>\n      ";
+            var tValue = value.toLocaleString();
+            if (_this.tooltipFormatting) {
+                tValue = _this.tooltipFormatting(value);
+            }
+            bar.tooltipText = _this.tooltipDisabled ? undefined : "\n        <span class=\"tooltip-label\">" + tooltipLabel + "</span>\n        <span class=\"tooltip-val\">" + tValue + "</span>\n      ";
             return bar;
         });
         this.updateDataLabels();
@@ -8599,6 +8737,10 @@ var SeriesVerticalComponent = /** @class */ (function () {
         Input(),
         __metadata("design:type", Object)
     ], SeriesVerticalComponent.prototype, "colors", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], SeriesVerticalComponent.prototype, "tooltipFormatting", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
@@ -11538,7 +11680,7 @@ var PolarSeriesComponent = /** @class */ (function () {
     };
     PolarSeriesComponent.prototype.getLineGenerator = function () {
         var _this = this;
-        return radialLine()
+        return lineRadial()
             .angle(function (d) { return _this.getAngle(d); })
             .radius(function (d) { return _this.getRadius(d); })
             .curve(this.curve);
@@ -12274,6 +12416,82 @@ var PieChartComponent = /** @class */ (function (_super) {
     return PieChartComponent;
 }(BaseChartComponent));
 
+var SimplePieChartComponent = /** @class */ (function (_super) {
+    __extends(SimplePieChartComponent, _super);
+    function SimplePieChartComponent() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.unit = '';
+        _this.margin = [0, 0, 0, 0];
+        return _this;
+        // onActivate(event): void {
+        //   if(this.activeEntries.indexOf(event) > -1) return;
+        //   this.activeEntries = [ event, ...this.activeEntries ];
+        //   this.activate.emit({ value: event, entries: this.activeEntries });
+        // }
+        //
+        // onDeactivate(event): void {
+        //   const idx = this.activeEntries.indexOf(event);
+        //
+        //   this.activeEntries.splice(idx, 1);
+        //   this.activeEntries = [...this.activeEntries];
+        //
+        //   this.deactivate.emit({ value: event, entries: this.activeEntries });
+        // }
+    }
+    SimplePieChartComponent.prototype.update = function () {
+        var _this = this;
+        _super.prototype.update.call(this);
+        this.zone.run(function () {
+            _this.dims = calculateViewDimensions({
+                width: _this.width,
+                height: _this.height,
+                margins: _this.margin
+            });
+            _this.domain = _this.getDomain();
+            _this.setColors();
+            var xOffset = _this.dims.width / 2;
+            var yOffset = _this.margin[0] + _this.dims.height / 2;
+            _this.legendWidth = _this.width - _this.dims.width - _this.margin[1];
+            _this.outerRadius = Math.min(_this.dims.width, _this.dims.height) / 2.5;
+            _this.innerRadius = _this.outerRadius * 0.65;
+            _this.transform = "translate(" + xOffset + " , " + yOffset + ")";
+        });
+    };
+    SimplePieChartComponent.prototype.getDomain = function () {
+        return this.results.map(function (d) { return d.name; });
+    };
+    SimplePieChartComponent.prototype.onClick = function (data) {
+        this.select.emit(data);
+    };
+    SimplePieChartComponent.prototype.setColors = function () {
+        this.colors = new ColorHelper(this.scheme, 'ordinal', this.domain, this.customColors);
+    };
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], SimplePieChartComponent.prototype, "gradient", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], SimplePieChartComponent.prototype, "totalLabel", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], SimplePieChartComponent.prototype, "totalValue", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], SimplePieChartComponent.prototype, "unit", void 0);
+    SimplePieChartComponent = __decorate([
+        Component({
+            selector: 'ngx-charts-simple-pie-chart',
+            template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"false\">\n      <svg:g\n        [attr.transform]=\"transform\"\n        class=\"pie chart\">\n        <svg:g ngx-charts-pie-series\n          [colors]=\"colors\"\n          [series]=\"results\"\n          [innerRadius]=\"innerRadius\"\n          [outerRadius]=\"outerRadius\"\n          [gradient]=\"gradient\">\n        </svg:g>\n        <svg:text\n          class=\"label\"\n          dy=\"-0.5em\"\n          x=\"0\"\n          y=\"5\"\n          text-anchor=\"middle\">\n          {{ totalLabel }}\n        </svg:text>\n        <svg:text\n          class=\"label percent-label\"\n          dy=\"0.5em\"\n          x=\"0\"\n          y=\"5\"\n          ngx-charts-count-up\n          [countTo]=\"totalValue\"\n          [countSuffix]=\"unit\"\n          text-anchor=\"middle\">\n        </svg:text>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
+            changeDetection: ChangeDetectionStrategy.OnPush,
+        })
+    ], SimplePieChartComponent);
+    return SimplePieChartComponent;
+}(BaseChartComponent));
+
 function gridSize(dims, len, minWidth) {
     var rows = 1;
     var cols = len;
@@ -12752,6 +12970,7 @@ var PieChartModule = /** @class */ (function () {
                 PieLabelComponent,
                 PieArcComponent,
                 PieChartComponent,
+                SimplePieChartComponent,
                 PieGridComponent,
                 PieGridSeriesComponent,
                 PieSeriesComponent
@@ -12761,6 +12980,7 @@ var PieChartModule = /** @class */ (function () {
                 PieLabelComponent,
                 PieArcComponent,
                 PieChartComponent,
+                SimplePieChartComponent,
                 PieGridComponent,
                 PieGridSeriesComponent,
                 PieSeriesComponent
@@ -14127,6 +14347,75 @@ var GaugeArcComponent = /** @class */ (function () {
     return GaugeArcComponent;
 }());
 
+var GaugeArcSeriesComponent = /** @class */ (function () {
+    function GaugeArcSeriesComponent() {
+    }
+    GaugeArcSeriesComponent.prototype.ngOnChanges = function () {
+        this.update();
+    };
+    GaugeArcSeriesComponent.prototype.update = function () {
+        this.arcs = this.getArcs();
+    };
+    GaugeArcSeriesComponent.prototype.getArcs = function () {
+        var arcs = [];
+        var startAngle = this.startAngle * Math.PI / 180;
+        var bigSegment;
+        for (var i = 0; i < this.bigSegments.length; i++) {
+            bigSegment = this.bigSegments[i];
+            var data = bigSegment.data, endAngle = bigSegment.endAngle;
+            arcs.push({
+                startAngle: startAngle,
+                endAngle: endAngle,
+                data: data
+            });
+            startAngle = endAngle;
+        }
+        return arcs;
+    };
+    GaugeArcSeriesComponent.prototype.color = function (arc$$1) {
+        return this.colors.getColor(this.label(arc$$1));
+    };
+    GaugeArcSeriesComponent.prototype.label = function (arc$$1) {
+        return formatLabel(arc$$1.data.name);
+    };
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], GaugeArcSeriesComponent.prototype, "bigSegments", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], GaugeArcSeriesComponent.prototype, "colors", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], GaugeArcSeriesComponent.prototype, "startAngle", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], GaugeArcSeriesComponent.prototype, "angleSpan", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], GaugeArcSeriesComponent.prototype, "innerRadius", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], GaugeArcSeriesComponent.prototype, "outerRadius", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], GaugeArcSeriesComponent.prototype, "cornerRadius", void 0);
+    GaugeArcSeriesComponent = __decorate([
+        Component({
+            selector: 'g[ngx-charts-gauge-arc-series]',
+            template: "\n  <svg:g *ngFor=\"let arc of arcs\">\n    <svg:g ngx-charts-pie-arc\n        [startAngle]=\"arc.startAngle\"\n        [endAngle]=\"arc.endAngle\"\n        [innerRadius]=\"innerRadius\"\n        [outerRadius]=\"outerRadius\"\n        [cornerRadius]=\"cornerRadius\"\n        [fill]=\"color(arc)\"\n        [data]=\"arc.data\"\n        [animate]=\"true\">\n    </svg:g>\n  </svg:g>\n  ",
+            changeDetection: ChangeDetectionStrategy.OnPush
+        })
+    ], GaugeArcSeriesComponent);
+    return GaugeArcSeriesComponent;
+}());
+
 var GaugeAxisComponent = /** @class */ (function () {
     function GaugeAxisComponent() {
         this.rotate = '';
@@ -14252,6 +14541,384 @@ var GaugeAxisComponent = /** @class */ (function () {
     return GaugeAxisComponent;
 }());
 
+var PowerGaugeComponent = /** @class */ (function (_super) {
+    __extends(PowerGaugeComponent, _super);
+    function PowerGaugeComponent() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.min = 0;
+        _this.max = 100;
+        _this.showAxis = true;
+        _this.resizeScale = 1;
+        _this.textTransform = 'scale(1, 1)';
+        _this.cornerRadius = 0;
+        _this.startAngle = -90;
+        _this.pointerAngle = 0;
+        _this.endAngle = 90;
+        _this.angleSpan = 180;
+        return _this;
+    }
+    PowerGaugeComponent.prototype.tooltipText = function (arc$$1) {
+        var label = formatLabel(arc$$1.data.name);
+        var val;
+        if (this.axisTickFormatting) {
+            val = this.axisTickFormatting(arc$$1.data.value);
+        }
+        else {
+            val = formatLabel(arc$$1.data.value);
+        }
+        return "\n      <span class=\"tooltip-label\">" + label + "</span>\n      <span class=\"tooltip-val\">" + val + "</span>\n    ";
+    };
+    PowerGaugeComponent.prototype.ngAfterViewInit = function () {
+        _super.prototype.ngAfterViewInit.call(this);
+    };
+    PowerGaugeComponent.prototype.update = function () {
+        var _this = this;
+        _super.prototype.update.call(this);
+        this.zone.run(function () {
+            if (!_this.margin) {
+                _this.margin = [30, 60, 30, 60];
+            }
+            _this.dims = calculateViewDimensions({
+                width: _this.width,
+                height: _this.height,
+                margins: _this.margin
+            });
+            _this.domain = _this.getDomain();
+            _this.setColors();
+            _this.valueDomain = _this.getValueDomain();
+            _this.valueScale = _this.getValueScale();
+            _this.displayValue = _this.getDisplayValue();
+            _this.outerRadius = Math.min(_this.dims.width, _this.dims.height) * .7;
+            var radiusPerArc = 100;
+            var arcWidth = radiusPerArc * 0.38;
+            _this.innerRadius = _this.outerRadius - arcWidth;
+            _this.textRadius = _this.outerRadius - radiusPerArc;
+            _this.arcSet = _this.getArcSet();
+            _this.axisValues = _this.getAxisValues();
+            var xOffset = _this.margin[3] + (_this.dims.width / 2) - 15;
+            var yOffset = _this.dims.height - (_this.margin[0] / 2);
+            _this.transform = "translate(" + xOffset + ", " + yOffset + ")";
+        });
+    };
+    PowerGaugeComponent.prototype.getArcSet = function () {
+        var backgroundArc = {
+            startAngle: this.startAngle * Math.PI / 180,
+            endAngle: this.endAngle * Math.PI / 180,
+            data: {
+                value: this.max,
+                name: 'Total'
+            }
+        };
+        var angle;
+        var valueArcs = [];
+        this.results = sortLinear(this.results, 'value');
+        for (var _i = 0, _a = this.results; _i < _a.length; _i++) {
+            var d = _a[_i];
+            angle = Math.min(this.valueScale(d.value) + this.startAngle, this.angleSpan);
+            if (this.pointerValue === d.value) {
+                this.pointerAngle = angle;
+            }
+            var valueArc = {
+                endAngle: angle * Math.PI / 180,
+                data: {
+                    value: d.value,
+                    name: d.name
+                },
+                textAnchor: this.getTextAnchor(angle)
+            };
+            valueArcs.push(valueArc);
+        }
+        return {
+            backgroundArc: backgroundArc,
+            valueArcs: valueArcs
+        };
+    };
+    PowerGaugeComponent.prototype.getAxisValues = function () {
+        var angle;
+        var axisValues = [];
+        this.axisPoints = sortLinear(this.axisPoints, 'value');
+        for (var _i = 0, _a = this.axisPoints; _i < _a.length; _i++) {
+            var d = _a[_i];
+            angle = Math.min(this.valueScale(d.value) + this.startAngle, this.angleSpan);
+            if (this.pointerValue === d.value) {
+                this.pointerAngle = angle;
+            }
+            var valueArc = {
+                endAngle: angle * Math.PI / 180,
+                data: {
+                    value: d.value,
+                    name: d.name
+                }
+            };
+            axisValues.push(valueArc);
+        }
+        return axisValues;
+    };
+    PowerGaugeComponent.prototype.getTextAnchor = function (angle) {
+        angle = (this.startAngle + angle) % 360;
+        var textAnchor = 'middle';
+        if (angle > 45 && angle <= 135) {
+            textAnchor = 'start';
+        }
+        else if (angle > 225 && angle <= 315) {
+            textAnchor = 'end';
+        }
+        return textAnchor;
+    };
+    PowerGaugeComponent.prototype.getDomain = function () {
+        return this.results.map(function (d) { return d.name; });
+    };
+    PowerGaugeComponent.prototype.getValueDomain = function () {
+        var values = this.results.map(function (d) { return d.value; });
+        var dataMin = Math.min.apply(Math, values);
+        var dataMax = Math.max.apply(Math, values);
+        if (this.min !== undefined) {
+            this.min = Math.min(this.min, dataMin);
+        }
+        else {
+            this.min = dataMin;
+        }
+        if (this.max !== undefined) {
+            this.max = Math.max(this.max, dataMax);
+        }
+        else {
+            this.max = dataMax;
+        }
+        return [this.min, this.max];
+    };
+    PowerGaugeComponent.prototype.getValueScale = function () {
+        return scaleLinear()
+            .range([0, this.angleSpan])
+            .nice()
+            .domain(this.valueDomain);
+    };
+    PowerGaugeComponent.prototype.setColors = function () {
+        this.colors = new ColorHelper(this.scheme, 'ordinal', this.domain, this.customColors);
+    };
+    PowerGaugeComponent.prototype.getDisplayValue = function () {
+        if (this.valueFormatting) {
+            return this.valueFormatting(this.pointerValue);
+        }
+        return this.pointerValue.toString();
+    };
+    var _a;
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeComponent.prototype, "min", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeComponent.prototype, "max", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], PowerGaugeComponent.prototype, "units", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], PowerGaugeComponent.prototype, "results", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], PowerGaugeComponent.prototype, "axisPoints", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeComponent.prototype, "pointerValue", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], PowerGaugeComponent.prototype, "showAxis", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], PowerGaugeComponent.prototype, "axisTickFormatting", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], PowerGaugeComponent.prototype, "valueFormatting", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Array)
+    ], PowerGaugeComponent.prototype, "margin", void 0);
+    __decorate([
+        ViewChild('textEl'),
+        __metadata("design:type", typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a : Object)
+    ], PowerGaugeComponent.prototype, "textEl", void 0);
+    PowerGaugeComponent = __decorate([
+        Component({
+            selector: 'ngx-charts-power-gauge',
+            template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\">\n      <svg:g [attr.transform]=\"transform\" class=\"gauge chart\">\n        <svg:g ngx-charts-pie-arc\n            class=\"background-arc\"\n            [startAngle]=\"arcSet.backgroundArc.startAngle\"\n            [endAngle]=\"arcSet.backgroundArc.endAngle\"\n            [innerRadius]=\"innerRadius\"\n            [outerRadius]=\"outerRadius\"\n            [cornerRadius]=\"cornerRadius\"\n            [data]=\"arcSet.backgroundArc.data\"\n            [animate]=\"true\"\n            [class.active]=\"true\"\n            [pointerEvents]=\"true\"\n            ngx-tooltip\n            [tooltipDisabled]=\"false\"\n            [tooltipPlacement]=\"'top'\"\n            [tooltipType]=\"'tooltip'\"\n            [tooltipTitle]=\"tooltipText(arcSet.backgroundArc)\">\n        </svg:g>\n\n        <svg:g ngx-charts-gauge-arc-series\n          [bigSegments]=\"arcSet.valueArcs\"\n          [startAngle]=\"startAngle\"\n          [angleSpan]=\"angleSpan\"\n          [cornerRadius]=\"cornerRadius\"\n          [innerRadius]=\"innerRadius\"\n          [outerRadius]=\"outerRadius\"\n          [colors]=\"colors\">\n        </svg:g>\n\n        <svg:g ngx-charts-power-gauge-axis\n          [bigSegments]=\"axisValues\"\n          [startAngle]=\"startAngle\"\n          [pointerAngle]=\"pointerAngle\"\n          [angleSpan]=\"angleSpan\"\n          [cornerRadius]=\"cornerRadius\"\n          [innerRadius]=\"innerRadius\"\n          [outerRadius]=\"outerRadius\"\n          [tickFormatting]=\"axisTickFormatting\"\n          [dims]=\"dims\">\n        </svg:g>\n\n        <svg:text #textEl\n            [style.textAnchor]=\"'middle'\"\n            [attr.transform]=\"textTransform\"\n            alignment-baseline=\"central\">\n          <tspan x=\"0\" dy=\"1.5em\">{{displayValue}}\n            <tspan class=\"units\" *ngIf=\"units\">{{units}}</tspan>\n          </tspan>\n        </svg:text>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
+            styles: [
+                ".ngx-charts{float:left;overflow:visible}.ngx-charts .arc,.ngx-charts .bar,.ngx-charts .circle{cursor:pointer}.ngx-charts .arc.active,.ngx-charts .arc:hover,.ngx-charts .bar.active,.ngx-charts .bar:hover,.ngx-charts .card.active,.ngx-charts .card:hover,.ngx-charts .cell.active,.ngx-charts .cell:hover{opacity:.8;transition:opacity .1s ease-in-out}.ngx-charts .arc:focus,.ngx-charts .bar:focus,.ngx-charts .card:focus,.ngx-charts .cell:focus{outline:0}.ngx-charts g:focus{outline:0}.ngx-charts .area-series.inactive,.ngx-charts .line-series-range.inactive,.ngx-charts .line-series.inactive,.ngx-charts .polar-series-area.inactive,.ngx-charts .polar-series-path.inactive{transition:opacity .1s ease-in-out;opacity:.2}.ngx-charts .line-highlight{display:none}.ngx-charts .line-highlight.active{display:block}.ngx-charts .area{opacity:.6}.ngx-charts .circle:hover{cursor:pointer}.ngx-charts .label{font-size:12px;font-weight:400}.ngx-charts .tooltip-anchor{fill:#000}.ngx-charts .gridline-path{stroke:#ddd;stroke-width:1;fill:none}.ngx-charts .refline-path{stroke:#a8b2c7;stroke-width:1;stroke-dasharray:5;stroke-dashoffset:5}.ngx-charts .refline-label{font-size:9px}.ngx-charts .reference-area{fill-opacity:.05;fill:#000}.ngx-charts .gridline-path-dotted{stroke:#ddd;stroke-width:1;fill:none;stroke-dasharray:1,20;stroke-dashoffset:3}.ngx-charts .grid-panel rect{fill:none}.ngx-charts .grid-panel.odd rect{fill:rgba(0,0,0,.05)}",
+                ".gauge .background-arc path{fill:rgba(0,0,0,.05)}.gauge .gauge-tick path{stroke:#666}.gauge .gauge-tick text{font-size:12px;fill:#666;font-weight:700}.gauge .gauge-tick-large path{stroke-width:2px}.gauge .gauge-tick-small path{stroke-width:1px}",
+                ".gauge .background-arc .arc{cursor:pointer}.gauge .background-arc path{fill:#ddd}.gauge .arc{cursor:default}.gauge .arc:hover{opacity:1}.gauge .pointer path{stroke-width:1px;stroke:#444;fill:#777}"
+            ],
+            encapsulation: ViewEncapsulation.None,
+            changeDetection: ChangeDetectionStrategy.OnPush,
+        })
+    ], PowerGaugeComponent);
+    return PowerGaugeComponent;
+}(BaseChartComponent));
+
+var PowerGaugeAxisComponent = /** @class */ (function () {
+    function PowerGaugeAxisComponent(zone) {
+        this.zone = zone;
+        this.pointerWidth = 13;
+        this.pointerTailLength = 8;
+        this.rotate = '';
+    }
+    PowerGaugeAxisComponent.prototype.ngOnChanges = function () {
+        this.update();
+    };
+    // ngOnDestroy() {
+    //   this.stopAnimation();
+    // }
+    PowerGaugeAxisComponent.prototype.startAnimation = function (pointerAngle) {
+        var _this = this;
+        this.zone.runOutsideAngular(function () {
+            _this.animator = setInterval(function () {
+                var moveTick = Math.random() * 2;
+                _this.updatePointer(pointerAngle + moveTick, 0, 750, 1);
+            }, 300);
+        });
+    };
+    PowerGaugeAxisComponent.prototype.stopAnimation = function () {
+        var _this = this;
+        this.zone.runOutsideAngular(function () {
+            clearInterval(_this.animator);
+        });
+    };
+    PowerGaugeAxisComponent.prototype.update = function () {
+        this.rotationAngle = this.startAngle;
+        this.rotate = "rotate(" + this.rotationAngle + ")";
+        this.ticks = this.getTicks();
+        // this.stopAnimation();
+        //
+        // this.zone.runOutsideAngular(() => {
+        //   setTimeout(() => {
+        //     this.startAnimation(this.pointerAngle);
+        //   }, 1500);
+        // });
+        if (this.pointerAngle) {
+            this.updatePointer(this.pointerAngle, 750, 750, 0.8);
+        }
+    };
+    PowerGaugeAxisComponent.prototype.updatePointer = function (pointerAngle, delay, duration, easeValue) {
+        var pointer = select('.pointer');
+        var pointerRotate = "rotate(" + pointerAngle + ")";
+        var ease = easeElastic.period(easeValue);
+        pointer
+            .transition().delay(delay).duration(duration)
+            .ease(ease)
+            .attr('transform', pointerRotate);
+    };
+    PowerGaugeAxisComponent.prototype.getTicks = function () {
+        // const bigTickSegment = this.angleSpan / this.bigSegments.length;
+        var tickLength = this.outerRadius - this.innerRadius;
+        var ticks = [];
+        var startDistance = this.innerRadius;
+        var textDist = this.outerRadius + 20;
+        var startAngle = this.startAngle * Math.PI / 180;
+        var bigSegment;
+        for (var i = 0; i < this.bigSegments.length; i++) {
+            bigSegment = this.bigSegments[i];
+            var data = bigSegment.data, endAngle = bigSegment.endAngle;
+            var text = data.value;
+            if (this.tickFormatting) {
+                text = this.tickFormatting(text);
+            }
+            ticks.push({
+                line: this.getTickPath(startDistance, tickLength, endAngle),
+                textAnchor: bigSegment.textAnchor,
+                text: text,
+                label: data.name,
+                labelTransform: "\n          translate(" + (textDist * Math.cos(endAngle) + 20) + ",\n          " + (textDist * Math.sin(endAngle) - 10) + ") rotate(" + -this.rotationAngle + ")\n        ",
+                textTransform: "\n          translate(" + textDist * Math.cos(endAngle) + ", " + textDist * Math.sin(endAngle) + ") rotate(" + -this.rotationAngle + ")\n        "
+            });
+            startAngle = endAngle;
+        }
+        return ticks;
+    };
+    PowerGaugeAxisComponent.prototype.getTickPath = function (startDistance, tickLength, angle) {
+        var y1 = startDistance * Math.sin(angle);
+        var y2 = (startDistance + tickLength) * Math.sin(angle);
+        var x1 = startDistance * Math.cos(angle);
+        var x2 = (startDistance + tickLength) * Math.cos(angle);
+        var points = [{ x: x1, y: y1 }, { x: x2, y: y2 }];
+        var lineGenerator = line().x(function (d) { return d.x; }).y(function (d) { return d.y; });
+        return lineGenerator(points);
+    };
+    PowerGaugeAxisComponent.prototype.getPointerPath = function () {
+        var rw = this.dims.width / 2;
+        var rh = this.dims.height / 2;
+        var r = rw < rh ? rw : rh;
+        var pointerHeadLength = r + this.pointerWidth;
+        var pointerLine = [{ x: this.pointerWidth / 2, y: 0 },
+            { x: 0, y: -pointerHeadLength },
+            { x: -(this.pointerWidth / 2), y: 0 },
+            { x: 0, y: this.pointerTailLength },
+            { x: this.pointerWidth / 2, y: 0 }];
+        var lineGenerator = line().x(function (d) { return d.x; }).y(function (d) { return d.y; }).curve(curveMonotoneX);
+        return lineGenerator(pointerLine);
+    };
+    var _a;
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], PowerGaugeAxisComponent.prototype, "bigSegments", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeAxisComponent.prototype, "startAngle", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeAxisComponent.prototype, "pointerAngle", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeAxisComponent.prototype, "angleSpan", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeAxisComponent.prototype, "outerRadius", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeAxisComponent.prototype, "innerRadius", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], PowerGaugeAxisComponent.prototype, "cornerRadius", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], PowerGaugeAxisComponent.prototype, "tickFormatting", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], PowerGaugeAxisComponent.prototype, "dims", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], PowerGaugeAxisComponent.prototype, "pointerWidth", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], PowerGaugeAxisComponent.prototype, "pointerTailLength", void 0);
+    PowerGaugeAxisComponent = __decorate([
+        Component({
+            selector: 'g[ngx-charts-power-gauge-axis]',
+            template: "\n  <svg:g [attr.transform]=\"rotate\">\n    <svg:g *ngFor=\"let tick of ticks\"\n        class=\"gauge-tick gauge-tick-large\">\n        <svg:path [attr.d]=\"tick.line\" />\n    </svg:g>\n    <svg:g *ngFor=\"let tick of ticks\"\n        class=\"gauge-tick gauge-tick-large\">\n        <svg:text *ngIf=\"tick.label\"\n            [style.textAnchor]=\"tick.textAnchor\"\n            [attr.transform]=\"tick.labelTransform\"\n            alignment-baseline=\"central\">\n            {{tick.label}}\n        </svg:text>\n        <svg:text\n            [style.textAnchor]=\"tick.textAnchor\"\n            [attr.transform]=\"tick.textTransform\"\n            alignment-baseline=\"central\">\n            {{tick.text}}\n        </svg:text>\n    </svg:g>\n  </svg:g>\n  <svg:g [attr.transform]=\"'rotate(0)'\" class=\"pointer\">\n    <svg:g>\n      <svg:path\n        [attr.d]=\"getPointerPath()\"\n      />\n    </svg:g>\n  </svg:g>\n  ",
+            changeDetection: ChangeDetectionStrategy.OnPush
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof NgZone !== "undefined" && NgZone) === "function" ? _a : Object])
+    ], PowerGaugeAxisComponent);
+    return PowerGaugeAxisComponent;
+}());
+
 var GaugeModule = /** @class */ (function () {
     function GaugeModule() {
     }
@@ -14262,13 +14929,19 @@ var GaugeModule = /** @class */ (function () {
                 LinearGaugeComponent,
                 GaugeComponent,
                 GaugeArcComponent,
-                GaugeAxisComponent
+                GaugeArcSeriesComponent,
+                GaugeAxisComponent,
+                PowerGaugeComponent,
+                PowerGaugeAxisComponent
             ],
             exports: [
                 LinearGaugeComponent,
                 GaugeComponent,
                 GaugeArcComponent,
-                GaugeAxisComponent
+                GaugeArcSeriesComponent,
+                GaugeAxisComponent,
+                PowerGaugeComponent,
+                PowerGaugeAxisComponent
             ]
         })
     ], GaugeModule);
@@ -14312,4 +14985,4 @@ function tickFormat(fieldType, groupByType) {
     };
 }
 
-export { NgxChartsModule, ChartCommonModule, LegendComponent, ScaleLegendComponent, LegendEntryComponent, AdvancedLegendComponent, TooltipModule, TooltipService, TooltipContentComponent, TooltipDirective, StyleTypes, AlignmentTypes, ShowTypes, AxesModule, AxisLabelComponent, XAxisComponent, XAxisTicksComponent, YAxisComponent, YAxisTicksComponent, reduceTicks, CountUpDirective, count, decimalChecker, Timeline, ColorHelper, ChartComponent, AreaComponent, BaseChartComponent, CircleComponent, CircleSeriesComponent, gridSize, gridLayout, GridPanelComponent, GridPanelSeriesComponent, SvgLinearGradientComponent, SvgRadialGradientComponent, TooltipArea, tickFormat, trimLabel, calculateViewDimensions, formatLabel, getUniqueXDomainValues, getScaleType, AreaChartModule, AreaChartComponent, AreaChartNormalizedComponent, AreaChartStackedComponent, AreaSeriesComponent, BarChartModule, BarComponent, BarHorizontalComponent, BarHorizontal2DComponent, BarHorizontalNormalizedComponent, BarHorizontalStackedComponent, SeriesHorizontal, BarLabelComponent, BarVerticalComponent, BarVertical2DComponent, BarVerticalNormalizedComponent, BarVerticalStackedComponent, D0Types, SeriesVerticalComponent, BubbleChartModule, BubbleChartComponent, getDomain, getScale, BubbleSeriesComponent, ForceDirectedGraphModule, ForceDirectedGraphComponent, HeatMapModule, HeatMapComponent, HeatMapCellComponent, HeatCellSeriesComponent, LineChartModule, LineChartComponent, LineComponent, LineSeriesComponent, PolarChartModule, PolarChartComponent, PolarSeriesComponent, NumberCardModule, NumberCardComponent, CardComponent, CardSeriesComponent, PieChartModule, AdvancedPieChartComponent, PieChartComponent, PieArcComponent, PieGridComponent, PieSeriesComponent, PieLabelComponent, TreeMapModule, TreeMapComponent, TreeMapCellComponent, TreeMapCellSeriesComponent, GaugeModule, GaugeArcComponent, GaugeAxisComponent, GaugeComponent, LinearGaugeComponent };
+export { NgxChartsModule, ChartCommonModule, LegendComponent, ScaleLegendComponent, LegendEntryComponent, AdvancedLegendComponent, TooltipModule, TooltipService, TooltipContentComponent, TooltipDirective, StyleTypes, AlignmentTypes, ShowTypes, AxesModule, AxisLabelComponent, XAxisComponent, XAxisTicksComponent, YAxisComponent, YAxisTicksComponent, reduceTicks, CountUpDirective, count, decimalChecker, Timeline, ColorHelper, ChartComponent, AreaComponent, BaseChartComponent, CircleComponent, CircleSeriesComponent, gridSize, gridLayout, GridPanelComponent, GridPanelSeriesComponent, SvgLinearGradientComponent, SvgRadialGradientComponent, TooltipArea, tickFormat, trimLabel, calculateViewDimensions, formatLabel, getUniqueXDomainValues, getScaleType, AreaChartModule, AreaChartComponent, AreaChartNormalizedComponent, AreaChartStackedComponent, AreaSeriesComponent, BarChartModule, BarComponent, BarHorizontalComponent, BarHorizontal2DComponent, BarHorizontalNormalizedComponent, BarHorizontalStackedComponent, SeriesHorizontal, BarLabelComponent, BarVerticalComponent, BarVertical2DComponent, BarVerticalNormalizedComponent, BarVerticalStackedComponent, D0Types, SeriesVerticalComponent, BubbleChartModule, BubbleChartComponent, getDomain, getScale, BubbleSeriesComponent, ForceDirectedGraphModule, ForceDirectedGraphComponent, HeatMapModule, HeatMapComponent, HeatMapCellComponent, HeatCellSeriesComponent, LineChartModule, LineChartComponent, LineComponent, LineSeriesComponent, PolarChartModule, PolarChartComponent, PolarSeriesComponent, NumberCardModule, NumberCardComponent, CardComponent, CardSeriesComponent, AdvancedPieChartComponent, PieChartModule, PieChartComponent, SimplePieChartComponent, PieArcComponent, PieGridComponent, PieSeriesComponent, PieLabelComponent, TreeMapModule, TreeMapComponent, TreeMapCellComponent, TreeMapCellSeriesComponent, GaugeModule, GaugeArcComponent, GaugeAxisComponent, GaugeComponent, PowerGaugeComponent, LinearGaugeComponent };
