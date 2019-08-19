@@ -29,7 +29,7 @@ export declare class PieArcComponent implements OnChanges {
     constructor(element: ElementRef);
     ngOnChanges(changes: SimpleChanges): void;
     getGradient(): any;
-    getPointerEvents(): "none" | "auto";
+    getPointerEvents(): "auto" | "none";
     update(): void;
     calculateArc(): any;
     loadAnimation(): void;
