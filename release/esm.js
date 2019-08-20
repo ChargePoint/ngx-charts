@@ -7239,12 +7239,14 @@ var BarVerticalComponent = /** @class */ (function (_super) {
         if (this.yAxisTickRoundingLabel) {
             var offset = this.margin[3];
             if (!this.yAxisLabel) {
-                offset -= 20;
+                offset -= 30;
             }
             this.labelTransform = "translate(" + offset + " , 10)";
+            console.log("translate label translate(" + offset + " , 10)");
             this.margin[0] = 30;
         }
         this.transform = "translate(" + this.dims.xOffset + " , " + (this.margin[0] + this.dataLabelMaxHeight.negative) + ")";
+        console.log("transform self translate(" + this.dims.xOffset + " , " + (this.margin[0] + this.dataLabelMaxHeight.negative) + ")");
     };
     BarVerticalComponent.prototype.getXScale = function () {
         this.xDomain = this.getXDomain();
