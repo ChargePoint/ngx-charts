@@ -193,7 +193,7 @@ export class BarVerticalComponent extends BaseChartComponent {
     if (this.yAxisTickRoundingLabel) {
       let offset = this.margin[3];
       if (!this.yAxisLabel) {
-        offset -= 30;
+        offset -= 10;
       }
       this.labelTransform = `translate(${ offset } , 10)`;
       console.log(`translate label translate(${ offset } , 10)`)
