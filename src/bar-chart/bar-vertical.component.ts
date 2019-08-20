@@ -193,15 +193,13 @@ export class BarVerticalComponent extends BaseChartComponent {
     if (this.yAxisTickRoundingLabel) {
       let offset = this.margin[3];
       if (!this.yAxisLabel) {
-        offset -= 10;
+        offset -= 20;
       }
       this.labelTransform = `translate(${ offset } , 10)`;
-      console.log(`translate label translate(${ offset } , 10)`)
-      this.margin[0] = 30;
+      this.margin[0] = 17;
     }
-    //this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] })`;
-     this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] + this.dataLabelMaxHeight.negative })`;
-     console.log(`transform self translate(${ this.dims.xOffset } , ${ this.margin[0] + this.dataLabelMaxHeight.negative })`)
+    this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] })`;
+     //this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] + this.dataLabelMaxHeight.negative })`;
   }
 
   getXScale(): any {
