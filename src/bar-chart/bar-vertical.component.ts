@@ -198,8 +198,8 @@ export class BarVerticalComponent extends BaseChartComponent {
       this.labelTransform = `translate(${ offset } , 10)`;
       this.margin[0] = 30;
     }
-    this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] })`;
-    // this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] + this.dataLabelMaxHeight.negative })`;
+    //this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] })`;
+     this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] + this.dataLabelMaxHeight.negative })`;
   }
 
   getXScale(): any {

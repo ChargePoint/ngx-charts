@@ -7244,7 +7244,7 @@ var BarVerticalComponent = /** @class */ (function (_super) {
             this.labelTransform = "translate(" + offset + " , 10)";
             this.margin[0] = 30;
         }
-        this.transform = "translate(" + this.dims.xOffset + " , " + this.margin[0] + ")";
+        this.transform = "translate(" + this.dims.xOffset + " , " + (this.margin[0] + this.dataLabelMaxHeight.negative) + ")";
     };
     BarVerticalComponent.prototype.getXScale = function () {
         this.xDomain = this.getXDomain();
