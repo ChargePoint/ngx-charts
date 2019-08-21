@@ -32,9 +32,12 @@ and limitations under the License.
 ***************************************************************************** */
 /* global Reflect, Promise */
 
-var extendStatics = Object.setPrototypeOf ||
-    ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-    function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+};
 
 function __extends(d, b) {
     extendStatics(d, b);
@@ -42,12 +45,15 @@ function __extends(d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 
-var __assign = Object.assign || function __assign(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-    }
-    return t;
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
 
 function __decorate(decorators, target, key, desc) {
@@ -505,13 +511,13 @@ var InjectionService = /** @class */ (function () {
         renderer.projectNodes(location, [componentRootNode]);
         return componentRef;
     };
+    var InjectionService_1, _a, _b, _c;
     InjectionService.globalRootViewContainer = null;
     InjectionService = InjectionService_1 = __decorate([
         Injectable(),
-        __metadata("design:paramtypes", [typeof (_a = typeof ApplicationRef !== "undefined" && ApplicationRef) === "function" && _a || Object, typeof (_b = typeof ComponentFactoryResolver !== "undefined" && ComponentFactoryResolver) === "function" && _b || Object, typeof (_c = typeof Injector !== "undefined" && Injector) === "function" && _c || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof ApplicationRef !== "undefined" && ApplicationRef) === "function" ? _a : Object, typeof (_b = typeof ComponentFactoryResolver !== "undefined" && ComponentFactoryResolver) === "function" ? _b : Object, typeof (_c = typeof Injector !== "undefined" && Injector) === "function" ? _c : Object])
     ], InjectionService);
     return InjectionService;
-    var InjectionService_1, _a, _b, _c;
 }());
 
 var InjectionRegistery = /** @class */ (function () {
@@ -704,6 +710,7 @@ var TooltipContentComponent = /** @class */ (function () {
     TooltipContentComponent.prototype.onWindowResize = function () {
         this.position();
     };
+    var _a, _b, _c, _d, _e;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -714,15 +721,15 @@ var TooltipContentComponent = /** @class */ (function () {
     ], TooltipContentComponent.prototype, "showCaret", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_a = typeof StyleTypes !== "undefined" && StyleTypes) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof StyleTypes !== "undefined" && StyleTypes) === "function" ? _a : Object)
     ], TooltipContentComponent.prototype, "type", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_b = typeof PlacementTypes !== "undefined" && PlacementTypes) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof PlacementTypes !== "undefined" && PlacementTypes) === "function" ? _b : Object)
     ], TooltipContentComponent.prototype, "placement", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_c = typeof AlignmentTypes !== "undefined" && AlignmentTypes) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof AlignmentTypes !== "undefined" && AlignmentTypes) === "function" ? _c : Object)
     ], TooltipContentComponent.prototype, "alignment", void 0);
     __decorate([
         Input(),
@@ -767,10 +774,9 @@ var TooltipContentComponent = /** @class */ (function () {
             encapsulation: ViewEncapsulation.None,
             styles: [".ngx-charts-tooltip-content{position:fixed;border-radius:3px;z-index:5000;display:block;font-weight:400;opacity:0;pointer-events:none!important}.ngx-charts-tooltip-content.type-popover{background:#fff;color:#060709;border:1px solid #72809b;box-shadow:0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);font-size:13px;padding:4px}.ngx-charts-tooltip-content.type-popover .tooltip-caret{position:absolute;z-index:5001;width:0;height:0}.ngx-charts-tooltip-content.type-popover .tooltip-caret.position-left{border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:7px solid #fff}.ngx-charts-tooltip-content.type-popover .tooltip-caret.position-top{border-left:7px solid transparent;border-right:7px solid transparent;border-top:7px solid #fff}.ngx-charts-tooltip-content.type-popover .tooltip-caret.position-right{border-top:7px solid transparent;border-bottom:7px solid transparent;border-right:7px solid #fff}.ngx-charts-tooltip-content.type-popover .tooltip-caret.position-bottom{border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:7px solid #fff}.ngx-charts-tooltip-content.type-tooltip{color:#fff;background:rgba(0,0,0,.75);font-size:12px;padding:0 10px;text-align:center;pointer-events:auto}.ngx-charts-tooltip-content.type-tooltip .tooltip-caret.position-left{border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:7px solid rgba(0,0,0,.75)}.ngx-charts-tooltip-content.type-tooltip .tooltip-caret.position-top{border-left:7px solid transparent;border-right:7px solid transparent;border-top:7px solid rgba(0,0,0,.75)}.ngx-charts-tooltip-content.type-tooltip .tooltip-caret.position-right{border-top:7px solid transparent;border-bottom:7px solid transparent;border-right:7px solid rgba(0,0,0,.75)}.ngx-charts-tooltip-content.type-tooltip .tooltip-caret.position-bottom{border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:7px solid rgba(0,0,0,.75)}.ngx-charts-tooltip-content .tooltip-label{display:block;line-height:1em;padding:8px 5px 5px 5px;font-size:1em}.ngx-charts-tooltip-content .tooltip-val{display:block;font-size:1.3em;line-height:1em;padding:0 5px 8px 5px}.ngx-charts-tooltip-content .tooltip-caret{position:absolute;z-index:5001;width:0;height:0}.ngx-charts-tooltip-content.position-right{transform:translate3d(10px,0,0)}.ngx-charts-tooltip-content.position-left{transform:translate3d(-10px,0,0)}.ngx-charts-tooltip-content.position-top{transform:translate3d(0,-10px,0)}.ngx-charts-tooltip-content.position-bottom{transform:translate3d(0,10px,0)}.ngx-charts-tooltip-content.animate{opacity:1;transition:opacity .3s,transform .3s;transform:translate3d(0,0,0);pointer-events:auto}.area-tooltip-container{padding:5px 0;pointer-events:none}.tooltip-item{text-align:left;line-height:1.2em;padding:5px 0}.tooltip-item .tooltip-item-color{display:inline-block;height:12px;width:12px;margin-right:5px;color:#5b646b;border-radius:3px}"]
         }),
-        __metadata("design:paramtypes", [typeof (_d = typeof ElementRef !== "undefined" && ElementRef) === "function" && _d || Object, typeof (_e = typeof Renderer !== "undefined" && Renderer) === "function" && _e || Object])
+        __metadata("design:paramtypes", [typeof (_d = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _d : Object, typeof (_e = typeof Renderer !== "undefined" && Renderer) === "function" ? _e : Object])
     ], TooltipContentComponent);
     return TooltipContentComponent;
-    var _a, _b, _c, _d, _e;
 }());
 
 var TooltipService = /** @class */ (function (_super) {
@@ -781,12 +787,12 @@ var TooltipService = /** @class */ (function (_super) {
         _this.type = TooltipContentComponent;
         return _this;
     }
+    var _a;
     TooltipService = __decorate([
         Injectable(),
-        __metadata("design:paramtypes", [typeof (_a = typeof InjectionService !== "undefined" && InjectionService) === "function" && _a || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof InjectionService !== "undefined" && InjectionService) === "function" ? _a : Object])
     ], TooltipService);
     return TooltipService;
-    var _a;
 }(InjectionRegistery));
 
 var TooltipDirective = /** @class */ (function () {
@@ -944,6 +950,7 @@ var TooltipDirective = /** @class */ (function () {
             context: this.tooltipContext
         };
     };
+    var _a, _b, _c, _d, _e, _f, _g;
     __decorate([
         Input(),
         __metadata("design:type", String)
@@ -970,15 +977,15 @@ var TooltipDirective = /** @class */ (function () {
     ], TooltipDirective.prototype, "tooltipShowCaret", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_a = typeof PlacementTypes !== "undefined" && PlacementTypes) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof PlacementTypes !== "undefined" && PlacementTypes) === "function" ? _a : Object)
     ], TooltipDirective.prototype, "tooltipPlacement", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_b = typeof AlignmentTypes !== "undefined" && AlignmentTypes) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof AlignmentTypes !== "undefined" && AlignmentTypes) === "function" ? _b : Object)
     ], TooltipDirective.prototype, "tooltipAlignment", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_c = typeof StyleTypes !== "undefined" && StyleTypes) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof StyleTypes !== "undefined" && StyleTypes) === "function" ? _c : Object)
     ], TooltipDirective.prototype, "tooltipType", void 0);
     __decorate([
         Input(),
@@ -1002,7 +1009,7 @@ var TooltipDirective = /** @class */ (function () {
     ], TooltipDirective.prototype, "tooltipTemplate", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_d = typeof ShowTypes !== "undefined" && ShowTypes) === "function" && _d || Object)
+        __metadata("design:type", typeof (_d = typeof ShowTypes !== "undefined" && ShowTypes) === "function" ? _d : Object)
     ], TooltipDirective.prototype, "tooltipShowEvent", void 0);
     __decorate([
         Input(),
@@ -1052,10 +1059,9 @@ var TooltipDirective = /** @class */ (function () {
     ], TooltipDirective.prototype, "onMouseClick", null);
     TooltipDirective = __decorate([
         Directive({ selector: '[ngx-tooltip]' }),
-        __metadata("design:paramtypes", [typeof (_e = typeof TooltipService !== "undefined" && TooltipService) === "function" && _e || Object, typeof (_f = typeof ViewContainerRef !== "undefined" && ViewContainerRef) === "function" && _f || Object, typeof (_g = typeof Renderer !== "undefined" && Renderer) === "function" && _g || Object])
+        __metadata("design:paramtypes", [typeof (_e = typeof TooltipService !== "undefined" && TooltipService) === "function" ? _e : Object, typeof (_f = typeof ViewContainerRef !== "undefined" && ViewContainerRef) === "function" ? _f : Object, typeof (_g = typeof Renderer !== "undefined" && Renderer) === "function" ? _g : Object])
     ], TooltipDirective);
     return TooltipDirective;
-    var _a, _b, _c, _d, _e, _f, _g;
 }());
 
 var TooltipModule = /** @class */ (function () {
@@ -1110,6 +1116,7 @@ var ChartComponent = /** @class */ (function () {
             return 'legend';
         }
     };
+    var _a, _b, _c, _d, _e;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -1148,15 +1155,15 @@ var ChartComponent = /** @class */ (function () {
     ], ChartComponent.prototype, "animations", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], ChartComponent.prototype, "legendLabelClick", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], ChartComponent.prototype, "legendLabelActivate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_c = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _c : Object)
     ], ChartComponent.prototype, "legendLabelDeactivate", void 0);
     ChartComponent = __decorate([
         Component({
@@ -1173,10 +1180,9 @@ var ChartComponent = /** @class */ (function () {
                 ])
             ]
         }),
-        __metadata("design:paramtypes", [typeof (_d = typeof ViewContainerRef !== "undefined" && ViewContainerRef) === "function" && _d || Object, typeof (_e = typeof TooltipService !== "undefined" && TooltipService) === "function" && _e || Object])
+        __metadata("design:paramtypes", [typeof (_d = typeof ViewContainerRef !== "undefined" && ViewContainerRef) === "function" ? _d : Object, typeof (_e = typeof TooltipService !== "undefined" && TooltipService) === "function" ? _e : Object])
     ], ChartComponent);
     return ChartComponent;
-    var _a, _b, _c, _d, _e;
 }());
 
 /**
@@ -1250,6 +1256,7 @@ var LegendComponent = /** @class */ (function () {
     LegendComponent.prototype.trackBy = function (index, item) {
         return item.label;
     };
+    var _a, _b, _c, _d;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -1276,15 +1283,15 @@ var LegendComponent = /** @class */ (function () {
     ], LegendComponent.prototype, "activeEntries", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], LegendComponent.prototype, "labelClick", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], LegendComponent.prototype, "labelActivate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_c = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _c : Object)
     ], LegendComponent.prototype, "labelDeactivate", void 0);
     LegendComponent = __decorate([
         Component({
@@ -1294,10 +1301,9 @@ var LegendComponent = /** @class */ (function () {
             encapsulation: ViewEncapsulation.None,
             changeDetection: ChangeDetectionStrategy.OnPush
         }),
-        __metadata("design:paramtypes", [typeof (_d = typeof ChangeDetectorRef !== "undefined" && ChangeDetectorRef) === "function" && _d || Object])
+        __metadata("design:paramtypes", [typeof (_d = typeof ChangeDetectorRef !== "undefined" && ChangeDetectorRef) === "function" ? _d : Object])
     ], LegendComponent);
     return LegendComponent;
-    var _a, _b, _c, _d;
 }());
 
 var ScaleLegendComponent = /** @class */ (function () {
@@ -1316,6 +1322,7 @@ var ScaleLegendComponent = /** @class */ (function () {
         });
         return pairs.join(', ');
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -1340,10 +1347,9 @@ var ScaleLegendComponent = /** @class */ (function () {
             encapsulation: ViewEncapsulation.None,
             changeDetection: ChangeDetectionStrategy.OnPush
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof DomSanitizer !== "undefined" && DomSanitizer) === "function" && _a || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof DomSanitizer !== "undefined" && DomSanitizer) === "function" ? _a : Object])
     ], ScaleLegendComponent);
     return ScaleLegendComponent;
-    var _a;
 }());
 
 var LegendEntryComponent = /** @class */ (function () {
@@ -1367,6 +1373,7 @@ var LegendEntryComponent = /** @class */ (function () {
     LegendEntryComponent.prototype.onMouseLeave = function () {
         this.deactivate.emit({ name: this.label });
     };
+    var _a, _b, _c, _d;
     __decorate([
         Input(),
         __metadata("design:type", String)
@@ -1385,19 +1392,19 @@ var LegendEntryComponent = /** @class */ (function () {
     ], LegendEntryComponent.prototype, "isActive", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], LegendEntryComponent.prototype, "select", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], LegendEntryComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_c = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _c : Object)
     ], LegendEntryComponent.prototype, "deactivate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_d = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _d || Object)
+        __metadata("design:type", typeof (_d = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _d : Object)
     ], LegendEntryComponent.prototype, "toggle", void 0);
     __decorate([
         HostListener('mouseenter'),
@@ -1419,7 +1426,6 @@ var LegendEntryComponent = /** @class */ (function () {
         })
     ], LegendEntryComponent);
     return LegendEntryComponent;
-    var _a, _b, _c, _d;
 }());
 
 function trimLabel(s, max$$1) {
@@ -1484,6 +1490,7 @@ var AdvancedLegendComponent = /** @class */ (function () {
     AdvancedLegendComponent.prototype.trackBy = function (item) {
         return item.formattedLabel;
     };
+    var _a, _b, _c;
     __decorate([
         Input(),
         __metadata("design:type", Number)
@@ -1506,15 +1513,15 @@ var AdvancedLegendComponent = /** @class */ (function () {
     ], AdvancedLegendComponent.prototype, "animations", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], AdvancedLegendComponent.prototype, "select", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], AdvancedLegendComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_c = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _c : Object)
     ], AdvancedLegendComponent.prototype, "deactivate", void 0);
     __decorate([
         Input(),
@@ -1538,7 +1545,6 @@ var AdvancedLegendComponent = /** @class */ (function () {
         })
     ], AdvancedLegendComponent);
     return AdvancedLegendComponent;
-    var _a, _b, _c;
 }());
 
 var cache = {};
@@ -1819,12 +1825,12 @@ var VisibilityObserver = /** @class */ (function () {
             _this.timeout = setTimeout(function () { return check(); });
         });
     };
+    var _a;
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], VisibilityObserver.prototype, "visible", void 0);
     return VisibilityObserver;
-    var _a;
 }());
 
 function isDate(value) {
@@ -1976,6 +1982,7 @@ var BaseChartComponent = /** @class */ (function () {
         }
         return results;
     };
+    var _a, _b, _c;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -2009,10 +2016,9 @@ var BaseChartComponent = /** @class */ (function () {
             selector: 'base-chart',
             template: "<div></div>"
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" && _a || Object, typeof (_b = typeof NgZone !== "undefined" && NgZone) === "function" && _b || Object, typeof (_c = typeof ChangeDetectorRef !== "undefined" && ChangeDetectorRef) === "function" && _c || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a : Object, typeof (_b = typeof NgZone !== "undefined" && NgZone) === "function" ? _b : Object, typeof (_c = typeof ChangeDetectorRef !== "undefined" && ChangeDetectorRef) === "function" ? _c : Object])
     ], BaseChartComponent);
     return BaseChartComponent;
-    var _a, _b, _c;
 }());
 
 var AxisLabelComponent = /** @class */ (function () {
@@ -2050,6 +2056,7 @@ var AxisLabelComponent = /** @class */ (function () {
             default:
         }
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -2076,10 +2083,9 @@ var AxisLabelComponent = /** @class */ (function () {
             template: "\n    <svg:text\n      [attr.stroke-width]=\"strokeWidth\"\n      [attr.x]=\"x\"\n      [attr.y]=\"y\"\n      [attr.text-anchor]=\"textAnchor\"\n      [attr.transform]=\"transform\">\n      {{label}}\n    </svg:text>\n  ",
             changeDetection: ChangeDetectionStrategy.OnPush
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" && _a || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a : Object])
     ], AxisLabelComponent);
     return AxisLabelComponent;
-    var _a;
 }());
 
 function reduceTicks(ticks, maxTicks) {
@@ -2211,6 +2217,7 @@ var XAxisTicksComponent = /** @class */ (function () {
     XAxisTicksComponent.prototype.gridLineTransform = function () {
         return "translate(0," + (-this.verticalSpacing - 5) + ")";
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -2261,7 +2268,7 @@ var XAxisTicksComponent = /** @class */ (function () {
     ], XAxisTicksComponent.prototype, "dimensionsChanged", void 0);
     __decorate([
         ViewChild('ticksel'),
-        __metadata("design:type", typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a : Object)
     ], XAxisTicksComponent.prototype, "ticksElement", void 0);
     XAxisTicksComponent = __decorate([
         Component({
@@ -2272,7 +2279,6 @@ var XAxisTicksComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [])
     ], XAxisTicksComponent);
     return XAxisTicksComponent;
-    var _a;
 }());
 
 var XAxisComponent = /** @class */ (function () {
@@ -2309,6 +2315,7 @@ var XAxisComponent = /** @class */ (function () {
             }, 0);
         }
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -2367,7 +2374,7 @@ var XAxisComponent = /** @class */ (function () {
     ], XAxisComponent.prototype, "dimensionsChanged", void 0);
     __decorate([
         ViewChild(XAxisTicksComponent),
-        __metadata("design:type", typeof (_a = typeof XAxisTicksComponent !== "undefined" && XAxisTicksComponent) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof XAxisTicksComponent !== "undefined" && XAxisTicksComponent) === "function" ? _a : Object)
     ], XAxisComponent.prototype, "ticksComponent", void 0);
     XAxisComponent = __decorate([
         Component({
@@ -2377,7 +2384,6 @@ var XAxisComponent = /** @class */ (function () {
         })
     ], XAxisComponent);
     return XAxisComponent;
-    var _a;
 }());
 
 /**
@@ -2563,6 +2569,7 @@ var YAxisTicksComponent = /** @class */ (function () {
     YAxisTicksComponent.prototype.gridLineTransform = function () {
         return "translate(5,0)";
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -2617,7 +2624,7 @@ var YAxisTicksComponent = /** @class */ (function () {
     ], YAxisTicksComponent.prototype, "dimensionsChanged", void 0);
     __decorate([
         ViewChild('ticksel'),
-        __metadata("design:type", typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a : Object)
     ], YAxisTicksComponent.prototype, "ticksElement", void 0);
     YAxisTicksComponent = __decorate([
         Component({
@@ -2628,7 +2635,6 @@ var YAxisTicksComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [])
     ], YAxisTicksComponent);
     return YAxisTicksComponent;
-    var _a;
 }());
 
 var YAxisComponent = /** @class */ (function () {
@@ -2678,6 +2684,7 @@ var YAxisComponent = /** @class */ (function () {
             }, 0);
         }
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -2740,7 +2747,7 @@ var YAxisComponent = /** @class */ (function () {
     ], YAxisComponent.prototype, "dimensionsChanged", void 0);
     __decorate([
         ViewChild(YAxisTicksComponent),
-        __metadata("design:type", typeof (_a = typeof YAxisTicksComponent !== "undefined" && YAxisTicksComponent) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof YAxisTicksComponent !== "undefined" && YAxisTicksComponent) === "function" ? _a : Object)
     ], YAxisComponent.prototype, "ticksComponent", void 0);
     YAxisComponent = __decorate([
         Component({
@@ -2750,7 +2757,6 @@ var YAxisComponent = /** @class */ (function () {
         })
     ], YAxisComponent);
     return YAxisComponent;
-    var _a;
 }());
 
 var AxesModule = /** @class */ (function () {
@@ -3054,6 +3060,7 @@ var CircleSeriesComponent = /** @class */ (function () {
         this.circle.opacity = 0;
         this.deactivate.emit({ name: this.data.name });
     };
+    var _a, _b;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -3072,7 +3079,7 @@ var CircleSeriesComponent = /** @class */ (function () {
     ], CircleSeriesComponent.prototype, "yScale", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_a = typeof ColorHelper !== "undefined" && ColorHelper) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof ColorHelper !== "undefined" && ColorHelper) === "function" ? _a : Object)
     ], CircleSeriesComponent.prototype, "colors", void 0);
     __decorate([
         Input(),
@@ -3092,7 +3099,7 @@ var CircleSeriesComponent = /** @class */ (function () {
     ], CircleSeriesComponent.prototype, "tooltipDisabled", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_b = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _b : Object)
     ], CircleSeriesComponent.prototype, "tooltipTemplate", void 0);
     __decorate([
         Output(),
@@ -3124,7 +3131,6 @@ var CircleSeriesComponent = /** @class */ (function () {
         })
     ], CircleSeriesComponent);
     return CircleSeriesComponent;
-    var _a, _b;
 }());
 
 var CircleComponent = /** @class */ (function () {
@@ -3567,6 +3573,7 @@ var Timeline = /** @class */ (function () {
         };
         return dims;
     };
+    var _a, _b;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -3623,10 +3630,9 @@ var Timeline = /** @class */ (function () {
             encapsulation: ViewEncapsulation.None,
             changeDetection: ChangeDetectionStrategy.OnPush
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" && _a || Object, typeof (_b = typeof ChangeDetectorRef !== "undefined" && ChangeDetectorRef) === "function" && _b || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a : Object, typeof (_b = typeof ChangeDetectorRef !== "undefined" && ChangeDetectorRef) === "function" ? _b : Object])
     ], Timeline);
     return Timeline;
-    var _a, _b;
 }());
 
 var AreaComponent = /** @class */ (function () {
@@ -3693,6 +3699,7 @@ var AreaComponent = /** @class */ (function () {
             }
         ];
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -3747,10 +3754,9 @@ var AreaComponent = /** @class */ (function () {
             template: "\n    <svg:defs *ngIf=\"gradient\">\n      <svg:g ngx-charts-svg-linear-gradient\n        orientation=\"vertical\"\n        [name]=\"gradientId\"\n        [stops]=\"gradientStops\"\n      />\n    </svg:defs>\n    <svg:path\n      class=\"area\"\n      [attr.d]=\"areaPath\"\n      [attr.fill]=\"gradient ? gradientFill : fill\"\n      [style.opacity]=\"opacity\"\n    />\n  ",
             changeDetection: ChangeDetectionStrategy.OnPush
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" && _a || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a : Object])
     ], AreaComponent);
     return AreaComponent;
-    var _a;
 }());
 
 // If we don't check whether 'window' and 'global' variables are defined,
@@ -3902,6 +3908,7 @@ var TooltipArea = /** @class */ (function () {
         }
         return result;
     };
+    var _a, _b;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -3936,7 +3943,7 @@ var TooltipArea = /** @class */ (function () {
     ], TooltipArea.prototype, "tooltipDisabled", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _a : Object)
     ], TooltipArea.prototype, "tooltipTemplate", void 0);
     __decorate([
         Output(),
@@ -3968,10 +3975,9 @@ var TooltipArea = /** @class */ (function () {
                 ])
             ]
         }),
-        __metadata("design:paramtypes", [typeof (_b = typeof Renderer !== "undefined" && Renderer) === "function" && _b || Object])
+        __metadata("design:paramtypes", [typeof (_b = typeof Renderer !== "undefined" && Renderer) === "function" ? _b : Object])
     ], TooltipArea);
     return TooltipArea;
-    var _a, _b;
 }());
 
 // Robert Penner's easeOutExpo
@@ -4120,6 +4126,7 @@ var CountUpDirective = /** @class */ (function () {
         };
         this.animationReq = count(this.countFrom, this.countTo, this.countDecimals, this.countDuration, callback);
     };
+    var _a, _b;
     __decorate([
         Input(),
         __metadata("design:type", Number)
@@ -4164,10 +4171,9 @@ var CountUpDirective = /** @class */ (function () {
             selector: '[ngx-charts-count-up]',
             template: "{{value}}"
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof ChangeDetectorRef !== "undefined" && ChangeDetectorRef) === "function" && _a || Object, typeof (_b = typeof ElementRef !== "undefined" && ElementRef) === "function" && _b || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof ChangeDetectorRef !== "undefined" && ChangeDetectorRef) === "function" ? _a : Object, typeof (_b = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _b : Object])
     ], CountUpDirective);
     return CountUpDirective;
-    var _a, _b;
 }());
 
 var COMPONENTS = [
@@ -4547,6 +4553,7 @@ var AreaChartComponent = /** @class */ (function (_super) {
         }
         this.activeEntries = [];
     };
+    var _a, _b, _c, _d;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -4657,19 +4664,19 @@ var AreaChartComponent = /** @class */ (function (_super) {
     ], AreaChartComponent.prototype, "yScaleMax", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], AreaChartComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], AreaChartComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], AreaChartComponent.prototype, "tooltipTemplate", void 0);
     __decorate([
         ContentChild('seriesTooltipTemplate'),
-        __metadata("design:type", typeof (_d = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _d || Object)
+        __metadata("design:type", typeof (_d = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _d : Object)
     ], AreaChartComponent.prototype, "seriesTooltipTemplate", void 0);
     __decorate([
         HostListener('mouseleave'),
@@ -4687,7 +4694,6 @@ var AreaChartComponent = /** @class */ (function (_super) {
         })
     ], AreaChartComponent);
     return AreaChartComponent;
-    var _a, _b, _c, _d;
 }(BaseChartComponent));
 
 var AreaChartNormalizedComponent = /** @class */ (function (_super) {
@@ -4983,6 +4989,7 @@ var AreaChartNormalizedComponent = /** @class */ (function (_super) {
         }
         this.activeEntries = [];
     };
+    var _a, _b, _c, _d;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -5065,19 +5072,19 @@ var AreaChartNormalizedComponent = /** @class */ (function (_super) {
     ], AreaChartNormalizedComponent.prototype, "tooltipDisabled", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], AreaChartNormalizedComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], AreaChartNormalizedComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], AreaChartNormalizedComponent.prototype, "tooltipTemplate", void 0);
     __decorate([
         ContentChild('seriesTooltipTemplate'),
-        __metadata("design:type", typeof (_d = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _d || Object)
+        __metadata("design:type", typeof (_d = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _d : Object)
     ], AreaChartNormalizedComponent.prototype, "seriesTooltipTemplate", void 0);
     __decorate([
         HostListener('mouseleave'),
@@ -5095,7 +5102,6 @@ var AreaChartNormalizedComponent = /** @class */ (function (_super) {
         })
     ], AreaChartNormalizedComponent);
     return AreaChartNormalizedComponent;
-    var _a, _b, _c, _d;
 }(BaseChartComponent));
 
 var AreaChartStackedComponent = /** @class */ (function (_super) {
@@ -5407,6 +5413,7 @@ var AreaChartStackedComponent = /** @class */ (function (_super) {
         }
         this.activeEntries = [];
     };
+    var _a, _b, _c, _d;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -5505,19 +5512,19 @@ var AreaChartStackedComponent = /** @class */ (function (_super) {
     ], AreaChartStackedComponent.prototype, "yScaleMax", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], AreaChartStackedComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], AreaChartStackedComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], AreaChartStackedComponent.prototype, "tooltipTemplate", void 0);
     __decorate([
         ContentChild('seriesTooltipTemplate'),
-        __metadata("design:type", typeof (_d = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _d || Object)
+        __metadata("design:type", typeof (_d = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _d : Object)
     ], AreaChartStackedComponent.prototype, "seriesTooltipTemplate", void 0);
     __decorate([
         HostListener('mouseleave'),
@@ -5535,7 +5542,6 @@ var AreaChartStackedComponent = /** @class */ (function (_super) {
         })
     ], AreaChartStackedComponent);
     return AreaChartStackedComponent;
-    var _a, _b, _c, _d;
 }(BaseChartComponent));
 
 var AreaSeriesComponent = /** @class */ (function () {
@@ -5874,6 +5880,7 @@ var BarComponent = /** @class */ (function () {
     BarComponent.prototype.onMouseLeave = function () {
         this.deactivate.emit(this.data);
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -5956,10 +5963,9 @@ var BarComponent = /** @class */ (function () {
             template: "\n    <svg:defs *ngIf=\"hasGradient\">\n      <svg:g ngx-charts-svg-linear-gradient\n        [orientation]=\"orientation\"\n        [name]=\"gradientId\"\n        [stops]=\"gradientStops\"\n      />\n    </svg:defs>\n    <svg:path\n      class=\"bar\"\n      stroke=\"none\"\n      [class.active]=\"isActive\"\n      [attr.d]=\"path\"\n      [attr.fill]=\"hasGradient ? gradientFill : fill\"\n      (click)=\"select.emit(data)\"\n    />\n  ",
             changeDetection: ChangeDetectionStrategy.OnPush
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" && _a || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a : Object])
     ], BarComponent);
     return BarComponent;
-    var _a;
 }());
 
 var BarHorizontalComponent = /** @class */ (function (_super) {
@@ -6111,6 +6117,7 @@ var BarHorizontalComponent = /** @class */ (function (_super) {
         this.activeEntries = this.activeEntries.slice();
         this.deactivate.emit({ value: item, entries: this.activeEntries });
     };
+    var _a, _b, _c;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -6209,15 +6216,15 @@ var BarHorizontalComponent = /** @class */ (function (_super) {
     ], BarHorizontalComponent.prototype, "dataLabelFormatting", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], BarHorizontalComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], BarHorizontalComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], BarHorizontalComponent.prototype, "tooltipTemplate", void 0);
     BarHorizontalComponent = __decorate([
         Component({
@@ -6229,7 +6236,6 @@ var BarHorizontalComponent = /** @class */ (function (_super) {
         })
     ], BarHorizontalComponent);
     return BarHorizontalComponent;
-    var _a, _b, _c;
 }(BaseChartComponent));
 
 var BarHorizontal2DComponent = /** @class */ (function (_super) {
@@ -6445,6 +6451,7 @@ var BarHorizontal2DComponent = /** @class */ (function (_super) {
         this.activeEntries = this.activeEntries.slice();
         this.deactivate.emit({ value: item, entries: this.activeEntries });
     };
+    var _a, _b, _c;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -6543,15 +6550,15 @@ var BarHorizontal2DComponent = /** @class */ (function (_super) {
     ], BarHorizontal2DComponent.prototype, "dataLabelFormatting", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], BarHorizontal2DComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], BarHorizontal2DComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], BarHorizontal2DComponent.prototype, "tooltipTemplate", void 0);
     BarHorizontal2DComponent = __decorate([
         Component({
@@ -6574,7 +6581,6 @@ var BarHorizontal2DComponent = /** @class */ (function (_super) {
         })
     ], BarHorizontal2DComponent);
     return BarHorizontal2DComponent;
-    var _a, _b, _c;
 }(BaseChartComponent));
 
 var BarHorizontalNormalizedComponent = /** @class */ (function (_super) {
@@ -6741,6 +6747,7 @@ var BarHorizontalNormalizedComponent = /** @class */ (function (_super) {
         this.activeEntries = this.activeEntries.slice();
         this.deactivate.emit({ value: item, entries: this.activeEntries });
     };
+    var _a, _b, _c;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -6819,15 +6826,15 @@ var BarHorizontalNormalizedComponent = /** @class */ (function (_super) {
     ], BarHorizontalNormalizedComponent.prototype, "roundDomains", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], BarHorizontalNormalizedComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], BarHorizontalNormalizedComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], BarHorizontalNormalizedComponent.prototype, "tooltipTemplate", void 0);
     BarHorizontalNormalizedComponent = __decorate([
         Component({
@@ -6850,7 +6857,6 @@ var BarHorizontalNormalizedComponent = /** @class */ (function (_super) {
         })
     ], BarHorizontalNormalizedComponent);
     return BarHorizontalNormalizedComponent;
-    var _a, _b, _c;
 }(BaseChartComponent));
 
 var BarHorizontalStackedComponent = /** @class */ (function (_super) {
@@ -7061,6 +7067,7 @@ var BarHorizontalStackedComponent = /** @class */ (function (_super) {
         this.activeEntries = this.activeEntries.slice();
         this.deactivate.emit({ value: item, entries: this.activeEntries });
     };
+    var _a, _b, _c;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -7151,15 +7158,15 @@ var BarHorizontalStackedComponent = /** @class */ (function (_super) {
     ], BarHorizontalStackedComponent.prototype, "dataLabelFormatting", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], BarHorizontalStackedComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], BarHorizontalStackedComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], BarHorizontalStackedComponent.prototype, "tooltipTemplate", void 0);
     BarHorizontalStackedComponent = __decorate([
         Component({
@@ -7182,7 +7189,6 @@ var BarHorizontalStackedComponent = /** @class */ (function (_super) {
         })
     ], BarHorizontalStackedComponent);
     return BarHorizontalStackedComponent;
-    var _a, _b, _c;
 }(BaseChartComponent));
 
 var BarVerticalComponent = /** @class */ (function (_super) {
@@ -7214,7 +7220,7 @@ var BarVerticalComponent = /** @class */ (function (_super) {
         if (!this.showDataLabel) {
             this.dataLabelMaxHeight = { negative: 0, positive: 0 };
         }
-        this.margin = [10 + this.dataLabelMaxHeight.positive, 20, 10 + this.dataLabelMaxHeight.negative, 20];
+        this.margin = [20 + this.dataLabelMaxHeight.positive, 20, 20 + this.dataLabelMaxHeight.negative, 20];
         this.dims = calculateViewDimensions({
             width: this.width,
             height: this.height,
@@ -7354,6 +7360,7 @@ var BarVerticalComponent = /** @class */ (function (_super) {
     BarVerticalComponent.prototype.xAxisLineTransform = function () {
         return "translate(0," + this.dims.height + ")";
     };
+    var _a, _b, _c;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -7484,27 +7491,26 @@ var BarVerticalComponent = /** @class */ (function (_super) {
     ], BarVerticalComponent.prototype, "dataLabelFormatting", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], BarVerticalComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], BarVerticalComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], BarVerticalComponent.prototype, "tooltipTemplate", void 0);
     BarVerticalComponent = __decorate([
         Component({
             selector: 'ngx-charts-bar-vertical',
-            template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"legend\"\n      [legendOptions]=\"legendOptions\"\n      [activeEntries]=\"activeEntries\"\n      [animations]=\"animations\"\n      (legendLabelClick)=\"onClick($event)\"\n      (legendLabelActivate)=\"onActivate($event)\"\n      (legendLabelDeactivate)=\"onDeactivate($event)\">\n      <svg:text *ngIf=\"yAxisTickRoundingLabel\" class=\"tick-round-label\"\n          [style.textAnchor]=\"'start'\"\n          [style.alignment-baseline]=\"'baseline'\"\n          [attr.transform]=\"labelTransform\"\n          alignment-baseline=\"central\"\n          x=\"20\" dy=\"5\">\n          {{yAxisTickRoundingLabel}}\n      </svg:text>\n      <svg:g [attr.transform]=\"transform\" class=\"bar-chart chart\">\n        <svg:g ngx-charts-x-axis\n          *ngIf=\"xAxis\"\n          [xScale]=\"xScale\"\n          [dims]=\"dims\"\n          [showLabel]=\"showXAxisLabel\"\n          [labelText]=\"xAxisLabel\"\n          [tickFormatting]=\"xAxisTickFormatting\"\n          [xAxisTickLabels]=\"xAxisTickLabels\"\n          [showTicks]=\"showTicks\"\n          [ticks]=\"xAxisTicks\"\n          [xAxisOffset]=\"dataLabelMaxHeight.negative\"\n          (dimensionsChanged)=\"updateXAxisHeight($event)\">\n        </svg:g>\n        <svg:g ngx-charts-y-axis\n          *ngIf=\"yAxis\"\n          [yScale]=\"yScale\"\n          [dims]=\"dims\"\n          [showGridLines]=\"showGridLines\"\n          [showLabel]=\"showYAxisLabel\"\n          [labelText]=\"yAxisLabel\"\n          [tickFormatting]=\"yAxisTickFormatting\"\n          [yAxisTickCount]=\"maxTicks\"\n          [ticks]=\"yAxisTicks\"\n          (dimensionsChanged)=\"updateYAxisWidth($event)\">\n        </svg:g>\n        <svg:g ngx-charts-series-vertical\n          [type]=\"type\"\n          [xScale]=\"xScale\"\n          [yScale]=\"yScale\"\n          [colors]=\"colors\"\n          [series]=\"results\"\n          [dims]=\"dims\"\n          [gradient]=\"gradient\"\n          [tooltipDisabled]=\"tooltipDisabled\"\n          [tooltipFormatting]=\"tooltipFormatting\"\n          [tooltipTemplate]=\"tooltipTemplate\"\n          [showDataLabel]=\"showDataLabel\"\n          [dataLabelFormatting]=\"dataLabelFormatting\"\n          [activeEntries]=\"activeEntries\"\n          [roundEdges]=\"roundEdges\"\n          [animations]=\"animations\"\n          (activate)=\"onActivate($event)\"\n          (deactivate)=\"onDeactivate($event)\"\n          (select)=\"onClick($event)\"\n          (dataLabelHeightChanged)=\"onDataLabelMaxHeightChanged($event)\"\n          >          \n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\">\n          <svg:line\n            class=\"gridline-path gridline-path-vertical\"\n            y1=\"0\"\n            [attr.y2]=\"dims.height\" />\n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\"\n          [attr.transform]=\"xAxisLineTransform()\">\n          <svg:line\n            class=\"gridline-path gridline-path-horizontal\"\n            x1=\"0\"\n            [attr.x2]=\"dims.width\" />\n        </svg:g>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
+            template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"legend\"\n      [legendOptions]=\"legendOptions\"\n      [activeEntries]=\"activeEntries\"\n      [animations]=\"animations\"\n      (legendLabelClick)=\"onClick($event)\"\n      (legendLabelActivate)=\"onActivate($event)\"\n      (legendLabelDeactivate)=\"onDeactivate($event)\">\n      <svg:text *ngIf=\"yAxisTickRoundingLabel\" class=\"tick-round-label\"\n          [style.textAnchor]=\"'start'\"\n          [style.alignment-baseline]=\"'baseline'\"\n          [attr.transform]=\"labelTransform\"\n          alignment-baseline=\"central\"\n          >\n          {{yAxisTickRoundingLabel}}\n      </svg:text>\n      <svg:g [attr.transform]=\"transform\" class=\"bar-chart chart\">\n        <svg:g ngx-charts-x-axis\n          *ngIf=\"xAxis\"\n          [xScale]=\"xScale\"\n          [dims]=\"dims\"\n          [showLabel]=\"showXAxisLabel\"\n          [labelText]=\"xAxisLabel\"\n          [tickFormatting]=\"xAxisTickFormatting\"\n          [xAxisTickLabels]=\"xAxisTickLabels\"\n          [showTicks]=\"showTicks\"\n          [ticks]=\"xAxisTicks\"\n          [xAxisOffset]=\"dataLabelMaxHeight.negative\"\n          (dimensionsChanged)=\"updateXAxisHeight($event)\">\n        </svg:g>\n        <svg:g ngx-charts-y-axis\n          *ngIf=\"yAxis\"\n          [yScale]=\"yScale\"\n          [dims]=\"dims\"\n          [showGridLines]=\"showGridLines\"\n          [showLabel]=\"showYAxisLabel\"\n          [labelText]=\"yAxisLabel\"\n          [tickFormatting]=\"yAxisTickFormatting\"\n          [yAxisTickCount]=\"maxTicks\"\n          [ticks]=\"yAxisTicks\"\n          (dimensionsChanged)=\"updateYAxisWidth($event)\">\n        </svg:g>\n        <svg:g ngx-charts-series-vertical\n          [type]=\"type\"\n          [xScale]=\"xScale\"\n          [yScale]=\"yScale\"\n          [colors]=\"colors\"\n          [series]=\"results\"\n          [dims]=\"dims\"\n          [gradient]=\"gradient\"\n          [tooltipDisabled]=\"tooltipDisabled\"\n          [tooltipFormatting]=\"tooltipFormatting\"\n          [tooltipTemplate]=\"tooltipTemplate\"\n          [showDataLabel]=\"showDataLabel\"\n          [dataLabelFormatting]=\"dataLabelFormatting\"\n          [activeEntries]=\"activeEntries\"\n          [roundEdges]=\"roundEdges\"\n          [animations]=\"animations\"\n          (activate)=\"onActivate($event)\"\n          (deactivate)=\"onDeactivate($event)\"\n          (select)=\"onClick($event)\"\n          (dataLabelHeightChanged)=\"onDataLabelMaxHeightChanged($event)\"\n          >          \n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\">\n          <svg:line\n            class=\"gridline-path gridline-path-vertical\"\n            y1=\"0\"\n            [attr.y2]=\"dims.height\" />\n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\"\n          [attr.transform]=\"xAxisLineTransform()\">\n          <svg:line\n            class=\"gridline-path gridline-path-horizontal\"\n            x1=\"0\"\n            [attr.x2]=\"dims.width\" />\n        </svg:g>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
             changeDetection: ChangeDetectionStrategy.OnPush,
             styles: [".ngx-charts{float:left;overflow:visible}.ngx-charts .arc,.ngx-charts .bar,.ngx-charts .circle{cursor:pointer}.ngx-charts .arc.active,.ngx-charts .arc:hover,.ngx-charts .bar.active,.ngx-charts .bar:hover,.ngx-charts .card.active,.ngx-charts .card:hover,.ngx-charts .cell.active,.ngx-charts .cell:hover{opacity:.8;transition:opacity .1s ease-in-out}.ngx-charts .arc:focus,.ngx-charts .bar:focus,.ngx-charts .card:focus,.ngx-charts .cell:focus{outline:0}.ngx-charts g:focus{outline:0}.ngx-charts .area-series.inactive,.ngx-charts .line-series-range.inactive,.ngx-charts .line-series.inactive,.ngx-charts .polar-series-area.inactive,.ngx-charts .polar-series-path.inactive{transition:opacity .1s ease-in-out;opacity:.2}.ngx-charts .line-highlight{display:none}.ngx-charts .line-highlight.active{display:block}.ngx-charts .area{opacity:.6}.ngx-charts .circle:hover{cursor:pointer}.ngx-charts .label{font-size:12px;font-weight:400}.ngx-charts .tooltip-anchor{fill:#000}.ngx-charts .gridline-path{stroke:#ddd;stroke-width:1;fill:none}.ngx-charts .refline-path{stroke:#a8b2c7;stroke-width:1;stroke-dasharray:5;stroke-dashoffset:5}.ngx-charts .refline-label{font-size:9px}.ngx-charts .reference-area{fill-opacity:.05;fill:#000}.ngx-charts .gridline-path-dotted{stroke:#ddd;stroke-width:1;fill:none;stroke-dasharray:1,20;stroke-dashoffset:3}.ngx-charts .grid-panel rect{fill:none}.ngx-charts .grid-panel.odd rect{fill:rgba(0,0,0,.05)}"],
             encapsulation: ViewEncapsulation.None
         })
     ], BarVerticalComponent);
     return BarVerticalComponent;
-    var _a, _b, _c;
 }(BaseChartComponent));
 
 var BarVertical2DComponent = /** @class */ (function (_super) {
@@ -7724,6 +7730,7 @@ var BarVertical2DComponent = /** @class */ (function (_super) {
         this.activeEntries = this.activeEntries.slice();
         this.deactivate.emit({ value: item, entries: this.activeEntries });
     };
+    var _a, _b, _c;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -7826,15 +7833,15 @@ var BarVertical2DComponent = /** @class */ (function (_super) {
     ], BarVertical2DComponent.prototype, "dataLabelFormatting", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], BarVertical2DComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], BarVertical2DComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], BarVertical2DComponent.prototype, "tooltipTemplate", void 0);
     BarVertical2DComponent = __decorate([
         Component({
@@ -7857,7 +7864,6 @@ var BarVertical2DComponent = /** @class */ (function (_super) {
         })
     ], BarVertical2DComponent);
     return BarVertical2DComponent;
-    var _a, _b, _c;
 }(BaseChartComponent));
 
 var BarVerticalNormalizedComponent = /** @class */ (function (_super) {
@@ -8024,6 +8030,7 @@ var BarVerticalNormalizedComponent = /** @class */ (function (_super) {
         this.activeEntries = this.activeEntries.slice();
         this.deactivate.emit({ value: item, entries: this.activeEntries });
     };
+    var _a, _b, _c;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -8102,15 +8109,15 @@ var BarVerticalNormalizedComponent = /** @class */ (function (_super) {
     ], BarVerticalNormalizedComponent.prototype, "roundDomains", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], BarVerticalNormalizedComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], BarVerticalNormalizedComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], BarVerticalNormalizedComponent.prototype, "tooltipTemplate", void 0);
     BarVerticalNormalizedComponent = __decorate([
         Component({
@@ -8133,7 +8140,6 @@ var BarVerticalNormalizedComponent = /** @class */ (function (_super) {
         })
     ], BarVerticalNormalizedComponent);
     return BarVerticalNormalizedComponent;
-    var _a, _b, _c;
 }(BaseChartComponent));
 
 var BarVerticalStackedComponent = /** @class */ (function (_super) {
@@ -8347,6 +8353,7 @@ var BarVerticalStackedComponent = /** @class */ (function (_super) {
         this.activeEntries = this.activeEntries.slice();
         this.deactivate.emit({ value: item, entries: this.activeEntries });
     };
+    var _a, _b, _c;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -8437,15 +8444,15 @@ var BarVerticalStackedComponent = /** @class */ (function (_super) {
     ], BarVerticalStackedComponent.prototype, "dataLabelFormatting", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], BarVerticalStackedComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], BarVerticalStackedComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], BarVerticalStackedComponent.prototype, "tooltipTemplate", void 0);
     BarVerticalStackedComponent = __decorate([
         Component({
@@ -8468,7 +8475,6 @@ var BarVerticalStackedComponent = /** @class */ (function (_super) {
         })
     ], BarVerticalStackedComponent);
     return BarVerticalStackedComponent;
-    var _a, _b, _c;
 }(BaseChartComponent));
 
 var D0Types;
@@ -8493,6 +8499,7 @@ var SeriesVerticalComponent = /** @class */ (function () {
     };
     SeriesVerticalComponent.prototype.update = function () {
         var _this = this;
+        var _a;
         this.updateTooltipSettings();
         var width;
         if (this.series.length) {
@@ -8591,7 +8598,6 @@ var SeriesVerticalComponent = /** @class */ (function () {
             return bar;
         });
         this.updateDataLabels();
-        var _a;
     };
     SeriesVerticalComponent.prototype.updateDataLabels = function () {
         var _this = this;
@@ -8647,6 +8653,7 @@ var SeriesVerticalComponent = /** @class */ (function () {
     SeriesVerticalComponent.prototype.trackDataLabelBy = function (index, barLabel) {
         return index + '#' + barLabel.series + '#' + barLabel.total;
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -8693,7 +8700,7 @@ var SeriesVerticalComponent = /** @class */ (function () {
     ], SeriesVerticalComponent.prototype, "seriesName", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _a : Object)
     ], SeriesVerticalComponent.prototype, "tooltipTemplate", void 0);
     __decorate([
         Input(),
@@ -8745,7 +8752,6 @@ var SeriesVerticalComponent = /** @class */ (function () {
         })
     ], SeriesVerticalComponent);
     return SeriesVerticalComponent;
-    var _a;
 }());
 
 var SeriesHorizontal = /** @class */ (function () {
@@ -8765,6 +8771,7 @@ var SeriesHorizontal = /** @class */ (function () {
     };
     SeriesHorizontal.prototype.update = function () {
         var _this = this;
+        var _a;
         this.updateTooltipSettings();
         var d0 = (_a = {},
             _a[D0Types.positive] = 0,
@@ -8852,7 +8859,6 @@ var SeriesHorizontal = /** @class */ (function () {
             return bar;
         });
         this.updateDataLabels();
-        var _a;
     };
     SeriesHorizontal.prototype.updateDataLabels = function () {
         var _this = this;
@@ -8909,6 +8915,7 @@ var SeriesHorizontal = /** @class */ (function () {
     SeriesHorizontal.prototype.click = function (data) {
         this.select.emit(data);
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -8951,7 +8958,7 @@ var SeriesHorizontal = /** @class */ (function () {
     ], SeriesHorizontal.prototype, "seriesName", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _a : Object)
     ], SeriesHorizontal.prototype, "tooltipTemplate", void 0);
     __decorate([
         Input(),
@@ -9003,7 +9010,6 @@ var SeriesHorizontal = /** @class */ (function () {
         })
     ], SeriesHorizontal);
     return SeriesHorizontal;
-    var _a;
 }());
 
 var BarLabelComponent = /** @class */ (function () {
@@ -9057,6 +9063,7 @@ var BarLabelComponent = /** @class */ (function () {
             this.transform = "rotate(-45, " + this.x + " , " + this.y + ")";
         }
     };
+    var _a, _b;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -9087,7 +9094,7 @@ var BarLabelComponent = /** @class */ (function () {
     ], BarLabelComponent.prototype, "orientation", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], BarLabelComponent.prototype, "dimensionsChanged", void 0);
     BarLabelComponent = __decorate([
         Component({
@@ -9096,10 +9103,9 @@ var BarLabelComponent = /** @class */ (function () {
             styles: [".textDataLabel{font-size:11px}"],
             changeDetection: ChangeDetectionStrategy.OnPush
         }),
-        __metadata("design:paramtypes", [typeof (_b = typeof ElementRef !== "undefined" && ElementRef) === "function" && _b || Object])
+        __metadata("design:paramtypes", [typeof (_b = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _b : Object])
     ], BarLabelComponent);
     return BarLabelComponent;
-    var _a, _b;
 }());
 
 var BarChartModule = /** @class */ (function () {
@@ -9420,6 +9426,7 @@ var BubbleChartComponent = /** @class */ (function (_super) {
     BubbleChartComponent.prototype.trackBy = function (index, item) {
         return item.name;
     };
+    var _a, _b, _c;
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
@@ -9518,15 +9525,15 @@ var BubbleChartComponent = /** @class */ (function (_super) {
     ], BubbleChartComponent.prototype, "yScaleMax", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], BubbleChartComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], BubbleChartComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], BubbleChartComponent.prototype, "tooltipTemplate", void 0);
     __decorate([
         HostListener('mouseleave'),
@@ -9556,7 +9563,6 @@ var BubbleChartComponent = /** @class */ (function (_super) {
         })
     ], BubbleChartComponent);
     return BubbleChartComponent;
-    var _a, _b, _c;
 }(BaseChartComponent));
 
 var BubbleSeriesComponent = /** @class */ (function () {
@@ -9665,6 +9671,7 @@ var BubbleSeriesComponent = /** @class */ (function () {
     BubbleSeriesComponent.prototype.trackBy = function (index, circle) {
         return circle.data.series + " " + circle.data.name;
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -9715,7 +9722,7 @@ var BubbleSeriesComponent = /** @class */ (function () {
     ], BubbleSeriesComponent.prototype, "tooltipDisabled", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _a : Object)
     ], BubbleSeriesComponent.prototype, "tooltipTemplate", void 0);
     __decorate([
         Output(),
@@ -9748,7 +9755,6 @@ var BubbleSeriesComponent = /** @class */ (function () {
         })
     ], BubbleSeriesComponent);
     return BubbleSeriesComponent;
-    var _a;
 }());
 
 var BubbleChartModule = /** @class */ (function () {
@@ -9872,6 +9878,7 @@ var ForceDirectedGraphComponent = /** @class */ (function (_super) {
         this.draggingNode.fy = undefined;
         this.draggingNode = undefined;
     };
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -9894,7 +9901,7 @@ var ForceDirectedGraphComponent = /** @class */ (function (_super) {
     ], ForceDirectedGraphComponent.prototype, "nodes", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", Object)
+        __metadata("design:type", typeof (_a = typeof Array !== "undefined" && Array) === "function" ? _a : Object)
     ], ForceDirectedGraphComponent.prototype, "links", void 0);
     __decorate([
         Input(),
@@ -9906,27 +9913,27 @@ var ForceDirectedGraphComponent = /** @class */ (function (_super) {
     ], ForceDirectedGraphComponent.prototype, "tooltipDisabled", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], ForceDirectedGraphComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_c = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _c : Object)
     ], ForceDirectedGraphComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('linkTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_d = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _d : Object)
     ], ForceDirectedGraphComponent.prototype, "linkTemplate", void 0);
     __decorate([
         ContentChild('nodeTemplate'),
-        __metadata("design:type", typeof (_d = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _d || Object)
+        __metadata("design:type", typeof (_e = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _e : Object)
     ], ForceDirectedGraphComponent.prototype, "nodeTemplate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_e = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _e || Object)
+        __metadata("design:type", typeof (_f = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _f : Object)
     ], ForceDirectedGraphComponent.prototype, "tooltipTemplate", void 0);
     __decorate([
         ViewChild(ChartComponent, { read: ElementRef }),
-        __metadata("design:type", typeof (_f = typeof ElementRef !== "undefined" && ElementRef) === "function" && _f || Object)
+        __metadata("design:type", typeof (_g = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _g : Object)
     ], ForceDirectedGraphComponent.prototype, "chart", void 0);
     __decorate([
         Input(),
@@ -9935,13 +9942,13 @@ var ForceDirectedGraphComponent = /** @class */ (function (_super) {
     __decorate([
         HostListener('document:mousemove', ['$event']),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [typeof (_g = typeof MouseEvent !== "undefined" && MouseEvent) === "function" && _g || Object]),
+        __metadata("design:paramtypes", [typeof (_h = typeof MouseEvent !== "undefined" && MouseEvent) === "function" ? _h : Object]),
         __metadata("design:returntype", void 0)
     ], ForceDirectedGraphComponent.prototype, "onDrag", null);
     __decorate([
         HostListener('document:mouseup', ['$event']),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [typeof (_h = typeof MouseEvent !== "undefined" && MouseEvent) === "function" && _h || Object]),
+        __metadata("design:paramtypes", [typeof (_j = typeof MouseEvent !== "undefined" && MouseEvent) === "function" ? _j : Object]),
         __metadata("design:returntype", void 0)
     ], ForceDirectedGraphComponent.prototype, "onDragEnd", null);
     ForceDirectedGraphComponent = __decorate([
@@ -9954,7 +9961,6 @@ var ForceDirectedGraphComponent = /** @class */ (function (_super) {
         })
     ], ForceDirectedGraphComponent);
     return ForceDirectedGraphComponent;
-    var _a, _b, _c, _d, _e, _f, _g, _h;
 }(BaseChartComponent));
 
 var ForceDirectedGraphModule = /** @class */ (function () {
@@ -10018,6 +10024,7 @@ var HeatMapCellComponent = /** @class */ (function () {
     HeatMapCellComponent.prototype.onClick = function () {
         this.select.emit(this.data);
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -10064,10 +10071,9 @@ var HeatMapCellComponent = /** @class */ (function () {
             template: "\n    <svg:g [attr.transform]=\"transform\" class=\"cell\">\n      <defs *ngIf=\"gradient\">\n        <svg:g ngx-charts-svg-linear-gradient\n          orientation=\"vertical\"\n          [name]=\"gradientId\"\n          [stops]=\"gradientStops\"\n        />\n      </defs>\n      <svg:rect\n        [attr.fill]=\"gradient ? gradientUrl : fill\"\n        rx=\"3\"\n        [attr.width]=\"width\"\n        [attr.height]=\"height\"\n        class=\"cell\"\n        style=\"cursor: pointer\"\n        (click)=\"onClick()\"\n      />\n    </svg:g>\n  ",
             changeDetection: ChangeDetectionStrategy.OnPush
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" && _a || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a : Object])
     ], HeatMapCellComponent);
     return HeatMapCellComponent;
-    var _a;
 }());
 
 var HeatCellSeriesComponent = /** @class */ (function () {
@@ -10123,6 +10129,7 @@ var HeatCellSeriesComponent = /** @class */ (function () {
             series: series
         });
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -10153,7 +10160,7 @@ var HeatCellSeriesComponent = /** @class */ (function () {
     ], HeatCellSeriesComponent.prototype, "tooltipText", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _a : Object)
     ], HeatCellSeriesComponent.prototype, "tooltipTemplate", void 0);
     __decorate([
         Input(),
@@ -10171,7 +10178,6 @@ var HeatCellSeriesComponent = /** @class */ (function () {
         })
     ], HeatCellSeriesComponent);
     return HeatCellSeriesComponent;
-    var _a;
 }());
 
 var HeatMapComponent = /** @class */ (function (_super) {
@@ -10348,6 +10354,7 @@ var HeatMapComponent = /** @class */ (function (_super) {
         this.xAxisHeight = height;
         this.update();
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -10422,7 +10429,7 @@ var HeatMapComponent = /** @class */ (function (_super) {
     ], HeatMapComponent.prototype, "max", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _a : Object)
     ], HeatMapComponent.prototype, "tooltipTemplate", void 0);
     HeatMapComponent = __decorate([
         Component({
@@ -10434,7 +10441,6 @@ var HeatMapComponent = /** @class */ (function (_super) {
         })
     ], HeatMapComponent);
     return HeatMapComponent;
-    var _a;
 }(BaseChartComponent));
 
 var HeatMapModule = /** @class */ (function () {
@@ -10486,6 +10492,7 @@ var LineComponent = /** @class */ (function () {
             node.attr('d', this.path);
         }
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -10529,10 +10536,9 @@ var LineComponent = /** @class */ (function () {
                 ])
             ]
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" && _a || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a : Object])
     ], LineComponent);
     return LineComponent;
-    var _a;
 }());
 
 var LineChartComponent = /** @class */ (function (_super) {
@@ -10815,6 +10821,7 @@ var LineChartComponent = /** @class */ (function (_super) {
         }
         this.activeEntries = [];
     };
+    var _a, _b, _c, _d;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -10933,19 +10940,19 @@ var LineChartComponent = /** @class */ (function (_super) {
     ], LineChartComponent.prototype, "yScaleMax", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], LineChartComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], LineChartComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], LineChartComponent.prototype, "tooltipTemplate", void 0);
     __decorate([
         ContentChild('seriesTooltipTemplate'),
-        __metadata("design:type", typeof (_d = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _d || Object)
+        __metadata("design:type", typeof (_d = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _d : Object)
     ], LineChartComponent.prototype, "seriesTooltipTemplate", void 0);
     __decorate([
         HostListener('mouseleave'),
@@ -10975,7 +10982,6 @@ var LineChartComponent = /** @class */ (function (_super) {
         })
     ], LineChartComponent);
     return LineChartComponent;
-    var _a, _b, _c, _d;
 }(BaseChartComponent));
 
 var LineSeriesComponent = /** @class */ (function () {
@@ -11470,6 +11476,7 @@ var PolarChartComponent = /** @class */ (function (_super) {
     PolarChartComponent.prototype.trackBy = function (index, item) {
         return item.name;
     };
+    var _a, _b, _c;
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
@@ -11564,15 +11571,15 @@ var PolarChartComponent = /** @class */ (function (_super) {
     ], PolarChartComponent.prototype, "labelTrimSize", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], PolarChartComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], PolarChartComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], PolarChartComponent.prototype, "tooltipTemplate", void 0);
     PolarChartComponent = __decorate([
         Component({
@@ -11600,7 +11607,6 @@ var PolarChartComponent = /** @class */ (function (_super) {
         })
     ], PolarChartComponent);
     return PolarChartComponent;
-    var _a, _b, _c;
 }(BaseChartComponent));
 
 var PolarSeriesComponent = /** @class */ (function () {
@@ -11712,6 +11718,7 @@ var PolarSeriesComponent = /** @class */ (function () {
             this.gradientStops = undefined;
         }
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -11762,7 +11769,7 @@ var PolarSeriesComponent = /** @class */ (function () {
     ], PolarSeriesComponent.prototype, "gradient", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _a : Object)
     ], PolarSeriesComponent.prototype, "tooltipTemplate", void 0);
     __decorate([
         Input(),
@@ -11776,7 +11783,6 @@ var PolarSeriesComponent = /** @class */ (function () {
         })
     ], PolarSeriesComponent);
     return PolarSeriesComponent;
-    var _a;
 }());
 
 var AdvancedPieChartComponent = /** @class */ (function (_super) {
@@ -11828,6 +11834,7 @@ var AdvancedPieChartComponent = /** @class */ (function (_super) {
         this.activeEntries = this.activeEntries.slice();
         this.deactivate.emit({ value: event$$1, entries: this.activeEntries });
     };
+    var _a, _b, _c;
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
@@ -11850,15 +11857,15 @@ var AdvancedPieChartComponent = /** @class */ (function (_super) {
     ], AdvancedPieChartComponent.prototype, "label", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], AdvancedPieChartComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], AdvancedPieChartComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], AdvancedPieChartComponent.prototype, "tooltipTemplate", void 0);
     __decorate([
         Input(),
@@ -11882,7 +11889,6 @@ var AdvancedPieChartComponent = /** @class */ (function (_super) {
         })
     ], AdvancedPieChartComponent);
     return AdvancedPieChartComponent;
-    var _a, _b, _c;
 }(BaseChartComponent));
 
 var PieLabelComponent = /** @class */ (function () {
@@ -12116,6 +12122,7 @@ var PieArcComponent = /** @class */ (function () {
             nativeEvent: event$$1
         });
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -12194,10 +12201,9 @@ var PieArcComponent = /** @class */ (function () {
             template: "\n    <svg:g class=\"arc-group\">\n      <svg:defs *ngIf=\"gradient\">\n        <svg:g ngx-charts-svg-radial-gradient\n          [color]=\"fill\"\n          orientation=\"vertical\"\n          [name]=\"radialGradientId\"\n          [startOpacity]=\"startOpacity\"\n        />\n      </svg:defs>\n      <svg:path\n        [attr.d]=\"path\"\n        class=\"arc\"\n        [class.active]=\"isActive\"\n        [attr.fill]=\"getGradient()\"\n        (click)=\"onClick()\"\n        (dblclick)=\"onDblClick($event)\"\n        (mouseenter)=\"activate.emit(data)\"\n        (mouseleave)=\"deactivate.emit(data)\"\n        [style.pointer-events]=\"getPointerEvents()\"\n      />\n    </svg:g>\n  ",
             changeDetection: ChangeDetectionStrategy.OnPush
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" && _a || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a : Object])
     ], PieArcComponent);
     return PieArcComponent;
-    var _a;
 }());
 
 var PieChartComponent = /** @class */ (function (_super) {
@@ -12302,6 +12308,7 @@ var PieChartComponent = /** @class */ (function (_super) {
         this.activeEntries = this.activeEntries.slice();
         this.deactivate.emit({ value: item, entries: this.activeEntries });
     };
+    var _a, _b, _c;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -12364,15 +12371,15 @@ var PieChartComponent = /** @class */ (function (_super) {
     ], PieChartComponent.prototype, "select", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], PieChartComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], PieChartComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], PieChartComponent.prototype, "tooltipTemplate", void 0);
     PieChartComponent = __decorate([
         Component({
@@ -12387,7 +12394,6 @@ var PieChartComponent = /** @class */ (function (_super) {
         })
     ], PieChartComponent);
     return PieChartComponent;
-    var _a, _b, _c;
 }(BaseChartComponent));
 
 var SimplePieChartComponent = /** @class */ (function (_super) {
@@ -12609,6 +12615,7 @@ var PieGridComponent = /** @class */ (function (_super) {
     PieGridComponent.prototype.setColors = function () {
         this.colorScale = new ColorHelper(this.scheme, 'ordinal', this.domain, this.customColors);
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Number)
@@ -12631,7 +12638,7 @@ var PieGridComponent = /** @class */ (function (_super) {
     ], PieGridComponent.prototype, "minWidth", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _a : Object)
     ], PieGridComponent.prototype, "tooltipTemplate", void 0);
     PieGridComponent = __decorate([
         Component({
@@ -12646,7 +12653,6 @@ var PieGridComponent = /** @class */ (function (_super) {
         })
     ], PieGridComponent);
     return PieGridComponent;
-    var _a;
 }(BaseChartComponent));
 
 var PieGridSeriesComponent = /** @class */ (function () {
@@ -12700,6 +12706,7 @@ var PieGridSeriesComponent = /** @class */ (function () {
     PieGridSeriesComponent.prototype.color = function (arc$$1) {
         return this.colors(this.label(arc$$1));
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -12730,10 +12737,9 @@ var PieGridSeriesComponent = /** @class */ (function () {
             template: "\n    <svg:g class=\"pie-grid-arcs\">\n      <svg:g ngx-charts-pie-arc *ngFor=\"let arc of arcs; trackBy:trackBy\"\n        [attr.class]=\"arc.class\"\n        [startAngle]=\"arc.startAngle\"\n        [endAngle]=\"arc.endAngle\"\n        [innerRadius]=\"innerRadius\"\n        [outerRadius]=\"outerRadius\"\n        [fill]=\"color(arc)\"\n        [value]=\"arc.data.value\"\n        [data]=\"arc.data\"\n        [gradient]=\"false\"\n        [pointerEvents]=\"arc.pointerEvents\"\n        [animate]=\"arc.animate\"\n        (select)=\"onClick($event)\">\n      </svg:g>\n    </svg:g>\n  ",
             changeDetection: ChangeDetectionStrategy.OnPush,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" && _a || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a : Object])
     ], PieGridSeriesComponent);
     return PieGridSeriesComponent;
-    var _a;
 }());
 
 var PieSeriesComponent = /** @class */ (function () {
@@ -12842,6 +12848,7 @@ var PieSeriesComponent = /** @class */ (function () {
         });
         return item !== undefined;
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -12900,7 +12907,7 @@ var PieSeriesComponent = /** @class */ (function () {
     ], PieSeriesComponent.prototype, "tooltipDisabled", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _a : Object)
     ], PieSeriesComponent.prototype, "tooltipTemplate", void 0);
     __decorate([
         Input(),
@@ -12930,7 +12937,6 @@ var PieSeriesComponent = /** @class */ (function () {
         })
     ], PieSeriesComponent);
     return PieSeriesComponent;
-    var _a;
 }());
 
 var PieChartModule = /** @class */ (function () {
@@ -13092,6 +13098,7 @@ var CardComponent = /** @class */ (function () {
             value: this.data.value
         });
     };
+    var _a, _b, _c, _d;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -13150,7 +13157,7 @@ var CardComponent = /** @class */ (function () {
     ], CardComponent.prototype, "select", void 0);
     __decorate([
         ViewChild('textEl'),
-        __metadata("design:type", typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a : Object)
     ], CardComponent.prototype, "textEl", void 0);
     CardComponent = __decorate([
         Component({
@@ -13158,10 +13165,9 @@ var CardComponent = /** @class */ (function () {
             template: "\n    <svg:g\n      [attr.transform]=\"transform\"\n      class=\"cell\"\n      (click)=\"onClick()\">\n      <svg:rect\n        class=\"card\"\n        [style.fill]=\"color\"\n        [attr.width]=\"cardWidth\"\n        [attr.height]=\"cardHeight\"\n        rx=\"3\"\n        ry=\"3\"\n      />\n      <svg:path\n        *ngIf=\"bandColor && bandColor !== color\"\n        class=\"card-band\"\n        [attr.fill]=\"bandColor\"\n        [attr.transform]=\"transformBand\"\n        stroke=\"none\"\n        [attr.d]=\"bandPath\"\n      />\n      <title>{{label}}</title>\n      <svg:foreignObject\n        class=\"trimmed-label\"\n        x=\"5\"\n        [attr.x]=\"textPadding[3]\"\n        [attr.y]=\"cardHeight - textPadding[2]\"\n        [attr.width]=\"textWidth\"\n        [attr.height]=\"labelFontSize + textPadding[2]\"\n        alignment-baseline=\"hanging\">\n        <xhtml:p\n          [style.color]=\"textColor\"\n          [style.fontSize.px]=\"labelFontSize\"\n          [style.lineHeight.px]=\"labelFontSize\"\n          [innerHTML]=\"formattedLabel\">\n        </xhtml:p>\n      </svg:foreignObject>\n      <svg:text #textEl\n        class=\"value-text\"\n        [attr.x]=\"textPadding[3]\"\n        [attr.y]=\"textPadding[0]\"\n        [style.fill]=\"textColor\"\n        text-anchor=\"start\"\n        alignment-baseline=\"hanging\"\n        [style.font-size.pt]=\"textFontSize\">\n        {{value}}\n      </svg:text>\n    </svg:g>\n  ",
             changeDetection: ChangeDetectionStrategy.OnPush
         }),
-        __metadata("design:paramtypes", [typeof (_b = typeof ElementRef !== "undefined" && ElementRef) === "function" && _b || Object, typeof (_c = typeof ChangeDetectorRef !== "undefined" && ChangeDetectorRef) === "function" && _c || Object, typeof (_d = typeof NgZone !== "undefined" && NgZone) === "function" && _d || Object])
+        __metadata("design:paramtypes", [typeof (_b = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _b : Object, typeof (_c = typeof ChangeDetectorRef !== "undefined" && ChangeDetectorRef) === "function" ? _c : Object, typeof (_d = typeof NgZone !== "undefined" && NgZone) === "function" ? _d : Object])
     ], CardComponent);
     return CardComponent;
-    var _a, _b, _c, _d;
 }());
 
 var CardSeriesComponent = /** @class */ (function () {
@@ -13494,6 +13500,7 @@ var TreeMapCellComponent = /** @class */ (function () {
             }
         ];
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -13556,10 +13563,9 @@ var TreeMapCellComponent = /** @class */ (function () {
             template: "\n    <svg:g>\n      <defs *ngIf=\"gradient\">\n        <svg:g ngx-charts-svg-linear-gradient\n          orientation=\"vertical\"\n          [name]=\"gradientId\"\n          [stops]=\"gradientStops\"\n        />\n      </defs>\n      <svg:rect\n        [attr.fill]=\"gradient ? gradientUrl : fill\"\n        [attr.width]=\"width\"\n        [attr.height]=\"height\"\n        [attr.x]=\"x\"\n        [attr.y]=\"y\"\n        [style.cursor]=\"'pointer'\"\n        class=\"cell\"\n        (click)=\"onClick()\"\n      />\n      <svg:foreignObject\n        *ngIf=\"width >= 70 && height >= 35\"\n        [attr.x]=\"x\"\n        [attr.y]=\"y\"\n        [attr.width]=\"width\"\n        [attr.height]=\"height\"\n        class=\"label\"\n        [style.pointer-events]=\"'none'\">\n        <xhtml:p\n          [style.color]=\"getTextColor()\"\n          [style.height]=\"height + 'px'\"\n          [style.width]=\"width + 'px'\">\n          <xhtml:span class=\"treemap-label\" [innerHTML]=\"formattedLabel\">\n          </xhtml:span>\n          <xhtml:br />\n          <xhtml:span *ngIf=\"animations\"\n            class=\"treemap-val\" \n            ngx-charts-count-up \n            [countTo]=\"value\"\n            [valueFormatting]=\"valueFormatting\">\n          </xhtml:span>\n          <xhtml:span *ngIf=\"!animations\"\n            class=\"treemap-val\">\n            {{formattedValue}}\n          </xhtml:span>\n        </xhtml:p>\n      </svg:foreignObject>\n    </svg:g>\n  ",
             changeDetection: ChangeDetectionStrategy.OnPush
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" && _a || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a : Object])
     ], TreeMapCellComponent);
     return TreeMapCellComponent;
-    var _a;
 }());
 
 var TreeMapCellSeriesComponent = /** @class */ (function () {
@@ -13607,6 +13613,7 @@ var TreeMapCellSeriesComponent = /** @class */ (function () {
     TreeMapCellSeriesComponent.prototype.trackBy = function (index, item) {
         return item.label;
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -13637,7 +13644,7 @@ var TreeMapCellSeriesComponent = /** @class */ (function () {
     ], TreeMapCellSeriesComponent.prototype, "tooltipDisabled", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _a : Object)
     ], TreeMapCellSeriesComponent.prototype, "tooltipTemplate", void 0);
     __decorate([
         Input(),
@@ -13655,7 +13662,6 @@ var TreeMapCellSeriesComponent = /** @class */ (function () {
         })
     ], TreeMapCellSeriesComponent);
     return TreeMapCellSeriesComponent;
-    var _a;
 }());
 
 var TreeMapComponent = /** @class */ (function (_super) {
@@ -13709,6 +13715,7 @@ var TreeMapComponent = /** @class */ (function (_super) {
     TreeMapComponent.prototype.setColors = function () {
         this.colors = new ColorHelper(this.scheme, 'ordinal', this.domain, this.customColors);
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -13735,7 +13742,7 @@ var TreeMapComponent = /** @class */ (function (_super) {
     ], TreeMapComponent.prototype, "select", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _a : Object)
     ], TreeMapComponent.prototype, "tooltipTemplate", void 0);
     TreeMapComponent = __decorate([
         Component({
@@ -13747,7 +13754,6 @@ var TreeMapComponent = /** @class */ (function (_super) {
         })
     ], TreeMapComponent);
     return TreeMapComponent;
-    var _a;
 }(BaseChartComponent));
 
 var TreeMapModule = /** @class */ (function () {
@@ -13883,6 +13889,7 @@ var LinearGaugeComponent = /** @class */ (function (_super) {
     LinearGaugeComponent.prototype.setColors = function () {
         this.colors = new ColorHelper(this.scheme, 'ordinal', [this.value], this.customColors);
     };
+    var _a, _b;
     __decorate([
         Input(),
         __metadata("design:type", Number)
@@ -13909,11 +13916,11 @@ var LinearGaugeComponent = /** @class */ (function (_super) {
     ], LinearGaugeComponent.prototype, "valueFormatting", void 0);
     __decorate([
         ViewChild('valueTextEl'),
-        __metadata("design:type", typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a : Object)
     ], LinearGaugeComponent.prototype, "valueTextEl", void 0);
     __decorate([
         ViewChild('unitsTextEl'),
-        __metadata("design:type", typeof (_b = typeof ElementRef !== "undefined" && ElementRef) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _b : Object)
     ], LinearGaugeComponent.prototype, "unitsTextEl", void 0);
     LinearGaugeComponent = __decorate([
         Component({
@@ -13928,7 +13935,6 @@ var LinearGaugeComponent = /** @class */ (function (_super) {
         })
     ], LinearGaugeComponent);
     return LinearGaugeComponent;
-    var _a, _b;
 }(BaseChartComponent));
 
 var GaugeComponent = /** @class */ (function (_super) {
@@ -14135,6 +14141,7 @@ var GaugeComponent = /** @class */ (function (_super) {
     GaugeComponent.prototype.trackBy = function (index, item) {
         return item.valueArc.data.name;
     };
+    var _a, _b, _c, _d;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -14205,19 +14212,19 @@ var GaugeComponent = /** @class */ (function (_super) {
     ], GaugeComponent.prototype, "margin", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _a : Object)
     ], GaugeComponent.prototype, "activate", void 0);
     __decorate([
         Output(),
-        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof EventEmitter !== "undefined" && EventEmitter) === "function" ? _b : Object)
     ], GaugeComponent.prototype, "deactivate", void 0);
     __decorate([
         ContentChild('tooltipTemplate'),
-        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _c || Object)
+        __metadata("design:type", typeof (_c = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _c : Object)
     ], GaugeComponent.prototype, "tooltipTemplate", void 0);
     __decorate([
         ViewChild('textEl'),
-        __metadata("design:type", typeof (_d = typeof ElementRef !== "undefined" && ElementRef) === "function" && _d || Object)
+        __metadata("design:type", typeof (_d = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _d : Object)
     ], GaugeComponent.prototype, "textEl", void 0);
     GaugeComponent = __decorate([
         Component({
@@ -14232,7 +14239,6 @@ var GaugeComponent = /** @class */ (function (_super) {
         })
     ], GaugeComponent);
     return GaugeComponent;
-    var _a, _b, _c, _d;
 }(BaseChartComponent));
 
 var GaugeArcComponent = /** @class */ (function () {
@@ -14255,6 +14261,7 @@ var GaugeArcComponent = /** @class */ (function () {
         }
         return "\n      <span class=\"tooltip-label\">" + label + "</span>\n      <span class=\"tooltip-val\">" + val + "</span>\n    ";
     };
+    var _a, _b;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -14269,7 +14276,7 @@ var GaugeArcComponent = /** @class */ (function () {
     ], GaugeArcComponent.prototype, "cornerRadius", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_a = typeof ColorHelper !== "undefined" && ColorHelper) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof ColorHelper !== "undefined" && ColorHelper) === "function" ? _a : Object)
     ], GaugeArcComponent.prototype, "colors", void 0);
     __decorate([
         Input(),
@@ -14285,7 +14292,7 @@ var GaugeArcComponent = /** @class */ (function () {
     ], GaugeArcComponent.prototype, "valueFormatting", void 0);
     __decorate([
         Input(),
-        __metadata("design:type", typeof (_b = typeof TemplateRef !== "undefined" && TemplateRef) === "function" && _b || Object)
+        __metadata("design:type", typeof (_b = typeof TemplateRef !== "undefined" && TemplateRef) === "function" ? _b : Object)
     ], GaugeArcComponent.prototype, "tooltipTemplate", void 0);
     __decorate([
         Input(),
@@ -14311,7 +14318,6 @@ var GaugeArcComponent = /** @class */ (function () {
         })
     ], GaugeArcComponent);
     return GaugeArcComponent;
-    var _a, _b;
 }());
 
 var GaugeArcSeriesComponent = /** @class */ (function () {
@@ -14668,6 +14674,7 @@ var PowerGaugeComponent = /** @class */ (function (_super) {
         }
         return this.pointerValue.toString();
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Number)
@@ -14710,7 +14717,7 @@ var PowerGaugeComponent = /** @class */ (function (_super) {
     ], PowerGaugeComponent.prototype, "margin", void 0);
     __decorate([
         ViewChild('textEl'),
-        __metadata("design:type", typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" && _a || Object)
+        __metadata("design:type", typeof (_a = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a : Object)
     ], PowerGaugeComponent.prototype, "textEl", void 0);
     PowerGaugeComponent = __decorate([
         Component({
@@ -14726,7 +14733,6 @@ var PowerGaugeComponent = /** @class */ (function (_super) {
         })
     ], PowerGaugeComponent);
     return PowerGaugeComponent;
-    var _a;
 }(BaseChartComponent));
 
 var pi = Math.PI;
@@ -14849,6 +14855,7 @@ var PowerGaugeAxisComponent = /** @class */ (function () {
         var lineGenerator = line().x(function (d) { return d.x; }).y(function (d) { return d.y; }).curve(curveMonotoneX);
         return lineGenerator(pointerLine);
     };
+    var _a;
     __decorate([
         Input(),
         __metadata("design:type", Object)
@@ -14899,10 +14906,9 @@ var PowerGaugeAxisComponent = /** @class */ (function () {
             template: "\n  <svg:g [attr.transform]=\"rotate\">\n    <svg:g *ngFor=\"let tick of ticks\"\n        class=\"gauge-tick gauge-tick-large\">\n        <svg:path [attr.d]=\"tick.line\" />\n    </svg:g>\n    <svg:g *ngFor=\"let tick of ticks\"\n        class=\"gauge-tick gauge-tick-large\">\n        <svg:text *ngIf=\"tick.label\"\n            [style.textAnchor]=\"tick.textAnchor\"\n            [attr.transform]=\"tick.labelTransform\"\n            alignment-baseline=\"central\">\n            {{tick.label}}\n        </svg:text>\n        <svg:text\n            [style.textAnchor]=\"tick.textAnchor\"\n            [attr.transform]=\"tick.textTransform\"\n            alignment-baseline=\"central\">\n            {{tick.text}}\n        </svg:text>\n    </svg:g>\n  </svg:g>\n  <svg:g [attr.transform]=\"'rotate(0)'\" class=\"pointer\">\n    <svg:g>\n      <svg:path\n        [attr.d]=\"getPointerPath()\"\n      />\n    </svg:g>\n  </svg:g>\n  ",
             changeDetection: ChangeDetectionStrategy.OnPush
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof NgZone !== "undefined" && NgZone) === "function" && _a || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof NgZone !== "undefined" && NgZone) === "function" ? _a : Object])
     ], PowerGaugeAxisComponent);
     return PowerGaugeAxisComponent;
-    var _a;
 }());
 
 var GaugeModule = /** @class */ (function () {

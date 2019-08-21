@@ -418,6 +418,80 @@ function toComment(sourceMap) {
 
 /***/ }),
 
+/***/ "./node_modules/d3-ease/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_linear__ = __webpack_require__("./node_modules/d3-ease/src/linear.js");
+/* unused harmony reexport easeLinear */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_quad__ = __webpack_require__("./node_modules/d3-ease/src/quad.js");
+/* unused harmony reexport easeQuad */
+/* unused harmony reexport easeQuadIn */
+/* unused harmony reexport easeQuadOut */
+/* unused harmony reexport easeQuadInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_cubic__ = __webpack_require__("./node_modules/d3-ease/src/cubic.js");
+/* unused harmony reexport easeCubic */
+/* unused harmony reexport easeCubicIn */
+/* unused harmony reexport easeCubicOut */
+/* unused harmony reexport easeCubicInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_poly__ = __webpack_require__("./node_modules/d3-ease/src/poly.js");
+/* unused harmony reexport easePoly */
+/* unused harmony reexport easePolyIn */
+/* unused harmony reexport easePolyOut */
+/* unused harmony reexport easePolyInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_sin__ = __webpack_require__("./node_modules/d3-ease/src/sin.js");
+/* unused harmony reexport easeSin */
+/* unused harmony reexport easeSinIn */
+/* unused harmony reexport easeSinOut */
+/* unused harmony reexport easeSinInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_exp__ = __webpack_require__("./node_modules/d3-ease/src/exp.js");
+/* unused harmony reexport easeExp */
+/* unused harmony reexport easeExpIn */
+/* unused harmony reexport easeExpOut */
+/* unused harmony reexport easeExpInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__src_circle__ = __webpack_require__("./node_modules/d3-ease/src/circle.js");
+/* unused harmony reexport easeCircle */
+/* unused harmony reexport easeCircleIn */
+/* unused harmony reexport easeCircleOut */
+/* unused harmony reexport easeCircleInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__src_bounce__ = __webpack_require__("./node_modules/d3-ease/src/bounce.js");
+/* unused harmony reexport easeBounce */
+/* unused harmony reexport easeBounceIn */
+/* unused harmony reexport easeBounceOut */
+/* unused harmony reexport easeBounceInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__src_back__ = __webpack_require__("./node_modules/d3-ease/src/back.js");
+/* unused harmony reexport easeBack */
+/* unused harmony reexport easeBackIn */
+/* unused harmony reexport easeBackOut */
+/* unused harmony reexport easeBackInOut */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src_elastic__ = __webpack_require__("./node_modules/d3-ease/src/elastic.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_9__src_elastic__["a"]; });
+/* unused harmony reexport easeElasticIn */
+/* unused harmony reexport easeElasticOut */
+/* unused harmony reexport easeElasticInOut */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
 /***/ "./node_modules/d3-ease/src/back.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -620,80 +694,6 @@ function expInOut(t) {
 
 /***/ }),
 
-/***/ "./node_modules/d3-ease/src/index.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__linear__ = __webpack_require__("./node_modules/d3-ease/src/linear.js");
-/* unused harmony reexport easeLinear */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__quad__ = __webpack_require__("./node_modules/d3-ease/src/quad.js");
-/* unused harmony reexport easeQuad */
-/* unused harmony reexport easeQuadIn */
-/* unused harmony reexport easeQuadOut */
-/* unused harmony reexport easeQuadInOut */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__cubic__ = __webpack_require__("./node_modules/d3-ease/src/cubic.js");
-/* unused harmony reexport easeCubic */
-/* unused harmony reexport easeCubicIn */
-/* unused harmony reexport easeCubicOut */
-/* unused harmony reexport easeCubicInOut */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__poly__ = __webpack_require__("./node_modules/d3-ease/src/poly.js");
-/* unused harmony reexport easePoly */
-/* unused harmony reexport easePolyIn */
-/* unused harmony reexport easePolyOut */
-/* unused harmony reexport easePolyInOut */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__sin__ = __webpack_require__("./node_modules/d3-ease/src/sin.js");
-/* unused harmony reexport easeSin */
-/* unused harmony reexport easeSinIn */
-/* unused harmony reexport easeSinOut */
-/* unused harmony reexport easeSinInOut */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__exp__ = __webpack_require__("./node_modules/d3-ease/src/exp.js");
-/* unused harmony reexport easeExp */
-/* unused harmony reexport easeExpIn */
-/* unused harmony reexport easeExpOut */
-/* unused harmony reexport easeExpInOut */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__circle__ = __webpack_require__("./node_modules/d3-ease/src/circle.js");
-/* unused harmony reexport easeCircle */
-/* unused harmony reexport easeCircleIn */
-/* unused harmony reexport easeCircleOut */
-/* unused harmony reexport easeCircleInOut */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__bounce__ = __webpack_require__("./node_modules/d3-ease/src/bounce.js");
-/* unused harmony reexport easeBounce */
-/* unused harmony reexport easeBounceIn */
-/* unused harmony reexport easeBounceOut */
-/* unused harmony reexport easeBounceInOut */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__back__ = __webpack_require__("./node_modules/d3-ease/src/back.js");
-/* unused harmony reexport easeBack */
-/* unused harmony reexport easeBackIn */
-/* unused harmony reexport easeBackOut */
-/* unused harmony reexport easeBackInOut */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__elastic__ = __webpack_require__("./node_modules/d3-ease/src/elastic.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_9__elastic__["a"]; });
-/* unused harmony reexport easeElasticIn */
-/* unused harmony reexport easeElasticOut */
-/* unused harmony reexport easeElasticInOut */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/***/ }),
-
 /***/ "./node_modules/d3-ease/src/linear.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -846,9 +846,12 @@ module.exports = g;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__utils_id__ = __webpack_require__("./src/utils/id.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__common_domain_helper__ = __webpack_require__("./src/common/domain.helper.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -1301,9 +1304,12 @@ var AreaChartNormalizedComponent = /** @class */ (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__utils_id__ = __webpack_require__("./src/utils/id.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__common_domain_helper__ = __webpack_require__("./src/common/domain.helper.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -1788,9 +1794,12 @@ var AreaChartStackedComponent = /** @class */ (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__utils_id__ = __webpack_require__("./src/utils/id.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__common_domain_helper__ = __webpack_require__("./src/common/domain.helper.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -2578,9 +2587,12 @@ var BarChartModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_base_chart_component__ = __webpack_require__("./src/common/base-chart.component.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -2965,9 +2977,12 @@ var BarHorizontal2DComponent = /** @class */ (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_base_chart_component__ = __webpack_require__("./src/common/base-chart.component.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -3283,9 +3298,12 @@ var BarHorizontalNormalizedComponent = /** @class */ (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_base_chart_component__ = __webpack_require__("./src/common/base-chart.component.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -3655,9 +3673,12 @@ var BarHorizontalStackedComponent = /** @class */ (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_base_chart_component__ = __webpack_require__("./src/common/base-chart.component.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -4102,9 +4123,12 @@ var BarLabelComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_base_chart_component__ = __webpack_require__("./src/common/base-chart.component.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -4497,9 +4521,12 @@ var BarVertical2DComponent = /** @class */ (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_base_chart_component__ = __webpack_require__("./src/common/base-chart.component.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -4815,9 +4842,12 @@ var BarVerticalNormalizedComponent = /** @class */ (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_base_chart_component__ = __webpack_require__("./src/common/base-chart.component.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -5190,9 +5220,12 @@ var BarVerticalStackedComponent = /** @class */ (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_base_chart_component__ = __webpack_require__("./src/common/base-chart.component.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -5242,7 +5275,7 @@ var BarVerticalComponent = /** @class */ (function (_super) {
         if (!this.showDataLabel) {
             this.dataLabelMaxHeight = { negative: 0, positive: 0 };
         }
-        this.margin = [10 + this.dataLabelMaxHeight.positive, 20, 10 + this.dataLabelMaxHeight.negative, 20];
+        this.margin = [20 + this.dataLabelMaxHeight.positive, 20, 20 + this.dataLabelMaxHeight.negative, 20];
         this.dims = Object(__WEBPACK_IMPORTED_MODULE_2__common_view_dimensions_helper__["a" /* calculateViewDimensions */])({
             width: this.width,
             height: this.height,
@@ -5526,7 +5559,7 @@ var BarVerticalComponent = /** @class */ (function (_super) {
     BarVerticalComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'ngx-charts-bar-vertical',
-            template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"legend\"\n      [legendOptions]=\"legendOptions\"\n      [activeEntries]=\"activeEntries\"\n      [animations]=\"animations\"\n      (legendLabelClick)=\"onClick($event)\"\n      (legendLabelActivate)=\"onActivate($event)\"\n      (legendLabelDeactivate)=\"onDeactivate($event)\">\n      <svg:text *ngIf=\"yAxisTickRoundingLabel\" class=\"tick-round-label\"\n          [style.textAnchor]=\"'start'\"\n          [style.alignment-baseline]=\"'baseline'\"\n          [attr.transform]=\"labelTransform\"\n          alignment-baseline=\"central\"\n          x=\"20\" dy=\"5\">\n          {{yAxisTickRoundingLabel}}\n      </svg:text>\n      <svg:g [attr.transform]=\"transform\" class=\"bar-chart chart\">\n        <svg:g ngx-charts-x-axis\n          *ngIf=\"xAxis\"\n          [xScale]=\"xScale\"\n          [dims]=\"dims\"\n          [showLabel]=\"showXAxisLabel\"\n          [labelText]=\"xAxisLabel\"\n          [tickFormatting]=\"xAxisTickFormatting\"\n          [xAxisTickLabels]=\"xAxisTickLabels\"\n          [showTicks]=\"showTicks\"\n          [ticks]=\"xAxisTicks\"\n          [xAxisOffset]=\"dataLabelMaxHeight.negative\"\n          (dimensionsChanged)=\"updateXAxisHeight($event)\">\n        </svg:g>\n        <svg:g ngx-charts-y-axis\n          *ngIf=\"yAxis\"\n          [yScale]=\"yScale\"\n          [dims]=\"dims\"\n          [showGridLines]=\"showGridLines\"\n          [showLabel]=\"showYAxisLabel\"\n          [labelText]=\"yAxisLabel\"\n          [tickFormatting]=\"yAxisTickFormatting\"\n          [yAxisTickCount]=\"maxTicks\"\n          [ticks]=\"yAxisTicks\"\n          (dimensionsChanged)=\"updateYAxisWidth($event)\">\n        </svg:g>\n        <svg:g ngx-charts-series-vertical\n          [type]=\"type\"\n          [xScale]=\"xScale\"\n          [yScale]=\"yScale\"\n          [colors]=\"colors\"\n          [series]=\"results\"\n          [dims]=\"dims\"\n          [gradient]=\"gradient\"\n          [tooltipDisabled]=\"tooltipDisabled\"\n          [tooltipFormatting]=\"tooltipFormatting\"\n          [tooltipTemplate]=\"tooltipTemplate\"\n          [showDataLabel]=\"showDataLabel\"\n          [dataLabelFormatting]=\"dataLabelFormatting\"\n          [activeEntries]=\"activeEntries\"\n          [roundEdges]=\"roundEdges\"\n          [animations]=\"animations\"\n          (activate)=\"onActivate($event)\"\n          (deactivate)=\"onDeactivate($event)\"\n          (select)=\"onClick($event)\"\n          (dataLabelHeightChanged)=\"onDataLabelMaxHeightChanged($event)\"\n          >          \n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\">\n          <svg:line\n            class=\"gridline-path gridline-path-vertical\"\n            y1=\"0\"\n            [attr.y2]=\"dims.height\" />\n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\"\n          [attr.transform]=\"xAxisLineTransform()\">\n          <svg:line\n            class=\"gridline-path gridline-path-horizontal\"\n            x1=\"0\"\n            [attr.x2]=\"dims.width\" />\n        </svg:g>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
+            template: "\n    <ngx-charts-chart\n      [view]=\"[width, height]\"\n      [showLegend]=\"legend\"\n      [legendOptions]=\"legendOptions\"\n      [activeEntries]=\"activeEntries\"\n      [animations]=\"animations\"\n      (legendLabelClick)=\"onClick($event)\"\n      (legendLabelActivate)=\"onActivate($event)\"\n      (legendLabelDeactivate)=\"onDeactivate($event)\">\n      <svg:text *ngIf=\"yAxisTickRoundingLabel\" class=\"tick-round-label\"\n          [style.textAnchor]=\"'start'\"\n          [style.alignment-baseline]=\"'baseline'\"\n          [attr.transform]=\"labelTransform\"\n          alignment-baseline=\"central\"\n          >\n          {{yAxisTickRoundingLabel}}\n      </svg:text>\n      <svg:g [attr.transform]=\"transform\" class=\"bar-chart chart\">\n        <svg:g ngx-charts-x-axis\n          *ngIf=\"xAxis\"\n          [xScale]=\"xScale\"\n          [dims]=\"dims\"\n          [showLabel]=\"showXAxisLabel\"\n          [labelText]=\"xAxisLabel\"\n          [tickFormatting]=\"xAxisTickFormatting\"\n          [xAxisTickLabels]=\"xAxisTickLabels\"\n          [showTicks]=\"showTicks\"\n          [ticks]=\"xAxisTicks\"\n          [xAxisOffset]=\"dataLabelMaxHeight.negative\"\n          (dimensionsChanged)=\"updateXAxisHeight($event)\">\n        </svg:g>\n        <svg:g ngx-charts-y-axis\n          *ngIf=\"yAxis\"\n          [yScale]=\"yScale\"\n          [dims]=\"dims\"\n          [showGridLines]=\"showGridLines\"\n          [showLabel]=\"showYAxisLabel\"\n          [labelText]=\"yAxisLabel\"\n          [tickFormatting]=\"yAxisTickFormatting\"\n          [yAxisTickCount]=\"maxTicks\"\n          [ticks]=\"yAxisTicks\"\n          (dimensionsChanged)=\"updateYAxisWidth($event)\">\n        </svg:g>\n        <svg:g ngx-charts-series-vertical\n          [type]=\"type\"\n          [xScale]=\"xScale\"\n          [yScale]=\"yScale\"\n          [colors]=\"colors\"\n          [series]=\"results\"\n          [dims]=\"dims\"\n          [gradient]=\"gradient\"\n          [tooltipDisabled]=\"tooltipDisabled\"\n          [tooltipFormatting]=\"tooltipFormatting\"\n          [tooltipTemplate]=\"tooltipTemplate\"\n          [showDataLabel]=\"showDataLabel\"\n          [dataLabelFormatting]=\"dataLabelFormatting\"\n          [activeEntries]=\"activeEntries\"\n          [roundEdges]=\"roundEdges\"\n          [animations]=\"animations\"\n          (activate)=\"onActivate($event)\"\n          (deactivate)=\"onDeactivate($event)\"\n          (select)=\"onClick($event)\"\n          (dataLabelHeightChanged)=\"onDataLabelMaxHeightChanged($event)\"\n          >          \n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\">\n          <svg:line\n            class=\"gridline-path gridline-path-vertical\"\n            y1=\"0\"\n            [attr.y2]=\"dims.height\" />\n        </svg:g>\n        <svg:g\n          *ngIf=\"showBaseLines\"\n          [attr.transform]=\"xAxisLineTransform()\">\n          <svg:line\n            class=\"gridline-path gridline-path-horizontal\"\n            x1=\"0\"\n            [attr.x2]=\"dims.width\" />\n        </svg:g>\n      </svg:g>\n    </ngx-charts-chart>\n  ",
             changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush,
             styles: [__webpack_require__("./src/common/base-chart.component.scss")],
             encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewEncapsulation"].None
@@ -5901,6 +5934,7 @@ var SeriesHorizontal = /** @class */ (function () {
     };
     SeriesHorizontal.prototype.update = function () {
         var _this = this;
+        var _a;
         this.updateTooltipSettings();
         var d0 = (_a = {},
             _a[__WEBPACK_IMPORTED_MODULE_3__series_vertical_component__["a" /* D0Types */].positive] = 0,
@@ -5988,7 +6022,6 @@ var SeriesHorizontal = /** @class */ (function () {
             return bar;
         });
         this.updateDataLabels();
-        var _a;
     };
     SeriesHorizontal.prototype.updateDataLabels = function () {
         var _this = this;
@@ -6190,6 +6223,7 @@ var SeriesVerticalComponent = /** @class */ (function () {
     };
     SeriesVerticalComponent.prototype.update = function () {
         var _this = this;
+        var _a;
         this.updateTooltipSettings();
         var width;
         if (this.series.length) {
@@ -6288,7 +6322,6 @@ var SeriesVerticalComponent = /** @class */ (function () {
             return bar;
         });
         this.updateDataLabels();
-        var _a;
     };
     SeriesVerticalComponent.prototype.updateDataLabels = function () {
         var _this = this;
@@ -6465,9 +6498,12 @@ var SeriesVerticalComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__bubble_chart_utils__ = __webpack_require__("./src/bubble-chart/bubble-chart.utils.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__utils_id__ = __webpack_require__("./src/utils/id.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -11312,6 +11348,7 @@ var InjectionService = /** @class */ (function () {
         renderer.projectNodes(location, [componentRootNode]);
         return componentRef;
     };
+    var InjectionService_1;
     InjectionService.globalRootViewContainer = null;
     InjectionService = InjectionService_1 = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
@@ -11320,7 +11357,6 @@ var InjectionService = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injector"]])
     ], InjectionService);
     return InjectionService;
-    var InjectionService_1;
 }());
 
 
@@ -12189,9 +12225,12 @@ var TooltipModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__injection_registery_service__ = __webpack_require__("./src/common/tooltip/injection-registery.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tooltip_component__ = __webpack_require__("./src/common/tooltip/tooltip.component.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -12364,9 +12403,12 @@ var MouseEvent = root.MouseEvent;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__events__ = __webpack_require__("./src/events.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -13007,9 +13049,12 @@ var GaugeAxisComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_view_dimensions_helper__ = __webpack_require__("./src/common/view-dimensions.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -13459,9 +13504,12 @@ var GaugeModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_view_dimensions_helper__ = __webpack_require__("./src/common/view-dimensions.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -13652,7 +13700,7 @@ var LinearGaugeComponent = /** @class */ (function (_super) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PowerGaugeAxisComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("@angular/core");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_d3_ease__ = __webpack_require__("./node_modules/d3-ease/src/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_d3_ease__ = __webpack_require__("./node_modules/d3-ease/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_d3_selection__ = __webpack_require__("d3-selection");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_d3_selection___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_d3_selection__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_d3_shape__ = __webpack_require__("d3-shape");
@@ -13860,9 +13908,12 @@ var PowerGaugeAxisComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_d3_scale__ = __webpack_require__("d3-scale");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_d3_scale___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_d3_scale__);
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -14375,9 +14426,12 @@ var HeatMapCellComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_view_dimensions_helper__ = __webpack_require__("./src/common/view-dimensions.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -14762,7 +14816,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "XAxisTicksComponent", function() { return __WEBPACK_IMPORTED_MODULE_1__common__["C"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "YAxisComponent", function() { return __WEBPACK_IMPORTED_MODULE_1__common__["D"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "YAxisTicksComponent", function() { return __WEBPACK_IMPORTED_MODULE_1__common__["E"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "reduceTicks", function() { return __WEBPACK_IMPORTED_MODULE_1__common__["M"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ColorHelper", function() { return __WEBPACK_IMPORTED_MODULE_1__common__["k"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ChartComponent", function() { return __WEBPACK_IMPORTED_MODULE_1__common__["h"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "AreaComponent", function() { return __WEBPACK_IMPORTED_MODULE_1__common__["c"]; });
@@ -14792,6 +14845,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "StyleTypes", function() { return __WEBPACK_IMPORTED_MODULE_1__common__["s"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "AlignmentTypes", function() { return __WEBPACK_IMPORTED_MODULE_1__common__["b"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ShowTypes", function() { return __WEBPACK_IMPORTED_MODULE_1__common__["r"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "reduceTicks", function() { return __WEBPACK_IMPORTED_MODULE_1__common__["M"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "CountUpDirective", function() { return __WEBPACK_IMPORTED_MODULE_1__common__["l"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "count", function() { return __WEBPACK_IMPORTED_MODULE_1__common__["G"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "decimalChecker", function() { return __WEBPACK_IMPORTED_MODULE_1__common__["H"]; });
@@ -14923,9 +14977,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__utils_id__ = __webpack_require__("./src/utils/id.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__common_domain_helper__ = __webpack_require__("./src/common/domain.helper.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -16232,9 +16289,12 @@ var CardComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_grid_layout_helper__ = __webpack_require__("./src/common/grid-layout.helper.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -16422,9 +16482,12 @@ var NumberCardModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_base_chart_component__ = __webpack_require__("./src/common/base-chart.component.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -16839,9 +16902,12 @@ var PieArcComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_base_chart_component__ = __webpack_require__("./src/common/base-chart.component.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -17266,9 +17332,12 @@ var PieGridSeriesComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__common_grid_layout_helper__ = __webpack_require__("./src/common/grid-layout.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__common_label_helper__ = __webpack_require__("./src/common/label.helper.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -17805,9 +17874,12 @@ var PieSeriesComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_base_chart_component__ = __webpack_require__("./src/common/base-chart.component.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -17957,22 +18029,28 @@ var SimplePieChartComponent = /** @class */ (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__common_base_chart_component__ = __webpack_require__("./src/common/base-chart.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__utils_types__ = __webpack_require__("./src/utils/types.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -19038,9 +19116,12 @@ var TreeMapCellComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_view_dimensions_helper__ = __webpack_require__("./src/common/view-dimensions.helper.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_color_helper__ = __webpack_require__("./src/common/color.helper.ts");
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }

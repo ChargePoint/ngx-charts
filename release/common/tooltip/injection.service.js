@@ -144,6 +144,7 @@ var InjectionService = /** @class */ (function () {
         renderer.projectNodes(location, [componentRootNode]);
         return componentRef;
     };
+    var InjectionService_1;
     InjectionService.globalRootViewContainer = null;
     InjectionService = InjectionService_1 = __decorate([
         Injectable(),
@@ -152,7 +153,6 @@ var InjectionService = /** @class */ (function () {
             Injector])
     ], InjectionService);
     return InjectionService;
-    var InjectionService_1;
 }());
 export { InjectionService };
 //# sourceMappingURL=injection.service.js.map

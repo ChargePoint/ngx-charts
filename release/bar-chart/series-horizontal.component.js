@@ -28,6 +28,7 @@ var SeriesHorizontal = /** @class */ (function () {
     };
     SeriesHorizontal.prototype.update = function () {
         var _this = this;
+        var _a;
         this.updateTooltipSettings();
         var d0 = (_a = {},
             _a[D0Types.positive] = 0,
@@ -115,7 +116,6 @@ var SeriesHorizontal = /** @class */ (function () {
             return bar;
         });
         this.updateDataLabels();
-        var _a;
     };
     SeriesHorizontal.prototype.updateDataLabels = function () {
         var _this = this;

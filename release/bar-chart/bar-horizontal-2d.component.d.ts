@@ -61,10 +61,10 @@ export declare class BarHorizontal2DComponent extends BaseChartComponent {
         domain: any[];
         title: any;
     };
-    updateYAxisWidth({width}: {
+    updateYAxisWidth({ width }: {
         width: any;
     }): void;
-    updateXAxisHeight({height}: {
+    updateXAxisHeight({ height }: {
         height: any;
     }): void;
     onDataLabelMaxWidthChanged(event: any, groupIndex: any): void;

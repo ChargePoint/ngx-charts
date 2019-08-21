@@ -44,5 +44,5 @@ export declare class TooltipDirective implements OnDestroy {
     showTooltip(immediate?: boolean): void;
     addHideListeners(tooltip: any): void;
     hideTooltip(immediate?: boolean): void;
-    private createBoundOptions();
+    private createBoundOptions;
 }

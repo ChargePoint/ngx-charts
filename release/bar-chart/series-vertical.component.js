@@ -32,6 +32,7 @@ var SeriesVerticalComponent = /** @class */ (function () {
     };
     SeriesVerticalComponent.prototype.update = function () {
         var _this = this;
+        var _a;
         this.updateTooltipSettings();
         var width;
         if (this.series.length) {
@@ -130,7 +131,6 @@ var SeriesVerticalComponent = /** @class */ (function () {
             return bar;
         });
         this.updateDataLabels();
-        var _a;
     };
     SeriesVerticalComponent.prototype.updateDataLabels = function () {
         var _this = this;

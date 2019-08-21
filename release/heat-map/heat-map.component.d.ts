@@ -71,10 +71,10 @@ export declare class HeatMapComponent extends BaseChartComponent {
         colors: any;
         title: string;
     };
-    updateYAxisWidth({width}: {
+    updateYAxisWidth({ width }: {
         width: any;
     }): void;
-    updateXAxisHeight({height}: {
+    updateXAxisHeight({ height }: {
         height: any;
     }): void;
 }

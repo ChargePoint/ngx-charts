@@ -31,7 +31,7 @@ import { BaseChartComponent } from '../common/base-chart.component';
           [style.alignment-baseline]="'baseline'"
           [attr.transform]="labelTransform"
           alignment-baseline="central"
-          x="20" dy="5">
+          >
           {{yAxisTickRoundingLabel}}
       </svg:text>
       <svg:g [attr.transform]="transform" class="bar-chart chart">
@@ -164,7 +164,7 @@ export class BarVerticalComponent extends BaseChartComponent {
     if (!this.showDataLabel) {
       this.dataLabelMaxHeight = {negative: 0, positive: 0};          
     }
-    this.margin = [10 + this.dataLabelMaxHeight.positive, 20, 10 + this.dataLabelMaxHeight.negative, 20]; 
+    this.margin = [20 + this.dataLabelMaxHeight.positive, 20, 20 + this.dataLabelMaxHeight.negative, 20]; 
 
     this.dims = calculateViewDimensions({
       width: this.width,
@@ -198,6 +198,7 @@ export class BarVerticalComponent extends BaseChartComponent {
       this.labelTransform = `translate(${ offset } , 10)`;
       this.margin[0] = 17;
     }
+    
     //this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] })`;
     console.log(this);
     this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] + this.dataLabelMaxHeight.negative })`;
