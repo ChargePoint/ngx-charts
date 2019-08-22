@@ -5266,11 +5266,11 @@ var BarVerticalComponent = /** @class */ (function (_super) {
         this.legendOptions = this.getLegendOptions();
         if (this.yAxisTickRoundingLabel) {
             var offset = this.margin[3];
-            if (!this.yAxisLabel) {
-                offset -= 20;
+            if (this.yAxisLabel) {
+                offset += 20;
             }
-            this.labelTransform = "translate(" + offset + " , 10)";
-            this.margin[0] = 17;
+            this.labelTransform = "translate(" + offset + " , 20)";
+            this.margin[0] = 32;
         }
         //this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] })`;
         console.log(this);
