@@ -88,6 +88,21 @@ import { BaseChartComponent } from '../common/base-chart.component';
             (dataLabelHeightChanged)="onDataLabelMaxHeightChanged($event, index)"
           />
         </svg:g>
+        <svg:g
+          *ngIf="showBaseLines">
+          <svg:line
+            class="gridline-path gridline-path-vertical"
+            y1="0"
+            [attr.y2]="dims.height" />
+        </svg:g>
+        <svg:g
+          *ngIf="showBaseLines"
+          [attr.transform]="xAxisLineTransform()">
+          <svg:line
+            class="gridline-path gridline-path-horizontal"
+            x1="0"
+            [attr.x2]="dims.width" />
+        </svg:g>
       </svg:g>
     </ngx-charts-chart>
   `,
@@ -119,6 +134,7 @@ export class BarVerticalStackedComponent extends BaseChartComponent {
   @Input() tooltipDisabled: boolean = false;
   @Input() gradient: boolean;
   @Input() showGridLines: boolean = true;
+  @Input() showBaseLines: boolean = true;
   @Input() activeEntries: any[] = [];
   @Input() schemeType: string;
   @Input() xAxisTickFormatting: any;
@@ -372,5 +388,7 @@ export class BarVerticalStackedComponent extends BaseChartComponent {
 
     this.deactivate.emit({ value: item, entries: this.activeEntries });
   }
-
+  xAxisLineTransform(): string {
+    return `translate(0,${this.dims.height})`;
+  }
 }

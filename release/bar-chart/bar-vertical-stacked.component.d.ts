@@ -14,6 +14,7 @@ export declare class BarVerticalStackedComponent extends BaseChartComponent {
     tooltipDisabled: boolean;
     gradient: boolean;
     showGridLines: boolean;
+    showBaseLines: boolean;
     activeEntries: any[];
     schemeType: string;
     xAxisTickFormatting: any;
@@ -69,4 +70,5 @@ export declare class BarVerticalStackedComponent extends BaseChartComponent {
     }): void;
     onActivate(event: any, group?: any): void;
     onDeactivate(event: any, group?: any): void;
+    xAxisLineTransform(): string;
 }
