@@ -32,6 +32,14 @@ import { BaseChartComponent } from '../common/base-chart.component';
       (legendLabelActivate)="onActivate($event)"
       (legendLabelDeactivate)="onDeactivate($event)"
       (legendLabelClick)="onClick($event)">
+      <svg:text *ngIf="yAxisTickRoundingLabel" class="tick-round-label"
+      [style.textAnchor]="'start'"
+      [style.alignment-baseline]="'baseline'"
+      [attr.transform]="labelTransform"
+      alignment-baseline="central"
+      >
+      {{yAxisTickRoundingLabel}}
+      </svg:text>
       <svg:g [attr.transform]="transform" class="bar-chart chart">
         <svg:g ngx-charts-x-axis
           *ngIf="xAxis"
@@ -122,6 +130,7 @@ export class BarVerticalStackedComponent extends BaseChartComponent {
   @Input() yScaleMax: number;
   @Input() showDataLabel: boolean = false;
   @Input() dataLabelFormatting: any;
+  @Input() yAxisTickRoundingLabel;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
@@ -142,6 +151,7 @@ export class BarVerticalStackedComponent extends BaseChartComponent {
   yAxisWidth: number = 0;
   legendOptions: any;
   dataLabelMaxHeight: any = {negative: 0, positive: 0};
+  labelTransform: string;
 
   update(): void {
     super.update();
@@ -180,6 +190,14 @@ export class BarVerticalStackedComponent extends BaseChartComponent {
 
     this.setColors();
     this.legendOptions = this.getLegendOptions();
+    if (this.yAxisTickRoundingLabel) {
+      let offset = this.margin[3];
+      if (this.yAxisLabel) {
+        offset += 20;
+      }
+      this.labelTransform = `translate(${ offset } , 20)`;
+      this.margin[0] = 32;
+    }
 
     this.transform = `translate(${ this.dims.xOffset } , ${ this.margin[0] + this.dataLabelMaxHeight.negative})`;
   }
